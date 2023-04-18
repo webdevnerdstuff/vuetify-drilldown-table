@@ -4,7 +4,6 @@ import VDrilldownTable from '@/index';
 import { createApp } from 'vue';
 import { createPinia } from "pinia";
 import { registerPlugins } from '@/plugins';
-import './style.css';
 
 const app = createApp(App);
 app.use(VDrilldownTable);
