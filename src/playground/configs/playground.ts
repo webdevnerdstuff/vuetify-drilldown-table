@@ -1,14 +1,11 @@
-import App from '@/App.vue';
-import CodeBlock from 'vue3-code-block';
+import PlaygroundApp from './PlaygroundApp.vue';
 import VDrilldownTable from '@/index';
 import { createApp } from 'vue';
 import { createPinia } from "pinia";
 import { registerPlugins } from '@/plugins';
-import './style.css';
 
-const app = createApp(App);
+const app = createApp(PlaygroundApp);
 app.use(VDrilldownTable);
-app.use(CodeBlock);
 app.use(createPinia());
 
 registerPlugins(app);
