@@ -253,6 +253,7 @@ import {
 	onBeforeMount,
 	onMounted,
 	ref,
+	StyleValue,
 	watch,
 } from 'vue';
 import { AllProps } from './utils/props';
@@ -267,6 +268,7 @@ import {
 import {
 	DrilldownEvent,
 	LoadedDrilldown,
+	SearchPropCols,
 } from '@/types/types';
 
 
@@ -331,7 +333,7 @@ const customOptions = {
 	showSearch: false,
 };
 
-const loadedDrilldown: LoadedDrilldown = ref({
+const loadedDrilldown = ref<LoadedDrilldown>({
 	...customOptions,						// * Custom Props
 	customFilter: () => { }, 			// ? Needs Testing
 	customKeyFilter: [], 					// ? Needs Testing
@@ -339,7 +341,7 @@ const loadedDrilldown: LoadedDrilldown = ref({
 	density: 'compact',						// * Works - Missing in Docs
 	expandOnClick: false, 				// * Works
 	expanded: [], 								// ? Needs Testing
-	filterKeys: [], 							// ? Needs Testing
+	// filterKeys: [], 							// ? Needs Testing
 	filterMode: 'intersection',		// ? Needs Testing
 	fixedFooter: true, 						// ! Failed
 	fixedHeader: true, 						// ! Failed
@@ -409,7 +411,7 @@ onMounted(() => {
 // -------------------------------------------------- Table #
 const tableClasses = computed<object>(() => {
 	const baseClass = componentName.value;
-	const elevation = loadedDrilldown.value.elevation;
+	const elevation = loadedDrilldown.value.elevation as string;
 
 	const classes = {
 		[baseClass]: true,
@@ -422,10 +424,13 @@ const tableClasses = computed<object>(() => {
 	return classes;
 });
 
-const tableStyles = computed<object>(() => {
+const tableStyles = computed<StyleValue>(() => {
 	const baseColors = useGetLevelColors(loadedDrilldown.value, theme, 'default');
+	console.log({ baseColors });
 
-	const styles = {};
+	const styles: { borderBottom: string; } = {
+		borderBottom: 'none',
+	};
 
 	if (baseColors.border) {
 		styles.borderBottom = `1px solid ${baseColors.border}`;
@@ -468,7 +473,7 @@ const headerRowThClasses = (column): object => {
 	return classes;
 };
 
-const headerRowThStyles = (column: object, dataTableExpand = false): object => {
+const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand = false): object => {
 	const headerColors = useGetLevelColors(loadedDrilldown.value, theme, 'header');
 
 	const styles = {
@@ -527,8 +532,10 @@ function setLoadedDrilldown(): void {
 	loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props);
 }
 
-function renderCellHeader(column, index): unknown {
-	return useRenderCellHeader(loadedDrilldown.value, column, index);
+function renderCellHeader(column, /* , index */): unknown {
+	// TODO: This needs to be updated once Vuetify fixes the header slot //
+	const tempIndex = 0;
+	return useRenderCellHeader(loadedDrilldown.value, column, tempIndex);
 }
 
 function renderCellItem(item, column, index): unknown {
@@ -540,7 +547,7 @@ function renderCellItem(item, column, index): unknown {
 function drilldownEvent(data: DrilldownEvent): void {
 	// console.log('1 ---------------------------------------- drilldownEvent', { data });
 
-	const { item, level, toggleExpand } = data;
+	const { item, level, toggleExpand } = data as DrilldownEvent;
 
 	// Sets the expanded state of the item on current table //
 	if (level === props.level) {
