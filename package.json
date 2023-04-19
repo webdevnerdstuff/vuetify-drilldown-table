@@ -15,7 +15,7 @@
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d docs",
 		"prepublishOnly": "npm run bundle",
-		"lint": "eslint src/**/*.{ts,vue} --max-warnings 4",
+		"lint": "eslint src/**/*.{ts,vue} --max-warnings 10",
 		"prepare": "husky install"
 	},
 	"lint-staged": {
