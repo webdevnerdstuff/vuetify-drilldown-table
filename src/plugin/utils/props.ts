@@ -3,31 +3,29 @@ import { Props } from '@/types/types';
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
 	colors: {
-		default: () => {
-			return {
-				body: {
-					base: '--v-theme-surface',
-					bg: '--v-theme-surface',
-					text: '--v-theme-on-surface',
-				},
-				default: {
-					base: 'primary',
-					bg: 'primary',
-					border: 'primary',
-					text: 'on-primary',
-				},
-				footer: {
-					bg: '--v-theme-surface',
-					text: '--v-theme-on-surface',
-				},
-				header: {
-					bg: 'primary',
-					text: 'on-primary',
-				},
-				percentageChange: 25,
-				percentageDirection: 'desc',
-			};
-		},
+		default: () => ({
+			body: {
+				base: '--v-theme-surface',
+				bg: '--v-theme-surface',
+				text: '--v-theme-on-surface',
+			},
+			default: {
+				base: 'primary',
+				bg: 'primary',
+				border: 'primary',
+				text: 'on-primary',
+			},
+			footer: {
+				bg: '--v-theme-surface',
+				text: '--v-theme-on-surface',
+			},
+			header: {
+				bg: 'primary',
+				text: 'on-primary',
+			},
+			percentageChange: 25,
+			percentageDirection: 'desc',
+		}),
 		required: false,
 		type: Object,
 	},
@@ -110,7 +108,6 @@ export const AllProps: Props = {
 			variant: 'underlined',
 		}),
 		required: false,
-		type: Object,
 	},
 	// server: {
 	// 	default: false,
