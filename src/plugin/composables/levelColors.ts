@@ -1,6 +1,7 @@
 import {
 	HEXColor,
 	HSLColor,
+	LevelColorResponse,
 	LoadedDrilldown,
 	RGBColor,
 } from '@/types/types';
@@ -14,7 +15,7 @@ function convertLevelColors(
 	theme: ThemeInstance,
 	prop: string | null,
 	type: string | null,
-): object {
+): LevelColorResponse {
 	const direction = loadedDrilldown.colors.percentageDirection;
 	const level = loadedDrilldown.level;
 	const propOptionResponse = { ...loadedDrilldown?.colors[prop ?? 'default'] };
@@ -365,7 +366,7 @@ export function useGetLevelColors(
 	themeColors: ThemeInstance,
 	prop = 'default',
 	type: string | null = null
-): object {
+): LevelColorResponse {
 	const levelColorOptions = convertLevelColors(loadedDrilldown, themeColors, prop, type);
 
 	if (!type) {
