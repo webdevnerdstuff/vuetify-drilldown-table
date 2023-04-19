@@ -31,7 +31,8 @@
 		"noEmit": true
 	},
 	"types": [
-		"node"
+		"node",
+		"vuetify"
 	],
 	"exclude": [
 		"playground",
