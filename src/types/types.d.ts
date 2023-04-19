@@ -57,12 +57,43 @@ type ColorsObject = ({
 	percentageDirection: 'asc' | 'desc';
 });
 
+type LevelColorResponse = {
+	base?: string;
+	bg?: string;
+	border?: string;
+	text?: string;
+};
+
 export type HEXColor = string;
 export type HSLColor = [number, number, number];
 export type RGBColor = [number, number, number];
 
 
+// -------------------------------------------------- Search //
+type SearchPropCols = {
+	lg?: number;
+	md?: number;
+	sm?: number;
+	xl?: number;
+	xs?: number;
+	xxl?: number;
+};
+type SearchProps = ({
+	cols?: {
+		lg?: number;
+		md?: number;
+		sm?: number;
+		xl?: number;
+		xs?: number;
+		xxl?: number;
+	},
+	density?: string,
+	variant?: string,
+});
+
+
 // -------------------------------------------------- Props //
+
 export type Props = {
 	colors?: {
 		default: () => ColorsObject;
@@ -135,18 +166,7 @@ export type Props = {
 		type: PropType<boolean>;
 	};
 	searchProps?: {
-		default: () => ({
-			cols?: {
-				lg?: number;
-				md?: number;
-				sm?: number;
-				xl?: number;
-				xs?: number;
-				xxl?: number;
-			},
-			density?: string,
-			variant?: string,
-		});
+		default: () => SearchProps;
 		required?: boolean;
 		type?: PropType<object>;
 	};
@@ -205,7 +225,7 @@ export type LoadedDrilldown = {
 	returnObject?: boolean;
 	search?: string | undefined;
 	searchProps?: object;
-	// server?: boolean; // ? Not sure if I'll use this
+	server?: boolean; // ? Not sure if I'll use this
 	showExpand?: boolean;
 	showSearch?: boolean;
 	showSelect?: boolean;
@@ -220,5 +240,5 @@ export type DrilldownEvent = {
 	isExpanded?: () => void;
 	item?: object;
 	level?: number;
-	toggleExpanded?: () => void;
+	toggleExpand?: () => void;
 };
