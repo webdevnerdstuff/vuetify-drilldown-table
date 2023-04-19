@@ -37,7 +37,7 @@ export function useDrilldownDebounce(
 /**
 * Converts a string to a number with a unit.
 */
-export function useConvertToUnit(str: string, unit = 'px'): string {
+export function useConvertToUnit(str: string | number, unit = 'px'): string {
 	if (str == null || str === '') {
 		return undefined;
 	}
