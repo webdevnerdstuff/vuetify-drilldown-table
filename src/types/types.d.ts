@@ -9,6 +9,16 @@ import type { PropType } from 'vue';
 // } from 'vuetify/dist/vuetify-labs';
 
 
+// -------------------------------------------------- Vuetify Types //
+export type SortItem = {
+	key: string;
+	order?: boolean | 'asc' | 'desc';
+};
+
+type Density = null | 'default' | 'comfortable' | 'compact';
+
+
+
 // -------------------------------------------------- Cell Rendering //
 type ItemCellRender = {
 	(
@@ -34,27 +44,27 @@ type Column = {
 
 // -------------------------------------------------- Colors //
 type ColorsObject = ({
-	body: {
-		base: string;
-		bg: string;
-		text: string;
-	},
-	default: {
-		base: string;
-		bg: string;
-		border: string | null;
-		text: string;
-	},
-	footer: {
-		bg: string;
-		text: string;
-	},
-	header: {
-		bg: string;
-		text: string;
-	},
-	percentageChange: number;
-	percentageDirection: 'asc' | 'desc';
+	body?: {
+		base?: string;
+		bg?: string;
+		text?: string;
+	};
+	default?: {
+		base?: string;
+		bg?: string;
+		border?: string | null;
+		text?: string;
+	};
+	footer?: {
+		bg?: string;
+		text?: string;
+	};
+	header?: {
+		bg?: string;
+		text?: string;
+	};
+	percentageChange?: number;
+	percentageDirection?: 'asc' | 'desc';
 });
 
 type LevelColorResponse = {
@@ -86,9 +96,9 @@ type SearchProps = ({
 		xl?: number;
 		xs?: number;
 		xxl?: number;
-	},
-	density?: string,
-	variant?: string,
+	};
+	density?: Density;
+	variant?: Variant;
 });
 
 
@@ -105,10 +115,10 @@ export type Props = {
 		required: boolean;
 		type?: PropType<number>;
 	};
-	density?: { 				// ! Missing Prop
+	density?: {
 		default: string,
 		required: boolean,
-		type: PropType<string>;
+		type: StringConstructor;
 	};
 	drilldown?: {
 		default: () => void;
@@ -138,7 +148,7 @@ export type Props = {
 	item?: {
 		default: () => unknown;
 		required: boolean;
-		type: PropType<object>;
+		type: DataTableItem;
 	};
 	itemChildrenKey?: {
 		default: string;
@@ -158,9 +168,9 @@ export type Props = {
 	levels?: {
 		default: number;
 		required: boolean;
-		type: PropType<string[], number[], number>;
+		type: PropType<number>;
 	};
-	loading?: {	// ! Missing Prop
+	loading?: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
@@ -184,14 +194,14 @@ export type LoadedDrilldown = {
 	customKeyFilter?: FilterKeyFunctions | undefined;
 	debounceDelay?: number;
 	// dense?: boolean; // ! Missing Prop
-	density?: string; // ! Missing Prop
+	density?: Density;
 	drilldown?: object;
 	drilldownKey?: string;
 	elevation?: string | number | undefined;
 	expandOnClick?: boolean;
 	expanded?: string[];
 	// filterKeys?: string[]; // ! get more
-	// filterMode?: string; // ! FilterMode
+	filterMode?: FilterMode;
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
 	// footerProps?: object; // ! Missing Prop
@@ -203,7 +213,7 @@ export type LoadedDrilldown = {
 	hideNoData?: boolean;
 	hover?: boolean;
 	isDrilldown?: boolean;
-	item?: unknown[];
+	item?: DataTableItem;
 	itemChildren?: SelectItemKey;
 	itemChildrenKey?: string;
 	itemProps?: SelectItemKey;
@@ -212,8 +222,8 @@ export type LoadedDrilldown = {
 	items?: unknown[];
 	itemsPerPage?: string | number;
 	level?: number;
-	levels?: string[] | number;
-	// loading?: boolean; // ! Missing Prop
+	levels?: number;
+	loading?: boolean;
 	loadingText?: string;
 	modelValue?: unknown[];
 	multiSort?: boolean;
@@ -224,7 +234,7 @@ export type LoadedDrilldown = {
 	// pageCount?: number;
 	returnObject?: boolean;
 	search?: string | undefined;
-	searchProps?: object;
+	searchProps?: SearchProps;
 	server?: boolean; // ? Not sure if I'll use this
 	showExpand?: boolean;
 	showSearch?: boolean;
@@ -240,5 +250,5 @@ export type DrilldownEvent = {
 	isExpanded?: () => void;
 	item?: object;
 	level?: number;
-	toggleExpand?: () => void;
+	toggleExpand(item?: object): void;
 };
