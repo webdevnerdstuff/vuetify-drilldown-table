@@ -134,19 +134,25 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, reactive, ref, watch } from 'vue';
-import { DrawerOptions } from '@/types';
+import {
+	inject,
+	// onMounted,
+	reactive,
+	ref,
+	// watch,
+} from 'vue';
+// import { DrawerOptions } from '@/types';
 
 const emit = defineEmits(['updateOptions']);
 
-const links: string[] = inject('links');
+// const links: string[] = inject('links');
 const classes: string[] = inject('classes');
-const drawerOptions: DrawerOptions = inject('drawerOptions');
-const handleColor: string = ref('');
+// const drawerOptions: DrawerOptions = inject('drawerOptions');
+// const handleColor: string = ref('');
 
-const defaultOptions: DrawerOptions = {};
-const dialog: boolean = ref(false);
-const options: DrawerOptions = ref(drawerOptions);
+// const defaultOptions: DrawerOptions = {};
+// const dialog: boolean = ref(false);
+// const options: DrawerOptions = ref(drawerOptions);
 const propsSupported: object[] = reactive({
 	headers: [
 		{
