@@ -19,6 +19,7 @@ const links = {
 interface State {
 	links: object;
 	package: object;
+	pluginVersion: string | number;
 	storageName: string;
 }
 
@@ -54,6 +55,7 @@ export const useCoreStore = defineStore('core', {
 		return {
 			links,
 			package: packageJson,
+			pluginVersion: packageJson.version,
 			storageName: 'vuetify-drilldown-table',
 		};
 	},
