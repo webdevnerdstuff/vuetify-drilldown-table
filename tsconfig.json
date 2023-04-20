@@ -30,20 +30,24 @@
 		"resolveJsonModule": true,
 		"noEmit": true
 	},
+	"typeRoots": [
+		"./node_modules/@types",
+		"./node_modules/vuetify/types"
+	],
 	"types": [
 		"node",
 		"vuetify"
 	],
 	"exclude": [
 		"playground",
-        "src/App.vue",
-        "src/main.ts",
+		"src/App.vue",
+		"src/main.ts",
 		"src/components/**/*.ts",
 		"src/components/**/*.vue",
 		"src/playground/**/*.ts",
 		"src/stores/**/*.ts",
 		"node_modules"
-    ],
+	],
 	"include": [
 		"src/**/*.ts",
 		"src/**/*.vue"
