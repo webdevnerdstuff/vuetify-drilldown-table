@@ -10,7 +10,7 @@
 			:color="drawerOptions.color"
 			:elevation="drawerOptions.elevation"
 		>
-			<v-list>
+			<!-- <v-list>
 				<v-list-item>
 					<v-list-item-title class="text-h6">
 						Drilldown Table
@@ -19,7 +19,7 @@
 				</v-list-item>
 			</v-list>
 
-			<v-divider></v-divider>
+			<v-divider></v-divider> -->
 
 			<MenuComponent :drawerOptions="drawerOptions" />
 		</v-navigation-drawer>
@@ -44,9 +44,15 @@ import { useCoreStore } from '@/stores/index';
 
 const store = useCoreStore();
 
-const drawer: boolean = ref(true);
-const drawerOptions: object = ref({
-	absolute: false,
+type DrawerOptions = {
+	absolute: boolean;
+	color: string;
+	elevation: number;
+};
+
+const drawer = ref<boolean>(true);
+const drawerOptions = ref<DrawerOptions>({
+	absolute: true,
 	color: '',
 	elevation: 10,
 });
@@ -79,7 +85,7 @@ html {
 .v-heading {
 	position: relative;
 
-	> a {
+	>a {
 		color: rgb(var(--v-theme-primary));
 		display: inline-block;
 		inset: 0;

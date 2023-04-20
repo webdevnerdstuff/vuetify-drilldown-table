@@ -14,6 +14,7 @@ const links = {
 	npm: `https://www.npmjs.com/package/${packageName}`,
 	vue: 'https://vuejs.org/',
 	vuetify: 'https://vuetifyjs.com/',
+	vuetifyGithub: 'https://github.com/vuetifyjs/vuetify',
 };
 
 interface State {

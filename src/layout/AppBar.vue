@@ -1,5 +1,10 @@
 <template>
-	<v-app-bar class="top-app-bar" color="primary" density="compact" fixed>
+	<v-app-bar
+		class="top-app-bar"
+		color="primary"
+		density="compact"
+		fixed
+	>
 		<v-app-bar-nav-icon
 			v-if="!isPlayground"
 			class="nav-drawer-btn me-2 ms-3"
@@ -23,6 +28,39 @@
 		<div class="site-title">Vuetify Drilldown Table</div>
 
 		<v-spacer></v-spacer>
+
+		<v-btn
+			v-if="isPlayground"
+			class="me-2"
+			:href="links.vuetifyGithub"
+			target="_blank"
+			title="Vuetify Github"
+			variant="outlined"
+		>
+			<v-icon class="me-1">mdi-vuetify</v-icon> Github
+		</v-btn>
+
+		<v-btn
+			v-if="isPlayground"
+			class="me-2"
+			:href="`${links.vuetify}en/api/v-data-table/`"
+			target="_blank"
+			title="Vuetify v-data-table API"
+			variant="outlined"
+		>
+			<v-icon class="me-1">mdi-vuetify</v-icon> VDataTable
+		</v-btn>
+
+		<v-btn
+			v-if="isPlayground"
+			class="me-2"
+			:href="`${links.vuetify}en/api/v-text-field/`"
+			target="_blank"
+			title="Vuetify v-text-field API"
+			variant="outlined"
+		>
+			<v-icon class="me-1">mdi-vuetify</v-icon> VTextField
+		</v-btn>
 
 		<v-btn
 			class="me-2"
@@ -110,4 +148,5 @@ function toggleDrawer() {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>
