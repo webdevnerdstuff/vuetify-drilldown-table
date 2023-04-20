@@ -14,7 +14,11 @@
 				<h1 class="v-heading text-h3 text-sm-h3 mb-4">
 					Vuetify Drilldown Table
 				</h1>
-				<v-chip color="primary" size="small" variant="outlined">
+				<v-chip
+					color="primary"
+					size="small"
+					variant="outlined"
+				>
 					v{{ componentVersion }}
 				</v-chip>
 			</v-col>
@@ -22,9 +26,15 @@
 
 		<!-- Installation -->
 		<v-row id="installation">
-			<v-col class="mb-5" cols="12">
+			<v-col
+				class="mb-5"
+				cols="12"
+			>
 				<h2 :class="classes.h2">
-					<a :class="classes.headerA" href="#installation">#</a>
+					<a
+						:class="classes.headerA"
+						href="#installation"
+					>#</a>
 					Installation
 				</h2>
 
@@ -36,7 +46,10 @@
 							lang="plain"
 						>
 							<template #label>
-								Using <a :href="links.pnpm" target="_blank">pnpm</a>:
+								Using <a
+									:href="links.pnpm"
+									target="_blank"
+								>pnpm</a>:
 							</template>
 						</CodeBlock>
 					</v-col>
