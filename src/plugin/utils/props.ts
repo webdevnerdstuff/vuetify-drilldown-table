@@ -87,7 +87,7 @@ export const AllProps: Props = {
 	levels: {
 		default: 0,
 		required: false,
-		type: [Array, Number],
+		type: Number,
 	},
 	loading: {
 		default: false,
