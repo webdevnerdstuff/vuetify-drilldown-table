@@ -13,7 +13,7 @@
 						</v-col>
 						<v-col class="v-col-12 text-center">
 							<v-chip color="primary">
-								Playground v{{ store.package.version }}
+								Playground v{{ store.pluginVersion }}
 							</v-chip>
 						</v-col>
 					</v-row>
@@ -35,6 +35,7 @@
 import { provide } from 'vue';
 import { useCoreStore } from '@/stores/index';
 import PlaygroundPage from '@/playground/PlaygroundPage.vue';
+// import PlaygroundPage from './PlaygroundPage.template.vue';
 import AppBar from '@/layout/AppBar.vue';
 
 const store = useCoreStore();
