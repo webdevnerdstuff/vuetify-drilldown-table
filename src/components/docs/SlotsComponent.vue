@@ -1,15 +1,26 @@
 <template>
 	<v-row>
-		<v-col id="slots" class="mb-5" cols="12">
+		<v-col
+			id="slots"
+			class="mb-5"
+			cols="12"
+		>
 			<h2 :class="classes.h2">
-				<a :class="classes.headerA" href="#slots">#</a>
+				<a
+					:class="classes.headerA"
+					href="#slots"
+				>#</a>
 				Slots
 			</h2>
 
 			<v-row>
 				<v-col cols="12">
 					<v-card>
-						<v-data-table :headers="headers" hide-default-footer :items="items">
+						<v-data-table
+							:headers="headers"
+							hide-default-footer
+							:items="items"
+						>
 							<template #item="{ item }">
 								<tr>
 									<td>
@@ -41,8 +52,9 @@
 
 <script setup lang="ts">
 import { inject } from 'vue';
+import { DocClasses } from '@/components/types';
 
-const classes: string[] = inject('classes');
+const classes = inject<DocClasses>('classes');
 
 const headers: object[] = [
 	{

@@ -41,14 +41,9 @@ import AppBar from '@/layout/AppBar.vue';
 import MenuComponent from '@/components/MenuComponent.vue';
 import DocsComponent from '@/components/DocsComponent.vue';
 import { useCoreStore } from '@/stores/index';
+import { DrawerOptions } from '@/components/types';
 
 const store = useCoreStore();
-
-type DrawerOptions = {
-	absolute: boolean;
-	color: string;
-	elevation: number;
-};
 
 const drawer = ref<boolean>(true);
 const drawerOptions = ref<DrawerOptions>({

@@ -1,8 +1,15 @@
 <template>
 	<v-row>
-		<v-col id="props" class="mb-5" cols="12">
+		<v-col
+			id="props"
+			class="mb-5"
+			cols="12"
+		>
 			<h2 :class="classes.h2">
-				<a :class="classes.headerA" href="#props">#</a>
+				<a
+					:class="classes.headerA"
+					href="#props"
+				>#</a>
 				Props
 			</h2>
 
@@ -13,7 +20,10 @@
 			<v-row id="additional-props">
 				<v-col cols="12">
 					<h3 :class="classes.h3">
-						<a :class="classes.headerA" href="#additional-props">#</a>
+						<a
+							:class="classes.headerA"
+							href="#additional-props"
+						>#</a>
 						Additional props
 					</h3>
 				</v-col>
@@ -50,8 +60,7 @@
 											class="text-primary"
 											:class="classes.appLink"
 											:href="`#props-${item.raw.name}`"
-											>{{ item.raw.name }}</a
-										>
+										>{{ item.raw.name }}</a>
 									</span>
 								</td>
 							</template>
@@ -63,7 +72,10 @@
 							</template>
 
 							<template #[`item.default`]="{ item }">
-								<td class="text-accent" v-html="item.raw.default"></td>
+								<td
+									class="text-accent"
+									v-html="item.raw.default"
+								></td>
 							</template>
 
 							<template #[`item.desc`]="{ item }">
@@ -77,7 +89,10 @@
 			<v-row id="props-not-supported">
 				<v-col cols="12">
 					<h3 :class="classes.h3">
-						<a :class="classes.headerA" href="#props-not-supported">#</a>
+						<a
+							:class="classes.headerA"
+							href="#props-not-supported"
+						>#</a>
 						Props with partial and/or no support
 					</h3>
 				</v-col>
@@ -103,8 +118,7 @@
 											class="text-primary"
 											:class="classes.appLink"
 											:href="`#props-${item.raw.name}`"
-											>{{ item.raw.name }}</a
-										>
+										>{{ item.raw.name }}</a>
 									</span>
 								</td>
 							</template>
@@ -142,18 +156,20 @@ import {
 	// watch,
 } from 'vue';
 // import { DrawerOptions } from '@/types';
+import { DocClasses } from '@/components/types';
 
-const emit = defineEmits(['updateOptions']);
+const classes = inject<DocClasses>('classes');
+
+// const emit = defineEmits(['updateOptions']);
 
 // const links: string[] = inject('links');
-const classes: string[] = inject('classes');
 // const drawerOptions: DrawerOptions = inject('drawerOptions');
 // const handleColor: string = ref('');
 
 // const defaultOptions: DrawerOptions = {};
 // const dialog: boolean = ref(false);
 // const options: DrawerOptions = ref(drawerOptions);
-const propsSupported: object[] = reactive({
+const propsSupported = reactive<object>({
 	headers: [
 		{
 			align: 'start',
@@ -195,7 +211,7 @@ const propsSupported: object[] = reactive({
 		},
 	],
 });
-const propsNotSupported: object[] = reactive({
+const propsNotSupported = reactive<object>({
 	headers: [
 		{
 			align: 'start',
@@ -229,7 +245,7 @@ const propsNotSupported: object[] = reactive({
 		},
 	],
 });
-const search: string = ref('');
+const search = ref<string>('');
 
 
 </script>

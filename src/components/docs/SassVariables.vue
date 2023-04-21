@@ -1,8 +1,15 @@
 <template>
 	<v-row>
-		<v-col id="sass-variables" class="mb-5" cols="12">
+		<v-col
+			id="sass-variables"
+			class="mb-5"
+			cols="12"
+		>
 			<h2 :class="classes.h2">
-				<a :class="classes.headerA" href="#sass-variables">#</a>
+				<a
+					:class="classes.headerA"
+					href="#sass-variables"
+				>#</a>
 				SASS Variables
 			</h2>
 
@@ -52,8 +59,9 @@
 
 <script setup lang="ts">
 import { inject, ref } from 'vue';
+import { DocClasses } from '@/components/types';
 
-const classes: string[] = inject('classes');
+const classes = inject<DocClasses>('classes');
 const headers: object[] = [
 	{
 		align: 'start',
@@ -86,5 +94,5 @@ const items: object[] = [
 		desc: 'TBD',
 	},
 ];
-const search: string = ref('');
+const search = ref<string>('');
 </script>
