@@ -243,8 +243,8 @@
 							<slot
 								:name="slot"
 								v-bind="scope"
-										></slot>
-									</template> -->
+																															></slot>
+																														</template> -->
 
 					<!-- // ! This also does not pass rollup bundle -->
 					<!-- <template
@@ -254,8 +254,8 @@
 							<slot
 								:name="slot"
 								v-bind="scope"
-											></slot>
-										</template> -->
+																																></slot>
+																															</template> -->
 					</VDrilldownTable>
 				</td>
 			</tr>
@@ -310,7 +310,7 @@ const emit = defineEmits(['drilldown',]);
 const props = defineProps({ ...AllProps });
 
 
-// -------------------------------------------------- Table Settings //
+// -------------------------------------------------- Table Settings (WIP) //
 // Custom Default Props/Options //
 const customOptions = {
 	// calculateWidths: true,
@@ -454,7 +454,6 @@ const slots = useSlots();
 
 // -------------------------------------------------- Watch //
 watch(props, useDrilldownDebounce(() => {
-	// console.log(' -------------------------------------------------- Watch Props ');
 	if (props.level !== 0 || typeof loadedDrilldown.value.level === 'undefined') {
 		setLoadedDrilldown();
 	}
@@ -468,10 +467,8 @@ watch(props, useDrilldownDebounce(() => {
 
 onMounted(() => {
 	// ... maybe do something here
-	console.log({ slots });
+	// console.log({ slots });
 });
-
-// -------------------------------------------------- Computed #
 
 
 // -------------------------------------------------- Table #
@@ -492,7 +489,6 @@ const tableClasses = computed<object>(() => {
 
 const tableStyles = computed<StyleValue>(() => {
 	const baseColors = useGetLevelColors(loadedDrilldown.value, theme, 'default');
-	console.log({ baseColors });
 
 	const styles: { borderBottom: string; } = {
 		borderBottom: 'none',
@@ -530,6 +526,7 @@ const headerRowClasses = computed<string>(() => {
 	return classes;
 });
 
+// TODO: Add column type
 const headerRowThClasses = (column): object => {
 	const classes = {
 		[`${componentName}--header-row-th-${loadedDrilldown.value.level}`]: true,
@@ -541,6 +538,7 @@ const headerRowThClasses = (column): object => {
 
 const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
 	const headerColors = useGetLevelColors(loadedDrilldown.value, theme, 'header');
+	console.log('headerRowThStyles', headerColors);
 
 	const styles = {
 		backgroundColor: headerColors.bg,
@@ -558,39 +556,33 @@ const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand
 };
 
 
-// -------------------------------------------------- Footer #
+// -------------------------------------------------- Footer TBD #
 
 
 // -------------------------------------------------- Methods #
 function setLoadedDrilldown(): void {
-	console.log('----------------------------- setLoadedDrilldown', props.level);
+	// console.log('----------------------------- setLoadedDrilldown', props.level);
 
 	if (props.drilldown) {
-		// console.log('-- isDrilldown', props.isDrilldown);
-
 		loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props.drilldown);
 
 		const drilldownItem = loadedDrilldown.value.items.find((item) => {
 			return item[loadedDrilldown.value.drilldownKey] === props.item.raw[loadedDrilldown.value.drilldownKey];
 		});
 
-		console.log({ drilldownItem });
-
-		console.log('loadedDrilldown.value.itemChildrenKey', drilldownItem[loadedDrilldown.value.itemChildrenKey]);
+		// console.log({ drilldownItem });
 
 		loadedDrilldown.value = useMergeDeep(
 			loadedDrilldown.value,
 			drilldownItem[loadedDrilldown.value.itemChildrenKey],
 		);
 
-		// loadedDrilldown.value.colors = { ...props.colors };
-		console.log(props.level, props.levels, props.levels === props.level);
 		// Hide expand icon if this is the last drilldown level //
 		if (props.levels === props.level) {
 			loadedDrilldown.value.showExpand = false;
 		}
 
-		console.log('loadedDrilldown', loadedDrilldown.value);
+		// console.log('loadedDrilldown', loadedDrilldown.value);
 
 		return;
 	}
@@ -661,7 +653,6 @@ function updateOptions() {
 function updateSortBy(val: SortItem[]) {
 	loadedDrilldown.value.sortBy = val;
 }
-
 </script>
 
 <style lang="scss">
