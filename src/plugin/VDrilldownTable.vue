@@ -130,15 +130,13 @@
 					:key="column"
 				>
 					<!--  Expand Column -->
-					<td v-if="
-						column.key === 'data-table-expand' && loadedDrilldown.showExpand
-					">
+					<td v-if="column.key === 'data-table-expand' && loadedDrilldown.showExpand
+						">
 						<v-icon
 							v-if="loadedDrilldown.level < loadedDrilldown.levels"
 							class="v-drilldown-table--expand-icon"
 							:class="!isExpanded(item) ? '' : 'rotate-180'"
-							@click="
-								drilldownEvent({
+							@click="drilldownEvent({
 									columns,
 									index,
 									isExpanded,
@@ -146,7 +144,7 @@
 									level,
 									toggleExpand,
 								})
-							"
+								"
 						>
 							mdi-chevron-down
 						</v-icon>
@@ -184,19 +182,18 @@
 		<!-- ================================================== Data Table Expand Slot -->
 		<!-- @update:expanded="updateExpanded" -->
 		<template #[`item.data-table-expand`]="{
-			columns,
-			index,
-			isExpanded,
-			item,
-			toggleExpand,
-		}">
+				columns,
+				index,
+				isExpanded,
+				item,
+				toggleExpand,
+			}">
 			b
 			<v-icon
 				v-if="loadedDrilldown.level < loadedDrilldown.levels"
 				class="v-drilldown-table--expand-icon"
 				:class="!isExpanded(item) ? 'rotate-180' : ''"
-				@click="
-					drilldownEvent({
+				@click="drilldownEvent({
 						columns,
 						index,
 						isExpanded,
@@ -204,7 +201,7 @@
 						level,
 						toggleExpand,
 					})
-				"
+					"
 			>
 				mdi-chevron-down
 			</v-icon>
@@ -235,27 +232,27 @@
 						></slot>
 
 						<!-- Pass on all scoped slots -->
-					<!-- // ! This does not pass rollup bundle -->
-					<!-- <template
+						<!-- ! This does not pass rollup bundle -->
+						<template
 							v-for="slot in Object.keys(slots)"
 							#[slot]="scope"
 						>
 							<slot
 								:name="slot"
 								v-bind="scope"
-																															></slot>
-																														</template> -->
+							></slot>
+						</template>
 
-					<!-- // ! This also does not pass rollup bundle -->
-					<!-- <template
+						<!-- ! This also does not pass rollup bundle -->
+						<template
 							v-for="slot in Object.keys(slots)"
 							v-slot:[`${slot}`]="scope"
 						>
 							<slot
 								:name="slot"
 								v-bind="scope"
-																																></slot>
-																															</template> -->
+							></slot>
+						</template>
 					</VDrilldownTable>
 				</td>
 			</tr>
@@ -538,7 +535,6 @@ const headerRowThClasses = (column): object => {
 
 const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
 	const headerColors = useGetLevelColors(loadedDrilldown.value, theme, 'header');
-	console.log('headerRowThStyles', headerColors);
 
 	const styles = {
 		backgroundColor: headerColors.bg,
