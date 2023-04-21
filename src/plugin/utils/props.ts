@@ -2,7 +2,6 @@ import { Props } from '@/types/types';
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
-	// TODO: Colors needs to be fixed //
 	colors: {
 		default: () => ({
 			body: {
