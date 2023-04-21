@@ -2,7 +2,9 @@
 
 
 ## Development Playground
-`pnpm i && pnpm play`
+`pnpm i && pnpm play`  
+
+Playground file can be found in `./src/playground/PlaygroundPage.vue`
 
 
 ## Description
