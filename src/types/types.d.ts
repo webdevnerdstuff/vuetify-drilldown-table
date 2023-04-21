@@ -103,7 +103,6 @@ type SearchProps = ({
 
 
 // -------------------------------------------------- Props //
-
 export type Props = {
 	colors?: {
 		default: () => ColorsObject;
@@ -198,23 +197,23 @@ export type LoadedDrilldown = {
 	customFilter?: FilterFunction | undefined;
 	customKeyFilter?: FilterKeyFunctions | undefined;
 	debounceDelay?: number;
-	// dense?: boolean; // ! Missing Prop
+	// dense?: boolean; // ! Missing Vuetify Prop
 	density?: Density;
 	drilldown?: object;
 	drilldownKey?: string;
 	elevation?: string | number | undefined;
 	expandOnClick?: boolean;
 	expanded?: string[];
-	// filterKeys?: string[]; // ! get more
+	// filterKeys?: string[]; // ! Need more info/testing
 	filterMode?: FilterMode;
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
-	// footerProps?: object; // ! Missing Prop
-	// groupBy?: string[]; // ? Will not use
+	// footerProps?: object; // ! Missing Vuetify Prop (maybe v2 only?)
+	// groupBy?: string[]; // ? Most likely this will not be used
 	headers?: DataTableHeader[] | DataTableHeader[][];
 	height?: string | number | undefined;
-	// hideDefaultFooter?: boolean;
-	// hideDefaultHeader?: boolean;
+	// hideDefaultFooter?: boolean;	// ? Need to add/test
+	// hideDefaultHeader?: boolean;	// ? Need to add/test
 	hideNoData?: boolean;
 	hover?: boolean;
 	isDrilldown?: boolean;
@@ -236,7 +235,7 @@ export type LoadedDrilldown = {
 	noDataText?: string;
 	noFilter?: boolean;
 	page?: string | number;
-	// pageCount?: number;
+	// pageCount?: number; // ? Need to test
 	returnObject?: boolean;
 	search?: string | undefined;
 	searchProps?: SearchProps;
@@ -245,7 +244,7 @@ export type LoadedDrilldown = {
 	showSearch?: boolean;
 	showSelect?: boolean;
 	sortBy?: SortItem[];
-	// sortDesc?: boolean; // ! Missing Prop
+	// sortDesc?: boolean; // ! Missing Vuetify Prop (maybe v2 only?)
 	width?: string | number | undefined;
 };
 
