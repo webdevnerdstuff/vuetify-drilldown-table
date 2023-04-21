@@ -2,6 +2,7 @@ import { Props } from '@/types/types';
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
+	// TODO: Colors needs to be fixed //
 	colors: {
 		default: () => ({
 			body: {
@@ -58,6 +59,12 @@ export const AllProps: Props = {
 		default: () => [],
 		required: false,
 		type: Array,
+	},
+	// ! This is not working correctly on drilldown //
+	hover: {
+		default: false,
+		required: false,
+		type: Boolean,
 	},
 	isDrilldown: {
 		default: false,
