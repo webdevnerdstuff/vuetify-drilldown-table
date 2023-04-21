@@ -2,7 +2,7 @@
 	"name": "vuetify-drilldown-table",
 	"version": "0.0.0-alpha1",
 	"description": "The vuetify-drilldown-table",
-	"private": true,
+	"private": false,
 	"main": "dist/vuetify-drilldown-table.js",
 	"module": "dist/vuetify-drilldown-table.es.js",
 	"types": "dist/types/index.d.ts",
