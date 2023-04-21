@@ -140,6 +140,11 @@ export type Props = {
 		required?: boolean;
 		type?: PropType<DataTableHeader[] | DataTableHeader[][]>;
 	};
+	hover?: {
+		default: boolean;
+		required: boolean;
+		type: PropType<boolean>;
+	};
 	isDrilldown?: {
 		default: boolean;
 		required: boolean;
