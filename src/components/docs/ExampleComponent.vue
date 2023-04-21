@@ -1,8 +1,15 @@
 <template>
 	<v-row>
-		<v-col id="example" class="mb-5" cols="12">
+		<v-col
+			id="example"
+			class="mb-5"
+			cols="12"
+		>
 			<h2 :class="classes.h2">
-				<a :class="classes.headerA" href="#example">#</a>
+				<a
+					:class="classes.headerA"
+					href="#example"
+				>#</a>
 				Example
 			</h2>
 
@@ -17,6 +24,7 @@
 
 <script setup lang="ts">
 import { inject } from 'vue';
+import { DocClasses } from '@/components/types';
 
-const classes: string[] = inject('classes');
+const classes = inject<DocClasses>('classes');
 </script>

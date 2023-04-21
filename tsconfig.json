@@ -21,8 +21,14 @@
 				"./src/*"
 			]
 		},
+		"types": [
+			"node",
+			"vuetify"
+		],
 		"typeRoots": [
-			"./ts"
+			"./ts",
+			"./node_modules/@types",
+			"./node_modules/vuetify/types"
 		],
 		"skipLibCheck": true,
 		"useDefineForClassFields": true,
@@ -30,14 +36,6 @@
 		"resolveJsonModule": true,
 		"noEmit": true
 	},
-	"typeRoots": [
-		"./node_modules/@types",
-		"./node_modules/vuetify/types"
-	],
-	"types": [
-		"node",
-		"vuetify"
-	],
 	"exclude": [
 		"playground",
 		"src/App.vue",

@@ -113,16 +113,17 @@ import {
 	SlotsComponent,
 	UsageComponent,
 } from '@/components/docs';
+import { DocClasses } from '@/components/types';
 
-const links: string[] = inject('links');
+const links = inject('links');
 
-const classes: string[] = reactive({
+const classes = reactive<DocClasses>({
 	h2: 'v-heading text-h4 text-sm-h4 mb-3',
 	h3: 'v-heading text-h5 text-sm-h5 mb-1',
 	headerA: 'text-decoration-none text-right text-md-left',
 	appLink: 'app-link text-decoration-none primary--text font-weight-medium d-inline-block font-weight-bold',
 });
-const componentVersion: number = ref(packageInfo.version);
+const componentVersion = ref<string>(packageInfo.version);
 
 provide('classes', classes);
 </script>

@@ -23,8 +23,12 @@ import { inject, onMounted, reactive, ref } from 'vue';
 
 const drawerOptions = inject('drawerOptions');
 
-const active = ref(true);
-const menuItems = reactive([
+const active = ref<string>('');
+const menuItems = reactive<{
+	title: string;
+	icon: string;
+	href: string;
+}[]>([
 	{ title: 'Home', icon: 'mdi-home', href: '#home' },
 	{ title: 'Installation', icon: 'mdi-plus-thick', href: '#installation' },
 	{ title: 'Description', icon: 'mdi-information-outline', href: '#description' },
@@ -65,4 +69,5 @@ function smoothScroll() {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>

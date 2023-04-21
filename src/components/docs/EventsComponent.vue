@@ -1,8 +1,15 @@
 <template>
 	<v-row>
-		<v-col id="events" class="mb-5" cols="12">
+		<v-col
+			id="events"
+			class="mb-5"
+			cols="12"
+		>
 			<h2 :class="classes.h2">
-				<a :class="classes.headerA" href="#events">#</a>
+				<a
+					:class="classes.headerA"
+					href="#events"
+				>#</a>
 				Events
 			</h2>
 
@@ -58,8 +65,9 @@
 
 <script setup lang="ts">
 import { inject, ref } from 'vue';
+import { DocClasses } from '@/components/types';
 
-const classes: string[] = inject('classes');
+const classes = inject<DocClasses>('classes');
 
 const headers: object[] = [
 	{
@@ -84,5 +92,5 @@ const items: object[] = [
 		desc: 'TBD',
 	},
 ];
-const search: string = ref('');
+const search = ref<string>('');
 </script>

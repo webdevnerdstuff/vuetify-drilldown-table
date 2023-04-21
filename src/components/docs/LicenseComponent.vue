@@ -1,17 +1,25 @@
 <template>
 	<v-row>
-		<v-col id="license" class="mb-5" cols="12">
+		<v-col
+			id="license"
+			class="mb-5"
+			cols="12"
+		>
 			<h2 :class="classes.h2">
-				<a :class="classes.headerA" href="#license">#</a>
+				<a
+					:class="classes.headerA"
+					href="#license"
+				>#</a>
 				License
 			</h2>
 
 			<v-row>
 				<v-col cols="12">
 					Copyright &copy; {{ new Date().getFullYear() }}
-					<a :href="store.links.githubProfile" target="_blank"
-						>WebDevNerdStuff</a
-					>
+					<a
+						:href="store.links.githubProfile"
+						target="_blank"
+					>WebDevNerdStuff</a>
 					<br />
 					Licensed under the
 					<a
@@ -29,8 +37,9 @@
 <script setup lang="ts">
 import { inject } from 'vue';
 import { useCoreStore } from '@/stores/index';
+import { DocClasses } from '@/components/types';
 
-const classes: string[] = inject('classes');
+const classes = inject<DocClasses>('classes');
 
 const store = useCoreStore();
 </script>
