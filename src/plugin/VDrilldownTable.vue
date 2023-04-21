@@ -230,23 +230,45 @@
 					>
 						<!-- Pass on all named slots -->
 						<slot
-							v-for="slot in Object.keys($slots)"
+							v-for="slot in Object.keys(slots)"
 							:name="slot"
 						></slot>
 
-					<!-- Pass on all scoped slots and a method like this to handle getting the data -->
+						<!-- Pass on all scoped slots -->
+					<!-- // ! This does not pass rollup bundle -->
 					<!-- <template
-							v-for="slot in Object.keys($slots)"
+							v-for="slot in Object.keys(slots)"
 							#[slot]="scope"
 						>
 							<slot
 								:name="slot"
 								v-bind="scope"
-												></slot>
-											</template> -->
+										></slot>
+									</template> -->
+
+					<!-- // ! This also does not pass rollup bundle -->
+					<!-- <template
+							v-for="slot in Object.keys(slots)"
+							v-slot:[`${slot}`]="scope"
+						>
+							<slot
+								:name="slot"
+								v-bind="scope"
+											></slot>
+										</template> -->
 					</VDrilldownTable>
 				</td>
 			</tr>
+		</template>
+
+
+
+		<!-- ================================================== Footer Prepend Slot -->
+		<template #[`footer.prepend`]>
+			<slot
+				v-if="$slots[`footer.prepend`]"
+				name="footer.prepend"
+			/>
 		</template>
 	</v-data-table>
 </template>
@@ -256,10 +278,11 @@ import { useTheme } from 'vuetify';
 import {
 	CSSProperties,
 	computed,
-	onBeforeMount,
+	// onBeforeMount,
 	onMounted,
 	ref,
 	StyleValue,
+	useSlots,
 	watch,
 } from 'vue';
 import { AllProps } from './utils/props';
@@ -381,7 +404,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	// hideDefaultFooter: false, 	// ? In v2 Missing in v3
 	// hideDefaultHeader: true,	 	// ? In v2 Missing in v3
 	hideNoData: false, 						// !  Failed
-	hover: true, 									// * Works
+	// hover: false, 								// * Works - Is Prop
 	itemChildren: 'children',			// ? Missing Docs
 	itemProps: 'props',						// ? Not sure what this does
 	itemTitle: 'title',						// * Works, but is weird
@@ -426,6 +449,7 @@ const componentName = 'v-drilldown-table';
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
+const slots = useSlots();
 
 
 // -------------------------------------------------- Watch //
@@ -438,13 +462,13 @@ watch(props, useDrilldownDebounce(() => {
 
 
 // -------------------------------------------------- Mounts #
-onBeforeMount(() => {
-	// ... maybe do something here
-});
+// onBeforeMount(() => {
+// 	// ... maybe do something here
+// });
 
 onMounted(() => {
 	// ... maybe do something here
-	// console.log('mounted', props.items);
+	console.log({ slots });
 });
 
 // -------------------------------------------------- Computed #
