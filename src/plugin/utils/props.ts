@@ -54,6 +54,11 @@ export const AllProps: Props = {
 		required: false,
 		type: [Number, String],
 	},
+	footers: {
+		default: () => [],
+		required: false,
+		type: Array,
+	},
 	headers: {
 		default: () => [],
 		required: false,
@@ -75,6 +80,12 @@ export const AllProps: Props = {
 		required: false,
 		type: Object,
 	},
+	// ? This is for v-data-table-server //
+	itemsLength: {
+		default: 0,
+		required: false,
+		type: Number,
+	},
 	itemChildrenKey: {
 		default: 'children',
 		required: false,
@@ -95,11 +106,12 @@ export const AllProps: Props = {
 		required: false,
 		type: Number,
 	},
-	loading: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
+	// ! Loading Not working properly //
+	// loading: {
+	// 	default: false,
+	// 	required: false,
+	// 	type: Boolean,
+	// },
 	searchProps: {
 		default: () => ({
 			cols: {
@@ -115,6 +127,12 @@ export const AllProps: Props = {
 		}),
 		required: false,
 	},
+	// TODO: Add new feature //
+	separator: {
+		default: '',
+		required: false,
+		type: String,
+	},
 	// server: {
 	// 	default: false,
 	// 	required: false,
@@ -125,6 +143,11 @@ export const AllProps: Props = {
 	// 	required: false,
 	// 	type: Object,
 	// },
+	showFooterRow: {
+		default: false,
+		required: false,
+		type: Boolean,
+	},
 	showSearch: {
 		default: false,
 		required: false,
