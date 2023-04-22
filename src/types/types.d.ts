@@ -28,18 +28,17 @@ type ItemCellRender = {
 		index?: number,
 	): void;
 };
-type HeaderCellRender = {
-	(
-		value?: unknown,
-		column?: object,
-		index?: number,
-	): void;
-};
 
 type Column = {
+	cellClass?: string;
+	columnFooter?: string;
 	key?: string;
-	renderHeader?: HeaderCellRender;
+	renderCell?: CellRender;
+	renderFooter?: CellRender;
+	renderHeader?: CellRender;
 	renderItem?: ItemCellRender;
+	renderer?: CellRender,
+	rowClass?: string;
 };
 
 // -------------------------------------------------- Colors //
@@ -104,11 +103,13 @@ type SearchProps = ({
 
 // -------------------------------------------------- Props //
 export type Props = {
+	// * Custom Property //
 	colors?: {
 		default: () => ColorsObject;
 		required: boolean;
 		type: PropType<object>;
 	};
+	// * Custom Property //
 	debounceDelay?: {
 		default: number;
 		required: boolean;
@@ -119,20 +120,29 @@ export type Props = {
 		required: boolean,
 		type: StringConstructor;
 	};
+	// * Custom Property //
 	drilldown?: {
 		default: () => void;
 		required: boolean;
 		type: PropType<object>;
 	};
+	// * Custom Property //
 	drilldownKey?: {
 		default?: string;
 		required?: boolean;
 		type: PropType<string>;
 	};
+	// * Custom Property //
 	elevation?: {
 		default: number | string | undefined;
 		required: boolean;
 		type: PropType<number | string | undefined>;
+	};
+	// * Custom Property //
+	footers?: {
+		default?: () => DataTableHeader[] | DataTableHeader[][];
+		required?: boolean;
+		type?: PropType<DataTableHeader[] | DataTableHeader[][]>;
 	};
 	headers?: {
 		default?: () => DataTableHeader[] | DataTableHeader[][];
@@ -144,6 +154,7 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	// * Custom Property //
 	isDrilldown?: {
 		default: boolean;
 		required: boolean;
@@ -164,26 +175,48 @@ export type Props = {
 		required: boolean;
 		type: PropType<object>;
 	};
+	itemsLength?: {
+		default: number;
+		required: boolean;
+		type: PropType<number>;
+	};
+	// * Custom Property //
 	level?: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
 	};
+	// * Custom Property //
 	levels?: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
 	};
-	loading?: {
-		default: boolean;
-		required: boolean;
-		type: PropType<boolean>;
-	};
+	// ! Loading Not working properly //
+	// loading?: {
+	// 	default: boolean;
+	// 	required: boolean;
+	// 	type: PropType<boolean>;
+	// };
+	// * Custom Property //
 	searchProps?: {
 		default: () => SearchProps;
 		required?: boolean;
 		type?: PropType<object>;
 	};
+	// * Custom Property //
+	separator?: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	},
+	// * Custom Property //
+	showFooterRow?: {
+		default: boolean | undefined;
+		required: boolean;
+		type: PropType<boolean>;
+	};
+	// * Custom Property //
 	showSearch?: {
 		default: boolean;
 		required: boolean;
@@ -193,15 +226,15 @@ export type Props = {
 
 // -------------------------------------------------- Drilldown //
 export type LoadedDrilldown = {
-	colors?: ColorsObject;
+	colors?: ColorsObject; // * Custom Property
 	customFilter?: FilterFunction | undefined;
 	customKeyFilter?: FilterKeyFunctions | undefined;
-	debounceDelay?: number;
+	debounceDelay?: number; // * Custom Property
 	// dense?: boolean; // ! Missing Vuetify Prop
 	density?: Density;
-	drilldown?: object;
-	drilldownKey?: string;
-	elevation?: string | number | undefined;
+	drilldown?: object; // * Custom Property
+	drilldownKey?: string; // * Custom Property
+	elevation?: string | number | undefined; // * Custom Property
 	expandOnClick?: boolean;
 	expanded?: string[];
 	// filterKeys?: string[]; // ! Need more info/testing
@@ -210,38 +243,41 @@ export type LoadedDrilldown = {
 	fixedHeader?: boolean;
 	// footerProps?: object; // ! Missing Vuetify Prop (maybe v2 only?)
 	// groupBy?: string[]; // ? Most likely this will not be used
+	footers?: DataTableHeader[] | DataTableHeader[][];
 	headers?: DataTableHeader[] | DataTableHeader[][];
 	height?: string | number | undefined;
-	// hideDefaultFooter?: boolean;	// ? Need to add/test
-	// hideDefaultHeader?: boolean;	// ? Need to add/test
+	// hideDefaultFooter?: boolean;	// ? Custom Property - Need to add/test
+	// hideDefaultHeader?: boolean;	// ? Custom Property - Need to add/test
 	hideNoData?: boolean;
 	hover?: boolean;
-	isDrilldown?: boolean;
-	item?: DataTableItem;
+	isDrilldown?: boolean; // * Custom Property
+	item?: DataTableItem; // * Custom Property
 	itemChildren?: SelectItemKey;
-	itemChildrenKey?: string;
+	itemChildrenKey?: string; // * Custom Property
 	itemProps?: SelectItemKey;
 	itemTitle?: SelectItemKey;
 	itemValue?: NonNullable<SelectItemKey>;
 	items?: unknown[];
+	itemsLength?: number;
 	itemsPerPage?: string | number;
-	level?: number;
-	levels?: number;
-	loading?: boolean;
-	loadingText?: string;
+	level?: number; // * Custom Property
+	levels?: number; // * Custom Property
+	// loading?: boolean; // ! Not working properly
+	// loadingText?: string; // ! Not working properly
 	modelValue?: unknown[];
 	multiSort?: boolean;
 	mustSort?: boolean;
 	noDataText?: string;
 	noFilter?: boolean;
 	page?: string | number;
-	// pageCount?: number; // ? Need to test
+	// pageCount?: number; // ? Need to test (maybe v2 only?)
 	returnObject?: boolean;
 	search?: string | undefined;
-	searchProps?: SearchProps;
-	server?: boolean; // ? Not sure if I'll use this
+	searchProps?: SearchProps; // * Custom Property
+	server?: boolean; // ? Custom Property - Not sure if I'll use this
 	showExpand?: boolean;
-	showSearch?: boolean;
+	showFooterRow?: boolean; // * Custom Property
+	showSearch?: boolean; // * Custom Property
 	showSelect?: boolean;
 	sortBy?: SortItem[];
 	// sortDesc?: boolean; // ! Missing Vuetify Prop (maybe v2 only?)
