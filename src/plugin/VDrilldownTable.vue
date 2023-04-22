@@ -17,9 +17,8 @@
 		:item-title="loadedDrilldown.itemTitle"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
+		:items-length="loadedDrilldown.itemsLength"
 		:items-per-page="loadedDrilldown.itemsPerPage"
-		:loading="loadedDrilldown.loading"
-		:loading-text="loadedDrilldown.loadingText"
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
 		:no-filter="loadedDrilldown.noFilter"
@@ -80,47 +79,11 @@
 		</template>
 
 		<!-- ================================================== Headers Slot -->
-		<!-- ! The headers slot is currently missing the `props` -->
+		<!-- // ! The headers slot is currently missing the `props` -->
 		<template #headers>
-			<tr
-				class="v-drilldown-table--header-row"
-				:class="headerRowClasses"
-			>
-				<template
-					v-for="column in loadedDrilldown.headers"
-					:key="column"
-				>
-					<!-- Column TH Slot -->
-					<slot
-						v-if="$slots.header"
-						:column="column"
-						name="header"
-					/>
-					<!-- Column Dynamic Name Header Slot -->
-					<slot
-						v-else-if="$slots[`header.${column.key}`]"
-						:column="column"
-						:name="`header.${column.key}`"
-					/>
-					<!-- Column Render `data-table-expand` -->
-					<th
-						v-else-if="column.key === 'data-table-expand'"
-						class="v-drilldown-table--header-row-th"
-						:class="headerRowThClasses(column)"
-						:style="headerRowThStyles(column, true)"
-						v-html="renderCellHeader(column /* , index */)"
-					></th>
-					<!-- Column Render TH -->
-					<th
-						v-else
-						class="v-drilldown-table--header-row-th"
-						:class="headerRowThClasses(column)"
-						:style="headerRowThStyles(column)"
-						v-html="renderCellHeader(column /* , index */)"
-					></th>
-				</template>
-			</tr>
+			<HeadersSlot :loadedDrilldown="loadedDrilldown" />
 		</template>
+
 
 		<!-- ================================================== Row Item Slot -->
 		<template #item="{ columns, index, isExpanded, item, toggleExpand }">
@@ -150,16 +113,6 @@
 						</v-icon>
 
 					</td>
-					<!-- Item Slot -->
-					<slot
-						v-else-if="$slots.cell"
-						:class="column.cellClass"
-						:column="column"
-						:index="index"
-						:item="item"
-						name="item"
-						:value="item.raw[column.key]"
-					/>
 					<!-- Dynamic Name Item Slot -->
 					<slot
 						v-else-if="$slots[`item.${column.key}`]"
@@ -179,8 +132,8 @@
 			</tr>
 		</template>
 
+
 		<!-- ================================================== Data Table Expand Slot -->
-		<!-- @update:expanded="updateExpanded" -->
 		<template #[`item.data-table-expand`]="{
 				columns,
 				index,
@@ -207,6 +160,7 @@
 			</v-icon>
 
 		</template>
+
 
 		<!-- ================================================== Expanded Row Slot -->
 		<template #expanded-row="{ columns, item }">
@@ -244,7 +198,7 @@
 						</template>
 
 						<!-- ! This also does not pass rollup bundle -->
-						<template
+						<!-- <template
 							v-for="slot in Object.keys(slots)"
 							v-slot:[`${slot}`]="scope"
 						>
@@ -252,12 +206,18 @@
 								:name="slot"
 								v-bind="scope"
 							></slot>
-						</template>
+						</template> -->
 					</VDrilldownTable>
 				</td>
 			</tr>
 		</template>
 
+
+		<!-- ================================================== tfoot Slot -->
+		<!-- // ! The headers slot is currently missing the `props` -->
+		<template #tfoot>
+			<TfootSlot :loadedDrilldown="loadedDrilldown" />
+		</template>
 
 
 		<!-- ================================================== Footer Prepend Slot -->
@@ -273,29 +233,31 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify';
 import {
-	CSSProperties,
 	computed,
-	// onBeforeMount,
 	onMounted,
 	ref,
 	StyleValue,
 	useSlots,
 	watch,
 } from 'vue';
+import { componentName } from './utils/globals';
 import { AllProps } from './utils/props';
 import { useGetLevelColors } from './composables/levelColors';
 import {
-	useConvertToUnit,
 	useDrilldownDebounce,
-	useRenderCellHeader,
 	useRenderCellItem,
 	useMergeDeep,
 } from './composables/helpers';
 import {
+	Column,
 	DrilldownEvent,
 	LoadedDrilldown,
 	SortItem,
 } from '@/types/types';
+import {
+	HeadersSlot,
+	TfootSlot,
+} from './components';
 
 
 
@@ -378,7 +340,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 			text: '--v-theme-on-surface',
 		},
 		header: {
-			bg: 'orange',
+			bg: 'primary',
 			text: 'on-primary',
 		},
 		percentageChange: 25,
@@ -407,10 +369,11 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	itemTitle: 'title',						// * Works, but is weird
 	itemValue: 'id',							// * Works, but is weird
 	items: [],										// * Works
+	itemsLength: 0,
 	itemsPerPage: 10,							// * Works
 	// ! Not working yet `loading` & `loadingText`: https://github.com/vuetifyjs/vuetify/issues/16811 //
-	loading: false,
-	loadingText: 'Loading...',
+	// loading: false,
+	// loadingText: 'Loading...',
 	modelValue: [],								// ? Needs Testing
 	multiSort: false,							// * Works
 	mustSort: false,							// * Works
@@ -442,7 +405,6 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 
 
 // -------------------------------------------------- Data //
-const componentName = 'v-drilldown-table';
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
@@ -516,44 +478,6 @@ const searchFieldClasses = computed<object>(() => {
 	return classes;
 });
 
-// -------------------------------------------------- Header #
-const headerRowClasses = computed<string>(() => {
-	const classes = `${componentName}--header-row-${loadedDrilldown.value.level}`;
-
-	return classes;
-});
-
-// TODO: Add column type
-const headerRowThClasses = (column): object => {
-	const classes = {
-		[`${componentName}--header-row-th-${loadedDrilldown.value.level}`]: true,
-		[column.cellClass]: column.cellClass,
-	};
-
-	return classes;
-};
-
-const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
-	const headerColors = useGetLevelColors(loadedDrilldown.value, theme, 'header');
-
-	const styles = {
-		backgroundColor: headerColors.bg,
-		color: headerColors.text,
-		minWidth: column.width ? useConvertToUnit(column.width) : 'auto',
-		width: column.width ? useConvertToUnit(column.width) : 'auto',
-	};
-
-	if (dataTableExpand && !column.width) {
-		styles.width = '48px';
-		styles.minWidth = '48px';
-	}
-
-	return styles;
-};
-
-
-// -------------------------------------------------- Footer TBD #
-
 
 // -------------------------------------------------- Methods #
 function setLoadedDrilldown(): void {
@@ -586,15 +510,10 @@ function setLoadedDrilldown(): void {
 	loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props);
 }
 
-function renderCellHeader(column, /* , index */): unknown {
-	// TODO: This needs to be updated once Vuetify fixes the header slot //
-	const tempIndex = 0;
-	return useRenderCellHeader(loadedDrilldown.value, column, tempIndex);
-}
-
-function renderCellItem(item, column, index): unknown {
+function renderCellItem(item: object, column: Column, index: number): unknown {
 	return useRenderCellItem(item.raw, column, index);
 }
+
 
 
 // ------------------------- Table Events //
