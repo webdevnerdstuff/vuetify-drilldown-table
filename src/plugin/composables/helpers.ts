@@ -52,22 +52,6 @@ export function useConvertToUnit(str: string | number, unit = 'px'): string {
 
 // -------------------------------------------------- Render Cells #
 /**
-* Render the cell header
-*/
-export function useRenderCellHeader(
-	loadedDrilldown: LoadedDrilldown,
-	column: Column,
-	index: number
-): unknown {
-	if (column.renderHeader) {
-		return column.renderHeader(column[loadedDrilldown.itemTitle], column, index);
-	}
-
-	return column[loadedDrilldown.itemTitle];
-}
-
-
-/**
  * Render the cell item
  */
 export function useRenderCellItem(
@@ -82,6 +66,55 @@ export function useRenderCellItem(
 	}
 
 	return itemValue;
+}
+
+/**
+* Render the cell
+* Used for both header and footer
+*/
+export function useRenderCell(
+	loadedDrilldown: LoadedDrilldown,
+	column: Column,
+	index: number
+): unknown {
+	const cellData = [column[loadedDrilldown.itemTitle], column, index];
+
+	if (column.renderer) {
+		return column.renderer(...cellData);
+	}
+
+	if (column.renderFooter) {
+		return column.renderFooter(...cellData);
+	}
+
+	if (column.renderFooter) {
+		return column.renderFooter(...cellData);
+	}
+
+	if (column[loadedDrilldown.itemTitle]) {
+		return column[loadedDrilldown.itemTitle];
+	}
+
+
+	return '';
+}
+/**
+* Render the cell
+*/
+export function useRenderCellFooter(
+	loadedDrilldown: LoadedDrilldown,
+	column: Column,
+	index: number
+): unknown {
+	if (column.renderFooter) {
+		return column.renderFooter(column[loadedDrilldown.itemTitle], column, index);
+	}
+
+	if (column.columnFooter) {
+		return column.columnFooter;
+	}
+
+	return '';
 }
 
 
