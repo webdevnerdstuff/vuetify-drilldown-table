@@ -1,0 +1,107 @@
+<template>
+	<tr
+		class="v-drilldown-table--header-row"
+		:class="headerRowClasses"
+	>
+		<template
+			v-for="column in loadedDrilldown.headers"
+			:key="column"
+		>
+			<!-- Column Dynamic Name Header Slot -->
+			<th
+				v-if="$slots[`header.${column.key}`]"
+				:class="headerRowThClasses(column)"
+				:style="headerRowThStyles(column, true)"
+			>
+				<slot
+					:column="column"
+					:name="`header.${column.key}`"
+				/>
+			</th>
+			<!-- Column Render `data-table-expand` -->
+			<th
+				v-else-if="column.key === 'data-table-expand'"
+				class="v-drilldown-table--header-row-th"
+				:class="headerRowThClasses(column)"
+				:style="headerRowThStyles(column, true)"
+				v-html="renderCell(column /* , index */)"
+			></th>
+			<!-- Column Render TH -->
+			<th
+				v-else
+				class="v-drilldown-table--header-row-th"
+				:class="headerRowThClasses(column)"
+				:style="headerRowThStyles(column)"
+				v-html="renderCell(column /* , index */)"
+			></th>
+		</template>
+	</tr>
+</template>
+
+<script setup lang="ts">
+import {
+	CSSProperties,
+} from 'vue';
+import { useTheme } from 'vuetify';
+import { componentName } from '@/plugin/utils/globals';
+import * as DrilldownTypes from '@/types/types';
+import { useGetLevelColors } from '@/plugin/composables/levelColors';
+import {
+	useConvertToUnit,
+	useRenderCell,
+} from '@/plugin/composables/helpers';
+
+
+const props = defineProps({
+	loadedDrilldown: {
+		type: Object,
+		required: true,
+	},
+});
+
+const theme = useTheme();
+
+
+// -------------------------------------------------- Header Row //
+const headerRowClasses = (): object => {
+	return {
+		[`${componentName}--header-row`]: true,
+		[`${componentName}--header-row-${props.loadedDrilldown.level}`]: true,
+	};
+};
+
+
+// -------------------------------------------------- Header Row TH //
+const headerRowThClasses = (column): object => {
+	const classes = {
+		[`${componentName}--header-row-th-${props.loadedDrilldown.level}`]: true,
+		[column.cellClass]: column.cellClass,
+	};
+
+	return classes;
+};
+
+const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
+	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'header');
+
+	const styles = {
+		backgroundColor: headerColors.bg,
+		color: headerColors.text,
+		minWidth: column.width ? useConvertToUnit(column.width) : 'auto',
+		width: column.width ? useConvertToUnit(column.width) : 'auto',
+	};
+
+	if (dataTableExpand && !column.width) {
+		styles.width = '48px';
+		styles.minWidth = '48px';
+	}
+
+	return styles;
+};
+
+// -------------------------------------------------- Render //
+function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
+	const tempIndex = 0;
+	return useRenderCell(props.loadedDrilldown, column, tempIndex);
+}
+</script>
