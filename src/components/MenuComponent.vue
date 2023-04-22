@@ -4,8 +4,8 @@
 			v-for="item in menuItems"
 			:key="item.title"
 			:class="{
-				'v-list-item--active': active === item.href,
-			}"
+					'v-list-item--active': active === item.href,
+				}"
 			:color="drawerOptions.color ? 'white' : 'primary'"
 			:href="item.href"
 			link
