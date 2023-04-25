@@ -9,6 +9,7 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 		'@vue/typescript/recommended',
 		'prettier',
+		'./.eslintrc-auto-import.json',
 	],
 	overrides: [
 		{
@@ -69,6 +70,7 @@ module.exports = {
 		'no-const-assign': 'error',
 		'no-debugger': 0,
 		'no-new': 0,
+		'no-undef': 0,
 		'no-unused-vars': 1,
 		'no-use-before-define': 0,
 		'no-useless-escape': 0,

@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import type { PropType } from 'vue';
 // import {
 // 	DataTableHeader,
 // 	FilterFunction,

@@ -333,9 +333,6 @@ function checkColorNames(color: string): HEXColor {
 	Object.entries(colors).forEach(([key, value]) => {
 		if (color.toLowerCase() == key.toLowerCase()) {
 			response = value;
-			console.log(color.toLowerCase());
-			console.log(key.toLowerCase());
-			console.log(value);
 			return;
 		}
 	});

@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { HeadersSlot } from '@/plugin/components';
 
+
 defineProps({
 	loadedDrilldown: {
 		type: Object,

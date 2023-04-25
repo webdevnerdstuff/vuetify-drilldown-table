@@ -39,10 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-	CSSProperties,
-} from 'vue';
-import { useTheme } from 'vuetify';
 import { componentName } from '@/plugin/utils/globals';
 import * as DrilldownTypes from '@/types/types';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';

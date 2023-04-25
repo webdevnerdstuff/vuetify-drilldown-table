@@ -231,15 +231,6 @@
 </template>
 
 <script setup lang="ts">
-import { useTheme } from 'vuetify';
-import {
-	computed,
-	onMounted,
-	ref,
-	StyleValue,
-	useSlots,
-	watch,
-} from 'vue';
 import { componentName } from './utils/globals';
 import { AllProps } from './utils/props';
 import { useGetLevelColors } from './composables/levelColors';

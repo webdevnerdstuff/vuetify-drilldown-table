@@ -5,6 +5,7 @@ import eslint from 'vite-plugin-eslint';
 import stylelint from 'vite-plugin-stylelint';
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
+import AutoImport from 'unplugin-auto-import/vite';
 
 const baseUrl = '/vuetify-drilldown-table/';
 const playgroundUrl = baseUrl + 'playground/';
@@ -28,6 +29,17 @@ export default defineConfig({
 				'./src/components/**/*.{css,scss,sass,vue}',
 				'./src/plugin/styles/*.{css,scss,sass}'
 			],
+		}),
+		AutoImport({
+			dts: false,
+			imports: [
+				'vue',
+				{
+					vue: ['CSSProperties'],
+					vuetify: ['useTheme']
+				}
+			],
+			vueTemplate: true,
 		}),
 		vue({
 			template: { transformAssetUrls }
