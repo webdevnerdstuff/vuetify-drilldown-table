@@ -10,8 +10,8 @@
 			<!-- Column Dynamic Name Header Slot -->
 			<th
 				v-if="$slots[`header.${column.key}`]"
-				:class="headerRowThClasses(column)"
-				:style="headerRowThStyles(column, true)"
+				:class="cellClasses(column)"
+				:style="cellStyles(column, true)"
 			>
 				<slot
 					:column="column"
@@ -22,16 +22,16 @@
 			<th
 				v-else-if="column.key === 'data-table-expand'"
 				class="v-drilldown-table--header-row-th"
-				:class="headerRowThClasses(column)"
-				:style="headerRowThStyles(column, true)"
+				:class="cellClasses(column)"
+				:style="cellStyles(column, true)"
 				v-html="renderCell(column /* , index */)"
 			></th>
 			<!-- Column Render TH -->
 			<th
 				v-else
 				class="v-drilldown-table--header-row-th"
-				:class="headerRowThClasses(column)"
-				:style="headerRowThStyles(column)"
+				:class="cellClasses(column)"
+				:style="cellStyles(column)"
 				v-html="renderCell(column /* , index */)"
 			></th>
 		</template>
@@ -68,17 +68,17 @@ const headerRowClasses = (): object => {
 
 
 // -------------------------------------------------- Header Row TH //
-const headerRowThClasses = (column): object => {
+const cellClasses = (column: DrilldownTypes.Column): object => {
 	const classes = {
 		[`${componentName}--header-row-th-${props.loadedDrilldown.level}`]: true,
-		[column.cellClass]: column.cellClass,
+		[`${column.cellClass}`]: column.cellClass,
 	};
 
 	return classes;
 };
 
-const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
-	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'header');
+const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
+	const headerColors = useGetLevelColors(props.loadedDrilldown as DrilldownTypes.LoadedDrilldown, theme, 'header');
 
 	const styles = {
 		backgroundColor: headerColors.bg,
@@ -92,12 +92,12 @@ const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand
 		styles.minWidth = '48px';
 	}
 
-	return styles;
+	return styles as CSSProperties;
 };
 
 // -------------------------------------------------- Render //
 function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 	const tempIndex = 0;
-	return useRenderCell(props.loadedDrilldown, column, tempIndex);
+	return useRenderCell(props.loadedDrilldown as DrilldownTypes.LoadedDrilldown, column, tempIndex);
 }
 </script>

@@ -3,7 +3,7 @@
 		v-if="$slots.tfoot"
 		name="tfoot"
 	/>
-	<tfoot v-if="columns.length">
+	<tfoot v-if="columns?.length">
 		<tr class="v-drilldown-table--footer-row aa">
 			<template
 				v-for="column in columns"
@@ -63,7 +63,7 @@ const props = defineProps({
 	},
 });
 
-const columns = ref([]);
+const columns = ref();
 const theme = useTheme();
 
 
@@ -76,12 +76,12 @@ const cellClasses = (column: DrilldownTypes.Column): object => {
 	return {
 		[`${componentName}--footer-row-td`]: true,
 		[`${componentName}--footer-row-td-${props.loadedDrilldown.level}`]: true,
-		[column.cellClass]: column.cellClass,
+		[`${column.cellClass}`]: column.cellClass,
 	};
 };
 
 const cellStyles = (): CSSProperties => {
-	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'header');
+	const headerColors = useGetLevelColors(props.loadedDrilldown as DrilldownTypes.LoadedDrilldown, theme, 'footer');
 
 	const styles = {
 		backgroundColor: headerColors.bg,
@@ -92,9 +92,8 @@ const cellStyles = (): CSSProperties => {
 };
 
 function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
-	console.log('renderCell', column);
 	const tempIndex = 0;
-	return useRenderCell(props.loadedDrilldown, column, tempIndex);
+	return useRenderCell(props.loadedDrilldown as DrilldownTypes.LoadedDrilldown, column, tempIndex);
 }
 
 </script>

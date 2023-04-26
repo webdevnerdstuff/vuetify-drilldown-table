@@ -243,12 +243,17 @@ import {
 	Column,
 	DrilldownEvent,
 	LoadedDrilldown,
+	SearchProps,
+	SearchPropCols,
 	SortItem,
 } from '@/types/types';
 import {
 	HeadersSlot,
 	TfootSlot,
 } from './components';
+import {
+	DataTableItem,
+} from 'vuetify/dist/vuetify-labs.esm';
 
 
 
@@ -262,58 +267,18 @@ const props = defineProps({ ...AllProps });
 
 // -------------------------------------------------- Table Settings (WIP) //
 // Custom Default Props/Options //
-const customOptions = {
-	// calculateWidths: true,
-	// className: '',
-	// colors: {
-	// 	body: {
-	// 		base: '--v-theme-surface',
-	// 		bg: '--v-theme-surface',
-	// 		text: '--v-theme-on-surface',
-	// 	},
-	// 	default: {
-	// 		base: 'primary',
-	// 		bg: 'primary',
-	// 		border: null,
-	// 		text: 'on-primary',
-	// 	},
-	// 	footer: {
-	// 		bg: '--v-theme-surface',
-	// 		text: '--v-theme-on-surface',
-	// 	},
-	// 	header: {
-	// 		bg: 'primary',
-	// 		text: 'on-primary',
-	// 	},
-	// 	percentageChange: 25,
-	// 	percentageDirection: 'desc',
-	// },
-	debounceDelay: 750,
-	// drilldownKey: false,
-	elevation: 1,										// * Works
-	// expandIcon: 'plus-circle',
-	// expandIconType: 'fas',
-	// footerRow: false,
-	// matchHeaderColumnWidths: true,
-	// parentTableRef: '',
-	// ref: 'drilldown',
-	// searchProps: {
-	// 	cols: {
-	// 		lg: 3,
-	// 		md: 6,
-	// 		sm: 12,
-	// 		xl: 3,
-	// 		xs: 12,
-	// 		xxl: 2,
-	// 	},
-	// 	density: 'compact',
-	// 	variant: 'underlined',
-	// },
-	showSearch: false,
-};
+// const customOptions = {
+// calculateWidths: true,
+// className: '',
+// expandIcon: 'plus-circle',
+// expandIconType: 'fas',
+// footerRow: false,
+// matchHeaderColumnWidths: true,
+// parentTableRef: '',
+// ref: 'drilldown',
+// };
 
 const loadedDrilldown = ref<LoadedDrilldown>({
-	...customOptions,						// * Custom Props
 	colors: {
 		body: {
 			base: '--v-theme-surface',
@@ -339,8 +304,11 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	},
 	customFilter: () => { }, 			// ? Needs Testing
 	customKeyFilter: [], 					// ? Needs Testing
+	debounceDelay: 750,						// * Custom Prop
 	// dense: false,							// ? Missing in Docs, but is in code base
-	density: 'compact',						// * Works - Missing in Docs
+	density: 'comfortable',						// * Works - Missing in Docs
+	drilldownKey: '',							// * Custom Prop
+	elevation: 1, 								// * Custom Prop
 	expandOnClick: false, 				// * Works
 	expanded: [], 								// ? Needs Testing
 	// filterKeys: [], 							// ? Needs Testing
@@ -388,6 +356,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	},
 	server: false, 								// ? Needs Testing. This requires v-data-table-server
 	showExpand: true,							// * Works
+	showSearch: false,						// * Custom Prop
 	showSelect: false,						// * Works
 	sortBy: [],										// * Works
 	width: '100%',								// ! Failed
@@ -423,14 +392,13 @@ onMounted(() => {
 
 // -------------------------------------------------- Table #
 const tableClasses = computed<object>(() => {
-	const baseClass = componentName;
-	const elevation = loadedDrilldown.value.elevation as string;
+	const elevation = loadedDrilldown.value.elevation;
 
 	const classes = {
-		[baseClass]: true,
-		[`${baseClass}--level-${loadedDrilldown.value.level}`]: true,
-		[`${baseClass}--child`]: props.isDrilldown,
-		[`elevation-${elevation}`]: parseInt(elevation) > 0,
+		[`${componentName}`]: true,
+		[`${componentName}--level-${loadedDrilldown.value.level}`]: true,
+		[`${componentName}--child`]: props.isDrilldown,
+		[`elevation-${elevation}`]: parseInt(elevation as string) > 0,
 		'pb-2': true,
 	};
 
@@ -454,7 +422,8 @@ const tableStyles = computed<StyleValue>(() => {
 
 // -------------------------------------------------- Top #
 const searchFieldClasses = computed<object>(() => {
-	const searchCols = loadedDrilldown.value.searchProps.cols;
+	const searchProps = loadedDrilldown.value.searchProps as SearchProps;
+	const searchCols = searchProps.cols as SearchPropCols;
 
 	const classes = {
 		[`${componentName}--search-field`]: true,
@@ -501,7 +470,7 @@ function setLoadedDrilldown(): void {
 	loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props);
 }
 
-function renderCellItem(item: object, column: Column, index: number): unknown {
+function renderCellItem(item: DataTableItem, column: Column, index: number): unknown {
 	return useRenderCellItem(item.raw, column, index);
 }
 
@@ -526,7 +495,7 @@ function drilldownEvent(data: DrilldownEvent): void {
 // }
 
 // ? Probably more useful when using server side
-function updateItemsPerPage(itemsCount) {
+function updateItemsPerPage(itemsCount: number) {
 	loadedDrilldown.value.itemsPerPage = itemsCount;
 
 	return true;
