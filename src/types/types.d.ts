@@ -19,16 +19,23 @@ type Density = null | 'default' | 'comfortable' | 'compact';
 
 
 // -------------------------------------------------- Cell Rendering //
-type ItemCellRender = {
+interface CellRender {
 	(
 		key?: string,
+		column?: object,
+		index?: number,
+	): void;
+};
+interface ItemCellRender {
+	(
+		itemValue?: string,
 		item?: object,
 		column?: object,
 		index?: number,
 	): void;
 };
 
-type Column = {
+interface Column {
 	cellClass?: string;
 	columnFooter?: string;
 	key?: string;
@@ -41,7 +48,7 @@ type Column = {
 };
 
 // -------------------------------------------------- Colors //
-type ColorsObject = ({
+type ColorsObject = {
 	body?: {
 		base?: string;
 		bg?: string;
@@ -63,7 +70,7 @@ type ColorsObject = ({
 	};
 	percentageChange?: number;
 	percentageDirection?: 'asc' | 'desc';
-});
+};
 
 type LevelColorResponse = {
 	base?: string;
@@ -78,7 +85,7 @@ export type RGBColor = [number, number, number];
 
 
 // -------------------------------------------------- Search //
-type SearchPropCols = {
+export type SearchPropCols = {
 	lg?: number;
 	md?: number;
 	sm?: number;
@@ -86,18 +93,12 @@ type SearchPropCols = {
 	xs?: number;
 	xxl?: number;
 };
-type SearchProps = ({
-	cols?: {
-		lg?: number;
-		md?: number;
-		sm?: number;
-		xl?: number;
-		xs?: number;
-		xxl?: number;
-	};
+
+export type SearchProps = {
+	cols?: SearchPropCols;
 	density?: Density;
 	variant?: Variant;
-});
+};
 
 
 // -------------------------------------------------- Props //
@@ -133,7 +134,7 @@ export type Props = {
 	};
 	// * Custom Property //
 	elevation?: {
-		default: number | string | undefined;
+		default: number;
 		required: boolean;
 		type: PropType<number | string | undefined>;
 	};
@@ -198,7 +199,7 @@ export type Props = {
 	// 	type: PropType<boolean>;
 	// };
 	// * Custom Property //
-	searchProps?: {
+	searchProps: {
 		default: () => SearchProps;
 		required?: boolean;
 		type?: PropType<object>;
@@ -211,7 +212,7 @@ export type Props = {
 	},
 	// * Custom Property //
 	showFooterRow?: {
-		default: boolean | undefined;
+		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
 	};
@@ -259,7 +260,7 @@ export type LoadedDrilldown = {
 	items?: unknown[];
 	itemsLength?: number;
 	itemsPerPage?: string | number;
-	level?: number; // * Custom Property
+	level?: number | undefined; // * Custom Property
 	levels?: number; // * Custom Property
 	// loading?: boolean; // ! Not working properly
 	// loadingText?: string; // ! Not working properly
@@ -272,7 +273,7 @@ export type LoadedDrilldown = {
 	// pageCount?: number; // ? Need to test (maybe v2 only?)
 	returnObject?: boolean;
 	search?: string | undefined;
-	searchProps?: SearchProps; // * Custom Property
+	searchProps: SearchProps; // * Custom Property
 	server?: boolean; // ? Custom Property - Not sure if I'll use this
 	showExpand?: boolean;
 	showFooterRow?: boolean; // * Custom Property
@@ -291,3 +292,5 @@ export type DrilldownEvent = {
 	level?: number;
 	toggleExpand(item?: object): void;
 };
+
+export type DrilldownDebounce = (...args: undefined[]) => void;
