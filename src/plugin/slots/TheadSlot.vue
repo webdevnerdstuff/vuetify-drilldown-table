@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { HeadersSlot } from '@/plugin/components';
+import { HeadersSlot } from '@/plugin/slots';
 
 
 defineProps({

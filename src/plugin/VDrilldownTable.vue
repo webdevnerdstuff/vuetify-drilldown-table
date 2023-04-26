@@ -250,7 +250,7 @@ import {
 import {
 	HeadersSlot,
 	TfootSlot,
-} from './components';
+} from './slots';
 import {
 	DataTableItem,
 } from 'vuetify/dist/vuetify-labs.esm';
