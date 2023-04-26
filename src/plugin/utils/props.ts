@@ -126,6 +126,7 @@ export const AllProps: Props = {
 			variant: 'underlined',
 		}),
 		required: false,
+		type: Object,
 	},
 	// TODO: Add new feature //
 	separator: {
