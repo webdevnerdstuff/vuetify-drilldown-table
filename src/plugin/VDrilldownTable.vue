@@ -80,8 +80,13 @@
 
 		<!-- ================================================== Headers Slot -->
 		<!-- // ! The headers slot is currently missing the `props` -->
-		<template #headers>
-			<HeadersSlot :loadedDrilldown="loadedDrilldown" />
+		<template
+			#headers="{ headers, columns, toggleSort, sortBy, someSelected, allSelected, selectAll, getSortIcon, getFixedStyles }"
+		>
+			<HeadersSlot
+				:headerProps="{ headers, columns, toggleSort, sortBy, someSelected, allSelected, selectAll, getSortIcon, getFixedStyles }"
+				:loadedDrilldown="loadedDrilldown"
+			/>
 		</template>
 
 

@@ -4,7 +4,7 @@
 		:class="headerRowClasses"
 	>
 		<template
-			v-for="column in loadedDrilldown.headers"
+			v-for="column in headers"
 			:key="column"
 		>
 			<!-- Column Dynamic Name Header Slot -->
@@ -49,6 +49,10 @@ import {
 
 
 const props = defineProps({
+	headerProps: {
+		required: true,
+		type: Object,
+	},
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
@@ -56,6 +60,7 @@ const props = defineProps({
 });
 
 const theme = useTheme();
+const headers = computed(() => props.headerProps.headers[0]);
 
 
 // -------------------------------------------------- Header Row //
