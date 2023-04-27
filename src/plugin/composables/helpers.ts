@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable no-unused-vars */
 import {
 	Column,
+	DrilldownDebounce,
 	LoadedDrilldown,
 } from '@/types/types';
 
@@ -8,36 +10,41 @@ import {
 /**
 * Debounce the drilldown
 */
-export function useDrilldownDebounce(
-	func: () => void,
+export function useDrilldownDebounce<T extends DrilldownDebounce>(
+	func: T,
 	wait: number,
 	immediate: boolean
 ): () => void {
-	let timeout: ReturnType<typeof setTimeout> | null;
+	let timeout: ReturnType<typeof setTimeout> | undefined;
 
-	return (...args: undefined[]) => {
-		// const args = arguments;
+	function debouncedFunction(this: undefined, ...args: undefined[]) {
+		const context = this;
 
 		const later = () => {
-			timeout = null;
-			if (!immediate) func.apply(this, args);
+			timeout = undefined;
+			if (!immediate) {
+				func.apply(context, args);
+			}
 		};
 
-		const callNow = immediate && !timeout;
+		const callNow = immediate && timeout === undefined;
 
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
+
 		if (callNow) {
-			func.apply(this, args);
+			func.apply(context, args);
 		};
 	};
+
+	return debouncedFunction as T;
 }
 
 
 /**
 * Converts a string to a number with a unit.
 */
-export function useConvertToUnit(str: string | number, unit = 'px'): string {
+export function useConvertToUnit(str: string | number, unit = 'px'): string | void {
 	if (str == null || str === '') {
 		return undefined;
 	}
@@ -52,22 +59,6 @@ export function useConvertToUnit(str: string | number, unit = 'px'): string {
 
 // -------------------------------------------------- Render Cells #
 /**
-* Render the cell header
-*/
-export function useRenderCellHeader(
-	loadedDrilldown: LoadedDrilldown,
-	column: Column,
-	index: number
-): unknown {
-	if (column.renderHeader) {
-		return column.renderHeader(column[loadedDrilldown.itemTitle], column, index);
-	}
-
-	return column[loadedDrilldown.itemTitle];
-}
-
-
-/**
  * Render the cell item
  */
 export function useRenderCellItem(
@@ -75,13 +66,44 @@ export function useRenderCellItem(
 	column: Column,
 	index: number
 ): unknown {
-	const itemValue = item[column.key];
+	const itemValue = item[column.key as keyof object];
 
 	if (column.renderItem) {
 		return column.renderItem(itemValue, item, column, index);
 	}
 
 	return itemValue;
+}
+
+/**
+* Render the cell
+* Used for both header and footer
+*/
+export function useRenderCell(
+	loadedDrilldown: LoadedDrilldown,
+	column: Column,
+	index: number
+): unknown {
+	const columnTitle = column[loadedDrilldown.itemTitle as keyof Column];
+	const cellData = [columnTitle, column, index] as [string, Column, number];
+
+	if (column.renderer) {
+		return column.renderer(...cellData);
+	}
+
+	if (column.renderHeader) {
+		return column.renderHeader(...cellData);
+	}
+
+	if (column.renderFooter) {
+		return column.renderFooter(...cellData);
+	}
+
+	if (columnTitle) {
+		return columnTitle;
+	}
+
+	return '';
 }
 
 
@@ -97,21 +119,21 @@ function isObject(item: object): boolean {
 /**
  * Deep merge objects.
  */
-export function useMergeDeep(target: object, ...sources: object[]): object {
+export function useMergeDeep(target: object | object[], ...sources: object[]): object {
 	if (!sources.length) {
 		return target;
 	};
 
-	const source = sources.shift();
+	const source = sources.shift() as object[];
 
 	if (isObject(target) && isObject(source)) {
 		for (const key in source) {
 			if (isObject(source[key])) {
-				if (!target[key]) {
+				if (!target[key as keyof object]) {
 					Object.assign(target, { [key]: {} });
 				}
 
-				useMergeDeep(target[key], source[key]);
+				useMergeDeep(target[key as keyof object], source[key]);
 			}
 			else {
 				Object.assign(target, { [key]: source[key] });

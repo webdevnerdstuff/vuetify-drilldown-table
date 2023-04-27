@@ -17,9 +17,8 @@
 		:item-title="loadedDrilldown.itemTitle"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
+		:items-length="loadedDrilldown.itemsLength"
 		:items-per-page="loadedDrilldown.itemsPerPage"
-		:loading="loadedDrilldown.loading"
-		:loading-text="loadedDrilldown.loadingText"
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
 		:no-filter="loadedDrilldown.noFilter"
@@ -80,47 +79,11 @@
 		</template>
 
 		<!-- ================================================== Headers Slot -->
-		<!-- ! The headers slot is currently missing the `props` -->
+		<!-- // ! The headers slot is currently missing the `props` -->
 		<template #headers>
-			<tr
-				class="v-drilldown-table--header-row"
-				:class="headerRowClasses"
-			>
-				<template
-					v-for="column in loadedDrilldown.headers"
-					:key="column"
-				>
-					<!-- Column TH Slot -->
-					<slot
-						v-if="$slots.header"
-						:column="column"
-						name="header"
-					/>
-					<!-- Column Dynamic Name Header Slot -->
-					<slot
-						v-else-if="$slots[`header.${column.key}`]"
-						:column="column"
-						:name="`header.${column.key}`"
-					/>
-					<!-- Column Render `data-table-expand` -->
-					<th
-						v-else-if="column.key === 'data-table-expand'"
-						class="v-drilldown-table--header-row-th"
-						:class="headerRowThClasses(column)"
-						:style="headerRowThStyles(column, true)"
-						v-html="renderCellHeader(column /* , index */)"
-					></th>
-					<!-- Column Render TH -->
-					<th
-						v-else
-						class="v-drilldown-table--header-row-th"
-						:class="headerRowThClasses(column)"
-						:style="headerRowThStyles(column)"
-						v-html="renderCellHeader(column /* , index */)"
-					></th>
-				</template>
-			</tr>
+			<HeadersSlot :loadedDrilldown="loadedDrilldown" />
 		</template>
+
 
 		<!-- ================================================== Row Item Slot -->
 		<template #item="{ columns, index, isExpanded, item, toggleExpand }">
@@ -150,16 +113,6 @@
 						</v-icon>
 
 					</td>
-					<!-- Item Slot -->
-					<slot
-						v-else-if="$slots.cell"
-						:class="column.cellClass"
-						:column="column"
-						:index="index"
-						:item="item"
-						name="item"
-						:value="item.raw[column.key]"
-					/>
 					<!-- Dynamic Name Item Slot -->
 					<slot
 						v-else-if="$slots[`item.${column.key}`]"
@@ -179,8 +132,8 @@
 			</tr>
 		</template>
 
+
 		<!-- ================================================== Data Table Expand Slot -->
-		<!-- @update:expanded="updateExpanded" -->
 		<template #[`item.data-table-expand`]="{
 				columns,
 				index,
@@ -207,6 +160,7 @@
 			</v-icon>
 
 		</template>
+
 
 		<!-- ================================================== Expanded Row Slot -->
 		<template #expanded-row="{ columns, item }">
@@ -244,7 +198,7 @@
 						</template>
 
 						<!-- ! This also does not pass rollup bundle -->
-						<template
+						<!-- <template
 							v-for="slot in Object.keys(slots)"
 							v-slot:[`${slot}`]="scope"
 						>
@@ -252,12 +206,18 @@
 								:name="slot"
 								v-bind="scope"
 							></slot>
-						</template>
+						</template> -->
 					</VDrilldownTable>
 				</td>
 			</tr>
 		</template>
 
+
+		<!-- ================================================== tfoot Slot -->
+		<!-- // ! The headers slot is currently missing the `props` -->
+		<template #tfoot>
+			<TfootSlot :loadedDrilldown="loadedDrilldown" />
+		</template>
 
 
 		<!-- ================================================== Footer Prepend Slot -->
@@ -271,32 +231,27 @@
 </template>
 
 <script setup lang="ts">
-import { useTheme } from 'vuetify';
-import {
-	CSSProperties,
-	computed,
-	// onBeforeMount,
-	onMounted,
-	ref,
-	StyleValue,
-	useSlots,
-	watch,
-} from 'vue';
+import { componentName } from './utils/globals';
 import { AllProps } from './utils/props';
 import { useGetLevelColors } from './composables/levelColors';
 import {
-	useConvertToUnit,
 	useDrilldownDebounce,
-	useRenderCellHeader,
 	useRenderCellItem,
 	useMergeDeep,
 } from './composables/helpers';
 import {
+	Column,
+	DataTableItem,
 	DrilldownEvent,
 	LoadedDrilldown,
+	SearchPropCols,
+	SearchProps,
 	SortItem,
 } from '@/types/types';
-
+import {
+	HeadersSlot,
+	TfootSlot,
+} from './slots';
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
@@ -309,58 +264,18 @@ const props = defineProps({ ...AllProps });
 
 // -------------------------------------------------- Table Settings (WIP) //
 // Custom Default Props/Options //
-const customOptions = {
-	// calculateWidths: true,
-	// className: '',
-	// colors: {
-	// 	body: {
-	// 		base: '--v-theme-surface',
-	// 		bg: '--v-theme-surface',
-	// 		text: '--v-theme-on-surface',
-	// 	},
-	// 	default: {
-	// 		base: 'primary',
-	// 		bg: 'primary',
-	// 		border: null,
-	// 		text: 'on-primary',
-	// 	},
-	// 	footer: {
-	// 		bg: '--v-theme-surface',
-	// 		text: '--v-theme-on-surface',
-	// 	},
-	// 	header: {
-	// 		bg: 'primary',
-	// 		text: 'on-primary',
-	// 	},
-	// 	percentageChange: 25,
-	// 	percentageDirection: 'desc',
-	// },
-	debounceDelay: 750,
-	// drilldownKey: false,
-	elevation: 1,										// * Works
-	// expandIcon: 'plus-circle',
-	// expandIconType: 'fas',
-	// footerRow: false,
-	// matchHeaderColumnWidths: true,
-	// parentTableRef: '',
-	// ref: 'drilldown',
-	// searchProps: {
-	// 	cols: {
-	// 		lg: 3,
-	// 		md: 6,
-	// 		sm: 12,
-	// 		xl: 3,
-	// 		xs: 12,
-	// 		xxl: 2,
-	// 	},
-	// 	density: 'compact',
-	// 	variant: 'underlined',
-	// },
-	showSearch: false,
-};
+// const customOptions = {
+// calculateWidths: true,
+// className: '',
+// expandIcon: 'plus-circle',
+// expandIconType: 'fas',
+// footerRow: false,
+// matchHeaderColumnWidths: true,
+// parentTableRef: '',
+// ref: 'drilldown',
+// };
 
 const loadedDrilldown = ref<LoadedDrilldown>({
-	...customOptions,						// * Custom Props
 	colors: {
 		body: {
 			base: '--v-theme-surface',
@@ -378,7 +293,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 			text: '--v-theme-on-surface',
 		},
 		header: {
-			bg: 'orange',
+			bg: 'primary',
 			text: 'on-primary',
 		},
 		percentageChange: 25,
@@ -386,8 +301,10 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	},
 	customFilter: () => { }, 			// ? Needs Testing
 	customKeyFilter: [], 					// ? Needs Testing
-	// dense: false,							// ? Missing in Docs, but is in code base
-	density: 'compact',						// * Works - Missing in Docs
+	debounceDelay: 750,						// * Custom Prop
+	density: 'comfortable',				// * Works
+	drilldownKey: '',							// * Custom Prop
+	elevation: 1, 								// * Custom Prop
 	expandOnClick: false, 				// * Works
 	expanded: [], 								// ? Needs Testing
 	// filterKeys: [], 							// ? Needs Testing
@@ -407,10 +324,13 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	itemTitle: 'title',						// * Works, but is weird
 	itemValue: 'id',							// * Works, but is weird
 	items: [],										// * Works
+	itemsLength: 0,
 	itemsPerPage: 10,							// * Works
+	level: 0,
+	levels: 0,
 	// ! Not working yet `loading` & `loadingText`: https://github.com/vuetifyjs/vuetify/issues/16811 //
-	loading: false,
-	loadingText: 'Loading...',
+	// loading: false,
+	// loadingText: 'Loading...',
 	modelValue: [],								// ? Needs Testing
 	multiSort: false,							// * Works
 	mustSort: false,							// * Works
@@ -434,6 +354,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	},
 	server: false, 								// ? Needs Testing. This requires v-data-table-server
 	showExpand: true,							// * Works
+	showSearch: false,						// * Custom Prop
 	showSelect: false,						// * Works
 	sortBy: [],										// * Works
 	width: '100%',								// ! Failed
@@ -442,7 +363,6 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 
 
 // -------------------------------------------------- Data //
-const componentName = 'v-drilldown-table';
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
@@ -451,7 +371,7 @@ const slots = useSlots();
 
 // -------------------------------------------------- Watch //
 watch(props, useDrilldownDebounce(() => {
-	if (props.level !== 0 || typeof loadedDrilldown.value.level === 'undefined') {
+	if (props.level !== 0 || loadedDrilldown.value.level === 0) {
 		setLoadedDrilldown();
 	}
 }, props.debounceDelay, props.level === 0), { deep: true });
@@ -470,14 +390,13 @@ onMounted(() => {
 
 // -------------------------------------------------- Table #
 const tableClasses = computed<object>(() => {
-	const baseClass = componentName;
-	const elevation = loadedDrilldown.value.elevation as string;
+	const elevation = loadedDrilldown.value.elevation;
 
 	const classes = {
-		[baseClass]: true,
-		[`${baseClass}--level-${loadedDrilldown.value.level}`]: true,
-		[`${baseClass}--child`]: props.isDrilldown,
-		[`elevation-${elevation}`]: parseInt(elevation) > 0,
+		[`${componentName}`]: true,
+		[`${componentName}--level-${loadedDrilldown.value.level}`]: true,
+		[`${componentName}--child`]: props.isDrilldown,
+		[`elevation-${elevation}`]: parseInt(elevation as string) > 0,
 		'pb-2': true,
 	};
 
@@ -501,7 +420,8 @@ const tableStyles = computed<StyleValue>(() => {
 
 // -------------------------------------------------- Top #
 const searchFieldClasses = computed<object>(() => {
-	const searchCols = loadedDrilldown.value.searchProps.cols;
+	const searchProps = loadedDrilldown.value.searchProps as SearchProps;
+	const searchCols = searchProps.cols as SearchPropCols;
 
 	const classes = {
 		[`${componentName}--search-field`]: true,
@@ -516,83 +436,36 @@ const searchFieldClasses = computed<object>(() => {
 	return classes;
 });
 
-// -------------------------------------------------- Header #
-const headerRowClasses = computed<string>(() => {
-	const classes = `${componentName}--header-row-${loadedDrilldown.value.level}`;
-
-	return classes;
-});
-
-// TODO: Add column type
-const headerRowThClasses = (column): object => {
-	const classes = {
-		[`${componentName}--header-row-th-${loadedDrilldown.value.level}`]: true,
-		[column.cellClass]: column.cellClass,
-	};
-
-	return classes;
-};
-
-const headerRowThStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
-	const headerColors = useGetLevelColors(loadedDrilldown.value, theme, 'header');
-
-	const styles = {
-		backgroundColor: headerColors.bg,
-		color: headerColors.text,
-		minWidth: column.width ? useConvertToUnit(column.width) : 'auto',
-		width: column.width ? useConvertToUnit(column.width) : 'auto',
-	};
-
-	if (dataTableExpand && !column.width) {
-		styles.width = '48px';
-		styles.minWidth = '48px';
-	}
-
-	return styles;
-};
-
-
-// -------------------------------------------------- Footer TBD #
-
 
 // -------------------------------------------------- Methods #
 function setLoadedDrilldown(): void {
-	// console.log('----------------------------- setLoadedDrilldown', props.level);
-
 	if (props.drilldown) {
-		loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props.drilldown);
+		loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props.drilldown) as LoadedDrilldown;
 
-		const drilldownItem = loadedDrilldown.value.items.find((item) => {
-			return item[loadedDrilldown.value.drilldownKey] === props.item.raw[loadedDrilldown.value.drilldownKey];
-		});
+		const drilldownItem = loadedDrilldown.value.items.find(<T, K extends keyof T>(item: T) => {
+			const thisItem = item[loadedDrilldown.value.drilldownKey as K];
+			const propsItem = props.item.raw[loadedDrilldown.value.drilldownKey];
 
-		// console.log({ drilldownItem });
+			return thisItem === propsItem;
+		}) as LoadedDrilldown;
 
 		loadedDrilldown.value = useMergeDeep(
 			loadedDrilldown.value,
-			drilldownItem[loadedDrilldown.value.itemChildrenKey],
-		);
+			drilldownItem[loadedDrilldown.value.itemChildrenKey as keyof LoadedDrilldown],
+		) as LoadedDrilldown;
 
 		// Hide expand icon if this is the last drilldown level //
 		if (props.levels === props.level) {
 			loadedDrilldown.value.showExpand = false;
 		}
 
-		// console.log('loadedDrilldown', loadedDrilldown.value);
-
 		return;
 	}
 
-	loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props);
+	loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props) as LoadedDrilldown;
 }
 
-function renderCellHeader(column, /* , index */): unknown {
-	// TODO: This needs to be updated once Vuetify fixes the header slot //
-	const tempIndex = 0;
-	return useRenderCellHeader(loadedDrilldown.value, column, tempIndex);
-}
-
-function renderCellItem(item, column, index): unknown {
+function renderCellItem(item: DataTableItem, column: Column, index: number): unknown {
 	return useRenderCellItem(item.raw, column, index);
 }
 
@@ -616,7 +489,7 @@ function drilldownEvent(data: DrilldownEvent): void {
 // }
 
 // ? Probably more useful when using server side
-function updateItemsPerPage(itemsCount) {
+function updateItemsPerPage(itemsCount: number) {
 	loadedDrilldown.value.itemsPerPage = itemsCount;
 
 	return true;

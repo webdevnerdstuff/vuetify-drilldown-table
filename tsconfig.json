@@ -1,40 +1,41 @@
 {
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "Node",
-		"strict": false,
-		"importHelpers": true,
-		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
 		"declaration": true,
 		"declarationDir": "./dist",
-		"baseUrl": ".",
-		"outDir": "./dist",
-		"rootDir": "src",
+		"esModuleInterop": true,
+		"importHelpers": true,
+		"jsx": "preserve",
 		"lib": [
 			"ESNext",
 			"DOM"
 		],
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"noImplicitAny": false,
+		"noEmit": true,
+		"outDir": "./dist",
 		"paths": {
 			"@/*": [
 				"./src/*"
 			]
 		},
-		"types": [
-			"node",
-			"vuetify"
-		],
+		"resolveJsonModule": true,
+		"rootDir": "src",
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "ESNext",
 		"typeRoots": [
 			"./ts",
 			"./node_modules/@types",
 			"./node_modules/vuetify/types"
 		],
-		"skipLibCheck": true,
-		"useDefineForClassFields": true,
-		"jsx": "preserve",
-		"resolveJsonModule": true,
-		"noEmit": true
+		"types": [
+			"node",
+			"vuetify"
+		],
+		"useDefineForClassFields": true
 	},
 	"exclude": [
 		"playground",
@@ -42,11 +43,13 @@
 		"src/main.ts",
 		"src/components/**/*.ts",
 		"src/components/**/*.vue",
+		"src/playground/**/*.vue",
 		"src/playground/**/*.ts",
 		"src/stores/**/*.ts",
 		"node_modules"
 	],
 	"include": [
+		"auto-imports.d.ts",
 		"src/**/*.ts",
 		"src/**/*.vue"
 	],

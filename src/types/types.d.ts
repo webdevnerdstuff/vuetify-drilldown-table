@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import type { PropType } from 'vue';
 // import {
 // 	DataTableHeader,
 // 	FilterFunction,
@@ -17,33 +16,56 @@ export type SortItem = {
 
 type Density = null | 'default' | 'comfortable' | 'compact';
 
+export interface InternalItem<T = object> {
+	title: string;
+	value: unknown;
+	props: {
+		[key: string]: unknown;
+		title: string;
+		value: unknown;
+	};
+	children?: InternalItem<T>[];
+	raw: T;
+}
+
+export interface DataTableItem extends InternalItem {
+	[key: string]: string;
+	raw: T;
+};
 
 
 // -------------------------------------------------- Cell Rendering //
-type ItemCellRender = {
+interface CellRender {
 	(
 		key?: string,
+		column?: object,
+		index?: number,
+	): void;
+};
+
+interface ItemCellRender {
+	(
+		itemValue?: string,
 		item?: object,
 		column?: object,
 		index?: number,
 	): void;
 };
-type HeaderCellRender = {
-	(
-		value?: unknown,
-		column?: object,
-		index?: number,
-	): void;
-};
 
-type Column = {
+interface Column {
+	cellClass?: string;
+	columnFooter?: string;
 	key?: string;
-	renderHeader?: HeaderCellRender;
+	renderCell?: CellRender;
+	renderFooter?: CellRender;
+	renderHeader?: CellRender;
 	renderItem?: ItemCellRender;
+	renderer?: CellRender,
+	rowClass?: string;
 };
 
 // -------------------------------------------------- Colors //
-type ColorsObject = ({
+type ColorsObject = {
 	body?: {
 		base?: string;
 		bg?: string;
@@ -65,7 +87,7 @@ type ColorsObject = ({
 	};
 	percentageChange?: number;
 	percentageDirection?: 'asc' | 'desc';
-});
+};
 
 type LevelColorResponse = {
 	base?: string;
@@ -80,7 +102,7 @@ export type RGBColor = [number, number, number];
 
 
 // -------------------------------------------------- Search //
-type SearchPropCols = {
+export type SearchPropCols = {
 	lg?: number;
 	md?: number;
 	sm?: number;
@@ -88,102 +110,132 @@ type SearchPropCols = {
 	xs?: number;
 	xxl?: number;
 };
-type SearchProps = ({
-	cols?: {
-		lg?: number;
-		md?: number;
-		sm?: number;
-		xl?: number;
-		xs?: number;
-		xxl?: number;
-	};
+
+export type SearchProps = {
+	cols?: SearchPropCols;
 	density?: Density;
 	variant?: Variant;
-});
+};
 
 
 // -------------------------------------------------- Props //
 export type Props = {
+	// * Custom Property //
 	colors?: {
-		default: () => ColorsObject;
+		default: () => object;
 		required: boolean;
-		type: PropType<object>;
+		type: PropType<ColorsObject>;
 	};
-	debounceDelay?: {
+	// * Custom Property //
+	debounceDelay: {
 		default: number;
 		required: boolean;
-		type?: PropType<number>;
+		type: PropType<number>;
 	};
 	density?: {
-		default: string,
+		default: Density,
 		required: boolean,
-		type: StringConstructor;
+		type: PropType<string | undefined>;
 	};
+	// * Custom Property //
 	drilldown?: {
 		default: () => void;
 		required: boolean;
 		type: PropType<object>;
 	};
-	drilldownKey?: {
-		default?: string;
-		required?: boolean;
+	// * Custom Property //
+	drilldownKey: {
+		default: string;
+		required: boolean;
 		type: PropType<string>;
 	};
+	// * Custom Property //
 	elevation?: {
-		default: number | string | undefined;
+		default: number;
 		required: boolean;
 		type: PropType<number | string | undefined>;
 	};
-	headers?: {
-		default?: () => DataTableHeader[] | DataTableHeader[][];
-		required?: boolean;
-		type?: PropType<DataTableHeader[] | DataTableHeader[][]>;
+	// * Custom Property //
+	footers: {
+		default: () => DataTableHeader[] | DataTableHeader[][];
+		required: boolean;
+		type: PropType<DataTableHeader[] | DataTableHeader[][]>;
+	};
+	headers: {
+		default: () => DataTableHeader[] | DataTableHeader[][];
+		required: boolean;
+		type: PropType<DataTableHeader[] | DataTableHeader[][]>;
 	};
 	hover?: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	// * Custom Property //
 	isDrilldown?: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
 	};
-	item?: {
-		default: () => unknown;
+	// * Custom Property //
+	item: {
+		default: DataTableItem | object;
 		required: boolean;
-		type: DataTableItem;
+		type: PropType<DataTableItem>;
 	};
 	itemChildrenKey?: {
 		default: string;
 		required: boolean;
 		type: PropType<string>;
 	};
-	items?: {
+	items: {
 		default: () => unknown;
 		required: boolean;
 		type: PropType<object>;
 	};
-	level?: {
+	itemsLength?: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
 	};
-	levels?: {
+	// * Custom Property //
+	level: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
 	};
-	loading?: {
+	// * Custom Property //
+	levels: {
+		default: number;
+		required: boolean;
+		type: PropType<number>;
+	};
+	// ! Loading Not working properly //
+	// loading?: {
+	// 	default: boolean;
+	// 	required: boolean;
+	// 	type: PropType<boolean>;
+	// };
+	// * Custom Property //
+	searchProps: {
+		default: () => SearchProps;
+		required?: boolean;
+		type?: PropType<SearchProps>;
+	};
+	// * Custom Property //
+	// TODO: Maybe add this //
+	separator?: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	},
+	// * Custom Property //
+	showFooterRow?: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
 	};
-	searchProps?: {
-		default: () => SearchProps;
-		required?: boolean;
-		type?: PropType<object>;
-	};
+	// * Custom Property //
 	showSearch?: {
 		default: boolean;
 		required: boolean;
@@ -193,58 +245,60 @@ export type Props = {
 
 // -------------------------------------------------- Drilldown //
 export type LoadedDrilldown = {
-	colors?: ColorsObject;
+	colors?: ColorsObject; 															// * Custom Property
 	customFilter?: FilterFunction | undefined;
 	customKeyFilter?: FilterKeyFunctions | undefined;
-	debounceDelay?: number;
-	// dense?: boolean; // ! Missing Vuetify Prop
+	debounceDelay?: number | undefined; 								// * Custom Property
 	density?: Density;
-	drilldown?: object;
-	drilldownKey?: string;
-	elevation?: string | number | undefined;
+	drilldown?: object; 																// * Custom Property
+	drilldownKey: string; 															// * Custom Property
+	elevation?: string | number | undefined; 						// * Custom Property
 	expandOnClick?: boolean;
 	expanded?: string[];
-	// filterKeys?: string[]; // ! Need more info/testing
+	// filterKeys?: string[]; 													// ! Need more info/testing
 	filterMode?: FilterMode;
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
-	// footerProps?: object; // ! Missing Vuetify Prop (maybe v2 only?)
-	// groupBy?: string[]; // ? Most likely this will not be used
+	// footerProps?: object;														// ! Missing Vuetify Prop (maybe v2 only?)
+	// groupBy?: string[];															// ? Most likely this will not be used
+	footers?: DataTableHeader[] | DataTableHeader[][];
 	headers?: DataTableHeader[] | DataTableHeader[][];
 	height?: string | number | undefined;
-	// hideDefaultFooter?: boolean;	// ? Need to add/test
-	// hideDefaultHeader?: boolean;	// ? Need to add/test
+	// hideDefaultFooter?: boolean;											// ? Custom Property - Need to add/test
+	// hideDefaultHeader?: boolean;											// ? Custom Property - Need to add/test
 	hideNoData?: boolean;
 	hover?: boolean;
-	isDrilldown?: boolean;
-	item?: DataTableItem;
+	isDrilldown?: boolean; 															// * Custom Property
+	item?: object; 																			// * Custom Property
 	itemChildren?: SelectItemKey;
-	itemChildrenKey?: string;
+	itemChildrenKey?: string; 													// * Custom Property
 	itemProps?: SelectItemKey;
 	itemTitle?: SelectItemKey;
 	itemValue?: NonNullable<SelectItemKey>;
-	items?: unknown[];
+	items: unknown[];
+	itemsLength?: number;
 	itemsPerPage?: string | number;
-	level?: number;
-	levels?: number;
-	loading?: boolean;
-	loadingText?: string;
+	level: number; 																			// * Custom Property
+	levels: number; 																		// * Custom Property
+	// loading?: boolean; 															// ! Not working properly
+	// loadingText?: string; 														// ! Not working properly
 	modelValue?: unknown[];
 	multiSort?: boolean;
 	mustSort?: boolean;
 	noDataText?: string;
 	noFilter?: boolean;
 	page?: string | number;
-	// pageCount?: number; // ? Need to test
+	// pageCount?: number; 															// ? Need to test (maybe v2 only?)
 	returnObject?: boolean;
 	search?: string | undefined;
-	searchProps?: SearchProps;
-	server?: boolean; // ? Not sure if I'll use this
+	searchProps: SearchProps; 													// * Custom Property
+	server?: boolean; 																	// ? Custom Property - Not sure if I'll use this
 	showExpand?: boolean;
-	showSearch?: boolean;
+	showFooterRow?: boolean; 														// * Custom Property
+	showSearch?: boolean; 															// * Custom Property
 	showSelect?: boolean;
 	sortBy?: SortItem[];
-	// sortDesc?: boolean; // ! Missing Vuetify Prop (maybe v2 only?)
+	// sortDesc?: boolean; 															// ! Missing Vuetify Prop (maybe v2 only?)
 	width?: string | number | undefined;
 };
 
@@ -256,3 +310,5 @@ export type DrilldownEvent = {
 	level?: number;
 	toggleExpand(item?: object): void;
 };
+
+export type DrilldownDebounce = (...args: undefined[]) => void;

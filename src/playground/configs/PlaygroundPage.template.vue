@@ -10,11 +10,14 @@
 					:density="tableSettings.density"
 					:drilldown-key="tableSettings.drilldownKey"
 					:elevation="tableSettings.elevation"
+					:footers="tableSettings.footers.users"
 					:headers="tableSettings.headers.users"
 					:hover="tableSettings.hover"
 					:items="tableSettings.items"
+					:items-length="tableSettings.itemsLength"
 					:items-per-page="tableSettings.itemsPerPage"
 					:levels="tableSettings.levels"
+					:show-footer-row="tableSettings.showFooterRow"
 					:show-search="tableSettings.showSearch"
 					@drilldown="fetchData($event)"
 				>
@@ -47,8 +50,6 @@
 					:item-value="tableSettings.itemValue"
 					:items="defaultTableItems"
 					:items-per-page="tableSettings.itemsPerPage"
-					:loading="tableSettings.loading"
-					:loading-text="tableSettings.loadingText"
 					:multi-sort="tableSettings.multiSort"
 					:no-data-text="tableSettings.noDataText"
 					:page="tableSettings.page"
@@ -66,12 +67,6 @@
 							</td>
 						</tr>
 					</template>
-
-					<template #[`footer.prepend`]>
-						<div class="me-2">
-							[footer.prepend Slot]
-						</div>
-					</template>
 				</v-data-table>
 			</v-col>
 		</v-row>
@@ -84,7 +79,6 @@ onMounted(() => {
 	fetchData();
 	fetchComments();
 });
-
 
 const tableSettings = ref({
 	colors: {
@@ -125,6 +119,85 @@ const tableSettings = ref({
 	fixedHeader: true, 										// ! Failed
 	// footerProps: {},												// ? In v2 Missing in v3
 	// groupBy: [], 													// * Works, but this does not look very good by default
+	footers: {
+		comments: [
+			{
+				title: '',
+				align: 'start',
+				key: null,
+				width: 100,
+			},
+			{
+				title: 'Post ID',
+				align: 'start',
+				key: 'postId',
+				width: 100,
+			},
+			{
+				title: 'Comment ID',
+				align: 'start',
+				key: 'id',
+				width: 150,
+			},
+			{
+				title: 'Comment',
+				align: 'start',
+				key: 'name',
+			},
+			{
+				key: 'data-table-expand',
+				title: '',
+			},
+		],
+		posts: [
+			{
+				title: 'User ID',
+				align: 'start',
+				key: 'userId',
+				width: 100,
+			},
+			{
+				title: 'Post ID',
+				align: 'start',
+				key: 'id',
+				width: 250,
+			},
+			{
+				title: 'Post',
+				align: 'start',
+				key: 'title',
+			},
+			{
+				key: 'data-table-expand',
+				title: '',
+			},
+		],
+		users: [
+			{
+				title: 'User ID',
+				align: 'start',
+				key: 'id',
+				width: 350,
+			},
+			{
+				title: 'Name',
+				align: 'start',
+				key: 'name',
+			},
+			{
+				title: 'Email',
+				align: 'start',
+				key: 'email',
+				renderCell() {
+					return 'Total';
+				},
+			},
+			{
+				key: 'data-table-expand',
+				title: '',
+			},
+		],
+	},
 	headers: {
 		comments: [
 			{
@@ -194,6 +267,9 @@ const tableSettings = ref({
 				title: 'Email',
 				align: 'start',
 				key: 'email',
+				// renderFooter() {
+				// 	return 'Total';
+				// },
 			},
 			{
 				key: 'data-table-expand',
@@ -211,10 +287,11 @@ const tableSettings = ref({
 	itemTitle: 'title',										// * Works, but is weird
 	itemValue: 'id',											// * Works, but is weird
 	items: [],
+	itemsLength: 0,
 	itemsPerPage: 10,											// * Works
 	levels: 2,														// * Works - Custom Prop
-	loading: false,												// !  Failed - https://github.com/vuetifyjs/vuetify/issues/16811
-	loadingText: 'Loading...',						// !  Failed - https://github.com/vuetifyjs/vuetify/issues/16811
+	// loading: false,												// !  Failed - https://github.com/vuetifyjs/vuetify/issues/16811
+	// loadingText: 'Loading...',							// !  Failed - https://github.com/vuetifyjs/vuetify/issues/16811
 	// modelValue: [],												// ? Needs Testing
 	multiSort: false,											// * Works
 	mustSort: false,											// * Works
@@ -237,6 +314,7 @@ const tableSettings = ref({
 		variant: 'underlined',
 	},
 	// server: false, 												// ? Needs Testing. This requires v-data-table-server
+	showFooterRow: true,
 	showSearch: false,
 	showExpand: false,										// * Works
 	showSelect: false,										// * Works
@@ -248,6 +326,7 @@ const tableSettings = ref({
 
 function fetchData(drilldown = null) {
 	const item = drilldown?.item?.raw ?? null;
+	// tableSettings.value.loading = true;
 
 	let url = 'https://jsonplaceholder.typicode.com/users';
 	let user = null;
@@ -269,9 +348,12 @@ function fetchData(drilldown = null) {
 		.then(response => response.json())
 		.then(json => {
 			// console.log('fetch response', json);
+			tableSettings.value.itemsLength = json.length;
+
 
 			if (!drilldown) {
 				tableSettings.value.items = json;
+				// tableSettings.value.loading = false;
 				return;
 			}
 
@@ -284,6 +366,7 @@ function fetchData(drilldown = null) {
 
 					drilldownKey: 'id',
 					headers: [...tableSettings.value.headers.posts],
+					footers: [...tableSettings.value.footers.posts],
 					items: [...json],
 					level: 1,
 				};
@@ -296,6 +379,7 @@ function fetchData(drilldown = null) {
 				post.children = {
 					drilldownKey: 'id',
 					headers: [...tableSettings.value.headers.comments],
+					footers: [...tableSettings.value.footers.comments],
 					items: [...json],
 					level: 2,
 				};

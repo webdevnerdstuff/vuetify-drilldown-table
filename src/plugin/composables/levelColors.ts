@@ -1,4 +1,5 @@
 import {
+	ColorsObject,
 	HEXColor,
 	HSLColor,
 	LevelColorResponse,
@@ -13,12 +14,13 @@ import { ThemeInstance } from 'vuetify';
 function convertLevelColors(
 	loadedDrilldown: LoadedDrilldown,
 	theme: ThemeInstance,
-	prop: string | null,
+	prop = 'default',
 	type: string | null,
 ): LevelColorResponse {
-	const direction = loadedDrilldown.colors.percentageDirection;
-	const level = loadedDrilldown.level;
-	const propOptionResponse = { ...loadedDrilldown?.colors[prop ?? 'default'] };
+	const colors = loadedDrilldown.colors as ColorsObject;
+	const propOptionResponse = { ...colors[prop as keyof ColorsObject] as LevelColorResponse };
+	const direction = colors.percentageDirection as keyof ColorsObject;
+	const level = loadedDrilldown.level as number;
 
 	// Color prop does not exist //
 	if (typeof propOptionResponse === 'undefined') {
@@ -40,22 +42,22 @@ function convertLevelColors(
 
 			// If color is a property that should not be converted, return the value //
 			if (color === 'transparent' || color === 'none' || color === 'inherit' || color === 'currentColor' || color === 'initial' || color === 'unset') {
-				propOptionResponse[key] = color;
+				propOptionResponse[key as keyof LevelColorResponse] = color;
 				return;
 			}
 
 			// Top Level should always be set to 100% //
-			if (key === 'text' && level === 0 && (direction === 'asc')) {
+			if (key === 'text' && level === 0 && (direction === 'asc' as keyof ColorsObject)) {
 				percentage = 100;
 			}
 
 			// If color is a theme variable, return the RGB with variable //
 			if (color.includes('--v-theme')) {
-				propOptionResponse[key] = `rgb(var(${color}))`;
+				propOptionResponse[key as keyof LevelColorResponse] = `rgb(var(${color}))`;
 				return;
 			}
 
-			propOptionResponse[key] = `hsl(${convertToHSL(color)} / ${percentage}%)`;
+			propOptionResponse[key as keyof LevelColorResponse] = `hsl(${convertToHSL(color)} / ${percentage}%)`;
 		});
 	}
 
@@ -70,8 +72,9 @@ function levelPercentage(
 	level: number,
 	direction: string,
 ): number {
+	const colors = loadedDrilldown.colors as ColorsObject;
 	let percentage = 100;
-	let percentageChange = loadedDrilldown.colors.percentageChange ?? 0;
+	let percentageChange = colors.percentageChange ?? 0;
 
 	if (isNaN(percentageChange)) {
 		percentage = 100;
@@ -119,15 +122,15 @@ function convertToHSL(color: string): string {
 
 	// Convert hex color to RGB if necessary
 	if (newColor.substring(0, 1) === '#') {
-		newColor = hexToRGB(newColor) as RGBColor;
+		newColor = <RGBColor>hexToRGB(newColor);
 	}
 	// Convert RGB to array values if necessary
 	else if (newColor.includes('rgb')) {
-		newColor = [...newColor.matchAll(/\d+/g)].map(Number) as RGBColor;
+		newColor = <RGBColor>[...newColor.matchAll(/\d+/g)].map(Number);
 	}
 	// If HSL is passed in, extract values
 	else if (newColor.includes('hsl')) {
-		newColor = [...newColor.matchAll(/\d+/g)].map(Number) as HSLColor;
+		newColor = <HSLColor>[...newColor.matchAll(/\d+/g)].map(Number);
 
 		h = newColor[0];
 		s = newColor[1];
@@ -138,7 +141,7 @@ function convertToHSL(color: string): string {
 	}
 
 	// Extract RGB values
-	[r, g, b] = newColor as RGBColor;
+	[r, g, b] = <RGBColor>newColor;
 
 	// Convert RGB to HSL
 	r /= 255;
@@ -333,9 +336,6 @@ function checkColorNames(color: string): HEXColor {
 	Object.entries(colors).forEach(([key, value]) => {
 		if (color.toLowerCase() == key.toLowerCase()) {
 			response = value;
-			console.log(color.toLowerCase());
-			console.log(key.toLowerCase());
-			console.log(value);
 			return;
 		}
 	});
@@ -379,5 +379,5 @@ export function useGetLevelColors(
 		return levelColorOptions;
 	}
 
-	return levelColorOptions[type];
+	return levelColorOptions[type as keyof LevelColorResponse] as LevelColorResponse;
 }

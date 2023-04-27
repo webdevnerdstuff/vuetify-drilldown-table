@@ -37,16 +37,15 @@
 
 <script setup lang="ts">
 import { provide, ref } from 'vue';
-import AppBar from '@/layout/AppBar.vue';
-import MenuComponent from '@/components/MenuComponent.vue';
-import DocsComponent from '@/components/DocsComponent.vue';
-import { useCoreStore } from '@/stores/index';
-import { DrawerOptions } from '@/components/types';
+import AppBar from './layout/AppBar.vue';
+import MenuComponent from './components/MenuComponent.vue';
+import DocsComponent from './components/DocsComponent.vue';
+import { useCoreStore } from './stores/index';
+
 
 const store = useCoreStore();
-
 const drawer = ref<boolean>(true);
-const drawerOptions = ref<DrawerOptions>({
+const drawerOptions = ref({
 	absolute: true,
 	color: '',
 	elevation: 10,
