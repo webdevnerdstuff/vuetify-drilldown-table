@@ -42,6 +42,7 @@ interface CellRender {
 		index?: number,
 	): void;
 };
+
 interface ItemCellRender {
 	(
 		itemValue?: string,
@@ -176,6 +177,7 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	// * Custom Property //
 	item: {
 		default: DataTableItem | object;
 		required: boolean;
@@ -221,6 +223,7 @@ export type Props = {
 		type?: PropType<SearchProps>;
 	};
 	// * Custom Property //
+	// TODO: Maybe add this //
 	separator?: {
 		default: string;
 		required: boolean;
@@ -242,61 +245,60 @@ export type Props = {
 
 // -------------------------------------------------- Drilldown //
 export type LoadedDrilldown = {
-	colors?: ColorsObject; // * Custom Property
+	colors?: ColorsObject; 															// * Custom Property
 	customFilter?: FilterFunction | undefined;
 	customKeyFilter?: FilterKeyFunctions | undefined;
-	debounceDelay?: number | undefined; // * Custom Property
-	// dense?: boolean; // ! Missing Vuetify Prop
+	debounceDelay?: number | undefined; 								// * Custom Property
 	density?: Density;
-	drilldown?: object; // * Custom Property
-	drilldownKey: string; // * Custom Property
-	elevation?: string | number | undefined; // * Custom Property
+	drilldown?: object; 																// * Custom Property
+	drilldownKey: string; 															// * Custom Property
+	elevation?: string | number | undefined; 						// * Custom Property
 	expandOnClick?: boolean;
 	expanded?: string[];
-	// filterKeys?: string[]; // ! Need more info/testing
+	// filterKeys?: string[]; 													// ! Need more info/testing
 	filterMode?: FilterMode;
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
-	// footerProps?: object; // ! Missing Vuetify Prop (maybe v2 only?)
-	// groupBy?: string[]; // ? Most likely this will not be used
+	// footerProps?: object;														// ! Missing Vuetify Prop (maybe v2 only?)
+	// groupBy?: string[];															// ? Most likely this will not be used
 	footers?: DataTableHeader[] | DataTableHeader[][];
 	headers?: DataTableHeader[] | DataTableHeader[][];
 	height?: string | number | undefined;
-	// hideDefaultFooter?: boolean;	// ? Custom Property - Need to add/test
-	// hideDefaultHeader?: boolean;	// ? Custom Property - Need to add/test
+	// hideDefaultFooter?: boolean;											// ? Custom Property - Need to add/test
+	// hideDefaultHeader?: boolean;											// ? Custom Property - Need to add/test
 	hideNoData?: boolean;
 	hover?: boolean;
-	isDrilldown?: boolean; // * Custom Property
-	item?: object; // * Custom Property
+	isDrilldown?: boolean; 															// * Custom Property
+	item?: object; 																			// * Custom Property
 	itemChildren?: SelectItemKey;
-	itemChildrenKey?: string; // * Custom Property
+	itemChildrenKey?: string; 													// * Custom Property
 	itemProps?: SelectItemKey;
 	itemTitle?: SelectItemKey;
 	itemValue?: NonNullable<SelectItemKey>;
 	items: unknown[];
 	itemsLength?: number;
 	itemsPerPage?: string | number;
-	level: number; // * Custom Property
-	levels: number; // * Custom Property
-	// loading?: boolean; // ! Not working properly
-	// loadingText?: string; // ! Not working properly
+	level: number; 																			// * Custom Property
+	levels: number; 																		// * Custom Property
+	// loading?: boolean; 															// ! Not working properly
+	// loadingText?: string; 														// ! Not working properly
 	modelValue?: unknown[];
 	multiSort?: boolean;
 	mustSort?: boolean;
 	noDataText?: string;
 	noFilter?: boolean;
 	page?: string | number;
-	// pageCount?: number; // ? Need to test (maybe v2 only?)
+	// pageCount?: number; 															// ? Need to test (maybe v2 only?)
 	returnObject?: boolean;
 	search?: string | undefined;
-	searchProps: SearchProps; // * Custom Property
-	server?: boolean; // ? Custom Property - Not sure if I'll use this
+	searchProps: SearchProps; 													// * Custom Property
+	server?: boolean; 																	// ? Custom Property - Not sure if I'll use this
 	showExpand?: boolean;
-	showFooterRow?: boolean; // * Custom Property
-	showSearch?: boolean; // * Custom Property
+	showFooterRow?: boolean; 														// * Custom Property
+	showSearch?: boolean; 															// * Custom Property
 	showSelect?: boolean;
 	sortBy?: SortItem[];
-	// sortDesc?: boolean; // ! Missing Vuetify Prop (maybe v2 only?)
+	// sortDesc?: boolean; 															// ! Missing Vuetify Prop (maybe v2 only?)
 	width?: string | number | undefined;
 };
 
