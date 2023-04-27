@@ -43,6 +43,7 @@
 		"src/main.ts",
 		"src/components/**/*.ts",
 		"src/components/**/*.vue",
+		"src/playground/**/*.vue",
 		"src/playground/**/*.ts",
 		"src/stores/**/*.ts",
 		"node_modules"
