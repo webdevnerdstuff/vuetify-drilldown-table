@@ -13,6 +13,7 @@
 		],
 		"module": "ESNext",
 		"moduleResolution": "Node",
+		"noImplicitAny": false,
 		"noEmit": true,
 		"outDir": "./dist",
 		"paths": {

@@ -41,17 +41,19 @@
 </template>
 
 <script setup lang="ts">
+import * as DrilldownTypes from '@/types/types';
+
+
 defineProps({
 	loadedDrilldown: {
 		required: true,
-		type: Object,
+		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
 	searchFieldClasses: {
 		required: true,
 		type: Object,
 	}
 });
-
 
 const levelSearch = ref<string>('');
 </script>

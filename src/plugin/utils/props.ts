@@ -1,4 +1,4 @@
-import { Props } from '@/types/types';
+import { DataTableItem, Props } from '@/types/types';
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
@@ -78,7 +78,7 @@ export const AllProps: Props = {
 	item: {
 		default: () => { },
 		required: false,
-		type: Object,
+		type: Object as PropType<DataTableItem>,
 	},
 	// ? This is for v-data-table-server //
 	itemsLength: {

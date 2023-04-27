@@ -241,20 +241,17 @@ import {
 } from './composables/helpers';
 import {
 	Column,
+	DataTableItem,
 	DrilldownEvent,
 	LoadedDrilldown,
-	SearchProps,
 	SearchPropCols,
+	SearchProps,
 	SortItem,
 } from '@/types/types';
 import {
 	HeadersSlot,
 	TfootSlot,
 } from './slots';
-import {
-	DataTableItem,
-} from 'vuetify/dist/vuetify-labs.esm';
-
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
@@ -305,8 +302,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	customFilter: () => { }, 			// ? Needs Testing
 	customKeyFilter: [], 					// ? Needs Testing
 	debounceDelay: 750,						// * Custom Prop
-	// dense: false,							// ? Missing in Docs, but is in code base
-	density: 'comfortable',						// * Works - Missing in Docs
+	density: 'comfortable',				// * Works
 	drilldownKey: '',							// * Custom Prop
 	elevation: 1, 								// * Custom Prop
 	expandOnClick: false, 				// * Works
@@ -330,6 +326,8 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	items: [],										// * Works
 	itemsLength: 0,
 	itemsPerPage: 10,							// * Works
+	level: 0,
+	levels: 0,
 	// ! Not working yet `loading` & `loadingText`: https://github.com/vuetifyjs/vuetify/issues/16811 //
 	// loading: false,
 	// loadingText: 'Loading...',
@@ -373,7 +371,7 @@ const slots = useSlots();
 
 // -------------------------------------------------- Watch //
 watch(props, useDrilldownDebounce(() => {
-	if (props.level !== 0 || typeof loadedDrilldown.value.level === 'undefined') {
+	if (props.level !== 0 || loadedDrilldown.value.level === 0) {
 		setLoadedDrilldown();
 	}
 }, props.debounceDelay, props.level === 0), { deep: true });
@@ -441,39 +439,35 @@ const searchFieldClasses = computed<object>(() => {
 
 // -------------------------------------------------- Methods #
 function setLoadedDrilldown(): void {
-	// console.log('----------------------------- setLoadedDrilldown', props.level);
-
 	if (props.drilldown) {
-		loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props.drilldown);
+		loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props.drilldown) as LoadedDrilldown;
 
-		const drilldownItem = loadedDrilldown.value.items.find((item) => {
-			return item[loadedDrilldown.value.drilldownKey] === props.item.raw[loadedDrilldown.value.drilldownKey];
-		});
+		const drilldownItem = loadedDrilldown.value.items.find(<T, K extends keyof T>(item: T) => {
+			const thisItem = item[loadedDrilldown.value.drilldownKey as K];
+			const propsItem = props.item.raw[loadedDrilldown.value.drilldownKey];
 
-		// console.log({ drilldownItem });
+			return thisItem === propsItem;
+		}) as LoadedDrilldown;
 
 		loadedDrilldown.value = useMergeDeep(
 			loadedDrilldown.value,
-			drilldownItem[loadedDrilldown.value.itemChildrenKey],
-		);
+			drilldownItem[loadedDrilldown.value.itemChildrenKey as keyof LoadedDrilldown],
+		) as LoadedDrilldown;
 
 		// Hide expand icon if this is the last drilldown level //
 		if (props.levels === props.level) {
 			loadedDrilldown.value.showExpand = false;
 		}
 
-		// console.log('loadedDrilldown', loadedDrilldown.value);
-
 		return;
 	}
 
-	loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props);
+	loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props) as LoadedDrilldown;
 }
 
 function renderCellItem(item: DataTableItem, column: Column, index: number): unknown {
 	return useRenderCellItem(item.raw, column, index);
 }
-
 
 
 // ------------------------- Table Events //

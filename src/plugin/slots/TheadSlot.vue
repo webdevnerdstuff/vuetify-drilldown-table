@@ -5,13 +5,14 @@
 </template>
 
 <script setup lang="ts">
+import * as DrilldownTypes from '@/types/types';
 import { HeadersSlot } from '@/plugin/slots';
 
 
 defineProps({
 	loadedDrilldown: {
-		type: Object,
 		required: true,
+		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
 });
 </script>

@@ -16,6 +16,22 @@ export type SortItem = {
 
 type Density = null | 'default' | 'comfortable' | 'compact';
 
+export interface InternalItem<T = object> {
+	title: string;
+	value: unknown;
+	props: {
+		[key: string]: unknown;
+		title: string;
+		value: unknown;
+	};
+	children?: InternalItem<T>[];
+	raw: T;
+}
+
+export interface DataTableItem extends InternalItem {
+	[key: string]: string;
+	raw: T;
+};
 
 
 // -------------------------------------------------- Cell Rendering //
@@ -105,20 +121,20 @@ export type SearchProps = {
 export type Props = {
 	// * Custom Property //
 	colors?: {
-		default: () => ColorsObject;
+		default: () => object;
 		required: boolean;
-		type: PropType<object>;
+		type: PropType<ColorsObject>;
 	};
 	// * Custom Property //
-	debounceDelay?: {
+	debounceDelay: {
 		default: number;
 		required: boolean;
-		type?: PropType<number>;
+		type: PropType<number>;
 	};
 	density?: {
-		default: string,
+		default: Density,
 		required: boolean,
-		type: StringConstructor;
+		type: PropType<string | undefined>;
 	};
 	// * Custom Property //
 	drilldown?: {
@@ -127,9 +143,9 @@ export type Props = {
 		type: PropType<object>;
 	};
 	// * Custom Property //
-	drilldownKey?: {
-		default?: string;
-		required?: boolean;
+	drilldownKey: {
+		default: string;
+		required: boolean;
 		type: PropType<string>;
 	};
 	// * Custom Property //
@@ -139,15 +155,15 @@ export type Props = {
 		type: PropType<number | string | undefined>;
 	};
 	// * Custom Property //
-	footers?: {
-		default?: () => DataTableHeader[] | DataTableHeader[][];
-		required?: boolean;
-		type?: PropType<DataTableHeader[] | DataTableHeader[][]>;
+	footers: {
+		default: () => DataTableHeader[] | DataTableHeader[][];
+		required: boolean;
+		type: PropType<DataTableHeader[] | DataTableHeader[][]>;
 	};
-	headers?: {
-		default?: () => DataTableHeader[] | DataTableHeader[][];
-		required?: boolean;
-		type?: PropType<DataTableHeader[] | DataTableHeader[][]>;
+	headers: {
+		default: () => DataTableHeader[] | DataTableHeader[][];
+		required: boolean;
+		type: PropType<DataTableHeader[] | DataTableHeader[][]>;
 	};
 	hover?: {
 		default: boolean;
@@ -160,17 +176,17 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
-	item?: {
-		default: () => unknown;
+	item: {
+		default: DataTableItem | object;
 		required: boolean;
-		type: DataTableItem;
+		type: PropType<DataTableItem>;
 	};
 	itemChildrenKey?: {
 		default: string;
 		required: boolean;
 		type: PropType<string>;
 	};
-	items?: {
+	items: {
 		default: () => unknown;
 		required: boolean;
 		type: PropType<object>;
@@ -181,13 +197,13 @@ export type Props = {
 		type: PropType<number>;
 	};
 	// * Custom Property //
-	level?: {
+	level: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
 	};
 	// * Custom Property //
-	levels?: {
+	levels: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
@@ -202,7 +218,7 @@ export type Props = {
 	searchProps: {
 		default: () => SearchProps;
 		required?: boolean;
-		type?: PropType<object>;
+		type?: PropType<SearchProps>;
 	};
 	// * Custom Property //
 	separator?: {
@@ -229,11 +245,11 @@ export type LoadedDrilldown = {
 	colors?: ColorsObject; // * Custom Property
 	customFilter?: FilterFunction | undefined;
 	customKeyFilter?: FilterKeyFunctions | undefined;
-	debounceDelay?: number; // * Custom Property
+	debounceDelay?: number | undefined; // * Custom Property
 	// dense?: boolean; // ! Missing Vuetify Prop
 	density?: Density;
 	drilldown?: object; // * Custom Property
-	drilldownKey?: string; // * Custom Property
+	drilldownKey: string; // * Custom Property
 	elevation?: string | number | undefined; // * Custom Property
 	expandOnClick?: boolean;
 	expanded?: string[];
@@ -251,17 +267,17 @@ export type LoadedDrilldown = {
 	hideNoData?: boolean;
 	hover?: boolean;
 	isDrilldown?: boolean; // * Custom Property
-	item?: DataTableItem; // * Custom Property
+	item?: object; // * Custom Property
 	itemChildren?: SelectItemKey;
 	itemChildrenKey?: string; // * Custom Property
 	itemProps?: SelectItemKey;
 	itemTitle?: SelectItemKey;
 	itemValue?: NonNullable<SelectItemKey>;
-	items?: unknown[];
+	items: unknown[];
 	itemsLength?: number;
 	itemsPerPage?: string | number;
-	level?: number | undefined; // * Custom Property
-	levels?: number; // * Custom Property
+	level: number; // * Custom Property
+	levels: number; // * Custom Property
 	// loading?: boolean; // ! Not working properly
 	// loadingText?: string; // ! Not working properly
 	modelValue?: unknown[];

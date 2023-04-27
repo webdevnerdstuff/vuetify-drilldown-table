@@ -58,8 +58,8 @@ const props = defineProps({
 	// 	required: false,
 	// },
 	loadedDrilldown: {
-		type: Object,
 		required: true,
+		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
 });
 
@@ -81,7 +81,7 @@ const cellClasses = (column: DrilldownTypes.Column): object => {
 };
 
 const cellStyles = (): CSSProperties => {
-	const headerColors = useGetLevelColors(props.loadedDrilldown as DrilldownTypes.LoadedDrilldown, theme, 'footer');
+	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'footer');
 
 	const styles = {
 		backgroundColor: headerColors.bg,
@@ -93,7 +93,7 @@ const cellStyles = (): CSSProperties => {
 
 function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 	const tempIndex = 0;
-	return useRenderCell(props.loadedDrilldown as DrilldownTypes.LoadedDrilldown, column, tempIndex);
+	return useRenderCell(props.loadedDrilldown, column, tempIndex);
 }
 
 </script>
