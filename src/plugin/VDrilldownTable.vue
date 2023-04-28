@@ -53,14 +53,14 @@
 
 		</template>
 
+
 		<!-- ================================================== Headers Slot -->
-		<template
-			#headers="{ headers, columns, toggleSort, sortBy, someSelected, allSelected, selectAll, getSortIcon, getFixedStyles }"
-		>
+		<template #headers="props">
 			<HeadersSlot
+				:items="loadedDrilldown.items"
 				:loadedDrilldown="loadedDrilldown"
-				:slotProps="{ headers, columns, toggleSort, sortBy, someSelected, allSelected, selectAll, getSortIcon, getFixedStyles, slots }"
-				@allSelected="emitAllSelectedEvent($event)"
+				:slotProps="{ allRowsSelected, ...props }"
+				@click:selectAll="emitAllSelectedEvent($event)"
 			>
 				<template
 					v-for="(_, slot) in $slots"
@@ -74,11 +74,13 @@
 			</HeadersSlot>
 		</template>
 
+
 		<!-- ================================================== Row Item Slot -->
-		<template #item="{ columns, index, isExpanded, isSelected, item, toggleExpand, toggleSelect }">
+		<template #item="props">
 			<ItemSlot
+				:items="loadedDrilldown.items"
 				:loadedDrilldown="loadedDrilldown"
-				:slotProps="{ allRowsSelected, columns, index, isExpanded, isSelected, item, level, toggleExpand, toggleSelect }"
+				:slotProps="{ allRowsSelected, level, ...props }"
 				@click:row:checkbox="emitClickRowCheckbox($event)"
 				@update:expanded="emitDrilldownEvent($event)"
 			>
@@ -240,7 +242,6 @@ const emit = defineEmits([
 	'update:expanded',
 	'drilldown',
 ]);
-
 
 // -------------------------------------------------- Props //
 const props = defineProps({ ...AllProps });
@@ -415,6 +416,8 @@ function setLoadedDrilldown(): void {
 			const thisItem = item[loadedDrilldown.value.drilldownKey as K];
 			const propsItem = props.item.raw[loadedDrilldown.value.drilldownKey];
 
+			console.log({ thisItem, propsItem });
+
 			return thisItem === propsItem;
 		}) as LoadedDrilldown;
 
@@ -436,17 +439,7 @@ function setLoadedDrilldown(): void {
 
 // -------------------------------------------------- Emit Events //
 function emitAllSelectedEvent(val): void {
-	console.log('emitAllSelectedEvent', val);
-
-	if (val) {
-		// select all
-		allRowsSelected.value = true;
-		return;
-	}
-
-	allRowsSelected.value = false;
-	// deselect all
-	return;
+	allRowsSelected.value = val;
 }
 
 

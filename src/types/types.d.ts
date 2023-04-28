@@ -17,15 +17,15 @@ export type SortItem = {
 type Density = null | 'default' | 'comfortable' | 'compact';
 
 export interface InternalItem<T = object> {
-	title: string;
-	value: unknown;
+	children?: InternalItem<T>[];
 	props: {
 		[key: string]: unknown;
 		title: string;
 		value: unknown;
 	};
-	children?: InternalItem<T>[];
 	raw: T;
+	title: string;
+	value: unknown;
 }
 
 export interface DataTableItem extends InternalItem {
@@ -55,6 +55,7 @@ interface ItemCellRender {
 interface Column {
 	align?: string;
 	cellClass?: string;
+	colspan?: number;
 	columnFooter?: string;
 	fixedOffset?: number;
 	key?: string;
@@ -64,6 +65,7 @@ interface Column {
 	renderItem?: ItemCellRender;
 	renderer?: CellRender,
 	rowClass?: string;
+	rowspan?: number;
 	sortable?: boolean;
 	title?: string;
 	width?: string | number;

@@ -15,10 +15,19 @@
 					:column="column"
 					:name="`tfoot.${column.key}`"
 				/>
+				<!-- Column Render `data-table-select` -->
+				<td
+					v-else-if="column.key === 'data-table-select' || loadedDrilldown.showSelect"
+					:class="cellClasses(column)"
+					:colspan="column.colspan || 1"
+					:style="cellStyles"
+					v-html="renderCell(column /* , index */)"
+				></td>
 				<!-- Column Render `data-table-expand` -->
 				<td
 					v-else-if="column.key === 'data-table-expand'"
 					:class="cellClasses(column)"
+					:colspan="column.colspan || 1"
 					:style="cellStyles"
 					v-html="renderCell(column /* , index */)"
 				></td>
@@ -26,6 +35,7 @@
 				<td
 					v-else-if="column.renderFooter || column.renderer || column.renderCell"
 					:class="cellClasses(column)"
+					:colspan="column.colspan || 1"
 					:style="cellStyles"
 					v-html="renderCell(column /* , index */)"
 				></td>
@@ -33,6 +43,7 @@
 				<td
 					v-else
 					:class="cellClasses(column)"
+					:colspan="column.colspan || 1"
 					:style="cellStyles"
 				>
 					{{ column.title }}
@@ -52,24 +63,22 @@ import {
 
 
 const props = defineProps({
-	// TODO: This will be used when Vuetify adds the columns prop to tfoot //
-	// columns: {
-	// 	type: Array,
-	// 	required: false,
-	// },
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
+	// TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
+	// slotProps: {
+	// 	required: true,
+	// 	type: Object,
+	// },
 });
 
-const columns = ref();
+// const columns = ref();
 const theme = useTheme();
 
-
-watch(props, () => {
-	columns.value = props.loadedDrilldown.showFooterRow ? props.loadedDrilldown.headers : props.loadedDrilldown.footers;
-});
+// TODO: This should change to columns if/when Vuetify adds the columns prop to tfoot //
+const columns = computed(() => props.loadedDrilldown.footers);
 
 
 const cellClasses = (column: DrilldownTypes.Column): object => {
@@ -91,6 +100,8 @@ const cellStyles = (): CSSProperties => {
 	return styles;
 };
 
+
+// -------------------------------------------------- Render //
 function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 	const tempIndex = 0;
 	return useRenderCell(props.loadedDrilldown, column, tempIndex);

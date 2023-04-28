@@ -37,7 +37,7 @@
 			>
 				<v-checkbox
 					v-model="allSelected"
-					class="d-flex"
+					class="d-flex v-simple-checkbox"
 					:density="loadedDrilldown.density"
 					@click="emitClickRowCheckbox({
 							columns,
@@ -88,9 +88,43 @@ const props = defineProps({
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
+	/**
+	 * @name slotProps
+	 *
+	 * @param { Boolean } allRowsSelected
+	 * @param { object[] } columns
+	 * 		@returns { object }
+	 * 			[{
+	 * 				align:			@type { String },
+	 * 				fixeOffset:	@type { Number },
+	 * 				key:				@type { String },
+	 * 				sortable:		@type { Boolean },
+	 * 				title:			@type { String },
+	 * 				width:			@type { Number },
+	 *			}]
+	 * @param { Number } index
+	 * @param { Function } isExpanded
+	 * 		@param { DrilldownTypes.DataTableItem } item
+	 * 		@returns { Boolean }
+	 * @param { Function } isSelected
+	 * 		@param { DrilldownTypes.DataTableItem[] } items
+	 * 		@returns { Boolean }
+	 * @param { DrilldownTypes.DataTableItem } item
+	 * @param { Number } level
+	 * @param { Function } toggleExpand
+	 * 		@param { DrilldownTypes.DataTableItem } item
+	 * 		@returns { void }
+	 * @param { Function } toggleSelect
+	 * 		@param { DrilldownTypes.DataTableItem } item
+	 * 		@returns { void }
+	*/
 	slotProps: {
 		required: true,
 		type: Object,
+	},
+	items: {
+		required: true,
+		type: Array as PropType<unknown[]>,
 	},
 });
 
@@ -101,18 +135,9 @@ const item = computed(() => props.slotProps.item);
 const level = computed(() => props.slotProps.level);
 const toggleExpand = computed(() => props.slotProps.toggleExpand);
 const toggleSelect = computed(() => props.slotProps.toggleSelect);
-const allRowsSelected = computed(() => props.slotProps.allRowsSelected);
 
 
-const allSelected = ref<boolean>(false);
-
-watch(() => props.slotProps.allRowsSelected, () => {
-	console.log('allRowsSelected', allRowsSelected.value);
-	console.log('allRowsSelected', allSelected.value);
-	allSelected.value = props.slotProps.allRowsSelected;
-});
-
-
+// -------------------------------------------------- Row Cells //
 const cellClasses = (column: DrilldownTypes.Column): object => {
 	const classes = {
 		[`${componentName}--body-row-td`]: true,
@@ -122,7 +147,6 @@ const cellClasses = (column: DrilldownTypes.Column): object => {
 
 	return classes;
 };
-
 
 function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
 	const { item, level, toggleExpand } = data as DrilldownTypes.DrilldownEvent;
@@ -135,19 +159,25 @@ function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
 	emit('update:expanded', data);
 }
 
+// -------------------------------------------------- Select //
+const allSelected = ref<boolean>(false);
+
+watch(() => props.slotProps.allRowsSelected, () => {
+	allSelected.value = props.slotProps.allRowsSelected;
+});
+
 function emitClickRowCheckbox(data: DrilldownTypes.ClickRowCheckboxEvent): void {
 	const { item, level, toggleSelect } = data as DrilldownTypes.ClickRowCheckboxEvent;
-
-	console.log(toggleSelect);
 
 	if (level === props.loadedDrilldown.level) {
 		toggleSelect(item);
 	}
 
-
 	emit('click:row:checkbox', item);
 }
 
+
+// -------------------------------------------------- Render //
 function renderCellItem(item: DrilldownTypes.DataTableItem, column: DrilldownTypes.Column, index: number): unknown {
 	return useRenderCellItem(item.raw, column, index);
 }

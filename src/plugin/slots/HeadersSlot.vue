@@ -1,8 +1,5 @@
 <template>
-	<tr
-		class="v-drilldown-table--header-row"
-		:class="headerRowClasses"
-	>
+	<tr :class="headerRowClasses">
 		<template
 			v-for="column in columns"
 			:key="column"
@@ -25,12 +22,13 @@
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
-				@click="emitAllSelectedEvent({ selectAll })"
 			>
 				<v-checkbox
 					v-model="isAllSelected"
-					class="d-flex"
+					:class="checkBoxClasses"
 					:density="loadedDrilldown.density"
+					:focused="false"
+					:indeterminate="isIndeterminate"
 				></v-checkbox>
 			</th>
 			<!-- Column Render `data-table-expand` -->
@@ -80,52 +78,85 @@ import {
 
 
 const emit = defineEmits([
-	'allSelected',
+	'click:selectAll',
+	'update:sortBy',
 ]);
 
 const props = defineProps({
+	isTheadSlot: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
+	items: {
+		required: true,
+		type: Array as PropType<unknown[]>,
+	},
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
+	/**
+	 * @name slotProps
+	 *
+	 * @param { Boolean } allSelected
+	 * @param { object[] } columns
+	 * 		@returns { DrilldownTypes.Column[] }
+	 * @param { Function } getFixedStyles
+	 * 		@param { InternalDataTableHeader } column
+	 * 		@param { Number } y
+	 * 		@returns { object }
+	 * 			{
+	 *				left:				@type { String | Number | undefined },
+	 *				position:		@type { String },
+	 *				top:				@type { String | Number | undefined },
+	 *				zIndex:			@type { Number | undefined },
+	 *			}
+	 * @param { Function } getSortIcon
+	 *		@returns { IconValue }
+	 *			@type { String } $sortAsc | $sortDesc
+	 * @param {( DataTableHeader[] | DataTableHeader[][] )} headers.
+	 * @param { Function } selectAll
+	 * 		@param { Boolean } value
+	 * 		@returns { void }
+	 * @param { Boolean } someSelected
+	 * @param { Object } sortBy
+	 * 		@returns { SortItem[] }
+	 * 			[{
+	 * 				key: 		@type { String },
+	 * 				order?:	@type { boolean | 'asc' | 'desc' },
+	 * 			}]
+	 * @param { Function } toggleSort
+	 * 		@param { String } key
+	 * 		@returns { void }
+	*/
 	slotProps: {
-		required: true,
+		required: false,
 		type: Object,
 	},
 });
 
-
 const theme = useTheme();
-const columns = computed(() => props.slotProps.columns);
-const allSelected = computed(() => props.slotProps.allSelected);
-const selectAll = computed(() => props.slotProps.selectAll);
+const isAllSelected = ref<boolean>(!props.slotProps?.allSelected);
 
-
-const isAllSelected = ref<boolean>(false);
-
-watch(() => props.slotProps.allSelected, () => {
-	isAllSelected.value = allSelected.value;
-});
-
-
-function emitAllSelectedEvent(data): void {
-	isAllSelected.value = !isAllSelected.value;
-
-	emit('allSelected', isAllSelected.value);
-}
-
+const columns = computed(() => props.slotProps?.columns);
+const someSelected = computed(() => props.slotProps?.someSelected);
+const allSelected = computed(() => props.slotProps?.allSelected || isAllSelected.value);
+const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.allSelected);
 
 
 // -------------------------------------------------- Header Row //
-const headerRowClasses = (): object => {
-	return {
+const headerRowClasses = computed((): object => {
+	const classes = {
 		[`${componentName}--header-row`]: true,
 		[`${componentName}--header-row-${props.loadedDrilldown.level}`]: true,
 	};
-};
+
+	return classes;
+});
 
 
-// -------------------------------------------------- Header Row TH //
+// -------------------------------------------------- Header Row Cells //
 const cellAlignClasses = (align: string): object => {
 	const classes = {
 		'd-flex align-center': true,
@@ -165,25 +196,49 @@ const cellStyles = (column: { width?: string | number; }, dataTableExpand = fals
 	return styles as CSSProperties;
 };
 
-// -------------------------------------------------- Render //
-function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
-	const tempIndex = 0;
-	return useRenderCell(props.loadedDrilldown, column, tempIndex);
-}
+
+// -------------------------------------------------- Select //
+watch(isAllSelected, (newVal) => {
+	props.slotProps?.selectAll(newVal);
+	emit('click:selectAll', isAllSelected.value);
+});
+
+watch(allSelected, (newVal) => {
+	isAllSelected.value = newVal;
+});
+
+watch(someSelected, (newVal) => {
+	if (!newVal) {
+		isAllSelected.value = false;
+	}
+});
+
+const checkBoxClasses = computed((): object => {
+	const classes = {
+		'd-flex': true,
+		[`${componentName}--header-select-all-checkbox`]: true,
+		[`${componentName}--header-select-all-checkbox-${props.loadedDrilldown.level}`]: true,
+	};
+
+	return classes;
+});
 
 
-// -------------------------------------------------- Sort //
+// -------------------------------------------------- Sorting //
 const sortIconClasses = (key: string): object => {
 	return {
-		'sort-icon': true,
-		'sort-icon-desc': getSortDirection(key) === 'desc',
-		'sort-icon-asc': getSortDirection(key) === 'asc',
+		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
+		[`${componentName}--header-row-th-sortable-sort-icon-${props.loadedDrilldown.level}`]: true,
+		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: getSortDirection(key) === 'desc',
+		[`${componentName}--header-row-th-sortable-sort-icon-asc`]: getSortDirection(key) === 'asc',
 	};
 };
 
 function sortColumn(column: DrilldownTypes.Column): void {
 	if (column.sortable) {
-		props.slotProps.toggleSort(column.key);
+		props.slotProps?.toggleSort(column.key);
+
+		emit('update:sortBy', column);
 	}
 }
 
@@ -200,48 +255,54 @@ function getSortDirection(id: string) {
 }
 
 
-
+// -------------------------------------------------- Render //
+function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
+	const tempIndex = 0;
+	return useRenderCell(props.loadedDrilldown, column, tempIndex);
+}
 </script>
 
 
 <style lang="scss" scoped>
 .v-drilldown-table {
-	&--header-row-th-sortable {
-		cursor: pointer;
+	&--header {
+		&-select-all-checkbox {
+			opacity: var(--v-medium-emphasis-opacity);
+		}
 
-		&:hover {
-			.sort-icon {
-				opacity: .5;
+		&-row-th-sortable {
+			cursor: pointer;
+
+			&-sort-icon {
+				display: inline-flex;
+				opacity: 0;
+				transform: rotate(0deg);
+				transition: all 0.25s ease-in-out;
 
 				&-asc,
 				&-desc {
 					opacity: 1;
 				}
-			}
-		}
 
-		.sort-icon {
-			opacity: 0;
-			transform: rotate(0deg);
-			transition: all 0.25s ease-in-out;
+				&-asc {
+					transform: rotate(0deg);
+				}
 
-			&-asc {
-				transform: rotate(0deg);
+				&-desc {
+					transform: rotate(180deg);
+				}
 			}
 
-			&-desc {
-				transform: rotate(180deg);
+			&:hover {
+				.v-drilldown-table--header-row-th-sortable-sort-icon {
+					opacity: .5;
+
+					&-asc,
+					&-desc {
+						opacity: 1;
+					}
+				}
 			}
-		}
-	}
-
-	.sort-icon {
-		display: inline-flex;
-		opacity: 0;
-
-		&-asc,
-		&-desc {
-			opacity: 1;
 		}
 	}
 }
