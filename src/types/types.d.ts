@@ -53,8 +53,10 @@ interface ItemCellRender {
 };
 
 interface Column {
+	align?: string;
 	cellClass?: string;
 	columnFooter?: string;
+	fixedOffset?: number;
 	key?: string;
 	renderCell?: CellRender;
 	renderFooter?: CellRender;
@@ -62,6 +64,9 @@ interface Column {
 	renderItem?: ItemCellRender;
 	renderer?: CellRender,
 	rowClass?: string;
+	sortable?: boolean;
+	title?: string;
+	width?: string | number;
 };
 
 // -------------------------------------------------- Colors //
@@ -309,6 +314,14 @@ export type DrilldownEvent = {
 	item?: object;
 	level?: number;
 	toggleExpand(item?: object): void;
+};
+
+export type ClickRowCheckboxEvent = {
+	columns?: object;
+	index?: number;
+	item?: object;
+	level?: number;
+	toggleSelect(item?: object): void;
 };
 
 export type DrilldownDebounce = (...args: undefined[]) => void;
