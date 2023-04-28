@@ -1,10 +1,14 @@
+import BottomSlot from './BottomSlot.vue';
 import HeadersSlot from './HeadersSlot.vue';
+import ItemSlot from './ItemSlot.vue';
 import TfootSlot from './TfootSlot.vue';
-import THeadSlot from './THeadSlot.vue';
+import THeadSlot from './TheadSlot.vue';
 import TopSlot from './TopSlot.vue';
 
 export {
+	BottomSlot,
 	HeadersSlot,
+	ItemSlot,
 	THeadSlot,
 	TfootSlot,
 	TopSlot,

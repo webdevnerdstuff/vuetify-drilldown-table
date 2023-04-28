@@ -5,7 +5,7 @@
 	/>
 
 	<v-col
-		v-else-if="loadedDrilldown.showSearch"
+		v-else-if="loadedDrilldown.showSearch || $slots[`top.left`] || $slots[`top.right`]"
 		lg="12"
 	>
 		<v-row>
@@ -41,19 +41,43 @@
 </template>
 
 <script setup lang="ts">
+import { componentName } from '@/plugin/utils/globals';
 import * as DrilldownTypes from '@/types/types';
 
+const emit = defineEmits([
+	'update:search',
+]);
 
-defineProps({
+const props = defineProps({
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
-	searchFieldClasses: {
-		required: true,
-		type: Object,
-	}
 });
 
+
 const levelSearch = ref<string>('');
+
+watch(levelSearch, () => {
+	emit('update:search', levelSearch.value);
+});
+
+
+const searchFieldClasses = computed<object>(() => {
+	const searchProps = props.loadedDrilldown.searchProps as DrilldownTypes.SearchProps;
+	const searchCols = searchProps.cols as DrilldownTypes.SearchPropCols;
+
+	const classes = {
+		[`${componentName}--search-field`]: true,
+		[`v-col-${searchCols.xs}`]: searchCols.xs,
+		[`v-col-sm-${searchCols.sm}`]: searchCols.sm,
+		[`v-col-md-${searchCols.md}`]: searchCols.md,
+		[`v-col-lg-${searchCols.lg}`]: searchCols.lg,
+		[`v-col-xl-${searchCols.xl}`]: searchCols.xl,
+		[`v-col-xxl-${searchCols.xxl}`]: searchCols.xxl,
+	};
+
+	return classes;
+});
+
 </script>

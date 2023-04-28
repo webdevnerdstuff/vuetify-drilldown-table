@@ -4,13 +4,14 @@
 		:class="headerRowClasses"
 	>
 		<template
-			v-for="column in headers"
+			v-for="column in columns"
 			:key="column"
 		>
 			<!-- Column Dynamic Name Header Slot -->
 			<th
 				v-if="$slots[`header.${column.key}`]"
 				:class="cellClasses(column)"
+				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
 			>
 				<slot
@@ -18,22 +19,52 @@
 					:name="`header.${column.key}`"
 				/>
 			</th>
+			<!-- Column Render `data-table-select` -->
+			<th
+				v-else-if="column.key === 'data-table-select'"
+				:class="cellClasses(column)"
+				:colspan="column.colspan || 1"
+				:style="cellStyles(column, true)"
+				@click="emitAllSelectedEvent({ selectAll })"
+			>
+				<v-checkbox
+					v-model="isAllSelected"
+					class="d-flex"
+					:density="loadedDrilldown.density"
+				></v-checkbox>
+			</th>
 			<!-- Column Render `data-table-expand` -->
 			<th
 				v-else-if="column.key === 'data-table-expand'"
-				class="v-drilldown-table--header-row-th"
 				:class="cellClasses(column)"
+				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
 				v-html="renderCell(column /* , index */)"
 			></th>
 			<!-- Column Render TH -->
 			<th
 				v-else
-				class="v-drilldown-table--header-row-th"
 				:class="cellClasses(column)"
+				:colspan="column.colspan || 1"
 				:style="cellStyles(column)"
-				v-html="renderCell(column /* , index */)"
-			></th>
+				@click="sortColumn(column)"
+			>
+				<div :class="cellAlignClasses(column.align)">
+					<span v-html="renderCell(column /* , index */)"></span>
+
+					<template v-if="column.sortable && $slots[`header.sortIcon`]">
+						<span :class="sortIconClasses(column.key)">
+							<slot name="header.sortIcon" />
+						</span>
+					</template>
+					<v-icon
+						v-else-if="column.sortable"
+						:class="sortIconClasses(column.key)"
+					>
+						mdi mdi-arrow-up
+					</v-icon>
+				</div>
+			</th>
 		</template>
 	</tr>
 </template>
@@ -48,19 +79,41 @@ import {
 } from '@/plugin/composables/helpers';
 
 
+const emit = defineEmits([
+	'allSelected',
+]);
+
 const props = defineProps({
-	headerProps: {
-		required: true,
-		type: Object,
-	},
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
+	slotProps: {
+		required: true,
+		type: Object,
+	},
 });
 
+
 const theme = useTheme();
-const headers = computed(() => props.headerProps.headers[0]);
+const columns = computed(() => props.slotProps.columns);
+const allSelected = computed(() => props.slotProps.allSelected);
+const selectAll = computed(() => props.slotProps.selectAll);
+
+
+const isAllSelected = ref<boolean>(false);
+
+watch(() => props.slotProps.allSelected, () => {
+	isAllSelected.value = allSelected.value;
+});
+
+
+function emitAllSelectedEvent(data): void {
+	isAllSelected.value = !isAllSelected.value;
+
+	emit('allSelected', isAllSelected.value);
+}
+
 
 
 // -------------------------------------------------- Header Row //
@@ -73,9 +126,21 @@ const headerRowClasses = (): object => {
 
 
 // -------------------------------------------------- Header Row TH //
+const cellAlignClasses = (align: string): object => {
+	const classes = {
+		'd-flex align-center': true,
+		[`justify-${align}`]: align,
+		[`justify-start`]: !align,
+	};
+
+	return classes;
+};
+
 const cellClasses = (column: DrilldownTypes.Column): object => {
 	const classes = {
+		[`${componentName}--header-row-th`]: true,
 		[`${componentName}--header-row-th-${props.loadedDrilldown.level}`]: true,
+		[`${componentName}--header-row-th-sortable`]: column.sortable,
 		[`${column.cellClass}`]: column.cellClass,
 	};
 
@@ -105,4 +170,79 @@ function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 	const tempIndex = 0;
 	return useRenderCell(props.loadedDrilldown, column, tempIndex);
 }
+
+
+// -------------------------------------------------- Sort //
+const sortIconClasses = (key: string): object => {
+	return {
+		'sort-icon': true,
+		'sort-icon-desc': getSortDirection(key) === 'desc',
+		'sort-icon-asc': getSortDirection(key) === 'asc',
+	};
+};
+
+function sortColumn(column: DrilldownTypes.Column): void {
+	if (column.sortable) {
+		props.slotProps.toggleSort(column.key);
+	}
+}
+
+function getSortDirection(id: string) {
+	if (props.loadedDrilldown.sortBy) {
+		const item = props.loadedDrilldown.sortBy.find(item => item.key === id);
+
+		if (item) {
+			return item.order;
+		}
+	}
+
+	return;
+}
+
+
+
 </script>
+
+
+<style lang="scss" scoped>
+.v-drilldown-table {
+	&--header-row-th-sortable {
+		cursor: pointer;
+
+		&:hover {
+			.sort-icon {
+				opacity: .5;
+
+				&-asc,
+				&-desc {
+					opacity: 1;
+				}
+			}
+		}
+
+		.sort-icon {
+			opacity: 0;
+			transform: rotate(0deg);
+			transition: all 0.25s ease-in-out;
+
+			&-asc {
+				transform: rotate(0deg);
+			}
+
+			&-desc {
+				transform: rotate(180deg);
+			}
+		}
+	}
+
+	.sort-icon {
+		display: inline-flex;
+		opacity: 0;
+
+		&-asc,
+		&-desc {
+			opacity: 1;
+		}
+	}
+}
+</style>
