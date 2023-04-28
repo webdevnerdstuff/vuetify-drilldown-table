@@ -84,6 +84,7 @@ export function useRenderCell(
 	column: Column,
 	index: number
 ): unknown {
+	// console.log({ column });
 	const columnTitle = column[loadedDrilldown.itemTitle as keyof Column];
 	const cellData = [columnTitle, column, index] as [string, Column, number];
 
