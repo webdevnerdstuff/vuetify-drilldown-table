@@ -128,7 +128,7 @@ export type SearchProps = {
 // -------------------------------------------------- Props //
 export type Props = {
 	// * Custom Property //
-	colors?: {
+	colors: {
 		default: () => object;
 		required: boolean;
 		type: PropType<ColorsObject>;
@@ -145,7 +145,7 @@ export type Props = {
 		type: PropType<string | undefined>;
 	};
 	// * Custom Property //
-	drilldown?: {
+	drilldown: {
 		default: () => void;
 		required: boolean;
 		type: PropType<object>;
@@ -179,7 +179,7 @@ export type Props = {
 		type: PropType<boolean>;
 	};
 	// * Custom Property //
-	isDrilldown?: {
+	isDrilldown: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
@@ -190,7 +190,7 @@ export type Props = {
 		required: boolean;
 		type: PropType<DataTableItem>;
 	};
-	itemChildrenKey?: {
+	itemChildrenKey: {
 		default: string;
 		required: boolean;
 		type: PropType<string>;
@@ -218,11 +218,16 @@ export type Props = {
 		type: PropType<number>;
 	};
 	// ! Loading Not working properly //
-	// loading?: {
-	// 	default: boolean;
-	// 	required: boolean;
-	// 	type: PropType<boolean>;
-	// };
+	loading: {
+		default: boolean;
+		required: boolean;
+		type: PropType<boolean>;
+	};
+	noDataText: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	},
 	// * Custom Property //
 	searchProps: {
 		default: () => SearchProps;
@@ -275,7 +280,7 @@ export type LoadedDrilldown = {
 	// hideDefaultHeader?: boolean;											// ? Custom Property - Need to add/test
 	hideNoData?: boolean;
 	hover?: boolean;
-	isDrilldown?: boolean; 															// * Custom Property
+	isDrilldown: boolean; 															// * Custom Property
 	item?: object; 																			// * Custom Property
 	itemChildren?: SelectItemKey;
 	itemChildrenKey?: string; 													// * Custom Property
@@ -287,7 +292,7 @@ export type LoadedDrilldown = {
 	itemsPerPage?: string | number;
 	level: number; 																			// * Custom Property
 	levels: number; 																		// * Custom Property
-	// loading?: boolean; 															// ! Not working properly
+	loading?: boolean; 															// ! Not working properly
 	// loadingText?: string; 														// ! Not working properly
 	modelValue?: unknown[];
 	multiSort?: boolean;
