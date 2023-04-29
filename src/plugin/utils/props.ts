@@ -87,7 +87,7 @@ export const AllProps: Props = {
 		type: Number,
 	},
 	itemChildrenKey: {
-		default: 'children',
+		default: 'child',
 		required: false,
 		type: String,
 	},
@@ -107,11 +107,16 @@ export const AllProps: Props = {
 		type: Number,
 	},
 	// ! Loading Not working properly //
-	// loading: {
-	// 	default: false,
-	// 	required: false,
-	// 	type: Boolean,
-	// },
+	loading: {
+		default: false,
+		required: false,
+		type: Boolean,
+	},
+	noDataText: {
+		default: '$vuetify.noDataText',
+		required: false,
+		type: String,
+	},
 	searchProps: {
 		default: () => ({
 			cols: {
