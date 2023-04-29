@@ -4,7 +4,7 @@
 	<!-- <v-text-field v-model="loadedDrilldown.search"></v-text-field> -->
 
 	<!-- v-model:expanded="loadedDrilldown.expanded" removed -->
-	<v-data-table
+	<v-data-table-server
 		v-if="!loadedDrilldown.server"
 		v-bind="$attrs"
 		:class="tableClasses"
@@ -19,8 +19,10 @@
 		:items="loadedDrilldown.items"
 		:items-length="loadedDrilldown.itemsLength"
 		:items-per-page="loadedDrilldown.itemsPerPage"
+		:loading="loadedDrilldown.loading"
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
+		:no-data-text="loadedDrilldown.noDataText"
 		:no-filter="loadedDrilldown.noFilter"
 		:page="loadedDrilldown.page"
 		:return-object="loadedDrilldown.returnObject"
@@ -97,35 +99,6 @@
 		</template>
 
 
-		<!-- ================================================== Data Table Expand Slot -->
-		<template #[`item.data-table-expand`]="{
-				columns,
-				index,
-				isExpanded,
-				item,
-				toggleExpand,
-			}">
-			b
-			<v-icon
-				v-if="loadedDrilldown.level < loadedDrilldown.levels"
-				class="v-drilldown-table--expand-icon"
-				:class="!isExpanded(item) ? 'rotate-180' : ''"
-				@click="emitDrilldownEvent({
-						columns,
-						index,
-						isExpanded,
-						item,
-						level,
-						toggleExpand,
-					})
-					"
-			>
-				mdi-chevron-down
-			</v-icon>
-
-		</template>
-
-
 		<!-- ================================================== Expanded Row Slot -->
 		<template #expanded-row="{ columns, item }">
 			<tr>
@@ -133,15 +106,35 @@
 					class="pa-0"
 					:colspan="columns.length"
 				>
+					<!-- <div
+						v-if="item.raw[itemChildrenKey].loading"
+						class="text-center py-10"
+					>
+						<v-progress-circular
+							color="primary"
+							indeterminate
+						></v-progress-circular> -->
+
+					<!-- <v-skeleton-loader type="table-thead"></v-skeleton-loader> -->
+					<!-- </div> -->
+					<!-- <v-lazy
+						:min-height="200"
+						:options="{ 'threshold': 0.5 }"
+						transition="fade-transition"
+					> -->
 					<VDrilldownTable
+						:class="item.raw[itemChildrenKey].loading ? 'd-none' : ''"
 						:colors="loadedDrilldown.colors"
 						:drilldown="loadedDrilldown"
+						:headers="item.raw[itemChildrenKey].headers"
 						:is-drilldown="true"
 						:item="item"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
+						:loading="loadedDrilldown.loading"
+						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
-						@drilldown="emitDrilldownEvent($event)"
+						@update:expanded="emitDrilldownEvent($event)"
 					>
 						<!-- Pass on all named slots -->
 						<slot
@@ -163,15 +156,16 @@
 
 						<!-- ! This also does not pass rollup bundle -->
 						<!-- <template
-							v-for="slot in Object.keys(slots)"
-							v-slot:[`${slot}`]="scope"
-						>
-							<slot
-								:name="slot"
-								v-bind="scope"
-							></slot>
-						</template> -->
+								v-for="slot in Object.keys(slots)"
+								v-slot:[`${slot}`]="scope"
+							>
+								<slot
+									:name="slot"
+									v-bind="scope"
+								></slot>
+							</template> -->
 					</VDrilldownTable>
+					<!-- </v-lazy> -->
 				</td>
 			</tr>
 		</template>
@@ -210,7 +204,7 @@
 			</BottomSlot>
 		</template>
 
-	</v-data-table>
+	</v-data-table-server>
 </template>
 
 <script setup lang="ts">
@@ -218,7 +212,7 @@ import { componentName } from './utils/globals';
 import { AllProps } from './utils/props';
 import { useGetLevelColors } from './composables/levelColors';
 import {
-	useDrilldownDebounce,
+	// useDrilldownDebounce,
 	useMergeDeep,
 } from './composables/helpers';
 import {
@@ -304,6 +298,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	// hideDefaultHeader: true,	 	// ? In v2 Missing in v3
 	hideNoData: false, 						// !  Failed
 	// hover: false, 								// * Works - Is Prop
+	isDrilldown: false,
 	itemChildren: 'children',			// ? Missing Docs
 	itemProps: 'props',						// ? Not sure what this does
 	itemTitle: 'title',						// * Works, but is weird
@@ -313,13 +308,13 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	itemsPerPage: 10,							// * Works
 	level: 0,
 	levels: 0,
-	// ! Not working yet `loading` & `loadingText`: https://github.com/vuetifyjs/vuetify/issues/16811 //
-	// loading: false,
+	// ! Not working yet `loading` & `loadingText` in v-data-table: https://github.com/vuetifyjs/vuetify/issues/16811 //
+	loading: false,
 	// loadingText: 'Loading...',
 	modelValue: [],								// ? Needs Testing
 	multiSort: false,							// * Works
 	mustSort: false,							// * Works
-	// noDataText: '$vuetify.noDataText',	// ! Failed. Needs more tested as I think it does work, but not as expected
+	noDataText: props.noDataText || '$vuetify.noDataText',	// * Works
 	noFilter: false,							// * Works, but not sure why you would use this.
 	page: 1, 											// * Works
 	// pageCount: 0,							// ? In v2 Missing in v3
@@ -359,11 +354,17 @@ const slots = useSlots();
 
 
 // -------------------------------------------------- Watch //
-watch(props, useDrilldownDebounce(() => {
+// watch(props, useDrilldownDebounce(() => {
+// 	if (props.level !== 0 || loadedDrilldown.value.level === 0) {
+// 		setLoadedDrilldown();
+// 	}
+// }, props.debounceDelay, props.level === 0), { deep: true });
+
+watch(props, () => {
 	if (props.level !== 0 || loadedDrilldown.value.level === 0) {
 		setLoadedDrilldown();
 	}
-}, props.debounceDelay, props.level === 0), { deep: true });
+});
 
 
 // -------------------------------------------------- Mounts #
@@ -416,8 +417,6 @@ function setLoadedDrilldown(): void {
 			const thisItem = item[loadedDrilldown.value.drilldownKey as K];
 			const propsItem = props.item.raw[loadedDrilldown.value.drilldownKey];
 
-			console.log({ thisItem, propsItem });
-
 			return thisItem === propsItem;
 		}) as LoadedDrilldown;
 
@@ -450,7 +449,7 @@ function emitClickRowCheckbox(item: DataTableItem): void {
 
 function emitDrilldownEvent(data: DrilldownEvent): void {
 	// TODO: Remove drilldown emit event and use update:expanded instead
-	emit('drilldown', data);
+	// emit('drilldown', data);
 	emit('update:expanded', data);
 }
 
