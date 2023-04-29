@@ -11,7 +11,7 @@
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 			>
-				<v-icon
+				<div
 					v-if="loadedDrilldown.level < loadedDrilldown.levels"
 					class="v-drilldown-table--expand-icon"
 					:class="!isExpanded(item) ? '' : 'rotate-180'"
@@ -25,9 +25,15 @@
 						})
 						"
 				>
-					mdi-chevron-down
-				</v-icon>
+					<slot
+						v-if="$slots[`item.data-table-expand`]"
+						name="item.data-table-expand"
+					/>
+					<v-icon v-else>
+						mdi-chevron-down
+					</v-icon>
 
+				</div>
 			</td>
 			<!-- Column Render `data-table-select` -->
 			<td
@@ -151,6 +157,7 @@ const cellClasses = (column: DrilldownTypes.Column): object => {
 function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
 	const { item, level, toggleExpand } = data as DrilldownTypes.DrilldownEvent;
 
+	console.log({ item });
 	// Sets the expanded state of the item on current table //
 	if (level === props.loadedDrilldown.level) {
 		toggleExpand(item);
@@ -182,3 +189,11 @@ function renderCellItem(item: DrilldownTypes.DataTableItem, column: DrilldownTyp
 	return useRenderCellItem(item.raw, column, index);
 }
 </script>
+
+<style lang="scss" scoped>
+.v-drilldown-table {
+	&--expand-icon {
+		cursor: pointer;
+	}
+}
+</style>
