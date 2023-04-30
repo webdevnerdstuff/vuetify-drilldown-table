@@ -129,11 +129,13 @@ export function useMergeDeep(target: object | object[], ...sources: object[]): o
 
 	if (isObject(target) && isObject(source)) {
 		for (const key in source) {
+			// @ts-ignore
 			if (isObject(source[key])) {
 				if (!target[key as keyof object]) {
 					Object.assign(target, { [key]: {} });
 				}
 
+				// @ts-ignore
 				useMergeDeep(target[key as keyof object], source[key]);
 			}
 			else {

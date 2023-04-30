@@ -5,6 +5,7 @@
 		"declaration": true,
 		"declarationDir": "./dist",
 		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
 		"importHelpers": true,
 		"jsx": "preserve",
 		"lib": [
@@ -15,6 +16,7 @@
 		"moduleResolution": "Node",
 		"noImplicitAny": false,
 		"noEmit": true,
+		"noUncheckedIndexedAccess": true,
 		"outDir": "./dist",
 		"paths": {
 			"@/*": [
