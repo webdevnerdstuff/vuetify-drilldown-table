@@ -39,6 +39,7 @@
 				:loadedDrilldown="loadedDrilldown"
 				@update:search="levelSearch = $event"
 			>
+				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
 					v-slot:[slot]="scope"
@@ -61,6 +62,7 @@
 				:slotProps="{ allRowsSelected, ...props }"
 				@click:selectAll="emitAllSelectedEvent($event)"
 			>
+				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
 					v-slot:[slot]="scope"
@@ -83,6 +85,7 @@
 				@click:row:checkbox="emitClickRowCheckbox($event)"
 				@update:expanded="emitDrilldownEvent($event)"
 			>
+				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
 					v-slot:[slot]="scope"
@@ -151,7 +154,7 @@
 							></slot>
 						</template>
 
-						<!-- ! This also does not pass rollup bundle -->
+						<!-- ! This does not pass rollup bundle -->
 						<!-- <template
 								v-for="slot in Object.keys(slots)"
 								v-slot:[`${slot}`]="scope"
@@ -189,6 +192,7 @@
 			#bottom
 		>
 			<BottomSlot :loadedDrilldown="loadedDrilldown">
+				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
 					v-slot:[slot]="scope"
