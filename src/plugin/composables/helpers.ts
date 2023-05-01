@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
-/* eslint-disable no-unused-vars */
 import {
 	Column,
 	DrilldownDebounce,
 	LoadedDrilldown,
-} from '@/types/types';
+} from '@/types';
 
 
 /**
@@ -18,6 +16,7 @@ export function useDrilldownDebounce<T extends DrilldownDebounce>(
 	let timeout: ReturnType<typeof setTimeout> | undefined;
 
 	function debouncedFunction(this: undefined, ...args: undefined[]) {
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		const context = this;
 
 		const later = () => {
@@ -84,7 +83,6 @@ export function useRenderCell(
 	column: Column,
 	index: number
 ): unknown {
-	// console.log({ column });
 	const columnTitle = column[loadedDrilldown.itemTitle as keyof Column];
 	const cellData = [columnTitle, column, index] as [string, Column, number];
 

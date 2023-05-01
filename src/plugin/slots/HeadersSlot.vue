@@ -47,17 +47,17 @@
 				:style="cellStyles(column)"
 				@click="sortColumn(column)"
 			>
-				<div :class="cellAlignClasses(column.align)">
+				<div :class="cellAlignClasses(column.align as keyof DrilldownTypes.Column)">
 					<span v-html="renderCell(column /* , index */)"></span>
 
 					<template v-if="column.sortable && $slots[`header.sortIcon`]">
-						<span :class="sortIconClasses(column.key)">
+						<span :class="sortIconClasses(column.key as keyof DrilldownTypes.Column)">
 							<slot name="header.sortIcon" />
 						</span>
 					</template>
 					<v-icon
 						v-else-if="column.sortable"
-						:class="sortIconClasses(column.key)"
+						:class="sortIconClasses(column.key as keyof DrilldownTypes.Column)"
 					>
 						mdi mdi-arrow-up
 					</v-icon>
@@ -69,7 +69,7 @@
 
 <script setup lang="ts">
 import { componentName } from '@/plugin/utils/globals';
-import * as DrilldownTypes from '@/types/types';
+import * as DrilldownTypes from '@/types';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';
 import {
 	useConvertToUnit,
@@ -139,7 +139,7 @@ const props = defineProps({
 const theme = useTheme();
 const isAllSelected = ref<boolean>(!props.slotProps?.allSelected);
 
-const columns = computed(() => props.slotProps?.columns);
+const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps?.columns);
 const someSelected = computed(() => props.slotProps?.someSelected);
 const allSelected = computed(() => props.slotProps?.allSelected || isAllSelected.value);
 const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.allSelected);

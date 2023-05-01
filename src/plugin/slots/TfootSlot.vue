@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { componentName } from '@/plugin/utils/globals';
-import * as DrilldownTypes from '@/types/types';
+import * as DrilldownTypes from '@/types';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';
 import {
 	useRenderCell,
@@ -77,7 +77,8 @@ const props = defineProps({
 // const columns = ref();
 const theme = useTheme();
 
-// TODO: This should change to columns if/when Vuetify adds the columns prop to tfoot //
+// TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
+// const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps?.columns);
 const columns = computed(() => props.loadedDrilldown.footers);
 
 

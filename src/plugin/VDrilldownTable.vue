@@ -1,10 +1,7 @@
 <!-- eslint-disable vue/no-v-for-template-key -->
 <!-- eslint-disable vue/no-v-model-argument -->
 <template>
-	<!-- <v-text-field v-model="loadedDrilldown.search"></v-text-field> -->
-
-	<!-- v-model:expanded="loadedDrilldown.expanded" removed -->
-	<v-data-table-server
+	<v-data-table
 		v-if="!loadedDrilldown.server"
 		v-bind="$attrs"
 		:class="tableClasses"
@@ -204,7 +201,7 @@
 			</BottomSlot>
 		</template>
 
-	</v-data-table-server>
+	</v-data-table>
 </template>
 
 <script setup lang="ts">
@@ -219,8 +216,8 @@ import {
 	DataTableItem,
 	DrilldownEvent,
 	LoadedDrilldown,
-	SortItem,
-} from '@/types/types';
+} from '@/types';
+import type { VDataTable } from "vuetify/labs/VDataTable";
 import {
 	BottomSlot,
 	HeadersSlot,
@@ -278,16 +275,16 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
-	customFilter: () => { }, 			// ? Needs Testing
-	customKeyFilter: [], 					// ? Needs Testing
+	customFilter: undefined, 			// ? Needs Testing  ========= FIX
+	customKeyFilter: undefined, 					// ? Needs Testing
 	debounceDelay: 750,						// * Custom Prop
 	density: 'comfortable',				// * Works
 	drilldownKey: '',							// * Custom Prop
 	elevation: 1, 								// * Custom Prop
 	expandOnClick: false, 				// * Works
 	expanded: [], 								// ? Needs Testing
-	// filterKeys: [], 							// ? Needs Testing
-	filterMode: '',		// ? Needs Testing
+	filterKeys: [], 							// ? Needs Testing
+	filterMode: 'some',		// ? Needs Testing
 	fixedFooter: true, 						// ! Failed
 	fixedHeader: true, 						// ! Failed
 	// footerProps: {},						// ? In v2 Missing in v3
@@ -300,6 +297,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	// hover: false, 								// * Works - Is Prop
 	isDrilldown: false,
 	itemChildren: 'children',			// ? Missing Docs
+	itemChildrenKey: 'child',
 	itemProps: 'props',						// ? Not sure what this does
 	itemTitle: 'title',						// * Works, but is weird
 	itemValue: 'id',							// * Works, but is weird
@@ -349,8 +347,6 @@ const levelSearch = ref<string>('');
 const theme = useTheme();
 const slots = useSlots();
 
-
-// console.log({ slots });
 
 
 // -------------------------------------------------- Watch //
@@ -422,7 +418,7 @@ function setLoadedDrilldown(): void {
 
 		loadedDrilldown.value = useMergeDeep(
 			loadedDrilldown.value,
-			drilldownItem[loadedDrilldown.value.itemChildrenKey as keyof LoadedDrilldown],
+			drilldownItem[loadedDrilldown.value.itemChildrenKey] as LoadedDrilldown,
 		) as LoadedDrilldown;
 
 		// Hide expand icon if this is the last drilldown level //
@@ -452,8 +448,6 @@ function emitDrilldownEvent(data: DrilldownEvent): void {
 	// emit('drilldown', data);
 	emit('update:expanded', data);
 }
-
-
 
 
 // ------------------------- Table Events //
@@ -493,7 +487,7 @@ function updateOptions() {
 // }
 
 // ? Probably more useful when using server side
-function updateSortBy(val: SortItem[]) {
+function updateSortBy(val: VDataTable['sortBy']) {
 	loadedDrilldown.value.sortBy = val;
 }
 </script>

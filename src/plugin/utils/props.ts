@@ -1,4 +1,5 @@
-import { DataTableItem, Props } from '@/types/types';
+import { Props } from '@/types';
+import type { VTextField } from "vuetify/components";
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
@@ -37,7 +38,7 @@ export const AllProps: Props = {
 	density: {
 		default: 'comfortable',
 		required: false,
-		type: String,
+		type: String as PropType<VTextField["density"]>,
 	},
 	drilldown: {
 		default: () => { },
@@ -78,7 +79,7 @@ export const AllProps: Props = {
 	item: {
 		default: () => { },
 		required: false,
-		type: Object as PropType<DataTableItem>,
+		type: Object,
 	},
 	// ? This is for v-data-table-server //
 	itemsLength: {
@@ -134,11 +135,11 @@ export const AllProps: Props = {
 		type: Object,
 	},
 	// TODO: Add new feature //
-	separator: {
-		default: '',
-		required: false,
-		type: String,
-	},
+	// separator: {
+	// 	default: '',
+	// 	required: false,
+	// 	type: String,
+	// },
 	// server: {
 	// 	default: false,
 	// 	required: false,

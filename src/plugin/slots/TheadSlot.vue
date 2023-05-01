@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import * as DrilldownTypes from '@/types/types';
+import * as DrilldownTypes from '@/types';
 import { HeadersSlot } from '@/plugin/slots';
 
 

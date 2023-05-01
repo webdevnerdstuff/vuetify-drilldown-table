@@ -5,7 +5,7 @@ import {
 	LevelColorResponse,
 	LoadedDrilldown,
 	RGBColor,
-} from '@/types/types';
+} from '@/types';
 import { ThemeInstance } from 'vuetify';
 
 /**

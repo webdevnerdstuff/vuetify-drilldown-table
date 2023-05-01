@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 // import { componentName } from '@/plugin/utils/globals';
-import * as DrilldownTypes from '@/types/types';
+import * as DrilldownTypes from '@/types';
 
 const props = defineProps({
 	loadedDrilldown: {

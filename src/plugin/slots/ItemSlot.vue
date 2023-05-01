@@ -62,7 +62,7 @@
 				:index="index"
 				:item="item"
 				:name="`item.${column.key}`"
-				:value="item.raw[column.key]"
+				:value="item.raw[column.key as keyof DrilldownTypes.Column]"
 			/>
 			<!-- Render Cell Item -->
 			<td
@@ -79,7 +79,7 @@
 
 <script lang="ts" setup>
 import { componentName } from '@/plugin/utils/globals';
-import * as DrilldownTypes from '@/types/types';
+import * as DrilldownTypes from '@/types';
 import {
 	useRenderCellItem,
 } from '../composables/helpers';
@@ -134,7 +134,7 @@ const props = defineProps({
 	},
 });
 
-const columns = computed(() => props.slotProps.columns);
+const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps.columns);
 const index = computed(() => props.slotProps.index);
 const isExpanded = computed(() => props.slotProps.isExpanded);
 const item = computed(() => props.slotProps.item);
