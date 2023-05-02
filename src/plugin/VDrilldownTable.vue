@@ -246,7 +246,7 @@ const props = defineProps({ ...AllProps });
 // Custom Default Props/Options //
 // const customOptions = {
 // calculateWidths: true,
-// footerRow: false,
+// showFooterRow: false,
 // matchHeaderColumnWidths: true,
 // parentTableRef: '',
 // ref: 'drilldown',
@@ -276,7 +276,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
-	customFilter: undefined, 			// ? Needs Testing  ========= FIX
+	customFilter: undefined, 			// ? Needs Testing
 	customKeyFilter: undefined, 					// ? Needs Testing
 	debounceDelay: 750,						// * Custom Prop
 	density: 'comfortable',				// * Works
@@ -333,6 +333,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	},
 	server: false, 								// ? Needs Testing. This requires v-data-table-server
 	showExpand: false,							// * Works
+	// showFooterRow: false,				// ? Not sure if I will use this. Depends on a possible footer slot
 	showSearch: false,						// * Custom Prop
 	showSelect: false,						// * Works
 	sortBy: [],										// * Works
@@ -445,8 +446,6 @@ function emitClickRowCheckbox(item: DataTableItem): void {
 
 
 function emitDrilldownEvent(data: DrilldownEvent): void {
-	// TODO: Remove drilldown emit event and use update:expanded instead
-	// emit('drilldown', data);
 	emit('update:expanded', data);
 }
 
