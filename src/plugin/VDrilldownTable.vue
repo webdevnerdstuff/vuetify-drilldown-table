@@ -39,6 +39,7 @@
 				:loadedDrilldown="loadedDrilldown"
 				@update:search="levelSearch = $event"
 			>
+				<!-- Pass on all scoped slots -->
 				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
@@ -62,6 +63,7 @@
 				:slotProps="{ allRowsSelected, ...props }"
 				@click:selectAll="emitAllSelectedEvent($event)"
 			>
+				<!-- Pass on all scoped slots -->
 				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
@@ -83,8 +85,9 @@
 				:loadedDrilldown="loadedDrilldown"
 				:slotProps="{ allRowsSelected, level, ...props }"
 				@click:row:checkbox="emitClickRowCheckbox($event)"
-				@update:expanded="emitDrilldownEvent($event)"
+				@update:expanded="emitUpdatedExpanded($event)"
 			>
+				<!-- Pass on all scoped slots -->
 				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
@@ -106,22 +109,29 @@
 					class="pa-0"
 					:colspan="columns.length"
 				>
-					<!-- <div
+					<div
 						v-if="item.raw[itemChildrenKey].loading"
-						class="text-center py-10"
+						class="text-center mt-0 pt-0 pb-1"
 					>
-						<v-progress-circular
+						<v-progress-linear
+							color="surface-variant"
+							height="2"
+							indeterminate
+						></v-progress-linear>
+
+						<!-- <v-progress-circular
 							color="primary"
 							indeterminate
 						></v-progress-circular> -->
 
-					<!-- <v-skeleton-loader type="table-thead"></v-skeleton-loader> -->
-					<!-- </div> -->
-					<!-- <v-lazy
-						:min-height="200"
-						:options="{ 'threshold': 0.5 }"
-						transition="fade-transition"
-					> -->
+						<v-skeleton-loader
+							:loading="true"
+							type="heading@1"
+						>
+						</v-skeleton-loader>
+
+					</div>
+
 					<VDrilldownTable
 						:class="item.raw[itemChildrenKey].loading ? 'd-none' : ''"
 						:colors="loadedDrilldown.colors"
@@ -134,7 +144,7 @@
 						:loading="loadedDrilldown.loading"
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
-						@update:expanded="emitDrilldownEvent($event)"
+						@update:expanded="emitUpdatedExpanded($event)"
 					>
 						<!-- Pass on all named slots -->
 						<slot
@@ -145,6 +155,17 @@
 						<!-- Pass on all scoped slots -->
 						<!-- ! This does not pass rollup bundle -->
 						<template
+							v-for="(_, slot) in $slots"
+							v-slot:[slot]="scope"
+						>
+							<slot
+								:name="slot"
+								v-bind="{ ...scope }"
+							/>
+						</template>
+
+						<!-- ! This does not pass rollup bundle -->
+						<!-- <template
 							v-for="slot in Object.keys(slots)"
 							#[slot]="scope"
 						>
@@ -152,7 +173,7 @@
 								:name="slot"
 								v-bind="scope"
 							></slot>
-						</template>
+						</template> -->
 
 						<!-- ! This does not pass rollup bundle -->
 						<!-- <template
@@ -165,7 +186,6 @@
 								></slot>
 							</template> -->
 					</VDrilldownTable>
-					<!-- </v-lazy> -->
 				</td>
 			</tr>
 		</template>
@@ -192,6 +212,7 @@
 			#bottom
 		>
 			<BottomSlot :loadedDrilldown="loadedDrilldown">
+				<!-- Pass on all scoped slots -->
 				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
@@ -231,12 +252,15 @@ import {
 } from './slots';
 
 
+
 // -------------------------------------------------- Emits & Slots & Injects //
 const emit = defineEmits([
 	'click:row:checkbox',
 	'update:expanded',
 	'drilldown',
 ]);
+
+
 
 // -------------------------------------------------- Props //
 const props = defineProps({ ...AllProps });
@@ -277,7 +301,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 		percentageDirection: 'desc',
 	},
 	customFilter: undefined, 			// ? Needs Testing
-	customKeyFilter: undefined, 					// ? Needs Testing
+	customKeyFilter: undefined,		// ? Needs Testing
 	debounceDelay: 750,						// * Custom Prop
 	density: 'comfortable',				// * Works
 	drilldownKey: '',							// * Custom Prop
@@ -285,8 +309,8 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	expandOnClick: false, 				// * Works
 	expanded: [], 								// ? Needs Testing
 	filterKeys: [], 							// ? Needs Testing
-	filterMode: 'some',		// ? Needs Testing
-	fixedFooter: true, 						// ! Failed
+	filterMode: 'some',						// ? Needs Testing
+	fixedFooter: true, 						// TODO: Failed
 	fixedHeader: true, 						// ! Failed
 	// footerProps: {},						// ? In v2 Missing in v3
 	// groupBy: [], 							// * Works, but this does not look very good by default
@@ -346,7 +370,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 const allRowsSelected = ref<boolean>(false);
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
-const theme = useTheme();
+const theme = useTheme(); ``;
 const slots = useSlots();
 
 
@@ -445,8 +469,10 @@ function emitClickRowCheckbox(item: DataTableItem): void {
 }
 
 
-function emitDrilldownEvent(data: DrilldownEvent): void {
-	emit('update:expanded', data);
+function emitUpdatedExpanded(data: DrilldownEvent): void {
+	if (data.isExpanded(data.item)) {
+		emit('update:expanded', data);
+	}
 }
 
 
