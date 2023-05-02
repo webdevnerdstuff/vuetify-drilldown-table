@@ -111,7 +111,6 @@ function levelPercentage(
  * Converts the color to HSL values
  */
 function convertToHSL(color: string): string {
-	// console.log('convertToHSL', color);
 	let newColor: HEXColor | RGBColor | HSLColor = checkColorNames(color);
 	let h = 0;
 	let s = 0;
@@ -332,7 +331,6 @@ function checkColorNames(color: string): HEXColor {
 	};
 	let response = color;
 
-	// console.log({ color });
 	Object.entries(colors).forEach(([key, value]) => {
 		if (color.toLowerCase() == key.toLowerCase()) {
 			response = value;

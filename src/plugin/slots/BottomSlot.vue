@@ -7,7 +7,7 @@
 // import { componentName } from '@/plugin/utils/globals';
 import * as DrilldownTypes from '@/types';
 
-const props = defineProps({
+defineProps({
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,

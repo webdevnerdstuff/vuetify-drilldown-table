@@ -157,7 +157,6 @@ const cellClasses = (column: DrilldownTypes.Column): object => {
 function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
 	const { item, level, toggleExpand } = data as DrilldownTypes.DrilldownEvent;
 
-	console.log({ item });
 	// Sets the expanded state of the item on current table //
 	if (level === props.loadedDrilldown.level) {
 		toggleExpand(item);

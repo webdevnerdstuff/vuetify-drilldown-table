@@ -246,9 +246,6 @@ const props = defineProps({ ...AllProps });
 // Custom Default Props/Options //
 // const customOptions = {
 // calculateWidths: true,
-// className: '',
-// expandIcon: 'plus-circle',
-// expandIconType: 'fas',
 // footerRow: false,
 // matchHeaderColumnWidths: true,
 // parentTableRef: '',
