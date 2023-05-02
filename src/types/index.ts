@@ -310,8 +310,8 @@ export type LoadedDrilldown = {
 export type DrilldownEvent = {
 	columns?: object;
 	index?: number;
-	isExpanded?: () => void;
-	item?: object;
+	isExpanded: (item: object) => boolean;
+	item: object;
 	level?: number;
 	toggleExpand(item?: object): void;
 };
