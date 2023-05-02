@@ -79,7 +79,7 @@ const theme = useTheme();
 
 // TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
 // const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps?.columns);
-const columns = computed(() => props.loadedDrilldown.footers);
+const columns = computed<DrilldownTypes.Column[]>(() => props.loadedDrilldown.footers as DrilldownTypes.Column[]);
 
 
 const cellClasses = (column: DrilldownTypes.Column): object => {
