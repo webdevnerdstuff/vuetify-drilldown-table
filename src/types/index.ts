@@ -220,6 +220,11 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	loadingText: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	};
 	noDataText: {
 		default: string;
 		required: boolean;
@@ -297,7 +302,7 @@ export type LoadedDrilldown = {
 	level: number; 																			// * Custom Property
 	levels: number; 																		// * Custom Property
 	loading?: boolean; 																	// ! Not working properly
-	// loadingText?: string; 														// ! Not working properly
+	loadingText?: string; 															// ! Not working properly
 	modelValue?: unknown[];
 	multiSort?: boolean;
 	mustSort?: boolean;

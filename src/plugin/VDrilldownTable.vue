@@ -10,6 +10,7 @@
 		:expanded="loadedDrilldown.expanded"
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
+		:hide-no-data="hidingNoData"
 		:hover="loadedDrilldown.hover"
 		:item-title="loadedDrilldown.itemTitle"
 		:item-value="loadedDrilldown.itemValue"
@@ -82,7 +83,10 @@
 					:colspan="props.columns.length"
 					style="vertical-align: top;"
 				>
-					<TableLoader :loading="loadedDrilldown.loading || false" />
+					<TableLoader
+						:loading="loadedDrilldown.loading || false"
+						:loadingText="loadingText"
+					/>
 				</td>
 			</tr>
 		</template>
@@ -324,8 +328,8 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	height: 'auto',								// * Works
 	// hideDefaultFooter: false, 	// ? In v2 Missing in v3
 	// hideDefaultHeader: true,	 	// ? In v2 Missing in v3
-	hideNoData: false, 						// !  Failed
-	// hover: false, 								// * Works - Is Prop
+	hideNoData: false, 						// * Works
+	// hover: false, 							// * Works - Is Prop
 	isDrilldown: false,
 	itemChildren: 'children',			// ? Missing Docs
 	itemChildrenKey: 'child',
@@ -339,7 +343,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	levels: 0,
 	// ! Not working yet `loading` & `loadingText` in v-data-table: https://github.com/vuetifyjs/vuetify/issues/16811 //
 	loading: false,
-	// loadingText: 'Loading...',
+	loadingText: props.loadingText || '$vuetify.dataIterator.loadingText',
 	modelValue: [],								// ? Needs Testing
 	multiSort: false,							// * Works
 	mustSort: false,							// * Works
@@ -380,6 +384,13 @@ const theme = useTheme(); ``;
 const slots = useSlots();
 
 
+const hidingNoData = computed(() => {
+	if (loadedDrilldown.value.loading) {
+		return true;
+	}
+
+	return loadedDrilldown.value.hideNoData;
+});
 
 // -------------------------------------------------- Watch //
 // watch(props, useDrilldownDebounce(() => {
@@ -532,14 +543,5 @@ function updateSortBy(val: VDataTable['sortBy']) {
 </script>
 
 <style lang="scss">
-.v-drilldown-table {
-	&--expand-icon {
-		transform: rotate(0deg);
-		transition: all 0.3s ease-in-out;
-
-		&.rotate-180 {
-			transform: rotate(180deg);
-		}
-	}
-}
+@use './styles/main.scss';
 </style>

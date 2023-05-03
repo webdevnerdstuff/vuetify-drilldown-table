@@ -120,6 +120,11 @@ export const AllProps: Props = {
 		required: false,
 		type: Boolean,
 	},
+	loadingText: {
+		default: 'Loading items...',
+		required: false,
+		type: String,
+	},
 	noDataText: {
 		default: '$vuetify.noDataText',
 		required: false,

@@ -2,13 +2,15 @@ import { defineConfig } from 'vite';
 import * as path from 'path';
 import babel from 'vite-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
+import copy from 'rollup-plugin-copy';
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import dts from 'vite-plugin-dts';
 import pkg from './package.json';
 import terser from '@rollup/plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import vue from '@vitejs/plugin-vue';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 
 const banner = `/**
@@ -62,6 +64,14 @@ export default defineConfig({
 			styles: 'none',
 		}),
 		cssInjectedByJsPlugin({ topExecutionPriority: false }),
+		viteStaticCopy({
+			targets: [
+				{
+					src: 'src/plugin/styles/*',
+					dest: 'scss',
+				},
+			]
+		}),
 		terser(),
 	],
 	resolve: {

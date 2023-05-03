@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-if="loading"
-		class="text-center ma-0 pa-0"
+		:class="containerClasses"
 	>
 		<v-progress-linear
 			v-if="linear"
@@ -24,11 +24,21 @@
 			indeterminate
 			:size="size"
 		></v-progress-circular>
+
+		<div
+			v-if="textLoader"
+			class="py-2"
+			:class="`text-${textColor}`"
+		>
+			{{ computedLoadingText }}
+		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-defineProps({
+import { componentName } from '@/plugin/utils/globals';
+
+const props = defineProps({
 	circular: {
 		default: true,
 		required: false,
@@ -63,6 +73,11 @@ defineProps({
 		required: true,
 		type: Boolean,
 	},
+	loadingText: {
+		default: 'Loading...',
+		required: false,
+		type: String,
+	},
 	size: {
 		default: 'default',
 		required: false,
@@ -78,5 +93,38 @@ defineProps({
 		required: false,
 		type: String,
 	},
+	textColor: {
+		default: 'surface-variant',
+		required: false,
+		type: String,
+	},
+	textLoader: {
+		default: true,
+		required: false,
+		type: Boolean,
+	}
+});
+
+
+const containerClasses = computed(() => {
+	return {
+		[`${componentName}--table-loader`]: true,
+		'text-center': true,
+		'pa-0': true,
+		'ma-0': true,
+	};
+});
+
+const computedLoadingText = computed(() => {
+	return props.loadingText || 'Loading...';
 });
 </script>
+
+
+<style lang="scss" scoped>
+.v-drilldown-table {
+	&--table-loader {
+		background: rgb(var(--v-theme-surface));
+	}
+}
+</style>
