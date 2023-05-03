@@ -40,7 +40,6 @@
 				@update:search="levelSearch = $event"
 			>
 				<!-- Pass on all scoped slots -->
-				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
 					v-slot:[slot]="scope"
@@ -64,7 +63,6 @@
 				@click:selectAll="emitAllSelectedEvent($event)"
 			>
 				<!-- Pass on all scoped slots -->
-				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
 					v-slot:[slot]="scope"
@@ -78,17 +76,49 @@
 		</template>
 
 
+		<!-- ================================================== Body Slot -->
+		<template
+			v-if="$slots.body"
+			#body="props"
+		>
+			<slot
+				name="body"
+				:props="props"
+			/>
+		</template>
+
+
+		<!-- ================================================== tbody Slot -->
+		<template
+			v-if="$slots.tbody"
+			#tbody="props"
+		>
+			<slot
+				name="tbody"
+				:props="props"
+			/>
+		</template>
+
+
+		<template
+			v-if="$slots['no-data']"
+			#no-data
+		>
+			<slot name="no-data" />
+		</template>
+
+
 		<!-- ================================================== Row Item Slot -->
 		<template #item="props">
 			<ItemSlot
 				:items="loadedDrilldown.items"
 				:loadedDrilldown="loadedDrilldown"
 				:slotProps="{ allRowsSelected, level, ...props }"
+				@click:row="emitClickRow($event)"
 				@click:row:checkbox="emitClickRowCheckbox($event)"
 				@update:expanded="emitUpdatedExpanded($event)"
 			>
 				<!-- Pass on all scoped slots -->
-				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
 					v-slot:[slot]="scope"
@@ -144,6 +174,7 @@
 						:loading="loadedDrilldown.loading"
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
+						:sort-by="loadedDrilldown.sortBy"
 						@update:expanded="emitUpdatedExpanded($event)"
 					>
 						<!-- Pass on all named slots -->
@@ -153,7 +184,6 @@
 						></slot>
 
 						<!-- Pass on all scoped slots -->
-						<!-- ! This does not pass rollup bundle -->
 						<template
 							v-for="(_, slot) in $slots"
 							v-slot:[slot]="scope"
@@ -163,28 +193,6 @@
 								v-bind="{ ...scope }"
 							/>
 						</template>
-
-						<!-- ! This does not pass rollup bundle -->
-						<!-- <template
-							v-for="slot in Object.keys(slots)"
-							#[slot]="scope"
-						>
-							<slot
-								:name="slot"
-								v-bind="scope"
-							></slot>
-						</template> -->
-
-						<!-- ! This does not pass rollup bundle -->
-						<!-- <template
-								v-for="slot in Object.keys(slots)"
-								v-slot:[`${slot}`]="scope"
-							>
-								<slot
-									:name="slot"
-									v-bind="scope"
-								></slot>
-							</template> -->
 					</VDrilldownTable>
 				</td>
 			</tr>
@@ -192,7 +200,7 @@
 
 
 		<!-- ================================================== tfoot Slot -->
-		<!-- // ! The tfoot slot is currently missing any `props` -->
+		<!-- // ! The tfoot slot is currently missing `props` -->
 		<template #tfoot>
 			<TfootSlot :loadedDrilldown="loadedDrilldown" />
 		</template>
@@ -213,7 +221,6 @@
 		>
 			<BottomSlot :loadedDrilldown="loadedDrilldown">
 				<!-- Pass on all scoped slots -->
-				<!-- ! This does not pass rollup bundle -->
 				<template
 					v-for="(_, slot) in $slots"
 					v-slot:[slot]="scope"
@@ -255,9 +262,10 @@ import {
 
 // -------------------------------------------------- Emits & Slots & Injects //
 const emit = defineEmits([
+	'click:row',
 	'click:row:checkbox',
 	'update:expanded',
-	'drilldown',
+	'update:drilldown',
 ]);
 
 
@@ -297,6 +305,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 			bg: 'primary',
 			text: 'on-primary',
 		},
+		// loader: 'primary',  // TODO: Add this later when table loading is possible
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
@@ -464,6 +473,11 @@ function emitAllSelectedEvent(val): void {
 }
 
 
+function emitClickRow(event: MouseEvent): void {
+	emit('click:row', event);
+}
+
+
 function emitClickRowCheckbox(item: DataTableItem): void {
 	emit('click:row:checkbox', item);
 }
@@ -471,8 +485,10 @@ function emitClickRowCheckbox(item: DataTableItem): void {
 
 function emitUpdatedExpanded(data: DrilldownEvent): void {
 	if (data.isExpanded(data.item)) {
-		emit('update:expanded', data);
+		emit('update:drilldown', data);
 	}
+
+	emit('update:expanded', data);
 }
 
 
