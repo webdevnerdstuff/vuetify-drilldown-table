@@ -1,5 +1,16 @@
 <template>
-	<tr>
+	<tr
+		:class="rowClasses"
+		@click="drilldownEvent({
+				columns,
+				index,
+				isExpanded,
+				item,
+				level,
+				toggleExpand,
+				$event,
+			})"
+	>
 		<template
 			v-for="column in columns"
 			:key="column"
@@ -34,6 +45,25 @@
 					</v-icon>
 
 				</div>
+			</td>
+			<!-- Column Render `data-table-select` -->
+			<td
+				v-else-if="column.key === 'data-table-select' && $slots[`item.data-table-select`]
+					"
+				:class="cellClasses(column)"
+			>
+				<v-checkbox
+					v-model="allSelected"
+					class="d-flex v-simple-checkbox"
+					:density="loadedDrilldown.density"
+					@click="emitClickRowCheckbox({
+							columns,
+							index,
+							item,
+							level,
+							toggleSelect,
+						})"
+				></v-checkbox>
 			</td>
 			<!-- Column Render `data-table-select` -->
 			<td
@@ -85,6 +115,7 @@ import {
 } from '../composables/helpers';
 
 const emit = defineEmits([
+	'click:row',
 	'click:row:checkbox',
 	'update:expanded',
 ]);
@@ -143,6 +174,21 @@ const toggleExpand = computed(() => props.slotProps.toggleExpand);
 const toggleSelect = computed(() => props.slotProps.toggleSelect);
 
 
+// -------------------------------------------------- Row //
+const rowClasses = computed<object>(() => {
+	const settings = props.loadedDrilldown;
+
+	const classes = {
+		'v-data-table__tr--clickable': settings.expandOnClick && (settings.level < settings.levels),
+		'v-data-table__tr': true,
+		[`${componentName}--body-row`]: true,
+		[`${componentName}--body-row-${settings.level}`]: true,
+	};
+
+	return classes;
+});
+
+
 // -------------------------------------------------- Row Cells //
 const cellClasses = (column: DrilldownTypes.Column): object => {
 	const classes = {
@@ -157,6 +203,19 @@ const cellClasses = (column: DrilldownTypes.Column): object => {
 function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
 	const { item, level, toggleExpand } = data as DrilldownTypes.DrilldownEvent;
 
+	if (props.loadedDrilldown.level >= props.loadedDrilldown.levels) {
+		return;
+	}
+
+	// Emits the click event on the row if `expandOnClick` true //
+	if (data.$event) {
+		if (!props.loadedDrilldown.expandOnClick) {
+			return;
+		}
+
+		emit('click:row', data.$event);
+	}
+
 	// Sets the expanded state of the item on current table //
 	if (level === props.loadedDrilldown.level) {
 		toggleExpand(item);
@@ -164,6 +223,7 @@ function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
 
 	emit('update:expanded', data);
 }
+
 
 // -------------------------------------------------- Select //
 const allSelected = ref<boolean>(false);

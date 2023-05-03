@@ -7,7 +7,7 @@
 			<!-- Column Dynamic Name Header Slot -->
 			<th
 				v-if="$slots[`header.${column.key}`]"
-				:class="cellClasses(column)"
+				:class="cellClasses(column, column.key)"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
 			>
@@ -19,7 +19,7 @@
 			<!-- Column Render `data-table-select` -->
 			<th
 				v-else-if="column.key === 'data-table-select'"
-				:class="cellClasses(column)"
+				:class="cellClasses(column, 'header-data-table-select')"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
 			>
@@ -34,7 +34,7 @@
 			<!-- Column Render `data-table-expand` -->
 			<th
 				v-else-if="column.key === 'data-table-expand'"
-				:class="cellClasses(column)"
+				:class="cellClasses(column, 'data-table-expand')"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
 				v-html="renderCell(column /* , index */)"
@@ -167,9 +167,11 @@ const cellAlignClasses = (align: string): object => {
 	return classes;
 };
 
-const cellClasses = (column: DrilldownTypes.Column): object => {
+const cellClasses = (column: DrilldownTypes.Column, slotName = ''): object => {
 	const classes = {
 		[`${componentName}--header-row-th`]: true,
+		[`${componentName}--header-row-th-${slotName}`]: slotName !== '',
+		[`${componentName}--header-row-th-${slotName}-${props.loadedDrilldown.level}`]: slotName,
 		[`${componentName}--header-row-th-${props.loadedDrilldown.level}`]: true,
 		[`${componentName}--header-row-th-sortable`]: column.sortable,
 		[`${column.cellClass}`]: column.cellClass,
