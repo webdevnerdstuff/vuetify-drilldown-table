@@ -73,6 +73,18 @@
 					/>
 				</template>
 			</HeadersSlot>
+			<tr
+				v-if="loadedDrilldown.loading"
+				class="text-center ma-0 pa-0"
+			>
+				<td
+					class="pa-0"
+					:colspan="props.columns.length"
+					style="vertical-align: top;"
+				>
+					<TableLoader :loading="loadedDrilldown.loading || false" />
+				</td>
+			</tr>
 		</template>
 
 
@@ -136,31 +148,15 @@
 		<template #expanded-row="{ columns, item }">
 			<tr>
 				<td
-					class="pa-0"
+					class="px-0 ma-0"
 					:colspan="columns.length"
+					style="vertical-align: top;"
 				>
-					<div
+					<TableLoader
 						v-if="item.raw[itemChildrenKey].loading"
-						class="text-center mt-0 pt-0 pb-1"
-					>
-						<v-progress-linear
-							color="surface-variant"
-							height="2"
-							indeterminate
-						></v-progress-linear>
-
-						<!-- <v-progress-circular
-							color="primary"
-							indeterminate
-						></v-progress-circular> -->
-
-						<v-skeleton-loader
-							:loading="true"
-							type="heading@1"
-						>
-						</v-skeleton-loader>
-
-					</div>
+						class="pa-0 ma-0"
+						:loading="item.raw[itemChildrenKey].loading"
+					/>
 
 					<VDrilldownTable
 						:class="item.raw[itemChildrenKey].loading ? 'd-none' : ''"
@@ -171,7 +167,7 @@
 						:item="item"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
-						:loading="loadedDrilldown.loading"
+						:loading="item.raw[itemChildrenKey].loading"
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
 						:sort-by="loadedDrilldown.sortBy"
@@ -239,6 +235,7 @@
 <script setup lang="ts">
 import { componentName } from './utils/globals';
 import { AllProps } from './utils/props';
+import { TableLoader } from './components';
 import { useGetLevelColors } from './composables/levelColors';
 import {
 	// useDrilldownDebounce,
