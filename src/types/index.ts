@@ -83,6 +83,7 @@ export type ColorsObject = {
 		bg?: string;
 		text?: string;
 	};
+	// loader?: string; // TODO: Add this later when table loading is possible
 	percentageChange?: number;
 	percentageDirection?: 'asc' | 'desc';
 };
@@ -152,6 +153,11 @@ export type Props = {
 		default: number;
 		required: boolean;
 		type: PropType<number | string | undefined>;
+	};
+	expandOnClick: {
+		default: boolean;
+		required: boolean;
+		type: PropType<boolean>;
 	};
 	// * Custom Property //
 	footers: {
@@ -244,6 +250,11 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	sortBy: {
+		default: object | object[];
+		required: boolean;
+		type: PropType<VDataTable["$props"]["sortBy"]>;
+	};
 };
 
 
@@ -302,13 +313,14 @@ export type LoadedDrilldown = {
 	showFooterRow?: boolean; 														// * Custom Property
 	showSearch?: boolean; 															// * Custom Property
 	showSelect?: boolean;
-	sortBy?: VDataTable["$props"]["sortBy"];
+	sortBy: VDataTable["$props"]["sortBy"];
 	// sortDesc?: boolean; 															// ! Missing Vuetify Prop (maybe v2 only?)
 	width?: string | number | undefined;
 };
 
 export type DrilldownEvent = {
 	columns?: object;
+	$event?: MouseEvent | undefined;
 	index?: number;
 	isExpanded: (item: object) => boolean;
 	item: object;

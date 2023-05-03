@@ -1,5 +1,6 @@
 import { Props } from '@/types';
 import type { VTextField } from "vuetify/components";
+import type { VDataTable } from "vuetify/labs/VDataTable";
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
@@ -24,6 +25,7 @@ export const AllProps: Props = {
 				bg: 'primary',
 				text: 'on-primary',
 			},
+			// loader: 'primary',  // TODO: Add this later when table loading is possible
 			percentageChange: 25,
 			percentageDirection: 'desc',
 		}),
@@ -54,6 +56,11 @@ export const AllProps: Props = {
 		default: 1,
 		required: false,
 		type: [Number, String],
+	},
+	expandOnClick: {
+		default: false,
+		required: false,
+		type: Boolean,
 	},
 	footers: {
 		default: () => [],
@@ -150,6 +157,7 @@ export const AllProps: Props = {
 	// 	required: false,
 	// 	type: Object,
 	// },
+	// ? TBD if this is needed //
 	showFooterRow: {
 		default: false,
 		required: false,
@@ -159,6 +167,11 @@ export const AllProps: Props = {
 		default: false,
 		required: false,
 		type: Boolean,
+	},
+	sortBy: {
+		default: () => [],
+		required: false,
+		type: Array as PropType<VDataTable["sortBy"]>,
 	},
 };
 
