@@ -33,8 +33,8 @@ export function useDrilldownDebounce<T extends DrilldownDebounce>(
 
 		if (callNow) {
 			func.apply(context, args);
-		};
-	};
+		}
+	}
 
 	return debouncedFunction as T;
 }
@@ -121,7 +121,7 @@ function isObject(item: object): boolean {
 export function useMergeDeep(target: object | object[], ...sources: object[]): object {
 	if (!sources.length) {
 		return target;
-	};
+	}
 
 	const source = sources.shift() as object[];
 
