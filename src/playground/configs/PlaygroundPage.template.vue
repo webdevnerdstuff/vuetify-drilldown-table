@@ -6,7 +6,7 @@
 			<v-col cols="12">
 				<VDrilldownTable
 					:colors="tableSettings.colors"
-					:debounce-Delay="tableSettings.debounceDelay"
+					:debounce-delay="tableSettings.debounceDelay"
 					:density="tableSettings.density"
 					:drilldown-key="tableSettings.drilldownKey"
 					:elevation="tableSettings.elevation"
@@ -19,12 +19,16 @@
 					:items-length="tableSettings.itemsLength"
 					:items-per-page="tableSettings.itemsPerPage"
 					:levels="tableSettings.levels"
+					:loader-type="tableSettings.loaderType"
+					:loading="tableSettings.loading"
+					:loading-text="tableSettings.loadingText"
 					:multi-sort="tableSettings.multiSort"
 					:no-data-text="tableSettings.noDataText"
 					:show-expand="tableSettings.showExpand"
 					:show-footer-row="tableSettings.showFooterRow"
 					:show-search="tableSettings.showSearch"
 					:show-select="tableSettings.showSelect"
+					:skelton-type="tableSettings.skeltonType"
 					:sort-by="tableSettings.sortBy"
 					@click:row="rowClickEvent($event)"
 					@update:drilldown="fetchData($event)"
@@ -113,7 +117,7 @@
 				<h2 class="pb-0">v-data-table</h2>
 			</v-col>
 			<v-col cols="12">
-				<v-data-table-server
+				<v-data-table
 					:density="tableSettings.density"
 					:expand-on-click="tableSettings.expandOnClick"
 					:fixed-header="true"
@@ -132,6 +136,7 @@
 					:search="tableSettings.search"
 					:show-expand="tableSettings.showExpand"
 					:show-select="tableSettings.showSelect"
+					:width="tableSettings.width"
 					@click:row="rowClickEvent($event)"
 				>
 					<template #expanded-row="{ columns }">
@@ -144,7 +149,7 @@
 							</td>
 						</tr>
 					</template>
-				</v-data-table-server>
+				</v-data-table>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -158,6 +163,8 @@ onMounted(() => {
 	fetchData();
 	fetchComments();
 });
+
+const fakeNetworkTrottlingTime = 500000;
 
 const tableSettings = ref({
 	colors: {
@@ -180,17 +187,23 @@ const tableSettings = ref({
 			bg: 'primary',
 			text: 'on-primary',
 		},
-		loader: 'primary',
+		loader: {
+			bg: 'default',
+			circular: 'primary',
+			color: 'primary',
+			linear: 'surface-variant',
+			text: 'surface-variant',
+		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
 	// customFilter: () => { }, 							// ? Needs Testing
 	// customKeyFilter: [], 									// ? Needs Testing
-	debounceDelay: 750,
-	density: 'comfortable',
-	drilldownKey: 'id',
-	elevation: 5,
-	expandOnClick: false, 									// * Works
+	debounceDelay: 750,										// * Works
+	density: 'comfortable',								// * Works
+	drilldownKey: 'id',										// * Works
+	elevation: 5,													// * Works
+	expandOnClick: false, 								// * Works
 	// expanded: [], 													// ? Needs Testing
 	// filterKeys: [], 												// ? Needs Testing
 	// filterMode: '',												// ? Needs Testing
@@ -206,27 +219,27 @@ const tableSettings = ref({
 	footers: {
 		comments: [
 			{
-				title: '',
 				align: 'start',
 				key: null,
+				title: '',
 				width: 100,
 			},
 			{
-				title: 'Post ID',
 				align: 'start',
 				key: 'postId',
+				title: 'Post ID',
 				width: 100,
 			},
 			{
-				title: 'Comment ID',
 				align: 'start',
 				key: 'id',
+				title: 'Comment ID',
 				width: 150,
 			},
 			{
-				title: 'Comment',
 				align: 'start',
 				key: 'name',
+				title: 'Comment',
 			},
 			{
 				key: 'data-table-expand',
@@ -235,21 +248,21 @@ const tableSettings = ref({
 		],
 		posts: [
 			{
-				title: 'User ID',
 				align: 'start',
 				key: 'userId',
+				title: 'User ID',
 				width: 100,
 			},
 			{
-				title: 'Post ID',
 				align: 'start',
 				key: 'id',
+				title: 'Post ID',
 				width: 250,
 			},
 			{
-				title: 'Post',
 				align: 'start',
 				key: 'title',
+				title: 'Post',
 			},
 			{
 				key: 'data-table-expand',
@@ -262,23 +275,23 @@ const tableSettings = ref({
 			// 	title: '',
 			// },
 			{
-				title: 'User ID',
 				align: 'start',
 				key: 'id',
+				title: 'User ID',
 				width: 350,
 			},
 			{
-				title: 'Name',
 				align: 'start',
 				key: 'name',
+				title: 'Name',
 			},
 			{
-				title: 'Email',
 				align: 'start',
 				key: 'email',
 				renderCell() {
 					return 'Total';
 				},
+				title: 'Email',
 			},
 			{
 				key: 'data-table-expand',
@@ -289,27 +302,27 @@ const tableSettings = ref({
 	headers: {
 		comments: [
 			{
-				title: '',
 				align: 'start',
 				key: null,
+				title: '',
 				width: 110,
 			},
 			{
-				title: 'Post ID',
 				align: 'start',
 				key: 'postId',
+				title: 'Post ID',
 				width: 110,
 			},
 			{
-				title: 'Comment ID',
 				align: 'start',
 				key: 'id',
+				title: 'Comment ID',
 				width: 150,
 			},
 			{
-				title: 'Comment',
 				align: 'start',
 				key: 'name',
+				title: 'Comment',
 			},
 			{
 				key: 'data-table-expand',
@@ -318,21 +331,21 @@ const tableSettings = ref({
 		],
 		posts: [
 			{
-				title: 'User ID',
 				align: 'start',
 				key: 'userId',
+				title: 'User ID',
 				width: 110,
 			},
 			{
-				title: 'Post ID',
 				align: 'start',
 				key: 'id',
+				title: 'Post ID',
 				width: 260,
 			},
 			{
-				title: 'Post',
 				align: 'start',
 				key: 'title',
+				title: 'Post',
 			},
 			{
 				key: 'data-table-expand',
@@ -341,24 +354,24 @@ const tableSettings = ref({
 		],
 		users: [
 			{
-				title: 'User ID',
 				align: 'start',
 				key: 'id',
+				title: 'User ID',
 				width: 370,
 			},
 			{
-				title: 'Name',
 				align: 'start',
 				key: 'name',
+				title: 'Name',
 			},
 			{
-				title: 'Email',
 				align: 'start',
 				key: 'email',
 				sortable: false,
 				// renderFooter() {
 				// 	return 'Total';
 				// },
+				title: 'Email',
 			},
 			{
 				key: 'data-table-expand',
@@ -370,18 +383,26 @@ const tableSettings = ref({
 	// hideDefaultFooter: false, 							// ? In v2 Missing in v3
 	// hideDefaultHeader: true,	 							// ? In v2 Missing in v3
 	// hideNoData: false, 										// !  Failed
-	hover: true, 													// * Works
+	hover: false, 													// * Works
 	// itemChildren: 'children',							// ? Missing Docs
 	// itemProps: 'props',										// ? Not sure what this does
 	itemChildrenKey: 'child',
 	itemTitle: 'title',										// * Works, but is weird
 	itemValue: 'id',											// * Works, but is weird
-	items: [],
-	itemsLength: 0,
+	items: [],														// * Works
+	itemsLength: 0,												// ? Needs Testing
 	itemsPerPage: 10,											// * Works
 	levels: 2,														// * Works - Custom Prop
-	loading: false,												// !  Failed - https://github.com/vuetifyjs/vuetify/issues/16811
-	// loadingText: 'Loading...',							// !  Failed - https://github.com/vuetifyjs/vuetify/issues/16811
+	loaderType: [
+		'linear',
+		'circular',
+		'text',
+		'skelton',
+	],
+	// ! Built in prop fails - https://github.com/vuetifyjs/vuetify/issues/16811 //
+	loading: false,												// * Custom Works,
+	// ! Built in prop fails - https://github.com/vuetifyjs/vuetify/issues/16811 //
+	loadingText: '',											// * Custom Works,
 	// modelValue: [],												// ? Needs Testing
 	multiSort: false,											// * Works
 	mustSort: false,											// * Works
@@ -404,29 +425,33 @@ const tableSettings = ref({
 		variant: 'underlined',
 	},
 	// server: false, 												// ? Needs Testing. This requires v-data-table-server
+	showExpand: false,										// * Works
 	showFooterRow: true,
 	showSearch: false,
-	showExpand: false,										// * Works
 	showSelect: false,										// * Works
+	skeltonType: 'heading@1',							// * Works
 	// sortBy: [{
 	// 	order: 'asc',
 	// 	key: 'id',
 	// }],
-	sortBy: []								// * Works
+	sortBy: [],														// * Works
 	// width: '100%',													// ! Failed
-	// sortDesc: false,												// ? In v2 Missing in v3
 });
 
 
 function fetchData(drilldown = null) {
 	const item = drilldown?.item?.raw ?? null;
-	tableSettings.value.loading = true;
 
 	let url = 'https://jsonplaceholder.typicode.com/users';
 	let user = null;
 	let post = null;
 	let userId = null;
 	let postId = null;
+
+
+	if (typeof drilldown?.level === 'undefined') {
+		tableSettings.value.loading = true;
+	}
 
 	if (drilldown?.level === 0) {
 		userId = item.id;
@@ -436,11 +461,11 @@ function fetchData(drilldown = null) {
 		user.child = {};
 		user.child = {
 			drilldownKey: 'id',
-			headers: [...tableSettings.value.headers.posts],
 			footers: [...tableSettings.value.footers.posts],
+			headers: [...tableSettings.value.headers.posts],
 			items: [],
 			level: 1,
-			loading: true
+			loading: true,
 		};
 	}
 
@@ -453,8 +478,8 @@ function fetchData(drilldown = null) {
 		post.child = {};
 		post.child = {
 			drilldownKey: 'id',
-			headers: [...tableSettings.value.headers.comments],
 			footers: [...tableSettings.value.footers.comments],
+			headers: [...tableSettings.value.headers.comments],
 			items: [],
 			level: 2,
 			loading: true,
@@ -469,7 +494,6 @@ function fetchData(drilldown = null) {
 			tableSettings.value.itemsLength = json.length;
 
 			setTimeout(() => {
-
 				if (!drilldown) {
 					tableSettings.value.items = json;
 					// tableSettings.value.items = [];
@@ -489,33 +513,30 @@ function fetchData(drilldown = null) {
 					post.child.loading = false;
 				}
 
-				tableSettings.value.loading = false;
-			}, 0);
-
+			}, fakeNetworkTrottlingTime);
 		});
 }
 
 // -------------------------------------------------- Default VDataTable //
 const defaultTableHeaders = ref([
 	{
-		title: 'Post ID',
 		align: 'start',
 		key: 'postId',
-		width: 125,
 		sortable: false,
+		title: 'Post ID',
+		width: 125,
 	},
 	{
-		title: 'Comment ID',
 		align: 'start',
 		key: 'id',
 		sortable: false,
+		title: 'Comment ID',
 		width: 150,
 	},
 	{
-		title: 'Comment',
 		align: 'start',
-
 		key: 'name',
+		title: 'Comment',
 	},
 	// {
 	// 	key: 'data-table-expand',
@@ -553,4 +574,3 @@ function rowClickEvent(event) {
 
 <style lang="scss">
 </style>
-
