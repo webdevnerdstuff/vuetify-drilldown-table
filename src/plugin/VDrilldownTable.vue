@@ -37,13 +37,13 @@
 		<!-- ================================================== Top Slot -->
 		<template #top>
 			<TopSlot
-				:loadedDrilldown="loadedDrilldown"
+				:loaded-drilldown="loadedDrilldown"
 				@update:search="levelSearch = $event"
 			>
 				<!-- Pass on all scoped slots -->
 				<template
 					v-for="(_, slot) in $slots"
-					v-slot:[slot]="scope"
+					#[slot]="scope"
 				>
 					<slot
 						:name="slot"
@@ -51,7 +51,6 @@
 					/>
 				</template>
 			</TopSlot>
-
 		</template>
 
 
@@ -59,14 +58,14 @@
 		<template #headers="props">
 			<HeadersSlot
 				:items="loadedDrilldown.items"
-				:loadedDrilldown="loadedDrilldown"
-				:slotProps="{ allRowsSelected, ...props }"
+				:loaded-drilldown="loadedDrilldown"
+				:slot-props="{ allRowsSelected, ...props }"
 				@click:selectAll="emitAllSelectedEvent($event)"
 			>
 				<!-- Pass on all scoped slots -->
 				<template
 					v-for="(_, slot) in $slots"
-					v-slot:[slot]="scope"
+					#[slot]="scope"
 				>
 					<slot
 						:name="slot"
@@ -84,8 +83,9 @@
 					style="vertical-align: top;"
 				>
 					<TableLoader
+						:loaded-drilldown="loadedDrilldown"
 						:loading="loadedDrilldown.loading || false"
-						:loadingText="loadingText"
+						:loading-text="loadingText"
 					/>
 				</td>
 			</tr>
@@ -128,8 +128,8 @@
 		<template #item="props">
 			<ItemSlot
 				:items="loadedDrilldown.items"
-				:loadedDrilldown="loadedDrilldown"
-				:slotProps="{ allRowsSelected, level, ...props }"
+				:loaded-drilldown="loadedDrilldown"
+				:slot-props="{ allRowsSelected, level, ...props }"
 				@click:row="emitClickRow($event)"
 				@click:row:checkbox="emitClickRowCheckbox($event)"
 				@update:expanded="emitUpdatedExpanded($event)"
@@ -137,7 +137,7 @@
 				<!-- Pass on all scoped slots -->
 				<template
 					v-for="(_, slot) in $slots"
-					v-slot:[slot]="scope"
+					#[slot]="scope"
 				>
 					<slot
 						:name="slot"
@@ -159,6 +159,7 @@
 					<TableLoader
 						v-if="item.raw[itemChildrenKey].loading"
 						class="pa-0 ma-0"
+						:loaded-drilldown="loadedDrilldown"
 						:loading="item.raw[itemChildrenKey].loading"
 					/>
 
@@ -186,7 +187,7 @@
 						<!-- Pass on all scoped slots -->
 						<template
 							v-for="(_, slot) in $slots"
-							v-slot:[slot]="scope"
+							#[slot]="scope"
 						>
 							<slot
 								:name="slot"
@@ -202,7 +203,7 @@
 		<!-- ================================================== tfoot Slot -->
 		<!-- // ! The tfoot slot is currently missing `props` -->
 		<template #tfoot>
-			<TfootSlot :loadedDrilldown="loadedDrilldown" />
+			<TfootSlot :loaded-drilldown="loadedDrilldown" />
 		</template>
 
 
@@ -219,11 +220,11 @@
 			v-if="$slots.bottom"
 			#bottom
 		>
-			<BottomSlot :loadedDrilldown="loadedDrilldown">
+			<BottomSlot :loaded-drilldown="loadedDrilldown">
 				<!-- Pass on all scoped slots -->
 				<template
 					v-for="(_, slot) in $slots"
-					v-slot:[slot]="scope"
+					#[slot]="scope"
 				>
 					<slot
 						:name="slot"
@@ -232,7 +233,6 @@
 				</template>
 			</BottomSlot>
 		</template>
-
 	</v-data-table>
 </template>
 
@@ -250,7 +250,7 @@ import {
 	DrilldownEvent,
 	LoadedDrilldown,
 } from '@/types';
-import type { VDataTable } from "vuetify/labs/VDataTable";
+import type { VDataTable } from 'vuetify/labs/VDataTable';
 import {
 	BottomSlot,
 	HeadersSlot,
@@ -260,7 +260,6 @@ import {
 } from './slots';
 
 
-
 // -------------------------------------------------- Emits & Slots & Injects //
 const emit = defineEmits([
 	'click:row',
@@ -268,7 +267,6 @@ const emit = defineEmits([
 	'update:expanded',
 	'update:drilldown',
 ]);
-
 
 
 // -------------------------------------------------- Props //
@@ -306,7 +304,12 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 			bg: 'primary',
 			text: 'on-primary',
 		},
-		// loader: 'primary',  // TODO: Add this later when table loading is possible
+		loader: {
+			circular: 'primary',
+			color: 'primary',
+			linear: 'surface-variant',
+			text: 'surface-variant',
+		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
@@ -341,6 +344,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	itemsPerPage: 10,							// * Works
 	level: 0,
 	levels: 0,
+	loaderType: '',
 	// ! Not working yet `loading` & `loadingText` in v-data-table: https://github.com/vuetifyjs/vuetify/issues/16811 //
 	loading: false,
 	loadingText: props.loadingText || '$vuetify.dataIterator.loadingText',
@@ -370,9 +374,9 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 	// showFooterRow: false,				// ? Not sure if I will use this. Depends on a possible footer slot
 	showSearch: false,						// * Custom Prop
 	showSelect: false,						// * Works
+	skeltonType: '',							// * Works
 	sortBy: [],										// * Works
 	width: '100%',								// ! Failed
-	// sortDesc: false,						// ? In v2 Missing in v3
 });
 
 
@@ -380,7 +384,7 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 const allRowsSelected = ref<boolean>(false);
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
-const theme = useTheme(); ``;
+const theme = useTheme();
 const slots = useSlots();
 
 
@@ -424,6 +428,7 @@ const tableClasses = computed<object>(() => {
 	const classes = {
 		[`${componentName}`]: true,
 		[`${componentName}--level-${loadedDrilldown.value.level}`]: true,
+		[`${componentName}--hover`]: loadedDrilldown.value.hover,
 		[`${componentName}--child`]: props.isDrilldown,
 		[`elevation-${elevation}`]: parseInt(elevation as string) > 0,
 		'pb-2': true,
@@ -476,7 +481,7 @@ function setLoadedDrilldown(): void {
 }
 
 // -------------------------------------------------- Emit Events //
-function emitAllSelectedEvent(val): void {
+function emitAllSelectedEvent(val: boolean): void {
 	allRowsSelected.value = val;
 }
 
