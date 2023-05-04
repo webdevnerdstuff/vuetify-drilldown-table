@@ -35,8 +35,9 @@
 					@update:expanded="expandedEvent($event)"
 					@update:model-value="updatedModelValue($event)"
 				>
+					<!-- ! This is not working since adding the TableLoader component -->
 					<!-- <template #loading>
-						loadingloadingloadingloadingloadingloadingloadingloadingloadingloadingloading
+						[loading Slot]
 					</template> -->
 
 					<!-- <template #no-data>
@@ -164,7 +165,7 @@ onMounted(() => {
 	fetchComments();
 });
 
-const fakeNetworkTrottlingTime = 500000;
+const fakeNetworkThrottlingTime = 2000;
 
 const tableSettings = ref({
 	colors: {
@@ -513,7 +514,7 @@ function fetchData(drilldown = null) {
 					post.child.loading = false;
 				}
 
-			}, fakeNetworkTrottlingTime);
+			}, fakeNetworkThrottlingTime);
 		});
 }
 
