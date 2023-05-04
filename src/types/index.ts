@@ -83,7 +83,13 @@ export type ColorsObject = {
 		bg?: string;
 		text?: string;
 	};
-	// loader?: string; // TODO: Add this later when table loading is possible
+	loader?: {
+		bg?: string;
+		circular: string;
+		color: string;
+		linear: string;
+		text: string;
+	};
 	percentageChange?: number;
 	percentageDirection?: 'asc' | 'desc';
 };
@@ -92,6 +98,8 @@ export type LevelColorResponse = {
 	base?: string;
 	bg?: string;
 	border?: string;
+	circular?: string;
+	linear?: string;
 	text?: string;
 };
 
@@ -214,12 +222,18 @@ export type Props = {
 		required: boolean;
 		type: PropType<number>;
 	};
-	// ! Loading Not working properly //
+	loaderType: {
+		default: string | string[];
+		required: boolean;
+		type: PropType<string | string[]>;
+	};
+	// ! Default Loading Not working properly //
 	loading: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	// ! Default Loading Text Not working properly //
 	loadingText: {
 		default: string;
 		required: boolean;
@@ -255,6 +269,12 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	// * Custom Property //
+	skeltonType?: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	};
 	sortBy: {
 		default: object | object[];
 		required: boolean;
@@ -281,8 +301,8 @@ export type LoadedDrilldown = {
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
 	// footerProps?: object;														// ! Missing Vuetify Prop (maybe v2 only?)
-	// groupBy?: string[];															// ? Most likely this will not be used
 	footers?: VDataTable["$props"]["headers"];
+	// groupBy?: string[];															// ? Most likely this will not be used
 	headers?: VDataTable["$props"]["headers"];
 	height?: string | number | undefined;
 	// hideDefaultFooter?: boolean;											// ? Custom Property - Need to add/test
@@ -301,6 +321,7 @@ export type LoadedDrilldown = {
 	itemsPerPage?: string | number;
 	level: number; 																			// * Custom Property
 	levels: number; 																		// * Custom Property
+	loaderType?: string | string[];
 	loading?: boolean; 																	// ! Not working properly
 	loadingText?: string; 															// ! Not working properly
 	modelValue?: unknown[];
@@ -318,14 +339,14 @@ export type LoadedDrilldown = {
 	showFooterRow?: boolean; 														// * Custom Property
 	showSearch?: boolean; 															// * Custom Property
 	showSelect?: boolean;
+	skeltonType?: string; 															// * Custom Property
 	sortBy: VDataTable["$props"]["sortBy"];
-	// sortDesc?: boolean; 															// ! Missing Vuetify Prop (maybe v2 only?)
 	width?: string | number | undefined;
 };
 
 export type DrilldownEvent = {
-	columns?: object;
 	$event?: MouseEvent | undefined;
+	columns?: object;
 	index?: number;
 	isExpanded: (item: object) => boolean;
 	item: object;
