@@ -43,7 +43,6 @@
 					<v-icon v-else>
 						mdi-chevron-down
 					</v-icon>
-
 				</div>
 			</td>
 			<!-- Column Render `data-table-select` -->
@@ -121,6 +120,10 @@ const emit = defineEmits([
 ]);
 
 const props = defineProps({
+	items: {
+		required: true,
+		type: Array as PropType<unknown[]>,
+	},
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
@@ -159,10 +162,6 @@ const props = defineProps({
 		required: true,
 		type: Object,
 	},
-	items: {
-		required: true,
-		type: Array as PropType<unknown[]>,
-	},
 });
 
 const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps.columns);
@@ -179,8 +178,8 @@ const rowClasses = computed<object>(() => {
 	const settings = props.loadedDrilldown;
 
 	const classes = {
-		'v-data-table__tr--clickable': settings.expandOnClick && (settings.level < settings.levels),
 		'v-data-table__tr': true,
+		'v-data-table__tr--clickable': settings.expandOnClick && (settings.level < settings.levels),
 		[`${componentName}--body-row`]: true,
 		[`${componentName}--body-row-${settings.level}`]: true,
 	};

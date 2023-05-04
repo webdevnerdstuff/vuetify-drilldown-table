@@ -17,11 +17,11 @@ export default createVuetify({
 	},
 	directives,
 	icons: {
-		defaultSet: 'mdi',
 		aliases,
+		defaultSet: 'mdi',
 		sets: {
 			mdi,
-		}
+		},
 	},
 	theme: {
 		defaultTheme: 'light',

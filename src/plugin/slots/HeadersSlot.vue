@@ -84,9 +84,9 @@ const emit = defineEmits([
 
 const props = defineProps({
 	isTheadSlot: {
+		default: false,
 		required: false,
 		type: Boolean,
-		default: false,
 	},
 	items: {
 		required: true,

@@ -1,9 +1,9 @@
 <template>
 	<thead>
 		<HeadersSlot
-			:isTheadSlot="true"
+			:is-thead-slot="true"
 			:items="items"
-			:loadedDrilldown="loadedDrilldown"
+			:loaded-drilldown="loadedDrilldown"
 			@click:selectAll="clickSelectAll($event)"
 			@update:sortBy="updateSortBy($event)"
 		/>
@@ -33,11 +33,11 @@ defineProps({
 });
 
 
-function clickSelectAll(e) {
+function clickSelectAll(e: boolean) {
 	emit('click:selectAll', e);
 }
 
-function updateSortBy(e) {
+function updateSortBy(e: DrilldownTypes.Column) {
 	emit('update:sortBy', e);
 }
 </script>
