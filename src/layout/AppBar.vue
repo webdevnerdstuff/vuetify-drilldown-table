@@ -118,9 +118,9 @@ const emit = defineEmits(['changedTheme', 'updatedDrawer']);
 
 defineProps({
 	isPlayground: {
-		type: Boolean,
 		default: false,
-	}
+		type: Boolean,
+	},
 });
 
 const store = useCoreStore();
