@@ -25,7 +25,13 @@ export const AllProps: Props = {
 				bg: 'primary',
 				text: 'on-primary',
 			},
-			// loader: 'primary',  // TODO: Add this later when table loading is possible
+			loader: {
+				bg: 'default',
+				circular: 'primary',
+				color: 'primary',
+				linear: 'surface-variant',
+				text: 'surface-variant',
+			},
 			percentageChange: 25,
 			percentageDirection: 'desc',
 		}),
@@ -88,12 +94,6 @@ export const AllProps: Props = {
 		required: false,
 		type: Object,
 	},
-	// ? This is for v-data-table-server //
-	itemsLength: {
-		default: 0,
-		required: false,
-		type: Number,
-	},
 	itemChildrenKey: {
 		default: 'child',
 		required: false,
@@ -104,6 +104,12 @@ export const AllProps: Props = {
 		required: false,
 		type: Array,
 	},
+	// ? This is for v-data-table-server //
+	itemsLength: {
+		default: 0,
+		required: false,
+		type: Number,
+	},
 	level: {
 		default: 0,
 		required: false,
@@ -113,6 +119,11 @@ export const AllProps: Props = {
 		default: 0,
 		required: false,
 		type: Number,
+	},
+	loaderType: {
+		default: ['linear', 'circular', 'text', 'skelton'],
+		required: false,
+		type: [String, Array],
 	},
 	// ! Loading Not working properly //
 	loading: {
@@ -172,6 +183,11 @@ export const AllProps: Props = {
 		default: false,
 		required: false,
 		type: Boolean,
+	},
+	skeltonType: {
+		default: 'heading@1',
+		required: false,
+		type: String,
 	},
 	sortBy: {
 		default: () => [],
