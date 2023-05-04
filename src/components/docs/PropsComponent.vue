@@ -126,12 +126,12 @@
 							<template #[`item.status`]="{ item }">
 								<td
 									:class="{
-										'text-warning': item.raw.status === 'pending',
-										'text-error': item.raw.status === 'debugging',
-										'text-secondary':
-											item.raw.status !== 'debugging' &&
-											item.raw.status !== 'pending',
-									}"
+											'text-warning': item.raw.status === 'pending',
+											'text-error': item.raw.status === 'debugging',
+											'text-secondary':
+												item.raw.status !== 'debugging' &&
+												item.raw.status !== 'pending',
+										}"
 									v-html="item.raw.status"
 								></td>
 							</template>
@@ -147,7 +147,7 @@
 	</v-row>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {
 	inject,
 	// onMounted,
@@ -155,10 +155,8 @@ import {
 	ref,
 	// watch,
 } from 'vue';
-// import { DrawerOptions } from '@/types';
-import { DocClasses } from '@/components/types';
 
-const classes = inject<DocClasses>('classes');
+const classes = inject('classes');
 
 // const emit = defineEmits(['updateOptions']);
 
@@ -169,7 +167,7 @@ const classes = inject<DocClasses>('classes');
 // const defaultOptions: DrawerOptions = {};
 // const dialog: boolean = ref(false);
 // const options: DrawerOptions = ref(drawerOptions);
-const propsSupported = reactive<object>({
+const propsSupported = reactive({
 	headers: [
 		{
 			align: 'start',
@@ -204,14 +202,14 @@ const propsSupported = reactive<object>({
 	],
 	items: [
 		{
-			name: 'TBD',
-			type: 'TBD',
 			default: 'TBD',
 			desc: 'TBD',
+			name: 'TBD',
+			type: 'TBD',
 		},
 	],
 });
-const propsNotSupported = reactive<object>({
+const propsNotSupported = reactive({
 	headers: [
 		{
 			align: 'start',
@@ -240,14 +238,12 @@ const propsNotSupported = reactive<object>({
 	items: [
 		{
 			name: 'TBD',
-			status: 'TBD',
 			notes: 'TBD',
+			status: 'TBD',
 		},
 	],
 });
-const search = ref<string>('');
-
-
+const search = ref('');
 </script>
 
 <style lang="scss" scoped>

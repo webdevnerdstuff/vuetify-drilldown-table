@@ -63,13 +63,12 @@
 </template>
 
 
-<script setup lang="ts">
+<script setup>
 import { inject, ref } from 'vue';
-import { DocClasses } from '@/components/types';
 
-const classes = inject<DocClasses>('classes');
+const classes = inject('classes');
 
-const headers: object[] = [
+const headers = [
 	{
 		align: 'start',
 		filterable: true,
@@ -86,11 +85,11 @@ const headers: object[] = [
 		title: 'Description',
 	},
 ];
-const items: object[] = [
+const items = [
 	{
-		name: 'TBD',
 		desc: 'TBD',
+		name: 'TBD',
 	},
 ];
-const search = ref<string>('');
+const search = ref('');
 </script>

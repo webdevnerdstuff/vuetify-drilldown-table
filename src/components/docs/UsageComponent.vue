@@ -22,10 +22,9 @@
 	</v-row>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { inject } from 'vue';
-import { DocClasses } from '@/components/types';
 
-const classes = inject<DocClasses>('classes');
+const classes = inject('classes');
 const links = inject('links');
 </script>
