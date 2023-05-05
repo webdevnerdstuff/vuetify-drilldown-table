@@ -85,10 +85,9 @@ export type ColorsObject = {
 	};
 	loader?: {
 		bg?: string;
-		circular: string;
-		color: string;
-		linear: string;
-		text: string;
+		circular?: string;
+		linear?: string;
+		text?: string;
 	};
 	percentageChange?: number;
 	percentageDirection?: 'asc' | 'desc';
@@ -128,10 +127,10 @@ export type SearchProps = {
 // -------------------------------------------------- Props //
 export type Props = {
 	// * Custom Property //
-	colors: {
-		default: () => ColorsObject;
+	colors?: {
+		default: boolean;
 		required: boolean;
-		type: PropType<ColorsObject>;
+		type: PropType<boolean> | PropType<ColorsObject>;
 	};
 	// * Custom Property //
 	debounceDelay: {
@@ -139,9 +138,10 @@ export type Props = {
 		required: boolean;
 		type: PropType<number>;
 	};
-	density: {
+	density?: {
 		default: string,
 		required: boolean,
+		// ! This needs to be changed to VDataTable density once it's been added //
 		type: PropType<VTextField["$props"]["density"]>;
 	};
 	// * Custom Property //
@@ -151,7 +151,7 @@ export type Props = {
 		type: PropType<object>;
 	};
 	// * Custom Property //
-	drilldownKey: {
+	drilldownKey?: {
 		default: string;
 		required: boolean;
 		type: PropType<string>;
@@ -162,7 +162,7 @@ export type Props = {
 		required: boolean;
 		type: PropType<number | string | undefined>;
 	};
-	expandOnClick: {
+	expandOnClick?: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
@@ -286,11 +286,11 @@ export type Props = {
 
 // -------------------------------------------------- Drilldown //
 export type LoadedDrilldown = {
-	colors: ColorsObject; 															// * Custom Property
+	colors?: boolean | ColorsObject; 															// * Custom Property
 	customFilter?: VDataTable["$props"]["customFilter"];
 	customKeyFilter?: VDataTable["$props"]["customKeyFilter"];
 	debounceDelay?: number | undefined; 								// * Custom Property
-	density: VTextField["$props"]["density"];						// ! This needs to be changed to VDataTable density once it's been added //
+	density?: VTextField["$props"]["density"];						// ! This needs to be changed to VDataTable density once it's been added //
 	drilldown?: object; 																// * Custom Property
 	drilldownKey: string; 															// * Custom Property
 	elevation?: string | number | undefined; 						// * Custom Property
@@ -309,7 +309,7 @@ export type LoadedDrilldown = {
 	// hideDefaultHeader?: boolean;											// ? Custom Property - Need to add/test
 	hideNoData?: boolean;
 	hover?: boolean;
-	isDrilldown: boolean; 															// * Custom Property
+	isDrilldown?: boolean; 															// * Custom Property
 	item?: object; 																			// * Custom Property
 	itemChildren?: VDataTable["$props"]["itemChildren"];
 	itemChildrenKey: string; 														// * Custom Property
@@ -340,7 +340,7 @@ export type LoadedDrilldown = {
 	showSearch?: boolean; 															// * Custom Property
 	showSelect?: boolean;
 	skeltonType?: string; 															// * Custom Property
-	sortBy: VDataTable["$props"]["sortBy"];
+	sortBy?: VDataTable["$props"]["sortBy"];
 	width?: string | number | undefined;
 };
 
@@ -350,6 +350,7 @@ export type DrilldownEvent = {
 	index?: number;
 	isExpanded: (item: object) => boolean;
 	item: object;
+	items?: object;
 	level?: number;
 	toggleExpand(item?: object): void;
 };
