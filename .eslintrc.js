@@ -70,7 +70,7 @@ module.exports = {
 		'linebreak-style': 0,
 		'max-len': 0,
 		'no-else-return': ['error', { allowElseIf: true }],
-		'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+		'no-console': ['warn', { allow: ['warn', 'error', 'info', 'trace'] }],
 		'no-const-assign': 'error',
 		'no-debugger': 0,
 		'no-new': 0,
