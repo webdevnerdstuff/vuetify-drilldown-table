@@ -10,7 +10,7 @@
 				:class="cellClasses(column, column.key)"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
-			>
+			>a
 				<slot
 					:column="column"
 					:name="`header.${column.key}`"
@@ -237,6 +237,7 @@ const checkBoxClasses = computed((): object => {
 // -------------------------------------------------- Sorting //
 const sortIconClasses = (key: string): object => {
 	return {
+		'px-1': true,
 		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-${props.loadedDrilldown.level}`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: getSortDirection(key) === 'desc',
