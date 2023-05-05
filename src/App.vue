@@ -46,7 +46,7 @@ import { useCoreStore } from './stores/index';
 const store = useCoreStore();
 const drawer = ref<boolean>(true);
 const drawerOptions = ref({
-	absolute: true,
+	absolute: false,
 	color: '',
 	elevation: 10,
 });
