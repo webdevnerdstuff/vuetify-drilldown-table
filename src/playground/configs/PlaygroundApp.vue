@@ -30,8 +30,7 @@
 </template>
 
 
-
-<script setup lang="ts">
+<script setup>
 import { provide } from 'vue';
 import { useCoreStore } from '@/stores/index';
 import PlaygroundPage from '@/playground/PlaygroundPage.vue';

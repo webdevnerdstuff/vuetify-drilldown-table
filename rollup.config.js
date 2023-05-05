@@ -46,6 +46,7 @@ export default {
 	],
 	plugins: [
 		json(),
+		// ! This breaks the build through rpt2 //
 		alias({
 			resolve: ['.js', '.jsx', '.ts', '.tsx'],
 			entries: [

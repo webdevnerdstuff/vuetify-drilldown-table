@@ -1,9 +1,6 @@
 <!-- eslint-disable vue/no-v-for-template-key -->
 <!-- eslint-disable vue/no-v-model-argument -->
 <template>
-	<!-- <v-text-field v-model="loadedDrilldown.search"></v-text-field> -->
-
-	<!-- v-model:expanded="loadedDrilldown.expanded" removed -->
 	<v-data-table
 		v-if="!loadedDrilldown.server"
 		v-bind="$attrs"
@@ -13,14 +10,16 @@
 		:expanded="loadedDrilldown.expanded"
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
+		:hide-no-data="hidingNoData"
 		:hover="loadedDrilldown.hover"
 		:item-title="loadedDrilldown.itemTitle"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
-		:items-length="loadedDrilldown.itemsLength"
 		:items-per-page="loadedDrilldown.itemsPerPage"
+		:loading="loadedDrilldown.loading"
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
+		:no-data-text="loadedDrilldown.noDataText"
 		:no-filter="loadedDrilldown.noFilter"
 		:page="loadedDrilldown.page"
 		:return-object="loadedDrilldown.returnObject"
@@ -34,131 +33,116 @@
 		@update:options="updateOptions"
 		@update:sort-by="updateSortBy"
 	>
-
 		<!-- ================================================== Top Slot -->
 		<template #top>
-			<slot
-				v-if="$slots.top"
-				name="top"
-			/>
-
-			<v-col
-				v-else-if="loadedDrilldown.showSearch"
-				lg="12"
+			<TopSlot
+				:loaded-drilldown="loadedDrilldown"
+				@update:search="levelSearch = $event"
 			>
-				<v-row>
+				<!-- Pass on all scoped slots -->
+				<template
+					v-for="(_, slot) in $slots"
+					#[slot]="scope"
+				>
 					<slot
-						v-if="$slots[`top.left`]"
-						name="top.left"
+						:name="slot"
+						v-bind="{ ...scope }"
 					/>
-
-					<v-col
-						v-else-if="loadedDrilldown.showSearch"
-						class="d-flex align-center justify-end"
-						:class="searchFieldClasses"
-					>
-						<!-- =========================== Search -->
-						<v-text-field
-							v-if="loadedDrilldown.showSearch"
-							v-model="levelSearch"
-							class="mt-0 pt-0"
-							:density="loadedDrilldown.searchProps.density"
-							hide-details
-							label="Search"
-							single-line
-							:variant="loadedDrilldown.searchProps.variant"
-						></v-text-field>
-					</v-col>
-
-					<slot
-						v-if="$slots[`top.right`]"
-						name="top.right"
-					/>
-				</v-row>
-			</v-col>
+				</template>
+			</TopSlot>
 		</template>
+
 
 		<!-- ================================================== Headers Slot -->
-		<!-- // ! The headers slot is currently missing the `props` -->
-		<template #headers>
-			<HeadersSlot :loadedDrilldown="loadedDrilldown" />
-		</template>
-
-
-		<!-- ================================================== Row Item Slot -->
-		<template #item="{ columns, index, isExpanded, item, toggleExpand }">
-			<tr>
+		<template #headers="props">
+			<HeadersSlot
+				:loaded-drilldown="loadedDrilldown"
+				:slot-props="{ allRowsSelected, ...props }"
+				@click:selectAll="emitAllSelectedEvent($event)"
+			>
+				<!-- Pass on all scoped slots -->
 				<template
-					v-for="column in columns"
-					:key="column"
+					v-for="(_, slot) in $slots"
+					#[slot]="scope"
 				>
-					<!--  Expand Column -->
-					<td v-if="column.key === 'data-table-expand' && loadedDrilldown.showExpand
-						">
-						<v-icon
-							v-if="loadedDrilldown.level < loadedDrilldown.levels"
-							class="v-drilldown-table--expand-icon"
-							:class="!isExpanded(item) ? '' : 'rotate-180'"
-							@click="drilldownEvent({
-									columns,
-									index,
-									isExpanded,
-									item,
-									level,
-									toggleExpand,
-								})
-								"
-						>
-							mdi-chevron-down
-						</v-icon>
-
-					</td>
-					<!-- Dynamic Name Item Slot -->
 					<slot
-						v-else-if="$slots[`item.${column.key}`]"
-						:column="column"
-						:index="index"
-						:item="item"
-						:name="`item.${column.key}`"
-						:value="item.raw[column.key]"
+						:name="slot"
+						v-bind="{ ...scope }"
 					/>
-					<!-- Render Cell Item -->
-					<td
-						v-else
-						:class="column.cellClass"
-						v-html="renderCellItem(item, column, index)"
-					></td>
 				</template>
+			</HeadersSlot>
+			<tr
+				v-if="loadedDrilldown.loading"
+				class="text-center ma-0 pa-0"
+			>
+				<td
+					class="pa-0"
+					:colspan="props.columns.length"
+					style="vertical-align: top;"
+				>
+					<TableLoader
+						:loaded-drilldown="loadedDrilldown"
+						:loading="loadedDrilldown.loading || false"
+						:loading-text="loadingText"
+					/>
+				</td>
 			</tr>
 		</template>
 
 
-		<!-- ================================================== Data Table Expand Slot -->
-		<template #[`item.data-table-expand`]="{
-				columns,
-				index,
-				isExpanded,
-				item,
-				toggleExpand,
-			}">
-			b
-			<v-icon
-				v-if="loadedDrilldown.level < loadedDrilldown.levels"
-				class="v-drilldown-table--expand-icon"
-				:class="!isExpanded(item) ? 'rotate-180' : ''"
-				@click="drilldownEvent({
-						columns,
-						index,
-						isExpanded,
-						item,
-						level,
-						toggleExpand,
-					})
-					"
-			>
-				mdi-chevron-down
-			</v-icon>
+		<!-- ================================================== Body Slot -->
+		<template
+			v-if="$slots.body"
+			#body="props"
+		>
+			<slot
+				name="body"
+				:props="props"
+			/>
+		</template>
 
+
+		<!-- ================================================== tbody Slot -->
+		<template
+			v-if="$slots.tbody"
+			#tbody="props"
+		>
+			<slot
+				name="tbody"
+				:props="props"
+			/>
+		</template>
+
+
+		<template
+			v-if="$slots['no-data']"
+			#no-data
+		>
+			<slot name="no-data" />
+		</template>
+
+
+		<!-- ================================================== Row Item Slot -->
+		<template #item="props">
+			<ItemSlot
+				:items="loadedDrilldown.items"
+				:loaded-drilldown="loadedDrilldown"
+				:slot-props="{ allRowsSelected, level, ...props }"
+				@click:row="emitClickRow($event)"
+				@click:row:checkbox="emitClickRowCheckbox($event)"
+				@update:expanded="emitUpdatedExpanded($event)"
+			>
+				<!-- Pass on all scoped slots -->
+				<template
+					v-for="(_, slot) in $slots"
+					#[slot]="scope"
+				>
+					<slot
+						:name="slot"
+						v-bind="{ ...scope }"
+					/>
+				</template>
+			</ItemSlot>
 		</template>
 
 
@@ -166,18 +150,31 @@
 		<template #expanded-row="{ columns, item }">
 			<tr>
 				<td
-					class="pa-0"
+					class="px-0 ma-0"
 					:colspan="columns.length"
+					style="vertical-align: top;"
 				>
+					<TableLoader
+						v-if="item.raw[itemChildrenKey].loading"
+						class="pa-0 ma-0"
+						:loaded-drilldown="loadedDrilldown"
+						:loading="item.raw[itemChildrenKey].loading"
+					/>
+
 					<VDrilldownTable
-						:colors="loadedDrilldown.colors"
+						:class="item.raw[itemChildrenKey].loading ? 'd-none' : ''"
+						:colors="colors"
 						:drilldown="loadedDrilldown"
+						:headers="item.raw[itemChildrenKey].headers"
 						:is-drilldown="true"
 						:item="item"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
+						:loading="item.raw[itemChildrenKey].loading"
+						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
-						@drilldown="drilldownEvent($event)"
+						:sort-by="loadedDrilldown.sortBy"
+						@update:expanded="emitUpdatedExpanded($event)"
 					>
 						<!-- Pass on all named slots -->
 						<slot
@@ -186,27 +183,15 @@
 						></slot>
 
 						<!-- Pass on all scoped slots -->
-						<!-- ! This does not pass rollup bundle -->
 						<template
-							v-for="slot in Object.keys(slots)"
+							v-for="(_, slot) in $slots"
 							#[slot]="scope"
 						>
 							<slot
 								:name="slot"
-								v-bind="scope"
-							></slot>
+								v-bind="{ ...scope }"
+							/>
 						</template>
-
-						<!-- ! This also does not pass rollup bundle -->
-						<!-- <template
-							v-for="slot in Object.keys(slots)"
-							v-slot:[`${slot}`]="scope"
-						>
-							<slot
-								:name="slot"
-								v-bind="scope"
-							></slot>
-						</template> -->
 					</VDrilldownTable>
 				</td>
 			</tr>
@@ -214,9 +199,9 @@
 
 
 		<!-- ================================================== tfoot Slot -->
-		<!-- // ! The headers slot is currently missing the `props` -->
+		<!-- // ! The tfoot slot is currently missing `props` -->
 		<template #tfoot>
-			<TfootSlot :loadedDrilldown="loadedDrilldown" />
+			<TfootSlot :loaded-drilldown="loadedDrilldown" />
 		</template>
 
 
@@ -227,35 +212,60 @@
 				name="footer.prepend"
 			/>
 		</template>
+
+		<!-- ================================================== Bottom Slot -->
+		<template
+			v-if="$slots.bottom"
+			#bottom
+		>
+			<BottomSlot :loaded-drilldown="loadedDrilldown">
+				<!-- Pass on all scoped slots -->
+				<template
+					v-for="(_, slot) in $slots"
+					#[slot]="scope"
+				>
+					<slot
+						:name="slot"
+						v-bind="{ ...scope }"
+					/>
+				</template>
+			</BottomSlot>
+		</template>
 	</v-data-table>
 </template>
 
 <script setup lang="ts">
 import { componentName } from './utils/globals';
 import { AllProps } from './utils/props';
+import { TableLoader } from './components';
 import { useGetLevelColors } from './composables/levelColors';
 import {
-	useDrilldownDebounce,
-	useRenderCellItem,
+	// useDrilldownDebounce,
 	useMergeDeep,
 } from './composables/helpers';
 import {
-	Column,
 	DataTableItem,
 	DrilldownEvent,
 	LoadedDrilldown,
-	SearchPropCols,
-	SearchProps,
-	SortItem,
-} from '@/types/types';
+} from '@/types';
+import type { VDataTable } from 'vuetify/labs/VDataTable';
 import {
+	BottomSlot,
 	HeadersSlot,
+	ItemSlot,
 	TfootSlot,
+	TopSlot,
 } from './slots';
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
-const emit = defineEmits(['drilldown',]);
+const emit = defineEmits([
+	'click:row',
+	'click:row:checkbox',
+	'update:expanded',
+	'update:drilldown',
+	'update:sortBy',
+]);
 
 
 // -------------------------------------------------- Props //
@@ -266,80 +276,59 @@ const props = defineProps({ ...AllProps });
 // Custom Default Props/Options //
 // const customOptions = {
 // calculateWidths: true,
-// className: '',
-// expandIcon: 'plus-circle',
-// expandIconType: 'fas',
-// footerRow: false,
+// showFooterRow: false,
 // matchHeaderColumnWidths: true,
 // parentTableRef: '',
 // ref: 'drilldown',
 // };
 
-const loadedDrilldown = ref<LoadedDrilldown>({
-	colors: {
-		body: {
-			base: '--v-theme-surface',
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
-		default: {
-			base: 'primary',
-			bg: 'primary',
-			border: null,
-			text: 'on-primary',
-		},
-		footer: {
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
-		header: {
-			bg: 'primary',
-			text: 'on-primary',
-		},
-		percentageChange: 25,
-		percentageDirection: 'desc',
-	},
-	customFilter: () => { }, 			// ? Needs Testing
-	customKeyFilter: [], 					// ? Needs Testing
-	debounceDelay: 750,						// * Custom Prop
-	density: 'comfortable',				// * Works
-	drilldownKey: '',							// * Custom Prop
-	elevation: 1, 								// * Custom Prop
-	expandOnClick: false, 				// * Works
+let loadedDrilldown = reactive<LoadedDrilldown>({
+	// colors: false, 						// & Works & Is Prop
+	customFilter: undefined, 			// ? Needs Testing
+	customKeyFilter: undefined,		// ? Needs Testing
+	// debounceDelay: 750,				// ? Works & Is Prop - Might remove
+	// density: 'comfortable',		// & Works & Is Prop
+	drilldownKey: '',							// * Custom Prop - Keep here
+	// elevation: 1, 							// & Works & Is Prop
+	// expandOnClick: false, 			// & Works & Is Prop
 	expanded: [], 								// ? Needs Testing
-	// filterKeys: [], 							// ? Needs Testing
-	filterMode: '',		// ? Needs Testing
-	fixedFooter: true, 						// ! Failed
-	fixedHeader: true, 						// ! Failed
+	filterKeys: [], 							// ? Needs Testing
+	filterMode: 'some',						// ? Needs Testing
+	fixedFooter: true, 						// ? Not sure what this does or if it works
+	fixedHeader: true, 						// ? Not sure what this does or if it works
+	// footers: [], 							// & Works & Is Prop
 	// footerProps: {},						// ? In v2 Missing in v3
 	// groupBy: [], 							// * Works, but this does not look very good by default
-	headers: [],									// * Works
+	// headers: [],								// & Works & Is Prop
 	height: 'auto',								// * Works
 	// hideDefaultFooter: false, 	// ? In v2 Missing in v3
 	// hideDefaultHeader: true,	 	// ? In v2 Missing in v3
-	hideNoData: false, 						// !  Failed
-	// hover: false, 								// * Works - Is Prop
+	hideNoData: false, 						// * Works
+	// hover: false, 							// & Works & Is Prop
+	// isDrilldown: false,				// & Works & Is Prop
+	// item: [],									// & Works & Is Prop
 	itemChildren: 'children',			// ? Missing Docs
+	itemChildrenKey: 'child',			// * Custom Prop - Keep here
 	itemProps: 'props',						// ? Not sure what this does
 	itemTitle: 'title',						// * Works, but is weird
 	itemValue: 'id',							// * Works, but is weird
-	items: [],										// * Works
-	itemsLength: 0,
+	items: [],										// * Custom Prop - Keep here
+	// itemsLength: 0,								// ? Not sure if this will be used
 	itemsPerPage: 10,							// * Works
-	level: 0,
-	levels: 0,
-	// ! Not working yet `loading` & `loadingText`: https://github.com/vuetifyjs/vuetify/issues/16811 //
+	level: 0,											// * Custom Prop - Keep here
+	levels: 0,										// * Custom Prop - Keep here
+	loaderType: '',
 	// loading: false,
-	// loadingText: 'Loading...',
+	// loadingText: 'Loading...',	// & Works & Is Prop
 	modelValue: [],								// ? Needs Testing
-	multiSort: false,							// * Works
-	mustSort: false,							// * Works
-	// noDataText: '$vuetify.noDataText',	// ! Failed. Needs more tested as I think it does work, but not as expected
+	// multiSort: false,					// & Works - Is binding prop
+	// mustSort: false,						// & Works - Is binding prop
+	// noDataText: '',						// & Works & Is Prop
 	noFilter: false,							// * Works, but not sure why you would use this.
 	page: 1, 											// * Works
 	// pageCount: 0,							// ? In v2 Missing in v3
 	returnObject: true,						// ? Missing Docs
-	// search: '',								// ! Works
+	// search: '',								// ? Need to test this when top slot is used over showSearch prop
 	searchProps: {
 		cols: {
 			lg: 3,
@@ -353,28 +342,44 @@ const loadedDrilldown = ref<LoadedDrilldown>({
 		variant: 'underlined',
 	},
 	server: false, 								// ? Needs Testing. This requires v-data-table-server
-	showExpand: true,							// * Works
-	showSearch: false,						// * Custom Prop
-	showSelect: false,						// * Works
-	sortBy: [],										// * Works
+	showExpand: false,						// ? Works but needs testing.- Not sure if needed in this object
+	// showFooterRow: false,					// ? Not sure if I will use this. Depends on a possible footer slot
+	// showSearch: false,					// & Works & Is Prop
+	// showSelect: false,					// & Works - Is binding prop
+	// skeltonType: '',						// & Works & Is Prop
+	// sortBy: [],								// & Works & Is Prop
 	width: '100%',								// ! Failed
-	// sortDesc: false,						// ? In v2 Missing in v3
 });
 
 
 // -------------------------------------------------- Data //
+const allRowsSelected = ref<boolean>(false);
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
 const slots = useSlots();
 
 
+const hidingNoData = computed(() => {
+	if (loadedDrilldown.loading) {
+		return true;
+	}
+
+	return loadedDrilldown.hideNoData;
+});
+
 // -------------------------------------------------- Watch //
-watch(props, useDrilldownDebounce(() => {
-	if (props.level !== 0 || loadedDrilldown.value.level === 0) {
+// watch(props, useDrilldownDebounce(() => {
+// 	if (props.level !== 0 || loadedDrilldown.level === 0) {
+// 		setLoadedDrilldown();
+// 	}
+// }, props.debounceDelay, props.level === 0), { deep: true });
+
+watch(props, () => {
+	if (props.level !== 0 || loadedDrilldown.level === 0) {
 		setLoadedDrilldown();
 	}
-}, props.debounceDelay, props.level === 0), { deep: true });
+});
 
 
 // -------------------------------------------------- Mounts #
@@ -382,19 +387,19 @@ watch(props, useDrilldownDebounce(() => {
 // 	// ... maybe do something here
 // });
 
-onMounted(() => {
-	// ... maybe do something here
-	// console.log({ slots });
-});
+// onMounted(() => {
+// 	// ... maybe do something here
+// });
 
 
 // -------------------------------------------------- Table #
 const tableClasses = computed<object>(() => {
-	const elevation = loadedDrilldown.value.elevation;
+	const elevation = loadedDrilldown.elevation;
 
 	const classes = {
 		[`${componentName}`]: true,
-		[`${componentName}--level-${loadedDrilldown.value.level}`]: true,
+		[`${componentName}--level-${loadedDrilldown.level}`]: true,
+		[`${componentName}--hover`]: loadedDrilldown.hover,
 		[`${componentName}--child`]: props.isDrilldown,
 		[`elevation-${elevation}`]: parseInt(elevation as string) > 0,
 		'pb-2': true,
@@ -404,7 +409,11 @@ const tableClasses = computed<object>(() => {
 });
 
 const tableStyles = computed<StyleValue>(() => {
-	const baseColors = useGetLevelColors(loadedDrilldown.value, theme, 'default');
+	let baseColors: { border?: string; } = {};
+
+	if (loadedDrilldown.colors) {
+		baseColors = useGetLevelColors(loadedDrilldown, theme, 'default');
+	}
 
 	const styles: { borderBottom: string; } = {
 		borderBottom: 'none',
@@ -418,71 +427,60 @@ const tableStyles = computed<StyleValue>(() => {
 });
 
 
-// -------------------------------------------------- Top #
-const searchFieldClasses = computed<object>(() => {
-	const searchProps = loadedDrilldown.value.searchProps as SearchProps;
-	const searchCols = searchProps.cols as SearchPropCols;
-
-	const classes = {
-		[`${componentName}--search-field`]: true,
-		[`v-col-${searchCols.xs}`]: searchCols.xs,
-		[`v-col-sm-${searchCols.sm}`]: searchCols.sm,
-		[`v-col-md-${searchCols.md}`]: searchCols.md,
-		[`v-col-lg-${searchCols.lg}`]: searchCols.lg,
-		[`v-col-xl-${searchCols.xl}`]: searchCols.xl,
-		[`v-col-xxl-${searchCols.xxl}`]: searchCols.xxl,
-	};
-
-	return classes;
-});
-
-
 // -------------------------------------------------- Methods #
 function setLoadedDrilldown(): void {
 	if (props.drilldown) {
-		loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props.drilldown) as LoadedDrilldown;
+		loadedDrilldown = useMergeDeep(loadedDrilldown, props.drilldown) as LoadedDrilldown;
 
-		const drilldownItem = loadedDrilldown.value.items.find(<T, K extends keyof T>(item: T) => {
-			const thisItem = item[loadedDrilldown.value.drilldownKey as K];
-			const propsItem = props.item.raw[loadedDrilldown.value.drilldownKey];
+		const drilldownItem = loadedDrilldown.items.find(<T, K extends keyof T>(item: T) => {
+			const thisItem = item[loadedDrilldown.drilldownKey as K];
+			const propsItem = props.item.raw[loadedDrilldown.drilldownKey];
 
 			return thisItem === propsItem;
 		}) as LoadedDrilldown;
 
-		loadedDrilldown.value = useMergeDeep(
-			loadedDrilldown.value,
-			drilldownItem[loadedDrilldown.value.itemChildrenKey as keyof LoadedDrilldown],
+		loadedDrilldown = useMergeDeep(
+			loadedDrilldown,
+			drilldownItem[loadedDrilldown.itemChildrenKey] as LoadedDrilldown,
 		) as LoadedDrilldown;
 
 		// Hide expand icon if this is the last drilldown level //
 		if (props.levels === props.level) {
-			loadedDrilldown.value.showExpand = false;
+			loadedDrilldown.showExpand = false;
 		}
 
 		return;
 	}
 
-	loadedDrilldown.value = useMergeDeep(loadedDrilldown.value, props) as LoadedDrilldown;
+	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as LoadedDrilldown;
 }
 
-function renderCellItem(item: DataTableItem, column: Column, index: number): unknown {
-	return useRenderCellItem(item.raw, column, index);
+// -------------------------------------------------- Emit Events //
+function emitAllSelectedEvent(val: boolean): void {
+	allRowsSelected.value = val;
+}
+
+
+function emitClickRow(event: MouseEvent): void {
+	emit('click:row', event);
+}
+
+
+function emitClickRowCheckbox(item: DataTableItem): void {
+	emit('click:row:checkbox', item);
+}
+
+
+function emitUpdatedExpanded(data: DrilldownEvent): void {
+	if (data.isExpanded(data.item)) {
+		emit('update:drilldown', { ...data, ...{ items: loadedDrilldown.items } });
+	}
+
+	emit('update:expanded', data);
 }
 
 
 // ------------------------- Table Events //
-function drilldownEvent(data: DrilldownEvent): void {
-	// console.log('1 ---------------------------------------- drilldownEvent', { data });
-
-	const { item, level, toggleExpand } = data as DrilldownEvent;
-
-	// Sets the expanded state of the item on current table //
-	if (level === props.level) {
-		toggleExpand(item);
-	}
-
-	emit('drilldown', data);
-}
 
 // function clickedRow(e, item) {
 // 	console.log('clickedRow', { e, item });
@@ -490,7 +488,7 @@ function drilldownEvent(data: DrilldownEvent): void {
 
 // ? Probably more useful when using server side
 function updateItemsPerPage(itemsCount: number) {
-	loadedDrilldown.value.itemsPerPage = itemsCount;
+	loadedDrilldown.itemsPerPage = itemsCount;
 
 	return true;
 }
@@ -498,11 +496,11 @@ function updateItemsPerPage(itemsCount: number) {
 // ! Do not use //
 // function updateExpanded(rowsExpanded, foo, bar, baz) {
 // 	console.log(rowsExpanded, foo, bar, baz);
-// 	loadedDrilldown.value.expanded = rowsExpanded;
+// 	loadedDrilldown.expanded = rowsExpanded;
 // 	// emit('drilldown', rowsExpanded);
 
 // 	// console.log('updateExpanded', rowsExpanded);
-// 	// console.log(loadedDrilldown.value.expanded);
+// 	// console.log(loadedDrilldown.expanded);
 // }
 
 // ! Not sure what this does or if it works
@@ -519,20 +517,12 @@ function updateOptions() {
 // }
 
 // ? Probably more useful when using server side
-function updateSortBy(val: SortItem[]) {
-	loadedDrilldown.value.sortBy = val;
+function updateSortBy(val: VDataTable['sortBy']) {
+	loadedDrilldown.sortBy = val;
+	emit('update:sortBy', val);
 }
 </script>
 
 <style lang="scss">
-.v-drilldown-table {
-	&--expand-icon {
-		transform: rotate(0deg);
-		transition: all 0.3s ease-in-out;
-
-		&.rotate-180 {
-			transform: rotate(180deg);
-		}
-	}
-}
+@use './styles/main.scss';
 </style>

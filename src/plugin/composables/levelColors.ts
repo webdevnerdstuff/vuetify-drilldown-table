@@ -5,8 +5,9 @@ import {
 	LevelColorResponse,
 	LoadedDrilldown,
 	RGBColor,
-} from '@/types/types';
+} from '@/types';
 import { ThemeInstance } from 'vuetify';
+
 
 /**
  * Converts the colors to HSL values
@@ -57,7 +58,16 @@ function convertLevelColors(
 				return;
 			}
 
-			propOptionResponse[key as keyof LevelColorResponse] = `hsl(${convertToHSL(color)} / ${percentage}%)`;
+			const opacity = `/ ${percentage}%`;
+
+			const hslValue = convertToHSL(color);
+
+			// Color wasn't found so using a default neutral color //
+			if (hslValue.includes('/')) {
+				return propOptionResponse[key as keyof LevelColorResponse] = `hsl(${hslValue})`;
+			}
+
+			propOptionResponse[key as keyof LevelColorResponse] = `hsl(${convertToHSL(color)} ${opacity})`;
 		});
 	}
 
@@ -111,7 +121,6 @@ function levelPercentage(
  * Converts the color to HSL values
  */
 function convertToHSL(color: string): string {
-	// console.log('convertToHSL', color);
 	let newColor: HEXColor | RGBColor | HSLColor = checkColorNames(color);
 	let h = 0;
 	let s = 0;
@@ -147,7 +156,17 @@ function convertToHSL(color: string): string {
 	r /= 255;
 	g /= 255;
 	b /= 255;
-	const max = Math.max(r, g, b), min = Math.min(r, g, b);
+	const max = Math.max(r, g, b);
+	const min = Math.min(r, g, b);
+
+	// Color doesn't exist, return --v-theme-surface //
+	if (max === null || !min === null || isNaN(max) || isNaN(min)) {
+		const defaultColor = '0 0% 100% / 12%';
+
+		console.warn(`[VDrilldownTable]: The "color" prop value using "${newColor}" doesn't exist. Using the value "hsl(${defaultColor})" in it's place.`);
+		return defaultColor;
+	}
+
 	h = (max + min) / 2;
 	s = (max + min) / 2;
 	l = (max + min) / 2;
@@ -166,6 +185,7 @@ function convertToHSL(color: string): string {
 		}
 		h /= 6;
 	}
+
 
 	h = Math.round(h * 360);
 	s = Math.round(s * 100);
@@ -332,7 +352,6 @@ function checkColorNames(color: string): HEXColor {
 	};
 	let response = color;
 
-	// console.log({ color });
 	Object.entries(colors).forEach(([key, value]) => {
 		if (color.toLowerCase() == key.toLowerCase()) {
 			response = value;
@@ -342,6 +361,7 @@ function checkColorNames(color: string): HEXColor {
 
 	return response;
 }
+
 
 /**
  * Converts the HEX color to RGB
@@ -373,6 +393,11 @@ export function useGetLevelColors(
 	prop = 'default',
 	type: string | null = null
 ): LevelColorResponse {
+	if (loadedDrilldown.colors === false) {
+		console.trace();
+		throw new Error('The "colors" prop is set to false. This function should no be called.');
+	}
+
 	const levelColorOptions = convertLevelColors(loadedDrilldown, themeColors, prop, type);
 
 	if (!type) {

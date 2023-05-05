@@ -1,10 +1,11 @@
 {
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
-		"baseUrl": ".",
+		"baseUrl": "./",
 		"declaration": true,
 		"declarationDir": "./dist",
 		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
 		"importHelpers": true,
 		"jsx": "preserve",
 		"lib": [
@@ -13,8 +14,12 @@
 		],
 		"module": "ESNext",
 		"moduleResolution": "Node",
-		"noImplicitAny": false,
 		"noEmit": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": false,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
 		"outDir": "./dist",
 		"paths": {
 			"@/*": [
@@ -27,9 +32,9 @@
 		"strict": true,
 		"target": "ESNext",
 		"typeRoots": [
-			"./ts",
+			"./src/types",
 			"./node_modules/@types",
-			"./node_modules/vuetify/types"
+			"./node_modules/vuetify"
 		],
 		"types": [
 			"node",
@@ -41,17 +46,22 @@
 		"playground",
 		"src/App.vue",
 		"src/main.ts",
+		"src/layout/**/*.ts",
+		"src/layout/**/*.vue",
 		"src/components/**/*.ts",
 		"src/components/**/*.vue",
 		"src/playground/**/*.vue",
 		"src/playground/**/*.ts",
 		"src/stores/**/*.ts",
+		"src/plugins/**/*.ts",
 		"node_modules"
 	],
 	"include": [
-		"auto-imports.d.ts",
-		"src/**/*.ts",
-		"src/**/*.vue"
+		"src/types/auto-imports.d.ts",
+		"src/types/**/*.ts",
+		"src/types/**/*.d.ts",
+		"src/plugin/**/*.ts",
+		"src/plugin/**/*.vue"
 	],
 	"references": [
 		{

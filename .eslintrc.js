@@ -11,6 +11,9 @@ module.exports = {
 		'prettier',
 		'./.eslintrc-auto-import.json',
 	],
+	ignorePatterns: [
+		".eslintrc.js",
+	],
 	overrides: [
 		{
 			files: [
@@ -25,7 +28,7 @@ module.exports = {
 		Entry: true,
 	},
 	parserOptions: {
-		parser: "@typescript-eslint/parser",
+		parser: '@typescript-eslint/parser',
 	},
 	plugins: [
 		'@typescript-eslint',
@@ -40,14 +43,15 @@ module.exports = {
 		},
 	},
 	rules: {
-		"@typescript-eslint/ban-types": [
-			"error",
+		'@typescript-eslint/ban-ts-comment': 0,
+		'@typescript-eslint/ban-types': [
+			'error',
 			{
-				"extendDefaults": true,
-				"types": {
-					"{}": false
+				'extendDefaults': true,
+				'types': {
+					'{}': false,
 				}
-			}
+			},
 		],
 		'@typescript-eslint/no-empty-function': 0,
 		'brace-style': ['error', 'stroustrup'],
@@ -66,7 +70,7 @@ module.exports = {
 		'linebreak-style': 0,
 		'max-len': 0,
 		'no-else-return': ['error', { allowElseIf: true }],
-		'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+		'no-console': ['warn', { allow: ['warn', 'error', 'info', 'trace'] }],
 		'no-const-assign': 'error',
 		'no-debugger': 0,
 		'no-new': 0,
@@ -132,6 +136,13 @@ module.exports = {
 		'vue/no-v-for-template-key': 0,
 		'vue/no-v-html': 0,
 		'vue/singleline-html-element-content-newline': 0,
+		'vue/sort-keys': ['error', 'asc', {
+			caseSensitive: true,
+			ignoreChildrenOf: ['model', 'defineProps'],
+			ignoreGrandchildrenOf: ['computed', 'directives', 'inject', 'props', 'watch', 'defineProps'],
+			minKeys: 2,
+			natural: true,
+		}],
 		'vue/valid-template-root': 0,
 	},
 };

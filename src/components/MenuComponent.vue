@@ -18,28 +18,68 @@
 	</v-list>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { inject, onMounted, reactive, ref } from 'vue';
 
 const drawerOptions = inject('drawerOptions');
 
-const active = ref<string>('');
-const menuItems = reactive<{
-	title: string;
-	icon: string;
-	href: string;
-}[]>([
-	{ title: 'Home', icon: 'mdi-home', href: '#home' },
-	{ title: 'Installation', icon: 'mdi-plus-thick', href: '#installation' },
-	{ title: 'Description', icon: 'mdi-information-outline', href: '#description' },
-	{ title: 'Props', icon: 'mdi-cog', href: '#props' },
-	{ title: 'Events', icon: 'mdi-calendar-star', href: '#events' },
-	{ title: 'Slots', icon: 'mdi-slot-machine', href: '#slots' },
-	{ title: 'SASS Variables', icon: 'mdi-sass', href: '#sass-variables' },
-	{ title: 'Example', icon: 'mdi-code-json', href: '#example' },
-	{ title: 'Dependencies', icon: 'mdi-asterisk-circle-outline', href: '#dependencies' },
-	{ title: 'License', icon: 'mdi-card-account-details-outline', href: '#license' },
-	{ title: 'Legal', icon: 'mdi-scale-balance', href: '#legal' },
+const active = ref('');
+const menuItems = reactive([
+	{
+		href: '#home',
+		icon: 'mdi-home',
+		title: 'Home',
+	},
+	{
+		href: '#installation',
+		icon: 'mdi-plus-thick',
+		title: 'Installation',
+	},
+	{
+		href: '#description',
+		icon: 'mdi-information-outline',
+		title: 'Description',
+	},
+	{
+		href: '#props',
+		icon: 'mdi-cog',
+		title: 'Props',
+	},
+	{
+		href: '#events',
+		icon: 'mdi-calendar-star',
+		title: 'Events',
+	},
+	{
+		href: '#slots',
+		icon: 'mdi-slot-machine',
+		title: 'Slots',
+	},
+	{
+		href: '#sass-variables',
+		icon: 'mdi-sass',
+		title: 'SASS Variables',
+	},
+	{
+		href: '#example',
+		icon: 'mdi-code-json',
+		title: 'Example',
+	},
+	{
+		href: '#dependencies',
+		icon: 'mdi-asterisk-circle-outline',
+		title: 'Dependencies',
+	},
+	{
+		href: '#license',
+		icon: 'mdi-card-account-details-outline',
+		title: 'License',
+	},
+	{
+		href: '#legal',
+		icon: 'mdi-scale-balance',
+		title: 'Legal',
+	},
 ]);
 
 onMounted(() => {
@@ -62,7 +102,7 @@ function smoothScroll() {
 			active.value = hash;
 
 			window.location.hash = hash;
-			window.scrollTo({ top: y, behavior: 'smooth' });
+			window.scrollTo({ behavior: 'smooth', top: y });
 		});
 	});
 }

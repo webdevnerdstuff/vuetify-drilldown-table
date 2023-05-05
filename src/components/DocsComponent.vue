@@ -98,7 +98,7 @@
 	</v-container>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { inject, provide, reactive, ref } from 'vue';
 import packageInfo from '../../package.json';
 import {
@@ -113,17 +113,16 @@ import {
 	SlotsComponent,
 	UsageComponent,
 } from '@/components/docs';
-import { DocClasses } from '@/components/types';
 
 const links = inject('links');
 
-const classes = reactive<DocClasses>({
+const classes = reactive({
+	appLink: 'app-link text-decoration-none primary--text font-weight-medium d-inline-block font-weight-bold',
 	h2: 'v-heading text-h4 text-sm-h4 mb-3',
 	h3: 'v-heading text-h5 text-sm-h5 mb-1',
 	headerA: 'text-decoration-none text-right text-md-left',
-	appLink: 'app-link text-decoration-none primary--text font-weight-medium d-inline-block font-weight-bold',
 });
-const componentVersion = ref<string>(packageInfo.version);
+const componentVersion = ref(packageInfo.version);
 
 provide('classes', classes);
 </script>

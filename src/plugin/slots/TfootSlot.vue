@@ -4,21 +4,31 @@
 		name="tfoot"
 	/>
 	<tfoot v-if="columns?.length">
-		<tr class="v-drilldown-table--footer-row aa">
+		<tr class="v-drilldown-table--footer-row">
 			<template
 				v-for="column in columns"
 				:key="column"
 			>
-				<!-- Column Dynamic Name Header Slot -->
+				<!-- Column Dynamic Name tfoot Slot -->
 				<slot
 					v-if="$slots[`tfoot.${column.key}`]"
 					:column="column"
 					:name="`tfoot.${column.key}`"
+					:style="cellStyles"
 				/>
+				<!-- Column Render `data-table-select` -->
+				<td
+					v-else-if="column.key === 'data-table-select' || loadedDrilldown.showSelect"
+					:class="cellClasses(column)"
+					:colspan="column.colspan || 1"
+					:style="cellStyles"
+					v-html="renderCell(column /* , index */)"
+				></td>
 				<!-- Column Render `data-table-expand` -->
 				<td
 					v-else-if="column.key === 'data-table-expand'"
 					:class="cellClasses(column)"
+					:colspan="column.colspan || 1"
 					:style="cellStyles"
 					v-html="renderCell(column /* , index */)"
 				></td>
@@ -26,6 +36,7 @@
 				<td
 					v-else-if="column.renderFooter || column.renderer || column.renderCell"
 					:class="cellClasses(column)"
+					:colspan="column.colspan || 1"
 					:style="cellStyles"
 					v-html="renderCell(column /* , index */)"
 				></td>
@@ -33,6 +44,7 @@
 				<td
 					v-else
 					:class="cellClasses(column)"
+					:colspan="column.colspan || 1"
 					:style="cellStyles"
 				>
 					{{ column.title }}
@@ -44,7 +56,7 @@
 
 <script setup lang="ts">
 import { componentName } from '@/plugin/utils/globals';
-import * as DrilldownTypes from '@/types/types';
+import * as DrilldownTypes from '@/types';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';
 import {
 	useRenderCell,
@@ -52,24 +64,23 @@ import {
 
 
 const props = defineProps({
-	// TODO: This will be used when Vuetify adds the columns prop to tfoot //
-	// columns: {
-	// 	type: Array,
-	// 	required: false,
-	// },
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
 	},
+	// TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
+	// slotProps: {
+	// 	required: true,
+	// 	type: Object,
+	// },
 });
 
-const columns = ref();
+// const columns = ref();
 const theme = useTheme();
 
-
-watch(props, () => {
-	columns.value = props.loadedDrilldown.showFooterRow ? props.loadedDrilldown.headers : props.loadedDrilldown.footers;
-});
+// TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
+// const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps?.columns);
+const columns = computed<DrilldownTypes.Column[]>(() => props.loadedDrilldown.footers as DrilldownTypes.Column[]);
 
 
 const cellClasses = (column: DrilldownTypes.Column): object => {
@@ -80,17 +91,24 @@ const cellClasses = (column: DrilldownTypes.Column): object => {
 	};
 };
 
-const cellStyles = (): CSSProperties => {
-	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'footer');
+
+const cellStyles = computed<CSSProperties>(() => {
+	if (props.loadedDrilldown.colors === false) {
+		return {};
+	}
+
+	const footerColors = useGetLevelColors(props.loadedDrilldown, theme, 'footer');
 
 	const styles = {
-		backgroundColor: headerColors.bg,
-		color: headerColors.text,
+		backgroundColor: footerColors.bg,
+		color: footerColors.text,
 	};
 
-	return styles;
-};
+	return styles as CSSProperties;
+});
 
+
+// -------------------------------------------------- Render //
 function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 	const tempIndex = 0;
 	return useRenderCell(props.loadedDrilldown, column, tempIndex);
@@ -99,4 +117,15 @@ function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 </script>
 
 <style lang="scss">
+$inactive: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+
+.v-drilldown-table {
+	&--footer {
+		&-row {
+			td {
+				color: $inactive;
+			}
+		}
+	}
+}
 </style>

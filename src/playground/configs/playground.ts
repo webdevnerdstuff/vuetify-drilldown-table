@@ -1,7 +1,7 @@
 import PlaygroundApp from './PlaygroundApp.vue';
 import VDrilldownTable from '@/index';
 import { createApp } from 'vue';
-import { createPinia } from "pinia";
+import { createPinia } from 'pinia';
 import { registerPlugins } from '@/plugins';
 
 const app = createApp(PlaygroundApp);

@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
-/* eslint-disable no-unused-vars */
 import {
 	Column,
 	DrilldownDebounce,
 	LoadedDrilldown,
-} from '@/types/types';
+} from '@/types';
 
 
 /**
@@ -18,6 +16,7 @@ export function useDrilldownDebounce<T extends DrilldownDebounce>(
 	let timeout: ReturnType<typeof setTimeout> | undefined;
 
 	function debouncedFunction(this: undefined, ...args: undefined[]) {
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		const context = this;
 
 		const later = () => {
@@ -34,8 +33,8 @@ export function useDrilldownDebounce<T extends DrilldownDebounce>(
 
 		if (callNow) {
 			func.apply(context, args);
-		};
-	};
+		}
+	}
 
 	return debouncedFunction as T;
 }
@@ -122,17 +121,19 @@ function isObject(item: object): boolean {
 export function useMergeDeep(target: object | object[], ...sources: object[]): object {
 	if (!sources.length) {
 		return target;
-	};
+	}
 
 	const source = sources.shift() as object[];
 
 	if (isObject(target) && isObject(source)) {
 		for (const key in source) {
+			// @ts-ignore
 			if (isObject(source[key])) {
 				if (!target[key as keyof object]) {
 					Object.assign(target, { [key]: {} });
 				}
 
+				// @ts-ignore
 				useMergeDeep(target[key as keyof object], source[key]);
 			}
 			else {

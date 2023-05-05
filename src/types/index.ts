@@ -1,36 +1,27 @@
 /* eslint-disable no-unused-vars */
-// import {
-// 	DataTableHeader,
-// 	FilterFunction,
-// 	FilterKeyFunctions,
-// 	SelectItemKey,
-// 	SortItem,
-// } from 'vuetify/dist/vuetify-labs';
+import { PropType } from 'vue';
+import type { VTextField } from "vuetify/components";
+import type { VDataTable } from "vuetify/labs/VDataTable";
 
 
 // -------------------------------------------------- Vuetify Types //
-export type SortItem = {
-	key: string;
-	order?: boolean | 'asc' | 'desc';
-};
-
-type Density = null | 'default' | 'comfortable' | 'compact';
+export type Density = null | 'default' | 'comfortable' | 'compact';
 
 export interface InternalItem<T = object> {
-	title: string;
-	value: unknown;
+	children?: InternalItem<T>[];
 	props: {
 		[key: string]: unknown;
 		title: string;
 		value: unknown;
 	};
-	children?: InternalItem<T>[];
 	raw: T;
+	title: string;
+	value: unknown;
 }
 
 export interface DataTableItem extends InternalItem {
+	// @ts-ignore
 	[key: string]: string;
-	raw: T;
 };
 
 
@@ -52,9 +43,12 @@ interface ItemCellRender {
 	): void;
 };
 
-interface Column {
+export interface Column {
+	align?: string;
 	cellClass?: string;
+	colspan?: number;
 	columnFooter?: string;
+	fixedOffset?: number;
 	key?: string;
 	renderCell?: CellRender;
 	renderFooter?: CellRender;
@@ -62,10 +56,14 @@ interface Column {
 	renderItem?: ItemCellRender;
 	renderer?: CellRender,
 	rowClass?: string;
+	rowspan?: number;
+	sortable?: boolean;
+	title?: string;
+	width?: string | number;
 };
 
 // -------------------------------------------------- Colors //
-type ColorsObject = {
+export type ColorsObject = {
 	body?: {
 		base?: string;
 		bg?: string;
@@ -85,14 +83,22 @@ type ColorsObject = {
 		bg?: string;
 		text?: string;
 	};
+	loader?: {
+		bg?: string;
+		circular?: string;
+		linear?: string;
+		text?: string;
+	};
 	percentageChange?: number;
 	percentageDirection?: 'asc' | 'desc';
 };
 
-type LevelColorResponse = {
+export type LevelColorResponse = {
 	base?: string;
 	bg?: string;
 	border?: string;
+	circular?: string;
+	linear?: string;
 	text?: string;
 };
 
@@ -113,8 +119,8 @@ export type SearchPropCols = {
 
 export type SearchProps = {
 	cols?: SearchPropCols;
-	density?: Density;
-	variant?: Variant;
+	density?: VTextField["$props"]["density"];
+	variant?: VTextField["$props"]["variant"];
 };
 
 
@@ -122,9 +128,9 @@ export type SearchProps = {
 export type Props = {
 	// * Custom Property //
 	colors?: {
-		default: () => object;
+		default: boolean;
 		required: boolean;
-		type: PropType<ColorsObject>;
+		type: PropType<boolean> | PropType<ColorsObject>;
 	};
 	// * Custom Property //
 	debounceDelay: {
@@ -133,18 +139,19 @@ export type Props = {
 		type: PropType<number>;
 	};
 	density?: {
-		default: Density,
+		default: string,
 		required: boolean,
-		type: PropType<string | undefined>;
+		// ! This needs to be changed to VDataTable density once it's been added //
+		type: PropType<VTextField["$props"]["density"]>;
 	};
 	// * Custom Property //
-	drilldown?: {
+	drilldown: {
 		default: () => void;
 		required: boolean;
 		type: PropType<object>;
 	};
 	// * Custom Property //
-	drilldownKey: {
+	drilldownKey?: {
 		default: string;
 		required: boolean;
 		type: PropType<string>;
@@ -155,16 +162,21 @@ export type Props = {
 		required: boolean;
 		type: PropType<number | string | undefined>;
 	};
+	expandOnClick?: {
+		default: boolean;
+		required: boolean;
+		type: PropType<boolean>;
+	};
 	// * Custom Property //
 	footers: {
-		default: () => DataTableHeader[] | DataTableHeader[][];
+		default: () => VDataTable["$props"]["headers"];
 		required: boolean;
-		type: PropType<DataTableHeader[] | DataTableHeader[][]>;
+		type: PropType<VDataTable["$props"]["headers"]>;
 	};
 	headers: {
-		default: () => DataTableHeader[] | DataTableHeader[][];
+		default: () => VDataTable["$props"]["headers"];
 		required: boolean;
-		type: PropType<DataTableHeader[] | DataTableHeader[][]>;
+		type: PropType<VDataTable["$props"]["headers"]>;
 	};
 	hover?: {
 		default: boolean;
@@ -172,7 +184,7 @@ export type Props = {
 		type: PropType<boolean>;
 	};
 	// * Custom Property //
-	isDrilldown?: {
+	isDrilldown: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
@@ -183,7 +195,7 @@ export type Props = {
 		required: boolean;
 		type: PropType<DataTableItem>;
 	};
-	itemChildrenKey?: {
+	itemChildrenKey: {
 		default: string;
 		required: boolean;
 		type: PropType<string>;
@@ -210,12 +222,28 @@ export type Props = {
 		required: boolean;
 		type: PropType<number>;
 	};
-	// ! Loading Not working properly //
-	// loading?: {
-	// 	default: boolean;
-	// 	required: boolean;
-	// 	type: PropType<boolean>;
-	// };
+	loaderType: {
+		default: string | string[];
+		required: boolean;
+		type: PropType<string | string[]>;
+	};
+	// ! Default Loading Not working properly //
+	loading: {
+		default: boolean;
+		required: boolean;
+		type: PropType<boolean>;
+	};
+	// ! Default Loading Text Not working properly //
+	loadingText: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	};
+	noDataText: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	},
 	// * Custom Property //
 	searchProps: {
 		default: () => SearchProps;
@@ -224,11 +252,11 @@ export type Props = {
 	};
 	// * Custom Property //
 	// TODO: Maybe add this //
-	separator?: {
-		default: string;
-		required: boolean;
-		type: PropType<string>;
-	},
+	// separator?: {
+	// 	default: string;
+	// 	required: boolean;
+	// 	type: PropType<string>;
+	// },
 	// * Custom Property //
 	showFooterRow?: {
 		default: boolean;
@@ -241,28 +269,41 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	// * Custom Property //
+	skeltonType?: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	};
+	sortBy: {
+		default: object | object[];
+		required: boolean;
+		type: PropType<VDataTable["$props"]["sortBy"]>;
+	};
 };
+
+
 
 // -------------------------------------------------- Drilldown //
 export type LoadedDrilldown = {
-	colors?: ColorsObject; 															// * Custom Property
-	customFilter?: FilterFunction | undefined;
-	customKeyFilter?: FilterKeyFunctions | undefined;
+	colors?: boolean | ColorsObject; 															// * Custom Property
+	customFilter?: VDataTable["$props"]["customFilter"];
+	customKeyFilter?: VDataTable["$props"]["customKeyFilter"];
 	debounceDelay?: number | undefined; 								// * Custom Property
-	density?: Density;
+	density?: VTextField["$props"]["density"];						// ! This needs to be changed to VDataTable density once it's been added //
 	drilldown?: object; 																// * Custom Property
 	drilldownKey: string; 															// * Custom Property
 	elevation?: string | number | undefined; 						// * Custom Property
 	expandOnClick?: boolean;
 	expanded?: string[];
-	// filterKeys?: string[]; 													// ! Need more info/testing
-	filterMode?: FilterMode;
+	filterKeys?: VDataTable["$props"]["filterKeys"];		// ! Need more info/testing
+	filterMode?: VDataTable["$props"]["filterMode"];
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
 	// footerProps?: object;														// ! Missing Vuetify Prop (maybe v2 only?)
+	footers?: VDataTable["$props"]["headers"];
 	// groupBy?: string[];															// ? Most likely this will not be used
-	footers?: DataTableHeader[] | DataTableHeader[][];
-	headers?: DataTableHeader[] | DataTableHeader[][];
+	headers?: VDataTable["$props"]["headers"];
 	height?: string | number | undefined;
 	// hideDefaultFooter?: boolean;											// ? Custom Property - Need to add/test
 	// hideDefaultHeader?: boolean;											// ? Custom Property - Need to add/test
@@ -270,18 +311,19 @@ export type LoadedDrilldown = {
 	hover?: boolean;
 	isDrilldown?: boolean; 															// * Custom Property
 	item?: object; 																			// * Custom Property
-	itemChildren?: SelectItemKey;
-	itemChildrenKey?: string; 													// * Custom Property
-	itemProps?: SelectItemKey;
-	itemTitle?: SelectItemKey;
-	itemValue?: NonNullable<SelectItemKey>;
+	itemChildren?: VDataTable["$props"]["itemChildren"];
+	itemChildrenKey: string; 														// * Custom Property
+	itemProps?: VDataTable["$props"]["itemProps"];
+	itemTitle?: VDataTable["$props"]["itemTitle"];
+	itemValue?: VDataTable["$props"]["itemValue"];
 	items: unknown[];
 	itemsLength?: number;
 	itemsPerPage?: string | number;
 	level: number; 																			// * Custom Property
 	levels: number; 																		// * Custom Property
-	// loading?: boolean; 															// ! Not working properly
-	// loadingText?: string; 														// ! Not working properly
+	loaderType?: string | string[];
+	loading?: boolean; 																	// ! Not working properly
+	loadingText?: string; 															// ! Not working properly
 	modelValue?: unknown[];
 	multiSort?: boolean;
 	mustSort?: boolean;
@@ -297,18 +339,28 @@ export type LoadedDrilldown = {
 	showFooterRow?: boolean; 														// * Custom Property
 	showSearch?: boolean; 															// * Custom Property
 	showSelect?: boolean;
-	sortBy?: SortItem[];
-	// sortDesc?: boolean; 															// ! Missing Vuetify Prop (maybe v2 only?)
+	skeltonType?: string; 															// * Custom Property
+	sortBy?: VDataTable["$props"]["sortBy"];
 	width?: string | number | undefined;
 };
 
 export type DrilldownEvent = {
+	$event?: MouseEvent | undefined;
 	columns?: object;
 	index?: number;
-	isExpanded?: () => void;
-	item?: object;
+	isExpanded: (item: object) => boolean;
+	item: object;
+	items?: object;
 	level?: number;
 	toggleExpand(item?: object): void;
+};
+
+export type ClickRowCheckboxEvent = {
+	columns?: object;
+	index?: number;
+	item?: object;
+	level?: number;
+	toggleSelect(item?: object): void;
 };
 
 export type DrilldownDebounce = (...args: undefined[]) => void;

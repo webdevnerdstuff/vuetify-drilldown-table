@@ -63,6 +63,18 @@
 		</v-btn>
 
 		<v-btn
+			v-if="isPlayground"
+			class="me-2"
+			:height="iconSize.height"
+			:href="`${links.vuetify}en/components/all/`"
+			icon
+			target="_blank"
+			:width="iconSize.width"
+		>
+			<v-icon>mdi-vuetify</v-icon>
+		</v-btn>
+
+		<v-btn
 			class="me-2"
 			:height="iconSize.height"
 			:href="links.github"
@@ -106,9 +118,9 @@ const emit = defineEmits(['changedTheme', 'updatedDrawer']);
 
 defineProps({
 	isPlayground: {
-		type: Boolean,
 		default: false,
-	}
+		type: Boolean,
+	},
 });
 
 const store = useCoreStore();

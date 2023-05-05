@@ -1,33 +1,13 @@
-import { DataTableItem, Props } from '@/types/types';
+import { Props } from '@/types';
+import type { VTextField } from "vuetify/components";
+import type { VDataTable } from "vuetify/labs/VDataTable";
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
 	colors: {
-		default: () => ({
-			body: {
-				base: '--v-theme-surface',
-				bg: '--v-theme-surface',
-				text: '--v-theme-on-surface',
-			},
-			default: {
-				base: 'primary',
-				bg: 'primary',
-				border: 'primary',
-				text: 'on-primary',
-			},
-			footer: {
-				bg: '--v-theme-surface',
-				text: '--v-theme-on-surface',
-			},
-			header: {
-				bg: 'primary',
-				text: 'on-primary',
-			},
-			percentageChange: 25,
-			percentageDirection: 'desc',
-		}),
+		default: false,
 		required: false,
-		type: Object,
+		type: [Object, Boolean],
 	},
 	debounceDelay: {
 		default: 750,
@@ -37,7 +17,8 @@ export const AllProps: Props = {
 	density: {
 		default: 'comfortable',
 		required: false,
-		type: String,
+		// ! This needs to be changed to VDataTable density once it's been added //
+		type: String as PropType<VTextField["density"]>,
 	},
 	drilldown: {
 		default: () => { },
@@ -45,14 +26,19 @@ export const AllProps: Props = {
 		type: Object,
 	},
 	drilldownKey: {
-		default: '',
+		default: 'id',
 		required: false,
 		type: String,
 	},
 	elevation: {
-		default: 1,
+		default: 0,
 		required: false,
 		type: [Number, String],
+	},
+	expandOnClick: {
+		default: false,
+		required: false,
+		type: Boolean,
 	},
 	footers: {
 		default: () => [],
@@ -64,7 +50,6 @@ export const AllProps: Props = {
 		required: false,
 		type: Array,
 	},
-	// ! This is not working correctly on drilldown //
 	hover: {
 		default: false,
 		required: false,
@@ -78,16 +63,10 @@ export const AllProps: Props = {
 	item: {
 		default: () => { },
 		required: false,
-		type: Object as PropType<DataTableItem>,
-	},
-	// ? This is for v-data-table-server //
-	itemsLength: {
-		default: 0,
-		required: false,
-		type: Number,
+		type: Object,
 	},
 	itemChildrenKey: {
-		default: 'children',
+		default: 'child',
 		required: false,
 		type: String,
 	},
@@ -96,6 +75,12 @@ export const AllProps: Props = {
 		required: false,
 		type: Array,
 	},
+	// ? This is for v-data-table-server //
+	// itemsLength: {
+	// 	default: 0,
+	// 	required: false,
+	// 	type: Number,
+	// },
 	level: {
 		default: 0,
 		required: false,
@@ -106,12 +91,26 @@ export const AllProps: Props = {
 		required: false,
 		type: Number,
 	},
-	// ! Loading Not working properly //
-	// loading: {
-	// 	default: false,
-	// 	required: false,
-	// 	type: Boolean,
-	// },
+	loaderType: {
+		default: ['linear', 'text'],
+		required: false,
+		type: [String, Array],
+	},
+	loading: {
+		default: false,
+		required: false,
+		type: Boolean,
+	},
+	loadingText: {
+		default: '$vuetify.dataIterator.loadingText',
+		required: false,
+		type: String,
+	},
+	noDataText: {
+		default: '$vuetify.noDataText',
+		required: false,
+		type: String,
+	},
 	searchProps: {
 		default: () => ({
 			cols: {
@@ -129,11 +128,11 @@ export const AllProps: Props = {
 		type: Object,
 	},
 	// TODO: Add new feature //
-	separator: {
-		default: '',
-		required: false,
-		type: String,
-	},
+	// separator: {
+	// 	default: '',
+	// 	required: false,
+	// 	type: String,
+	// },
 	// server: {
 	// 	default: false,
 	// 	required: false,
@@ -144,15 +143,26 @@ export const AllProps: Props = {
 	// 	required: false,
 	// 	type: Object,
 	// },
-	showFooterRow: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
+	// ? TBD if this is needed //
+	// showFooterRow: {
+	// 	default: false,
+	// 	required: false,
+	// 	type: Boolean,
+	// },
 	showSearch: {
 		default: false,
 		required: false,
 		type: Boolean,
+	},
+	skeltonType: {
+		default: 'heading@1',
+		required: false,
+		type: String,
+	},
+	sortBy: {
+		default: () => [],
+		required: false,
+		type: Array as PropType<VDataTable["sortBy"]>,
 	},
 };
 
