@@ -88,10 +88,6 @@ const props = defineProps({
 		required: false,
 		type: Boolean,
 	},
-	items: {
-		required: true,
-		type: Array as PropType<unknown[]>,
-	},
 	loadedDrilldown: {
 		required: true,
 		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
@@ -149,6 +145,7 @@ const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.a
 const headerRowClasses = computed((): object => {
 	const classes = {
 		[`${componentName}--header-row`]: true,
+
 		[`${componentName}--header-row-${props.loadedDrilldown.level}`]: true,
 	};
 
@@ -174,6 +171,7 @@ const cellClasses = (column: DrilldownTypes.Column, slotName = ''): object => {
 		[`${componentName}--header-row-th-${slotName}-${props.loadedDrilldown.level}`]: slotName,
 		[`${componentName}--header-row-th-${props.loadedDrilldown.level}`]: true,
 		[`${componentName}--header-row-th-sortable`]: column.sortable,
+		[`${componentName}--header-row-th-sortable-default-color`]: column.sortable && props.loadedDrilldown.colors === false,
 		[`${column.cellClass}`]: column.cellClass,
 	};
 
@@ -181,11 +179,12 @@ const cellClasses = (column: DrilldownTypes.Column, slotName = ''): object => {
 };
 
 const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
-	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'header');
-
-	const styles = {
-		backgroundColor: headerColors.bg,
-		color: headerColors.text,
+	const styles: {
+		backgroundColor?: string | unknown;
+		color?: string | unknown;
+		minWidth?: string | number | unknown;
+		width?: string | number | unknown;
+	} = {
 		minWidth: column.width ? useConvertToUnit(column.width) : 'auto',
 		width: column.width ? useConvertToUnit(column.width) : 'auto',
 	};
@@ -194,6 +193,15 @@ const cellStyles = (column: { width?: string | number; }, dataTableExpand = fals
 		styles.width = '48px';
 		styles.minWidth = '48px';
 	}
+
+	if (props.loadedDrilldown.colors === false) {
+		return styles as CSSProperties;
+	}
+
+	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'header');
+
+	styles.backgroundColor = headerColors.bg;
+	styles.color = headerColors.text;
 
 	return styles as CSSProperties;
 };
@@ -266,42 +274,65 @@ function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 
 
 <style lang="scss" scoped>
+$transition: all .25s ease-in-out;
+$inactive: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+$hover: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
+
 .v-drilldown-table {
 	&--header {
 		&-select-all-checkbox {
 			opacity: var(--v-medium-emphasis-opacity);
 		}
 
-		&-row-th-sortable {
-			cursor: pointer;
+		&-row {
+			&-th {
+				&-sortable {
+					cursor: pointer;
 
-			&-sort-icon {
-				display: inline-flex;
-				opacity: 0;
-				transform: rotate(0deg);
-				transition: all 0.25s ease-in-out;
+					&-sort-icon {
+						display: inline-flex;
+						opacity: 0;
+						transform: rotate(0deg);
+						transition: $transition;
 
-				&-asc,
-				&-desc {
-					opacity: 1;
-				}
+						&-asc,
+						&-desc {
+							color: $inactive;
+							opacity: 1;
+						}
 
-				&-asc {
-					transform: rotate(0deg);
-				}
+						&-asc {
+							transform: rotate(0deg);
+						}
 
-				&-desc {
-					transform: rotate(180deg);
-				}
-			}
+						&-desc {
+							transform: rotate(180deg);
+						}
+					}
 
-			&:hover {
-				.v-drilldown-table--header-row-th-sortable-sort-icon {
-					opacity: .5;
+					&:hover {
+						.v-drilldown-table--header-row-th-sortable-sort-icon {
+							color: $hover;
+							opacity: 1;
 
-					&-asc,
-					&-desc {
-						opacity: 1;
+							&-asc,
+							&-desc {
+								color: $hover;
+							}
+						}
+					}
+
+					&-default-color {
+						&:hover {
+							div {
+								color: $hover;
+							}
+						}
+
+						div {
+							color: $inactive;
+							transition: $transition;
+						}
 					}
 				}
 			}
