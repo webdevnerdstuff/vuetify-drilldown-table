@@ -71,8 +71,7 @@ export default defineConfig({
 			include: ['./src/plugin/**/*.vue'],
 		}),
 		vuetify({
-			autoImport: false,
-			styles: 'none',
+			autoImport: true,
 		}),
 		cssInjectedByJsPlugin({ topExecutionPriority: false }),
 		viteStaticCopy({
