@@ -4,16 +4,17 @@
 		name="tfoot"
 	/>
 	<tfoot v-if="columns?.length">
-		<tr class="v-drilldown-table--footer-row aa">
+		<tr class="v-drilldown-table--footer-row">
 			<template
 				v-for="column in columns"
 				:key="column"
 			>
-				<!-- Column Dynamic Name Header Slot -->
+				<!-- Column Dynamic Name tfoot Slot -->
 				<slot
 					v-if="$slots[`tfoot.${column.key}`]"
 					:column="column"
 					:name="`tfoot.${column.key}`"
+					:style="cellStyles"
 				/>
 				<!-- Column Render `data-table-select` -->
 				<td
@@ -90,16 +91,21 @@ const cellClasses = (column: DrilldownTypes.Column): object => {
 	};
 };
 
-const cellStyles = (): CSSProperties => {
-	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'footer');
+
+const cellStyles = computed<CSSProperties>(() => {
+	if (props.loadedDrilldown.colors === false) {
+		return {};
+	}
+
+	const footerColors = useGetLevelColors(props.loadedDrilldown, theme, 'footer');
 
 	const styles = {
-		backgroundColor: headerColors.bg,
-		color: headerColors.text,
+		backgroundColor: footerColors.bg,
+		color: footerColors.text,
 	};
 
-	return styles;
-};
+	return styles as CSSProperties;
+});
 
 
 // -------------------------------------------------- Render //
@@ -111,4 +117,15 @@ function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 </script>
 
 <style lang="scss">
+$inactive: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+
+.v-drilldown-table {
+	&--footer {
+		&-row {
+			td {
+				color: $inactive;
+			}
+		}
+	}
+}
 </style>
