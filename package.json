@@ -71,6 +71,10 @@
 	"devDependencies": {
 		"@babel/core": "^7.21.8",
 		"@babel/eslint-parser": "^7.21.8",
+		"@fortawesome/fontawesome-svg-core": "^6.4.0",
+		"@fortawesome/free-brands-svg-icons": "^6.4.0",
+		"@fortawesome/free-solid-svg-icons": "^6.4.0",
+		"@fortawesome/vue-fontawesome": "^3.0.3",
 		"@mdi/font": "^7.2.96",
 		"@rollup/plugin-alias": "^5.0.0",
 		"@rollup/plugin-commonjs": "^24.1.0",
