@@ -5,38 +5,40 @@ import type { VDataTable } from "vuetify/labs/VDataTable";
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
 	colors: {
-		default: () => ({
-			body: {
-				base: '--v-theme-surface',
-				bg: '--v-theme-surface',
-				text: '--v-theme-on-surface',
-			},
-			default: {
-				base: 'primary',
-				bg: 'primary',
-				border: 'primary',
-				text: 'on-primary',
-			},
-			footer: {
-				bg: '--v-theme-surface',
-				text: '--v-theme-on-surface',
-			},
-			header: {
-				bg: 'primary',
-				text: 'on-primary',
-			},
-			loader: {
-				bg: 'default',
-				circular: 'primary',
-				color: 'primary',
-				linear: 'surface-variant',
-				text: 'surface-variant',
-			},
-			percentageChange: 25,
-			percentageDirection: 'desc',
-		}),
+		default: false,
+		// default: () => {
+		// 	return {
+		// 		body: {
+		// 			base: '--v-theme-surface',
+		// 			bg: '--v-theme-surface',
+		// 			text: '--v-theme-on-surface',
+		// 		},
+		// 		default: {
+		// 			base: 'primary',
+		// 			bg: 'primary',
+		// 			border: 'primary',
+		// 			text: 'on-primary',
+		// 		},
+		// 		footer: {
+		// 			bg: '--v-theme-surface',
+		// 			text: '--v-theme-on-surface',
+		// 		},
+		// 		header: {
+		// 			bg: 'primary',
+		// 			text: 'on-primary',
+		// 		},
+		// 		loader: {
+		// 			bg: '',
+		// 			circular: 'primary',
+		// 			linear: 'surface-variant',
+		// 			text: 'surface-variant',
+		// 		},
+		// 		percentageChange: 25,
+		// 		percentageDirection: 'desc',
+		// 	};
+		// },
 		required: false,
-		type: Object,
+		type: [Object, Boolean],
 	},
 	debounceDelay: {
 		default: 750,
@@ -59,7 +61,7 @@ export const AllProps: Props = {
 		type: String,
 	},
 	elevation: {
-		default: 1,
+		default: 0,
 		required: false,
 		type: [Number, String],
 	},
@@ -121,7 +123,7 @@ export const AllProps: Props = {
 		type: Number,
 	},
 	loaderType: {
-		default: ['linear', 'circular', 'text', 'skelton'],
+		default: ['linear', 'text'],
 		required: false,
 		type: [String, Array],
 	},
