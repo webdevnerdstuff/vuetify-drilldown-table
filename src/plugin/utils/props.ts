@@ -6,37 +6,6 @@ export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
 	colors: {
 		default: false,
-		// default: () => {
-		// 	return {
-		// 		body: {
-		// 			base: '--v-theme-surface',
-		// 			bg: '--v-theme-surface',
-		// 			text: '--v-theme-on-surface',
-		// 		},
-		// 		default: {
-		// 			base: 'primary',
-		// 			bg: 'primary',
-		// 			border: 'primary',
-		// 			text: 'on-primary',
-		// 		},
-		// 		footer: {
-		// 			bg: '--v-theme-surface',
-		// 			text: '--v-theme-on-surface',
-		// 		},
-		// 		header: {
-		// 			bg: 'primary',
-		// 			text: 'on-primary',
-		// 		},
-		// 		loader: {
-		// 			bg: '',
-		// 			circular: 'primary',
-		// 			linear: 'surface-variant',
-		// 			text: 'surface-variant',
-		// 		},
-		// 		percentageChange: 25,
-		// 		percentageDirection: 'desc',
-		// 	};
-		// },
 		required: false,
 		type: [Object, Boolean],
 	},
@@ -48,6 +17,7 @@ export const AllProps: Props = {
 	density: {
 		default: 'comfortable',
 		required: false,
+		// ! This needs to be changed to VDataTable density once it's been added //
 		type: String as PropType<VTextField["density"]>,
 	},
 	drilldown: {
@@ -56,7 +26,7 @@ export const AllProps: Props = {
 		type: Object,
 	},
 	drilldownKey: {
-		default: '',
+		default: 'id',
 		required: false,
 		type: String,
 	},
@@ -80,7 +50,6 @@ export const AllProps: Props = {
 		required: false,
 		type: Array,
 	},
-	// ! This is not working correctly on drilldown //
 	hover: {
 		default: false,
 		required: false,
@@ -107,11 +76,11 @@ export const AllProps: Props = {
 		type: Array,
 	},
 	// ? This is for v-data-table-server //
-	itemsLength: {
-		default: 0,
-		required: false,
-		type: Number,
-	},
+	// itemsLength: {
+	// 	default: 0,
+	// 	required: false,
+	// 	type: Number,
+	// },
 	level: {
 		default: 0,
 		required: false,
@@ -127,14 +96,13 @@ export const AllProps: Props = {
 		required: false,
 		type: [String, Array],
 	},
-	// ! Loading Not working properly //
 	loading: {
 		default: false,
 		required: false,
 		type: Boolean,
 	},
 	loadingText: {
-		default: 'Loading items...',
+		default: '$vuetify.dataIterator.loadingText',
 		required: false,
 		type: String,
 	},
@@ -176,11 +144,11 @@ export const AllProps: Props = {
 	// 	type: Object,
 	// },
 	// ? TBD if this is needed //
-	showFooterRow: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
+	// showFooterRow: {
+	// 	default: false,
+	// 	required: false,
+	// 	type: Boolean,
+	// },
 	showSearch: {
 		default: false,
 		required: false,
