@@ -393,6 +393,11 @@ export function useGetLevelColors(
 	prop = 'default',
 	type: string | null = null
 ): LevelColorResponse {
+	if (loadedDrilldown.colors === false) {
+		console.trace();
+		throw new Error('The "colors" prop is set to false. This function should no be called.');
+	}
+
 	const levelColorOptions = convertLevelColors(loadedDrilldown, themeColors, prop, type);
 
 	if (!type) {
