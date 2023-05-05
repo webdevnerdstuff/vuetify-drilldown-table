@@ -1,7 +1,7 @@
 <template>
 	<v-row
 		v-if="loading"
-		:class="containerClasses"
+		:class="loaderContainerClasses"
 		no-gutters
 	>
 		<v-col
@@ -91,8 +91,7 @@ const props = defineProps({
 
 const baseColors = useGetLevelColors(props.loadedDrilldown, theme, 'loader');
 
-
-const containerClasses = computed(() => {
+const loaderContainerClasses = computed(() => {
 	return {
 		[`${componentName}--table-loader`]: true,
 		'align-center': false,
@@ -104,23 +103,30 @@ const containerClasses = computed(() => {
 	};
 });
 
-const skeltonType = computed<string>(() => {
-	return props.loadedDrilldown.skeltonType || 'heading@1';
+
+// v-progress-linear //
+const linearColor = computed<string | undefined>(() => {
+	return baseColors.linear;
 });
 
+
+// v-progress-circular //
+const circularBackgroundColor = computed<string | undefined>(() => {
+	return baseColors.bg;
+});
 
 const circularColor = computed<string | undefined>(() => {
 	return baseColors.circular;
 });
 
-const circularBackgroundColor = computed<string | undefined>(() => {
-	return baseColors.bg;
+
+// v-skeleton-loader //
+const skeltonType = computed<string>(() => {
+	return props.loadedDrilldown.skeltonType || 'heading@1';
 });
 
-const linearColor = computed<string | undefined>(() => {
-	return baseColors.linear;
-});
 
+// loadingText //
 const textStyles = computed<StyleValue>(() => {
 	const styles = {
 		color: baseColors.text,
@@ -133,6 +139,8 @@ const computedLoadingText = computed<string>(() => {
 	return props.loadingText || 'Loading...';
 });
 
+
+// Get the order of the loader type //
 const getOrder = (type: string): number => {
 	const loaderType = props.loadedDrilldown.loaderType;
 
