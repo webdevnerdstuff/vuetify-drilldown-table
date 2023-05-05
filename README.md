@@ -45,7 +45,8 @@ npm i vuetify-drilldown-table
  
 ## Documentation
  
-TBD
+Component is still in development. Documentation will be added once component is ready for production.
+[Documentation & Demo](https://webdevnerdstuff.github.io/vuetify-drilldown-table/) 
 
 ## Dependencies
  
