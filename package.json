@@ -1,6 +1,6 @@
 {
 	"name": "vuetify-drilldown-table",
-	"version": "0.0.1-alpha",
+	"version": "0.0.2-alpha",
 	"description": "The vuetify-drilldown-table",
 	"private": false,
 	"main": "dist/vuetify-drilldown-table.cjs.js",
