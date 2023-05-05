@@ -89,7 +89,13 @@ const props = defineProps({
 	}
 });
 
-const baseColors = useGetLevelColors(props.loadedDrilldown, theme, 'loader');
+const baseColors = computed(() => {
+	if (props.loadedDrilldown.colors === false) {
+		return;
+	}
+
+	return useGetLevelColors(props.loadedDrilldown, theme, 'loader');
+});
 
 const loaderContainerClasses = computed(() => {
 	return {
@@ -106,17 +112,17 @@ const loaderContainerClasses = computed(() => {
 
 // v-progress-linear //
 const linearColor = computed<string | undefined>(() => {
-	return baseColors.linear;
+	return baseColors.value?.linear || '';
 });
 
 
 // v-progress-circular //
 const circularBackgroundColor = computed<string | undefined>(() => {
-	return baseColors.bg;
+	return baseColors.value?.bg;
 });
 
 const circularColor = computed<string | undefined>(() => {
-	return baseColors.circular;
+	return baseColors.value?.circular;
 });
 
 
@@ -129,7 +135,7 @@ const skeltonType = computed<string>(() => {
 // loadingText //
 const textStyles = computed<StyleValue>(() => {
 	const styles = {
-		color: baseColors.text,
+		color: baseColors.value?.text,
 	};
 
 	return styles;
