@@ -12,7 +12,9 @@ module.exports = {
 		'./.eslintrc-auto-import.json',
 	],
 	ignorePatterns: [
-		".eslintrc.js",
+		'.eslintrc.js',
+		'vite.build.config.ts',
+		'vite.config.ts',
 	],
 	overrides: [
 		{

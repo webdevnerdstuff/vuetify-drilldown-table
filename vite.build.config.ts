@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import * as path from 'path';
+import AutoImport from 'unplugin-auto-import/vite';
 import babel from 'vite-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import copy from 'rollup-plugin-copy';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import dts from 'vite-plugin-dts';
 import pkg from './package.json';
@@ -49,6 +49,17 @@ export default defineConfig({
 	plugins: [
 		babel(),
 		commonjs(),
+		AutoImport({
+			dts: false,
+			imports: [
+				'vue',
+				{
+					vue: ['CSSProperties'],
+					vuetify: ['useTheme']
+				}
+			],
+			vueTemplate: true,
+		}),
 		vue({
 			template: { transformAssetUrls },
 		}),
