@@ -6,7 +6,7 @@
 					class="my-3"
 					contain
 					height="200"
-					src="../assets/vuetify-logo-light-atom.svg"
+					src="../assets/vuetify-logo.svg"
 				/>
 			</v-col>
 
