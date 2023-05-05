@@ -12,6 +12,7 @@
 		"play": "sh src/playground/configs/build.sh && NODE_ENV=playground vite",
 		"bundle": "rollup -c --bundleConfigAsCjs",
 		"build": "vue-tsc && vite build --config vite.build.config.ts",
+		"build:docs": "vite build",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d docs",
 		"prepublishOnly": "npm run build",
