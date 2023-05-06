@@ -36,6 +36,7 @@
 		<!-- ================================================== Top Slot -->
 		<template #top>
 			<TopSlot
+				:key="level"
 				:loaded-drilldown="loadedDrilldown"
 				@update:search="levelSearch = $event"
 			>
@@ -56,13 +57,15 @@
 		<!-- ================================================== Headers Slot -->
 		<template #headers="props">
 			<HeadersSlot
+				:key="level"
 				:loaded-drilldown="loadedDrilldown"
 				:slot-props="{ allRowsSelected, ...props }"
 				@click:selectAll="emitAllSelectedEvent($event)"
+				@update:header:sort="updateHeaderSort"
 			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(_, slot) in $slots"
+					v-for="(  _, slot  ) in   $slots  "
 					#[slot]="scope"
 				>
 					<slot
@@ -125,6 +128,7 @@
 		<!-- ================================================== Row Item Slot -->
 		<template #item="props">
 			<ItemSlot
+				:key="level"
 				:items="loadedDrilldown.items"
 				:loaded-drilldown="loadedDrilldown"
 				:slot-props="{ allRowsSelected, level, ...props }"
@@ -134,7 +138,7 @@
 			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(_, slot) in $slots"
+					v-for="(  _, slot  ) in   $slots  "
 					#[slot]="scope"
 				>
 					<slot
@@ -162,6 +166,7 @@
 					/>
 
 					<VDrilldownTable
+						:key="item.raw"
 						:class="item.raw[itemChildrenKey].loading ? 'd-none' : ''"
 						:colors="colors"
 						:drilldown="loadedDrilldown"
@@ -171,20 +176,23 @@
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
 						:loading="item.raw[itemChildrenKey].loading"
+						:multi-sort="item.raw[itemChildrenKey].multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
 						:sort-by="loadedDrilldown.sortBy"
 						@update:expanded="emitUpdatedExpanded($event)"
+						@update:items-per-page="updateItemsPerPage"
+						@update:options="updateOptions"
 					>
 						<!-- Pass on all named slots -->
 						<slot
-							v-for="slot in Object.keys(slots)"
+							v-for="  slot   in   Object.keys(slots)  "
 							:name="slot"
 						></slot>
 
 						<!-- Pass on all scoped slots -->
 						<template
-							v-for="(_, slot) in $slots"
+							v-for="(  _, slot  ) in   $slots  "
 							#[slot]="scope"
 						>
 							<slot
@@ -201,7 +209,10 @@
 		<!-- ================================================== tfoot Slot -->
 		<!-- // ! The tfoot slot is currently missing `props` -->
 		<template #tfoot>
-			<TfootSlot :loaded-drilldown="loadedDrilldown" />
+			<TfootSlot
+				:key="level"
+				:loaded-drilldown="loadedDrilldown"
+			/>
 		</template>
 
 
@@ -218,10 +229,13 @@
 			v-if="$slots.bottom"
 			#bottom
 		>
-			<BottomSlot :loaded-drilldown="loadedDrilldown">
+			<BottomSlot
+				:key="level"
+				:loaded-drilldown="loadedDrilldown"
+			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(_, slot) in $slots"
+					v-for="(  _, slot  ) in   $slots  "
 					#[slot]="scope"
 				>
 					<slot
@@ -244,6 +258,7 @@ import {
 	useMergeDeep,
 } from './composables/helpers';
 import {
+	Column,
 	DataTableItem,
 	DrilldownEvent,
 	LoadedDrilldown,
@@ -265,6 +280,7 @@ const emit = defineEmits([
 	'update:expanded',
 	'update:drilldown',
 	'update:sortBy',
+	'update:sortByCustom',
 ]);
 
 
@@ -322,7 +338,7 @@ let loadedDrilldown = reactive<LoadedDrilldown>({
 	// loadingText: 'Loading...',	// & Works & Is Prop
 	modelValue: [],								// ? Needs Testing
 	// multiSort: false,					// & Works - Is binding prop
-	// mustSort: false,						// & Works - Is binding prop
+	// mustSort: false,						// ! Not sure if this is working correctly - Is binding prop
 	// noDataText: '',						// & Works & Is Prop
 	noFilter: false,							// * Works, but not sure why you would use this.
 	page: 1, 											// * Works
@@ -473,7 +489,7 @@ function emitClickRowCheckbox(item: DataTableItem): void {
 
 function emitUpdatedExpanded(data: DrilldownEvent): void {
 	if (data.isExpanded(data.item)) {
-		emit('update:drilldown', { ...data, ...{ items: loadedDrilldown.items } });
+		emit('update:drilldown', { ...data, ...{ items: loadedDrilldown.items, sortBy: loadedDrilldown.sortBy } });
 	}
 
 	emit('update:expanded', data);
@@ -516,10 +532,17 @@ function updateOptions() {
 // 	// console.log('updatePage', val);
 // }
 
-// ? Probably more useful when using server side
+// ! This is problematic.
 function updateSortBy(val: VDataTable['sortBy']) {
 	loadedDrilldown.sortBy = val;
+
 	emit('update:sortBy', val);
+}
+
+function updateHeaderSort(column: Column, sortBy: VDataTable['sortBy']) {
+	console.log('updateHeaderSort', sortBy, column, loadedDrilldown.level, props.level);
+
+	// emit('update:sortByCustom', { level, sortBy });
 }
 </script>
 
