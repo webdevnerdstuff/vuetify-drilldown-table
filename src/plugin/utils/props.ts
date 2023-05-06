@@ -106,6 +106,11 @@ export const AllProps: Props = {
 		required: false,
 		type: String,
 	},
+	multiSort: {
+		default: false,
+		required: false,
+		type: Boolean,
+	},
 	noDataText: {
 		default: '$vuetify.noDataText',
 		required: false,
