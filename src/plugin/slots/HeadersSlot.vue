@@ -10,7 +10,7 @@
 				:class="cellClasses(column, column.key)"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
-			>a
+			>
 				<slot
 					:column="column"
 					:name="`header.${column.key}`"
@@ -79,7 +79,7 @@ import {
 
 const emit = defineEmits([
 	'click:selectAll',
-	'update:sortBy',
+	'update:header:sort',
 ]);
 
 const props = defineProps({
@@ -249,7 +249,7 @@ function sortColumn(column: DrilldownTypes.Column): void {
 	if (column.sortable) {
 		props.slotProps?.toggleSort(column.key);
 
-		emit('update:sortBy', column);
+		emit('update:header:sort', { column, sortBy: props.loadedDrilldown.sortBy });
 	}
 }
 
