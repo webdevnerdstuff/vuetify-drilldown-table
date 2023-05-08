@@ -65,7 +65,7 @@
 			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(  _, slot  ) in   $slots  "
+					v-for="(_, slot) in $slots"
 					#[slot]="scope"
 				>
 					<slot
@@ -138,7 +138,7 @@
 			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(  _, slot  ) in   $slots  "
+					v-for="(_, slot) in $slots"
 					#[slot]="scope"
 				>
 					<slot
@@ -186,13 +186,13 @@
 					>
 						<!-- Pass on all named slots -->
 						<slot
-							v-for="  slot   in   Object.keys(slots)  "
+							v-for="slot in Object.keys(slots)"
 							:name="slot"
 						></slot>
 
-						<!-- Pass on all scoped slots -->
+						<!--wPass on all scoped slots -->
 						<template
-							v-for="(  _, slot  ) in   $slots  "
+							v-for="(_, slot) in $slots"
 							#[slot]="scope"
 						>
 							<slot
@@ -235,7 +235,7 @@
 			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(  _, slot  ) in   $slots  "
+					v-for="(_, slot) in $slots"
 					#[slot]="scope"
 				>
 					<slot
