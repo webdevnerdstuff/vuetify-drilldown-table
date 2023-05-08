@@ -6,13 +6,12 @@
 			<v-col cols="12">
 				<VDrilldownTable
 					:colors="tableSettings.colors"
-					:debounce-delay="tableSettings.debounceDelay"
 					:density="tableSettings.density"
 					:drilldown-key="tableSettings.drilldownKey"
 					:elevation="tableSettings.elevation"
 					:expand-on-click="tableSettings.expandOnClick"
-					:footers="tableSettings.footers.users"
-					:headers="tableSettings.headers.users"
+					:footers="footers.users"
+					:headers="headers.users"
 					:hover="tableSettings.hover"
 					:item-children-key="tableSettings.itemChildrenKey"
 					:items="tableSettings.items"
@@ -24,6 +23,7 @@
 					:loading-text="tableSettings.loadingText"
 					:multi-sort="tableSettings.multiSort"
 					:no-data-text="tableSettings.noDataText"
+					:page="tableSettings.page"
 					:show-expand="tableSettings.showExpand"
 					:show-footer-row="tableSettings.showFooterRow"
 					:show-search="tableSettings.showSearch"
@@ -34,6 +34,7 @@
 					@update:drilldown="fetchData($event)"
 					@update:expanded="expandedEvent($event)"
 					@update:model-value="updatedModelValue($event)"
+					@update:sort-by="updatedSortBy"
 				>
 					<!-- ! This is not working since adding the TableLoader component -->
 					<!-- <template #loading>
@@ -58,9 +59,9 @@
 						</div>
 					</template> -->
 
-					<!--
-					<template #[`header.sortIcon`]>
-						<v-icon>mdi mdi-vuetify</v-icon>
+
+					<!-- <template #[`header.sortIcon`]>
+						<fa-icon icon="fa-solid fa-arrow-up"></fa-icon>
 					</template> -->
 
 					<!-- <template #[`header.id`]="{ column }">
@@ -89,6 +90,10 @@
 						<v-icon>mdi mdi-vuetify</v-icon>
 					</template> -->
 
+					<!-- <template #[`item.data-table-expand`]>
+						<fa-icon icon="fa-solid fa-chevron-down"></fa-icon>
+					</template> -->
+
 					<!-- <template #[`tfoot.name`]>
 						<td>
 							[tfoot Slot]
@@ -106,9 +111,6 @@
 						</div>
 					</template> -->
 
-					<!-- <template #[`item.data-table-expand`]>
-						<v-icon>mdi mdi-vuetify</v-icon>
-					</template> -->
 				</VDrilldownTable>
 			</v-col>
 		</v-row>
@@ -150,6 +152,16 @@
 							</td>
 						</tr>
 					</template>
+
+					<template #tfoot>
+						<tr>
+							<td
+								v-for="item in Object.keys(defaultTableHeaders).length"
+								:key="item"
+							>
+								{{ item }}</td>
+						</tr>
+					</template>
 				</v-data-table>
 			</v-col>
 		</v-row>
@@ -165,9 +177,177 @@ onMounted(() => {
 	fetchComments();
 });
 
+
 const fakeNetworkThrottlingTime = 2000;
 
-const tableSettings = ref({
+const footers = {
+	comments: [
+		{
+			align: 'start',
+			key: null,
+			title: '',
+			width: 100,
+		},
+		{
+			align: 'start',
+			key: 'postId',
+			title: 'Post ID',
+			width: 100,
+		},
+		{
+			align: 'start',
+			key: 'id',
+			title: 'Comment ID',
+			width: 150,
+		},
+		{
+			align: 'start',
+			key: 'name',
+			title: 'Comment',
+		},
+		{
+			key: 'data-table-expand',
+			title: '',
+		},
+	],
+	posts: [
+		{
+			align: 'start',
+			key: 'userId',
+			title: 'User ID',
+			width: 100,
+		},
+		{
+			align: 'start',
+			key: 'id',
+			title: 'Post ID',
+			width: 250,
+		},
+		{
+			align: 'start',
+			key: 'title',
+			title: 'Post',
+		},
+		{
+			key: 'data-table-expand',
+			title: '',
+		},
+	],
+	users: [
+		// {
+		// 	key: 'data-table-select',
+		// 	title: '',
+		// },
+		{
+			align: 'start',
+			key: 'id',
+			title: 'User ID',
+			width: 350,
+		},
+		{
+			align: 'start',
+			key: 'name',
+			title: 'Name',
+		},
+		{
+			align: 'start',
+			key: 'email',
+			renderCell() {
+				return 'Total';
+			},
+			title: 'Email',
+		},
+		{
+			key: 'data-table-expand',
+			title: '',
+		},
+	],
+};
+
+const headers = {
+	comments: [
+		{
+			align: 'start',
+			key: 'id',
+			title: 'Comment ID',
+		},
+		{
+			align: 'start',
+			key: 'postId',
+			title: 'Post ID',
+		},
+		{
+			align: 'start',
+			key: 'name',
+			title: 'Name',
+		},
+		{
+			align: 'start',
+			key: 'email',
+			title: 'Email',
+		},
+		{
+			align: 'start',
+			key: 'body',
+			title: 'Body',
+		},
+		{
+			key: 'data-table-expand',
+			title: '',
+		},
+	],
+	posts: [
+		{
+			align: 'start',
+			key: 'userId',
+			title: 'User ID',
+			width: 110,
+		},
+		{
+			align: 'start',
+			key: 'id',
+			title: 'Post ID',
+			width: 260,
+		},
+		{
+			align: 'start',
+			key: 'title',
+			title: 'Post',
+		},
+		{
+			key: 'data-table-expand',
+			title: '',
+		},
+	],
+	users: [
+		{
+			align: 'start',
+			key: 'id',
+			title: 'User ID',
+			width: 370,
+		},
+		{
+			align: 'start',
+			key: 'name',
+			sortable: false,
+			title: 'Name',
+		},
+		{
+			align: 'start',
+			key: 'email',
+			sortable: false,
+			title: 'Email',
+		},
+		{
+			key: 'data-table-expand',
+			title: '',
+		},
+	],
+};
+
+const tableSettings = ref({});
+
+const tableDefaults = {
 	colors: {
 		body: {
 			base: '--v-theme-surface',
@@ -189,7 +369,7 @@ const tableSettings = ref({
 			text: 'on-primary',
 		},
 		loader: {
-			bg: 'default',
+			// bg: '',
 			circular: 'primary',
 			color: 'primary',
 			linear: 'surface-variant',
@@ -198,220 +378,34 @@ const tableSettings = ref({
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
-	// customFilter: () => { }, 							// ? Needs Testing
-	// customKeyFilter: [], 									// ? Needs Testing
-	debounceDelay: 750,										// * Works
-	density: 'comfortable',								// * Works
+	density: 'compact',								// * Works - Moved to default settings
 	drilldownKey: 'id',										// * Works
 	elevation: 5,													// * Works
 	expandOnClick: false, 								// * Works
-	// expanded: [], 													// ? Needs Testing
-	// filterKeys: [], 												// ? Needs Testing
-	// filterMode: '',												// ? Needs Testing
 	fixedFooter: true, 										// ! Failed
 	fixedHeader: true, 										// ! Failed
-	// footerProps: {},												// ? In v2 Missing in v3
-	// groupBy: [], 													// * Works, but this does not look very good by default
-	// footers: {
-	// 	comments: [],
-	// 	posts: [],
-	// 	users: [],
-	// },
-	footers: {
-		comments: [
-			{
-				align: 'start',
-				key: null,
-				title: '',
-				width: 100,
-			},
-			{
-				align: 'start',
-				key: 'postId',
-				title: 'Post ID',
-				width: 100,
-			},
-			{
-				align: 'start',
-				key: 'id',
-				title: 'Comment ID',
-				width: 150,
-			},
-			{
-				align: 'start',
-				key: 'name',
-				title: 'Comment',
-			},
-			{
-				key: 'data-table-expand',
-				title: '',
-			},
-		],
-		posts: [
-			{
-				align: 'start',
-				key: 'userId',
-				title: 'User ID',
-				width: 100,
-			},
-			{
-				align: 'start',
-				key: 'id',
-				title: 'Post ID',
-				width: 250,
-			},
-			{
-				align: 'start',
-				key: 'title',
-				title: 'Post',
-			},
-			{
-				key: 'data-table-expand',
-				title: '',
-			},
-		],
-		users: [
-			// {
-			// 	key: 'data-table-select',
-			// 	title: '',
-			// },
-			{
-				align: 'start',
-				key: 'id',
-				title: 'User ID',
-				width: 350,
-			},
-			{
-				align: 'start',
-				key: 'name',
-				title: 'Name',
-			},
-			{
-				align: 'start',
-				key: 'email',
-				renderCell() {
-					return 'Total';
-				},
-				title: 'Email',
-			},
-			{
-				key: 'data-table-expand',
-				title: '',
-			},
-		],
-	},
-	headers: {
-		comments: [
-			{
-				align: 'start',
-				key: null,
-				title: '',
-				width: 110,
-			},
-			{
-				align: 'start',
-				key: 'postId',
-				title: 'Post ID',
-				width: 110,
-			},
-			{
-				align: 'start',
-				key: 'id',
-				title: 'Comment ID',
-				width: 150,
-			},
-			{
-				align: 'start',
-				key: 'name',
-				title: 'Comment',
-			},
-			{
-				key: 'data-table-expand',
-				title: '',
-			},
-		],
-		posts: [
-			{
-				align: 'start',
-				key: 'userId',
-				title: 'User ID',
-				width: 110,
-			},
-			{
-				align: 'start',
-				key: 'id',
-				title: 'Post ID',
-				width: 260,
-			},
-			{
-				align: 'start',
-				key: 'title',
-				title: 'Post',
-			},
-			{
-				key: 'data-table-expand',
-				title: '',
-			},
-		],
-		users: [
-			{
-				align: 'start',
-				key: 'id',
-				title: 'User ID',
-				width: 370,
-			},
-			{
-				align: 'start',
-				key: 'name',
-				title: 'Name',
-			},
-			{
-				align: 'start',
-				key: 'email',
-				sortable: false,
-				// renderFooter() {
-				// 	return 'Total';
-				// },
-				title: 'Email',
-			},
-			{
-				key: 'data-table-expand',
-				title: '',
-			},
-		],
-	},
+	footers: [],
+	headers: [],
 	height: 'auto',												// * Works
-	// hideDefaultFooter: false, 							// ? In v2 Missing in v3
-	// hideDefaultHeader: true,	 							// ? In v2 Missing in v3
-	// hideNoData: false, 										// !  Failed
-	hover: false, 													// * Works
-	// itemChildren: 'children',							// ? Missing Docs
-	// itemProps: 'props',										// ? Not sure what this does
 	itemChildrenKey: 'child',
 	itemTitle: 'title',										// * Works, but is weird
 	itemValue: 'id',											// * Works, but is weird
-	items: [],														// * Works
+	items: [],
 	itemsLength: 0,												// ? Needs Testing
 	itemsPerPage: 10,											// * Works
 	levels: 2,														// * Works - Custom Prop
 	loaderType: [
 		'linear',
-		'circular',
+		// 'circular',
 		'text',
-		'skelton',
+		// 'skelton',
 	],
-	// ! Built in prop fails - https://github.com/vuetifyjs/vuetify/issues/16811 //
-	loading: false,												// * Custom Works,
-	// ! Built in prop fails - https://github.com/vuetifyjs/vuetify/issues/16811 //
-	loadingText: '',											// * Custom Works,
-	// modelValue: [],												// ? Needs Testing
-	multiSort: false,											// * Works
-	mustSort: false,											// * Works
-	noDataText: '$vuetify.noDataText',		// ! Failed - https://github.com/vuetifyjs/vuetify/issues/17168
-	// noFilter: false,												// * Works, but not sure why you would use this.
-	page: 1, 															// * Works
-	// pageCount: 0,													// ? In v2 Missing in v3
-	// returnObject: true,										// ? Missing Docs
+	loading: false,
+	loadingText: '',
+	multiSort: false,
+	mustSort: false,
+	// noDataText: 'No droids here',
+	page: 1,
 	search: '',
 	searchProps: { 												// ? VDrilldownTable Custom Prop
 		cols: {
@@ -425,23 +419,23 @@ const tableSettings = ref({
 		density: 'compact',
 		variant: 'underlined',
 	},
-	// server: false, 												// ? Needs Testing. This requires v-data-table-server
-	showExpand: false,										// * Works
+	showExpand: false,
 	showFooterRow: true,
 	showSearch: false,
-	showSelect: false,										// * Works
-	skeltonType: 'heading@1',							// * Works
-	// sortBy: [{
-	// 	order: 'asc',
-	// 	key: 'id',
-	// }],
-	sortBy: [],														// * Works
-	// width: '100%',													// ! Failed
-});
+	showSelect: false,
+	skeltonType: 'heading@1',
+	sortBy: [],
+};
+
+tableSettings.value = {
+	...tableDefaults,
+	...tableSettings.value,
+};
 
 
 function fetchData(drilldown = null) {
 	const item = drilldown?.item?.raw ?? null;
+	// console.log({ drilldown });
 
 	let url = 'https://jsonplaceholder.typicode.com/users';
 	let user = null;
@@ -457,14 +451,14 @@ function fetchData(drilldown = null) {
 	if (drilldown?.level === 0) {
 		userId = item.id;
 		url = `https://jsonplaceholder.typicode.com/posts?userId=${userId}`;
-		user = tableSettings.value.items.find((a) => a.id === userId);
+		user = drilldown.items.find((a) => a.id === userId);
 
 		user.child = {};
 		user.child = {
+			...tableDefaults,
 			drilldownKey: 'id',
-			footers: [...tableSettings.value.footers.posts],
-			headers: [...tableSettings.value.headers.posts],
-			items: [],
+			footers: footers.posts,
+			headers: headers.posts,
 			level: 1,
 			loading: true,
 		};
@@ -473,26 +467,27 @@ function fetchData(drilldown = null) {
 	if (drilldown?.level === 1) {
 		postId = item.id;
 		userId = item.userId;
-		user = tableSettings.value.items.find((a) => a.id === userId);
+		user = drilldown.items.find((a) => a.id === userId);
 		post = user.child.items.find((item) => item.id === postId);
 
 		post.child = {};
 		post.child = {
+			...tableDefaults,
 			drilldownKey: 'id',
-			footers: [...tableSettings.value.footers.comments],
-			headers: [...tableSettings.value.headers.comments],
-			items: [],
+			footers: footers.comments,
+			headers: headers.comments,
 			level: 2,
 			loading: true,
 		};
 
 		url = `https://jsonplaceholder.typicode.com/comments?postId=${postId}`;
+		url = `https://jsonplaceholder.typicode.com/comments`;
 	}
 
 	fetch(url)
 		.then(response => response.json())
 		.then(json => {
-			tableSettings.value.itemsLength = json.length;
+			// tableSettings.value.itemsLength = json.length;
 
 			setTimeout(() => {
 				if (!drilldown) {
@@ -522,27 +517,29 @@ function fetchData(drilldown = null) {
 const defaultTableHeaders = ref([
 	{
 		align: 'start',
-		key: 'postId',
-		sortable: false,
-		title: 'Post ID',
-		width: 125,
+		key: 'id',
+		title: 'Comment ID',
 	},
 	{
 		align: 'start',
-		key: 'id',
-		sortable: false,
-		title: 'Comment ID',
-		width: 150,
+		key: 'postId',
+		title: 'Post ID',
 	},
 	{
 		align: 'start',
 		key: 'name',
-		title: 'Comment',
+		title: 'Name',
 	},
-	// {
-	// 	key: 'data-table-expand',
-	// 	title: '',
-	// },
+	{
+		align: 'start',
+		key: 'email',
+		title: 'Email',
+	},
+	{
+		align: 'start',
+		key: 'body',
+		title: 'Body',
+	},
 ]);
 
 const defaultTableItems = ref([]);
@@ -559,17 +556,21 @@ function fetchComments() {
 
 function expandedEvent(event) {
 	// do something...
-	console.log('expandedEvent', event);
+	// console.log('expandedEvent', event);
 }
 
 function updatedModelValue(event) {
 	// do something...
-	console.log('updatedModelValue', event);
+	// console.log('updatedModelValue', event);
+}
+
+function updatedSortBy(event) {
+	tableSettings.value.sortBy = event;
 }
 
 function rowClickEvent(event) {
 	// do something...
-	console.log('rowClickEvent', event);
+	// console.log('rowClickEvent', event);
 }
 </script>
 

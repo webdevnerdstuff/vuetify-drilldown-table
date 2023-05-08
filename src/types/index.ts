@@ -239,11 +239,16 @@ export type Props = {
 		required: boolean;
 		type: PropType<string>;
 	};
+	multiSort: {
+		default: boolean;
+		required: boolean;
+		type: PropType<boolean>;
+	};
 	noDataText: {
 		default: string;
 		required: boolean;
 		type: PropType<string>;
-	},
+	};
 	// * Custom Property //
 	searchProps: {
 		default: () => SearchProps;
@@ -256,7 +261,7 @@ export type Props = {
 	// 	default: string;
 	// 	required: boolean;
 	// 	type: PropType<string>;
-	// },
+	// };
 	// * Custom Property //
 	showFooterRow?: {
 		default: boolean;

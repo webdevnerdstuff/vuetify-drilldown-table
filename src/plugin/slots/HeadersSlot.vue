@@ -79,7 +79,7 @@ import {
 
 const emit = defineEmits([
 	'click:selectAll',
-	'update:sortBy',
+	'update:header:sort',
 ]);
 
 const props = defineProps({
@@ -237,6 +237,7 @@ const checkBoxClasses = computed((): object => {
 // -------------------------------------------------- Sorting //
 const sortIconClasses = (key: string): object => {
 	return {
+		'px-1': true,
 		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-${props.loadedDrilldown.level}`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: getSortDirection(key) === 'desc',
@@ -248,7 +249,7 @@ function sortColumn(column: DrilldownTypes.Column): void {
 	if (column.sortable) {
 		props.slotProps?.toggleSort(column.key);
 
-		emit('update:sortBy', column);
+		emit('update:header:sort', { column, sortBy: props.loadedDrilldown.sortBy });
 	}
 }
 
