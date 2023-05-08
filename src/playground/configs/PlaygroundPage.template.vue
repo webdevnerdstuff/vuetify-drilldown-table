@@ -435,7 +435,7 @@ tableSettings.value = {
 
 function fetchData(drilldown = null) {
 	const item = drilldown?.item?.raw ?? null;
-	console.log({ drilldown });
+	// console.log({ drilldown });
 
 	let url = 'https://jsonplaceholder.typicode.com/users';
 	let user = null;
