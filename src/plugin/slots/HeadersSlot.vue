@@ -68,13 +68,18 @@
 </template>
 
 <script setup lang="ts">
-import { componentName } from '@/plugin/utils/globals';
 import * as DrilldownTypes from '@/types';
-import { useGetLevelColors } from '@/plugin/composables/levelColors';
 import {
-	useConvertToUnit,
-	useRenderCell,
-} from '@/plugin/composables/helpers';
+	useCellAlignClasses,
+	useHeaderCellClasses,
+	useCheckBoxClasses,
+	useHeaderRowClasses,
+	useSortIconClasses,
+} from '@/plugin/composables/classes';
+import { useRenderCell } from '@/plugin/composables/helpers';
+import {
+	useHeaderCellStyles
+} from '@/plugin/composables/styles';
 
 
 const emit = defineEmits([
@@ -142,67 +147,21 @@ const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.a
 
 // -------------------------------------------------- Header Row //
 const headerRowClasses = computed((): object => {
-	const classes = {
-		[`${componentName}--header-row`]: true,
-
-		[`${componentName}--header-row-${props.loadedDrilldown.level}`]: true,
-	};
-
-	return classes;
+	return useHeaderRowClasses(props.loadedDrilldown.level);
 });
 
 
 // -------------------------------------------------- Header Row Cells //
 const cellAlignClasses = (align: string): object => {
-	const classes = {
-		'd-flex align-center': true,
-		[`justify-${align}`]: align,
-		[`justify-start`]: !align,
-	};
-
-	return classes;
+	return useCellAlignClasses(align);
 };
 
 const cellClasses = (column: DrilldownTypes.Column, slotName = ''): object => {
-	const classes = {
-		[`${componentName}--header-row-th`]: true,
-		[`${componentName}--header-row-th-${slotName}`]: slotName !== '',
-		[`${componentName}--header-row-th-${slotName}-${props.loadedDrilldown.level}`]: slotName,
-		[`${componentName}--header-row-th-${props.loadedDrilldown.level}`]: true,
-		[`${componentName}--header-row-th-sortable`]: column.sortable,
-		[`${componentName}--header-row-th-sortable-default-color`]: column.sortable && props.loadedDrilldown.colors === false,
-		[`${column.cellClass}`]: column.cellClass,
-	};
-
-	return classes;
+	return useHeaderCellClasses(props.loadedDrilldown, column, slotName);
 };
 
 const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
-	const styles: {
-		backgroundColor?: string | unknown;
-		color?: string | unknown;
-		minWidth?: string | number | unknown;
-		width?: string | number | unknown;
-	} = {
-		minWidth: column.width ? useConvertToUnit(column.width) : 'auto',
-		width: column.width ? useConvertToUnit(column.width) : 'auto',
-	};
-
-	if (dataTableExpand && !column.width) {
-		styles.width = '48px';
-		styles.minWidth = '48px';
-	}
-
-	if (props.loadedDrilldown.colors === false) {
-		return styles as CSSProperties;
-	}
-
-	const headerColors = useGetLevelColors(props.loadedDrilldown, theme, 'header');
-
-	styles.backgroundColor = headerColors.bg;
-	styles.color = headerColors.text;
-
-	return styles as CSSProperties;
+	return useHeaderCellStyles(props.loadedDrilldown, column, theme, dataTableExpand);
 };
 
 
@@ -223,43 +182,19 @@ watch(someSelected, (newVal) => {
 });
 
 const checkBoxClasses = computed((): object => {
-	const classes = {
-		'd-flex': true,
-		[`${componentName}--header-select-all-checkbox`]: true,
-		[`${componentName}--header-select-all-checkbox-${props.loadedDrilldown.level}`]: true,
-	};
-
-	return classes;
+	return useCheckBoxClasses(props.loadedDrilldown.level);
 });
 
 
 // -------------------------------------------------- Sorting //
 const sortIconClasses = (key: string): object => {
-	return {
-		'px-1': true,
-		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
-		[`${componentName}--header-row-th-sortable-sort-icon-${props.loadedDrilldown.level}`]: true,
-		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: getSortDirection(key) === 'desc',
-		[`${componentName}--header-row-th-sortable-sort-icon-asc`]: getSortDirection(key) === 'asc',
-	};
+	return useSortIconClasses(props.loadedDrilldown, props.loadedDrilldown.level, key);
 };
 
 function sortColumn(column: DrilldownTypes.Column): void {
 	if (column.sortable) {
 		props.slotProps?.toggleSort(column.key);
 	}
-}
-
-function getSortDirection(id: string) {
-	if (props.loadedDrilldown.sortBy) {
-		const item = props.loadedDrilldown.sortBy.find(item => item.key === id);
-
-		if (item) {
-			return item.order;
-		}
-	}
-
-	return;
 }
 
 

@@ -55,12 +55,10 @@
 </template>
 
 <script setup lang="ts">
-import { componentName } from '@/plugin/utils/globals';
 import * as DrilldownTypes from '@/types';
-import { useGetLevelColors } from '@/plugin/composables/levelColors';
-import {
-	useRenderCell,
-} from '@/plugin/composables/helpers';
+import { useRenderCell } from '@/plugin/composables/helpers';
+import { useCellClasses } from '@/plugin/composables/classes';
+import { useCellStyles } from '@/plugin/composables/styles';
 
 
 const props = defineProps({
@@ -84,27 +82,11 @@ const columns = computed<DrilldownTypes.Column[]>(() => props.loadedDrilldown.fo
 
 
 const cellClasses = (column: DrilldownTypes.Column): object => {
-	return {
-		[`${componentName}--footer-row-td`]: true,
-		[`${componentName}--footer-row-td-${props.loadedDrilldown.level}`]: true,
-		[`${column.cellClass}`]: column.cellClass,
-	};
+	return useCellClasses('footer', column, props.loadedDrilldown.level);
 };
 
-
 const cellStyles = computed<CSSProperties>(() => {
-	if (props.loadedDrilldown.colors === false) {
-		return {};
-	}
-
-	const footerColors = useGetLevelColors(props.loadedDrilldown, theme, 'footer');
-
-	const styles = {
-		backgroundColor: footerColors.bg,
-		color: footerColors.text,
-	};
-
-	return styles as CSSProperties;
+	return useCellStyles(props.loadedDrilldown, theme, 'footer');
 });
 
 
@@ -113,7 +95,6 @@ function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 	const tempIndex = 0;
 	return useRenderCell(props.loadedDrilldown, column, tempIndex);
 }
-
 </script>
 
 <style lang="scss">

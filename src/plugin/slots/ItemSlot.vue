@@ -33,8 +33,7 @@
 						item,
 						level,
 						toggleExpand,
-					})
-						"
+					})"
 				>
 					<slot
 						v-if="$slots[`item.data-table-expand`]"
@@ -107,11 +106,13 @@
 
 
 <script lang="ts" setup>
-import { componentName } from '@/plugin/utils/globals';
 import * as DrilldownTypes from '@/types';
+import { useRenderCellItem } from '../composables/helpers';
 import {
-	useRenderCellItem,
-} from '../composables/helpers';
+	useBodyRowClasses,
+	useCellClasses,
+} from '@/plugin/composables/classes';
+
 
 const emit = defineEmits([
 	'click:row',
@@ -175,28 +176,13 @@ const toggleSelect = computed(() => props.slotProps.toggleSelect);
 
 // -------------------------------------------------- Row //
 const rowClasses = computed<object>(() => {
-	const settings = props.loadedDrilldown;
-
-	const classes = {
-		'v-data-table__tr': true,
-		'v-data-table__tr--clickable': settings.expandOnClick && (settings.level < settings.levels),
-		[`${componentName}--body-row`]: true,
-		[`${componentName}--body-row-${settings.level}`]: true,
-	};
-
-	return classes;
+	return useBodyRowClasses(props.loadedDrilldown);
 });
 
 
 // -------------------------------------------------- Row Cells //
 const cellClasses = (column: DrilldownTypes.Column): object => {
-	const classes = {
-		[`${componentName}--body-row-td`]: true,
-		[`${componentName}--body-row-td-${props.loadedDrilldown.level}`]: true,
-		[`${column.cellClass}`]: column.cellClass,
-	};
-
-	return classes;
+	return useCellClasses('body', column, props.loadedDrilldown.level);
 };
 
 function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
