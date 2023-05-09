@@ -2,14 +2,14 @@
 	<tr
 		:class="rowClasses"
 		@click="drilldownEvent({
-				columns,
-				index,
-				isExpanded,
-				item,
-				level,
-				toggleExpand,
-				$event,
-			})"
+			columns,
+			index,
+			isExpanded,
+			item,
+			level,
+			toggleExpand,
+			$event,
+		})"
 	>
 		<template
 			v-for="column in columns"
@@ -27,13 +27,13 @@
 					class="v-drilldown-table--expand-icon"
 					:class="!isExpanded(item) ? '' : 'rotate-180'"
 					@click="drilldownEvent({
-							columns,
-							index,
-							isExpanded,
-							item,
-							level,
-							toggleExpand,
-						})
+						columns,
+						index,
+						isExpanded,
+						item,
+						level,
+						toggleExpand,
+					})
 						"
 				>
 					<slot
@@ -56,12 +56,12 @@
 					class="d-flex v-simple-checkbox"
 					:density="loadedDrilldown.density"
 					@click="emitClickRowCheckbox({
-							columns,
-							index,
-							item,
-							level,
-							toggleSelect,
-						})"
+						columns,
+						index,
+						item,
+						level,
+						toggleSelect,
+					})"
 				></v-checkbox>
 			</td>
 			<!-- Column Render `data-table-select` -->
@@ -75,12 +75,12 @@
 					class="d-flex v-simple-checkbox"
 					:density="loadedDrilldown.density"
 					@click="emitClickRowCheckbox({
-							columns,
-							index,
-							item,
-							level,
-							toggleSelect,
-						})"
+						columns,
+						index,
+						item,
+						level,
+						toggleSelect,
+					})"
 				></v-checkbox>
 			</td>
 			<!-- Dynamic Name Item Slot -->
@@ -244,7 +244,7 @@ function emitClickRowCheckbox(data: DrilldownTypes.ClickRowCheckboxEvent): void 
 
 // -------------------------------------------------- Render //
 function renderCellItem(item: DrilldownTypes.DataTableItem, column: DrilldownTypes.Column, index: number): unknown {
-	return useRenderCellItem(item.raw, column, index);
+	return useRenderCellItem(item.raw as DrilldownTypes.DataTableItem, column, index);
 }
 </script>
 
