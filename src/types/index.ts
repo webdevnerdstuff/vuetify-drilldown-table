@@ -11,124 +11,6 @@ export type Density = null | 'default' | 'comfortable' | 'compact';
 export type DataTableItem = NonNullable<VDataTableRow["$props"]["item"]>;
 
 
-// -------------------------------------------------- Emits //
-export interface EmitUpdatedExpanded {
-	(
-		emit: {
-			(e: 'update:drilldown', drilldownData: LoadedDrilldown): void;
-			(e: 'update:expanded', data: DrilldownEvent): void;
-		},
-		data: DrilldownEvent,
-		drilldownData: LoadedDrilldown,
-	): void;
-}
-
-
-// -------------------------------------------------- Classes //
-export interface TableClasses {
-	(
-		isDrilldown: boolean,
-		elevation: string | number | undefined,
-		isHover: boolean | undefined,
-		level: number,
-		isServerSide: boolean,
-	): object;
-}
-
-export interface CellClasses {
-	(
-		elm: string,
-		column: Column,
-		level: number,
-	): object;
-}
-
-export interface HeaderCellClasses {
-	(
-		loadedDrilldown: LoadedDrilldown,
-		column: Column,
-		slotName?: string,
-	): object;
-}
-
-export interface SortIconClasses {
-	(
-		loadedDrilldown: LoadedDrilldown,
-		level: number,
-		key: string,
-	): object;
-}
-
-export interface BodyCellClasses {
-	(
-		column: Column,
-		level: number,
-	): object;
-}
-
-
-// -------------------------------------------------- Styles //
-export interface TableStyles {
-	(
-		loadedDrilldown: LoadedDrilldown,
-		theme: ThemeInstance,
-	): StyleValue;
-}
-
-export interface HeaderCellStyles {
-	(
-		loadedDrilldown: LoadedDrilldown,
-		column: { width?: string | number; },
-		theme: ThemeInstance,
-		dataTableExpand: boolean,
-	): CSSProperties;
-}
-
-export interface CellStyles {
-	(
-		loadedDrilldown: LoadedDrilldown,
-		theme: ThemeInstance,
-		elm: string,
-	): CSSProperties;
-}
-
-
-// -------------------------------------------------- Cell Rendering //
-interface CellRender {
-	(
-		key?: string,
-		column?: object,
-		index?: number,
-	): void;
-};
-
-interface ItemCellRender {
-	(
-		itemValue?: string,
-		item?: object,
-		column?: object,
-		index?: number,
-	): void;
-};
-
-export interface Column {
-	align?: string;
-	cellClass?: string;
-	colspan?: number;
-	columnFooter?: string;
-	fixedOffset?: number;
-	key?: string;
-	renderCell?: CellRender;
-	renderFooter?: CellRender;
-	renderHeader?: CellRender;
-	renderItem?: ItemCellRender;
-	renderer?: CellRender,
-	rowClass?: string;
-	rowspan?: number;
-	sortable?: boolean;
-	title?: string;
-	width?: string | number;
-};
 
 // -------------------------------------------------- Colors //
 export type ColorsObject = {
@@ -200,7 +82,7 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean> | PropType<ColorsObject>;
 	};
-	// * Custom Property //
+	// ? Might not need this anymore //
 	debounceDelay: {
 		default: number;
 		required: boolean;
@@ -366,7 +248,6 @@ export type Props = {
 };
 
 
-
 // -------------------------------------------------- Drilldown //
 export type LoadedDrilldown = {
 	colors?: boolean | ColorsObject; 															// * Custom Property
@@ -427,6 +308,115 @@ export type LoadedDrilldown = {
 	width?: string | number | undefined;
 };
 
+
+// -------------------------------------------------- Cell Rendering //
+interface CellRender {
+	(
+		key?: string,
+		column?: object,
+		index?: number,
+	): void;
+};
+
+interface ItemCellRender {
+	(
+		itemValue?: string,
+		item?: object,
+		column?: object,
+		index?: number,
+	): void;
+};
+
+export interface Column {
+	align?: string;
+	cellClass?: string;
+	colspan?: number;
+	columnFooter?: string;
+	fixedOffset?: number;
+	key?: string;
+	renderCell?: CellRender;
+	renderFooter?: CellRender;
+	renderHeader?: CellRender;
+	renderItem?: ItemCellRender;
+	renderer?: CellRender,
+	rowClass?: string;
+	rowspan?: number;
+	sortable?: boolean;
+	title?: string;
+	width?: string | number;
+};
+
+
+// -------------------------------------------------- Classes //
+export interface TableClasses {
+	(
+		isDrilldown: boolean,
+		elevation: string | number | undefined,
+		isHover: boolean | undefined,
+		level: number,
+		isServerSide: boolean,
+	): object;
+}
+
+export interface CellClasses {
+	(
+		elm: string,
+		column: Column,
+		level: number,
+	): object;
+}
+
+export interface HeaderCellClasses {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		column: Column,
+		slotName?: string,
+	): object;
+}
+
+export interface SortIconClasses {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		level: number,
+		key: string,
+	): object;
+}
+
+export interface BodyCellClasses {
+	(
+		column: Column,
+		level: number,
+	): object;
+}
+
+
+// -------------------------------------------------- Styles //
+export interface TableStyles {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		theme: ThemeInstance,
+	): StyleValue;
+}
+
+export interface HeaderCellStyles {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		column: { width?: string | number; },
+		theme: ThemeInstance,
+		dataTableExpand: boolean,
+	): CSSProperties;
+}
+
+export interface CellStyles {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		theme: ThemeInstance,
+		elm: string,
+	): CSSProperties;
+}
+
+
+// -------------------------------------------------- Events  //
 export type DrilldownEvent = {
 	$event?: MouseEvent | undefined;
 	columns?: object;
@@ -447,4 +437,18 @@ export type ClickRowCheckboxEvent = {
 	toggleSelect(item?: object): void;
 };
 
+// -------------------------------------------------- Helpers //
 export type DrilldownDebounce = (...args: undefined[]) => void;
+
+
+// -------------------------------------------------- Emits //
+export interface EmitUpdatedExpanded {
+	(
+		emit: {
+			(e: 'update:drilldown', drilldownData: LoadedDrilldown): void;
+			(e: 'update:expanded', data: DrilldownEvent): void;
+		},
+		data: DrilldownEvent,
+		drilldownData: LoadedDrilldown,
+	): void;
+}
