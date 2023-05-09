@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { PropType } from 'vue';
 import type { VTextField } from "vuetify/components";
-import type { VDataTable } from "vuetify/labs/VDataTable";
+import type { VDataTable, VDataTableRow } from "vuetify/labs/VDataTable";
 
 
 // -------------------------------------------------- Vuetify Types //
@@ -9,19 +9,24 @@ export type Density = null | 'default' | 'comfortable' | 'compact';
 
 export interface InternalItem<T = object> {
 	children?: InternalItem<T>[];
-	props: {
+	props?: {
 		[key: string]: unknown;
 		title: string;
 		value: unknown;
 	};
-	raw: T;
-	title: string;
-	value: unknown;
+	raw?: T;
+	title?: string;
+	value?: T;
 }
 
-export interface DataTableItem extends InternalItem {
-	// @ts-ignore
-	[key: string]: string;
+// export interface DataTableItem extends InternalItem {
+// 	// @ts-ignore
+// 	[key: string]: string;
+// };
+
+export type DataTableItem = InternalItem & {
+	type: 'item';
+	columns: Record<string, unknown>;
 };
 
 
@@ -190,10 +195,15 @@ export type Props = {
 		type: PropType<boolean>;
 	};
 	// * Custom Property //
+	// item: {
+	// 	default: () => InternalItem;
+	// 	required: boolean;
+	// 	type: PropType<InternalItem>;
+	// };
 	item: {
-		default: DataTableItem | object;
+		default: () => VDataTableRow["$props"]["item"] | void | unknown;
 		required: boolean;
-		type: PropType<DataTableItem>;
+		type: PropType<object>;
 	};
 	itemChildrenKey: {
 		default: string;
@@ -315,7 +325,7 @@ export type LoadedDrilldown = {
 	hideNoData?: boolean;
 	hover?: boolean;
 	isDrilldown?: boolean; 															// * Custom Property
-	item?: object; 																			// * Custom Property
+	item?: VDataTableRow["$props"]["item"];							// * Custom Property
 	itemChildren?: VDataTable["$props"]["itemChildren"];
 	itemChildrenKey: string; 														// * Custom Property
 	itemProps?: VDataTable["$props"]["itemProps"];
@@ -357,6 +367,7 @@ export type DrilldownEvent = {
 	item: object;
 	items?: object;
 	level?: number;
+	sortBy?: object;
 	toggleExpand(item?: object): void;
 };
 

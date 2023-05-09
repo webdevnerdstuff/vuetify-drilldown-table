@@ -26,7 +26,7 @@
 		:search="levelSearch"
 		:show-expand="loadedDrilldown.showExpand"
 		:show-select="loadedDrilldown.showSelect"
-		:sort-by="loadedDrilldown.sortBy"
+		:sort-by="currentSortBy"
 		:style="tableStyles"
 		@update:items-per-page="updateItemsPerPage"
 		@update:model-value="updateModelValue"
@@ -61,7 +61,6 @@
 				:loaded-drilldown="loadedDrilldown"
 				:slot-props="{ allRowsSelected, ...props }"
 				@click:selectAll="emitAllSelectedEvent($event)"
-				@update:header:sort="updateHeaderSort"
 			>
 				<!-- Pass on all scoped slots -->
 				<template
@@ -180,7 +179,7 @@
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
 						:sort-by="loadedDrilldown.sortBy"
-						@update:expanded="emitUpdatedExpanded($event)"
+						@update:drilldown="emitUpdatedExpanded($event)"
 						@update:items-per-page="updateItemsPerPage"
 						@update:options="updateOptions"
 					>
@@ -249,16 +248,19 @@
 </template>
 
 <script setup lang="ts">
-import { componentName } from './utils/globals';
+// import { componentName } from './utils/globals';
 import { AllProps } from './utils/props';
 import { TableLoader } from './components';
-import { useGetLevelColors } from './composables/levelColors';
+// import { useGetLevelColors } from './composables/levelColors';
+// import {
+// 	// useDrilldownDebounce,
+// 	useMergeDeep,
+// } from './composables/helpers';
 import {
 	// useDrilldownDebounce,
-	useMergeDeep,
-} from './composables/helpers';
+	useEmitUpdatedExpanded,
+} from './composables/emits';
 import {
-	Column,
 	DataTableItem,
 	DrilldownEvent,
 	LoadedDrilldown,
@@ -271,6 +273,14 @@ import {
 	TfootSlot,
 	TopSlot,
 } from './slots';
+import { watchOnce } from '@vueuse/core';
+import {
+	useTableClasses,
+	useTableStyles,
+} from './composables/table';
+import {
+	useSetLoadedDrilldown
+} from './composables/loadedDrilldown';
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
@@ -331,7 +341,7 @@ let loadedDrilldown = reactive<LoadedDrilldown>({
 	items: [],										// * Custom Prop - Keep here
 	// itemsLength: 0,								// ? Not sure if this will be used
 	itemsPerPage: 10,							// * Works
-	level: 0,											// * Custom Prop - Keep here
+	level: 1,											// * Custom Prop - Keep here
 	levels: 0,										// * Custom Prop - Keep here
 	loaderType: '',
 	// loading: false,
@@ -368,8 +378,12 @@ let loadedDrilldown = reactive<LoadedDrilldown>({
 });
 
 
+const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
+
+
 // -------------------------------------------------- Data //
 const allRowsSelected = ref<boolean>(false);
+const currentSortBy = ref(loadedDrilldown.sortBy);
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
@@ -391,10 +405,25 @@ const hidingNoData = computed(() => {
 // 	}
 // }, props.debounceDelay, props.level === 0), { deep: true });
 
-watch(props, () => {
-	if (props.level !== 0 || loadedDrilldown.level === 0) {
+// watch(props, () => {
+// 	if (props.level !== 1 || loadedDrilldown.level === 1) {
+// 		setLoadedDrilldown();
+// 	}
+// });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+watchOnce(props as any, () => {
+	if (props.level !== 1 || loadedDrilldown.level === 1) {
 		setLoadedDrilldown();
 	}
+}, { immediate: false });
+
+watch(() => props.loading, (value) => {
+	if (value) {
+		loadedDrilldown.loading = value;
+	}
+
+	setLoadedDrilldown();
 });
 
 
@@ -410,65 +439,42 @@ watch(props, () => {
 
 // -------------------------------------------------- Table #
 const tableClasses = computed<object>(() => {
-	const elevation = loadedDrilldown.elevation;
-
-	const classes = {
-		[`${componentName}`]: true,
-		[`${componentName}--level-${loadedDrilldown.level}`]: true,
-		[`${componentName}--hover`]: loadedDrilldown.hover,
-		[`${componentName}--child`]: props.isDrilldown,
-		[`elevation-${elevation}`]: parseInt(elevation as string) > 0,
-		'pb-2': true,
-	};
-
-	return classes;
+	return useTableClasses(loadedDrilldown, props.isDrilldown);
 });
 
 const tableStyles = computed<StyleValue>(() => {
-	let baseColors: { border?: string; } = {};
-
-	if (loadedDrilldown.colors) {
-		baseColors = useGetLevelColors(loadedDrilldown, theme, 'default');
-	}
-
-	const styles: { borderBottom: string; } = {
-		borderBottom: 'none',
-	};
-
-	if (baseColors.border) {
-		styles.borderBottom = `1px solid ${baseColors.border}`;
-	}
-
-	return styles;
+	return useTableStyles(loadedDrilldown, theme);
 });
 
 
 // -------------------------------------------------- Methods #
 function setLoadedDrilldown(): void {
-	if (props.drilldown) {
-		loadedDrilldown = useMergeDeep(loadedDrilldown, props.drilldown) as LoadedDrilldown;
+	loadedDrilldown = useSetLoadedDrilldown(loadedDrilldown, props);
 
-		const drilldownItem = loadedDrilldown.items.find(<T, K extends keyof T>(item: T) => {
-			const thisItem = item[loadedDrilldown.drilldownKey as K];
-			const propsItem = props.item.raw[loadedDrilldown.drilldownKey];
+	// if (props.drilldown) {
+	// 	loadedDrilldown = useMergeDeep(loadedDrilldown, props.drilldown) as LoadedDrilldown;
 
-			return thisItem === propsItem;
-		}) as LoadedDrilldown;
+	// 	const drilldownItem = loadedDrilldown.items.find(<T, K extends keyof T>(item: T) => {
+	// 		const thisItem = item[loadedDrilldown.drilldownKey as K];
+	// 		const propsItem = props.item.raw[loadedDrilldown.drilldownKey];
 
-		loadedDrilldown = useMergeDeep(
-			loadedDrilldown,
-			drilldownItem[loadedDrilldown.itemChildrenKey] as LoadedDrilldown,
-		) as LoadedDrilldown;
+	// 		return thisItem === propsItem;
+	// 	}) as LoadedDrilldown;
 
-		// Hide expand icon if this is the last drilldown level //
-		if (props.levels === props.level) {
-			loadedDrilldown.showExpand = false;
-		}
+	// 	loadedDrilldown = useMergeDeep(
+	// 		loadedDrilldown,
+	// 		drilldownItem[loadedDrilldown.itemChildrenKey] as LoadedDrilldown,
+	// 	) as LoadedDrilldown;
 
-		return;
-	}
+	// 	// Hide expand icon if this is the last drilldown level //
+	// 	if (props.levels === props.level) {
+	// 		loadedDrilldown.showExpand = false;
+	// 	}
 
-	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as LoadedDrilldown;
+	// 	return;
+	// }
+
+	// loadedDrilldown = useMergeDeep(loadedDrilldown, props) as LoadedDrilldown;
 }
 
 // -------------------------------------------------- Emit Events //
@@ -488,11 +494,16 @@ function emitClickRowCheckbox(item: DataTableItem): void {
 
 
 function emitUpdatedExpanded(data: DrilldownEvent): void {
-	if (data.isExpanded(data.item)) {
-		emit('update:drilldown', { ...data, ...{ items: loadedDrilldown.items, sortBy: loadedDrilldown.sortBy } });
-	}
+	const levelSortByValue = data?.sortBy ?? currentSortBy.value;
 
-	emit('update:expanded', data);
+	const drilldownData = {
+		...defaultDrilldownSettings,
+		...loadedDrilldown,
+		...data,
+		...{ sortBy: levelSortByValue },
+	};
+
+	useEmitUpdatedExpanded(emit, data, drilldownData as LoadedDrilldown);
 }
 
 
@@ -509,19 +520,9 @@ function updateItemsPerPage(itemsCount: number) {
 	return true;
 }
 
-// ! Do not use //
-// function updateExpanded(rowsExpanded, foo, bar, baz) {
-// 	console.log(rowsExpanded, foo, bar, baz);
-// 	loadedDrilldown.expanded = rowsExpanded;
-// 	// emit('drilldown', rowsExpanded);
-
-// 	// console.log('updateExpanded', rowsExpanded);
-// 	// console.log(loadedDrilldown.expanded);
-// }
-
 // ! Not sure what this does or if it works
-function updateModelValue() {
-	// console.log('updateModelValue', val);
+function updateModelValue(val) {
+	console.log('updateModelValue', val);
 }
 
 function updateOptions() {
@@ -532,18 +533,18 @@ function updateOptions() {
 // 	// console.log('updatePage', val);
 // }
 
-// ! This is problematic.
+
+watch(() => loadedDrilldown.sortBy, () => {
+	currentSortBy.value = loadedDrilldown.sortBy;
+
+	emit('update:sortBy', currentSortBy.value);
+});
+
+
 function updateSortBy(val: VDataTable['sortBy']) {
 	loadedDrilldown.sortBy = val;
-
-	emit('update:sortBy', val);
 }
 
-function updateHeaderSort(column: Column, sortBy: VDataTable['sortBy']) {
-	console.log('updateHeaderSort', sortBy, column, loadedDrilldown.level, props.level);
-
-	// emit('update:sortByCustom', { level, sortBy });
-}
 </script>
 
 <style lang="scss">
