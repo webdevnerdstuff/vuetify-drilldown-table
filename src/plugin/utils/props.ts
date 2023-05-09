@@ -1,6 +1,6 @@
 import { Props } from '@/types';
 import type { VTextField } from "vuetify/components";
-import type { VDataTable } from "vuetify/labs/VDataTable";
+import type { VDataTable } from "vuetify/labs/components";
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names

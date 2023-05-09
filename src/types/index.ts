@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { PropType } from 'vue';
 import type { VTextField } from "vuetify/components";
-import type { VDataTable, VDataTableRow } from "vuetify/labs/VDataTable";
+import type { VDataTable, VDataTableRow } from "vuetify/labs/components";
 
 
 // -------------------------------------------------- Vuetify Types //

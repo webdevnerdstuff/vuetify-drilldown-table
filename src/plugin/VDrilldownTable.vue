@@ -265,7 +265,7 @@ import {
 	DrilldownEvent,
 	LoadedDrilldown,
 } from '@/types';
-import type { VDataTable } from 'vuetify/labs/VDataTable';
+import type { VDataTable } from "vuetify/labs/components";
 import {
 	BottomSlot,
 	HeadersSlot,
