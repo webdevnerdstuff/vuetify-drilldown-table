@@ -1,22 +1,14 @@
 /* eslint-disable no-unused-vars */
-
 import {
-	DrilldownEvent,
-	LoadedDrilldown,
+	EmitUpdatedExpanded,
 } from '@/types';
 
 
-export function useEmitUpdatedExpanded(
-	emit: {
-		(e: 'update:drilldown', drilldownData: LoadedDrilldown): void;
-		(e: 'update:expanded', data: DrilldownEvent): void;
-	},
-	data: DrilldownEvent,
-	drilldownData: LoadedDrilldown,
-): void {
+// -------------------------------------------------- VDrilldownTable //
+export const useEmitUpdatedExpanded: EmitUpdatedExpanded = (emit, data, drilldownData) => {
 	if (data.isExpanded(data.item)) {
 		emit('update:drilldown', drilldownData);
 	}
 
 	emit('update:expanded', data);
-}
+};

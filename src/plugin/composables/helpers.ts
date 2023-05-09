@@ -1,8 +1,10 @@
 import {
 	Column,
+	DataTableItem,
 	DrilldownDebounce,
 	LoadedDrilldown,
 } from '@/types';
+import type { VDataTable } from "vuetify/labs/components";
 
 
 /**
@@ -41,6 +43,22 @@ export function useDrilldownDebounce<T extends DrilldownDebounce>(
 
 
 /**
+* Get's the sort direction for a column
+*/
+export function useGetSortDirection(loadedDrilldown: LoadedDrilldown, id: string): string | boolean | void {
+	if (loadedDrilldown.sortBy) {
+		const item = loadedDrilldown.sortBy.find(item => item.key === id);
+
+		if (item) {
+			return item.order;
+		}
+	}
+
+	return;
+}
+
+
+/**
 * Converts a string to a number with a unit.
 */
 export function useConvertToUnit(str: string | number, unit = 'px'): string | void {
@@ -73,6 +91,7 @@ export function useRenderCellItem(
 
 	return itemValue;
 }
+
 
 /**
 * Render the cell
