@@ -138,11 +138,6 @@ export const AllProps: Props = {
 	// 	required: false,
 	// 	type: String,
 	// },
-	// server: {
-	// 	default: false,
-	// 	required: false,
-	// 	type: Boolean,
-	// },
 	// settings: {
 	// 	default: () => { },
 	// 	required: false,
