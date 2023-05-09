@@ -107,6 +107,7 @@
 
 <script lang="ts" setup>
 import * as DrilldownTypes from '@/types';
+import type { VDataTable } from "vuetify/labs/components";
 import { useRenderCellItem } from '../composables/helpers';
 import {
 	useBodyRowClasses,
@@ -123,7 +124,7 @@ const emit = defineEmits([
 const props = defineProps({
 	items: {
 		required: true,
-		type: Array as PropType<unknown[]>,
+		type: Array as PropType<VDataTable["$props"]["items"]>,
 	},
 	loadedDrilldown: {
 		required: true,
