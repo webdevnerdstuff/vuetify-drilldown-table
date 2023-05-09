@@ -28,7 +28,7 @@ function convertLevelColors(
 		throw new Error(`[VDrilldownTable]: The color option '${prop}' does not exist`);
 	}
 
-	let percentage = levelPercentage(loadedDrilldown, level, direction);
+	let percentage = levelPercentage(loadedDrilldown, (level - 1), direction);
 
 	// Convert colors to HSL //
 	if (!type) {
