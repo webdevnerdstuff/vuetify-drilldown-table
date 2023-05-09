@@ -7,27 +7,7 @@ import type { VDataTable, VDataTableRow } from "vuetify/labs/components";
 // -------------------------------------------------- Vuetify Types //
 export type Density = null | 'default' | 'comfortable' | 'compact';
 
-export interface InternalItem<T = object> {
-	children?: InternalItem<T>[];
-	props?: {
-		[key: string]: unknown;
-		title: string;
-		value: unknown;
-	};
-	raw?: T;
-	title?: string;
-	value?: T;
-}
-
-// export interface DataTableItem extends InternalItem {
-// 	// @ts-ignore
-// 	[key: string]: string;
-// };
-
-export type DataTableItem = InternalItem & {
-	type: 'item';
-	columns: Record<string, unknown>;
-};
+export type DataTableItem = NonNullable<VDataTableRow["$props"]["item"]>;
 
 
 // -------------------------------------------------- Cell Rendering //
@@ -201,9 +181,9 @@ export type Props = {
 	// 	type: PropType<InternalItem>;
 	// };
 	item: {
-		default: () => VDataTableRow["$props"]["item"] | void | unknown;
+		default: () => DataTableItem | void;
 		required: boolean;
-		type: PropType<object>;
+		type: PropType<DataTableItem>;
 	};
 	itemChildrenKey: {
 		default: string;
@@ -325,7 +305,7 @@ export type LoadedDrilldown = {
 	hideNoData?: boolean;
 	hover?: boolean;
 	isDrilldown?: boolean; 															// * Custom Property
-	item?: VDataTableRow["$props"]["item"];							// * Custom Property
+	item?: DataTableItem;																// * Custom Property
 	itemChildren?: VDataTable["$props"]["itemChildren"];
 	itemChildrenKey: string; 														// * Custom Property
 	itemProps?: VDataTable["$props"]["itemProps"];

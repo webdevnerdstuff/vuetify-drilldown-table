@@ -244,7 +244,7 @@ function emitClickRowCheckbox(data: DrilldownTypes.ClickRowCheckboxEvent): void 
 
 // -------------------------------------------------- Render //
 function renderCellItem(item: DrilldownTypes.DataTableItem, column: DrilldownTypes.Column, index: number): unknown {
-	return useRenderCellItem(item.raw as DrilldownTypes.DataTableItem, column, index);
+	return useRenderCellItem(item.raw as DrilldownTypes.DataTableItem['raw'], column, index);
 }
 </script>
 
