@@ -248,16 +248,11 @@
 </template>
 
 <script setup lang="ts">
-// import { componentName } from './utils/globals';
 import { AllProps } from './utils/props';
 import { TableLoader } from './components';
-// import { useGetLevelColors } from './composables/levelColors';
-// import {
-// 	// useDrilldownDebounce,
-// 	useMergeDeep,
-// } from './composables/helpers';
+import { watchOnce } from '@vueuse/core';
+import { useMergeDeep } from './composables/helpers';
 import {
-	// useDrilldownDebounce,
 	useEmitUpdatedExpanded,
 } from './composables/emits';
 import {
@@ -273,11 +268,13 @@ import {
 	TfootSlot,
 	TopSlot,
 } from './slots';
-import { watchOnce } from '@vueuse/core';
+
 import {
 	useTableClasses,
+} from './composables/classes';
+import {
 	useTableStyles,
-} from './composables/table';
+} from './composables/styles';
 import {
 	useSetLoadedDrilldown
 } from './composables/loadedDrilldown';
@@ -367,7 +364,6 @@ let loadedDrilldown = reactive<LoadedDrilldown>({
 		density: 'compact',
 		variant: 'underlined',
 	},
-	server: false, 								// ? Needs Testing. This requires v-data-table-server
 	showExpand: false,						// ? Works but needs testing.- Not sure if needed in this object
 	// showFooterRow: false,					// ? Not sure if I will use this. Depends on a possible footer slot
 	// showSearch: false,					// & Works & Is Prop
@@ -439,7 +435,15 @@ watch(() => props.loading, (value) => {
 
 // -------------------------------------------------- Table #
 const tableClasses = computed<object>(() => {
-	return useTableClasses(loadedDrilldown, props.isDrilldown);
+	const isServerSide = false;
+
+	return useTableClasses(
+		props.isDrilldown,
+		loadedDrilldown.elevation,
+		loadedDrilldown.hover,
+		loadedDrilldown.level,
+		isServerSide
+	);
 });
 
 const tableStyles = computed<StyleValue>(() => {
@@ -449,33 +453,14 @@ const tableStyles = computed<StyleValue>(() => {
 
 // -------------------------------------------------- Methods #
 function setLoadedDrilldown(): void {
-	loadedDrilldown = useSetLoadedDrilldown(loadedDrilldown, props);
+	if (props.drilldown) {
+		loadedDrilldown = useSetLoadedDrilldown(loadedDrilldown, props.drilldown, props.item.raw, props.level, props.levels);
+		return;
+	}
 
-	// if (props.drilldown) {
-	// 	loadedDrilldown = useMergeDeep(loadedDrilldown, props.drilldown) as LoadedDrilldown;
-
-	// 	const drilldownItem = loadedDrilldown.items.find(<T, K extends keyof T>(item: T) => {
-	// 		const thisItem = item[loadedDrilldown.drilldownKey as K];
-	// 		const propsItem = props.item.raw[loadedDrilldown.drilldownKey];
-
-	// 		return thisItem === propsItem;
-	// 	}) as LoadedDrilldown;
-
-	// 	loadedDrilldown = useMergeDeep(
-	// 		loadedDrilldown,
-	// 		drilldownItem[loadedDrilldown.itemChildrenKey] as LoadedDrilldown,
-	// 	) as LoadedDrilldown;
-
-	// 	// Hide expand icon if this is the last drilldown level //
-	// 	if (props.levels === props.level) {
-	// 		loadedDrilldown.showExpand = false;
-	// 	}
-
-	// 	return;
-	// }
-
-	// loadedDrilldown = useMergeDeep(loadedDrilldown, props) as LoadedDrilldown;
+	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as LoadedDrilldown;
 }
+
 
 // -------------------------------------------------- Emit Events //
 function emitAllSelectedEvent(val: boolean): void {
@@ -487,11 +472,9 @@ function emitClickRow(event: MouseEvent): void {
 	emit('click:row', event);
 }
 
-
 function emitClickRowCheckbox(item: DataTableItem): void {
 	emit('click:row:checkbox', item);
 }
-
 
 function emitUpdatedExpanded(data: DrilldownEvent): void {
 	const levelSortByValue = data?.sortBy ?? currentSortBy.value;

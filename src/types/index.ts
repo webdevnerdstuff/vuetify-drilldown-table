@@ -11,7 +11,6 @@ export type Density = null | 'default' | 'comfortable' | 'compact';
 export type DataTableItem = NonNullable<VDataTableRow["$props"]["item"]>;
 
 
-
 // -------------------------------------------------- Colors //
 export type ColorsObject = {
 	body?: {
