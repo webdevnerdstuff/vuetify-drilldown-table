@@ -1,10 +1,8 @@
 import {
 	Column,
-	DataTableItem,
 	DrilldownDebounce,
 	LoadedDrilldown,
 } from '@/types';
-import type { VDataTable } from "vuetify/labs/components";
 
 
 /**

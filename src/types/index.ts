@@ -75,7 +75,6 @@ export type SearchProps = {
 
 // -------------------------------------------------- Props //
 export type Props = {
-	// * Custom Property //
 	colors?: {
 		default: boolean;
 		required: boolean;
@@ -90,22 +89,18 @@ export type Props = {
 	density?: {
 		default: string,
 		required: boolean,
-		// ! This needs to be changed to VDataTable density once it's been added //
-		type: PropType<VTextField["$props"]["density"]>;
+		type: PropType<VDataTable["$props"]["density"]>;
 	};
-	// * Custom Property //
 	drilldown: {
 		default: () => void;
 		required: boolean;
 		type: PropType<object>;
 	};
-	// * Custom Property //
 	drilldownKey?: {
 		default: string;
 		required: boolean;
 		type: PropType<string>;
 	};
-	// * Custom Property //
 	elevation?: {
 		default: number;
 		required: boolean;
@@ -116,7 +111,7 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
-	// * Custom Property //
+	// * Custom Property - This might change //
 	footers: {
 		default: () => VDataTable["$props"]["headers"];
 		required: boolean;
@@ -130,20 +125,13 @@ export type Props = {
 	hover?: {
 		default: boolean;
 		required: boolean;
-		type: PropType<boolean>;
+		type: PropType<VDataTable["$props"]["hover"]>;
 	};
-	// * Custom Property //
 	isDrilldown: {
 		default: boolean;
 		required: boolean;
 		type: PropType<boolean>;
 	};
-	// * Custom Property //
-	// item: {
-	// 	default: () => InternalItem;
-	// 	required: boolean;
-	// 	type: PropType<InternalItem>;
-	// };
 	item: {
 		default: () => DataTableItem | void;
 		required: boolean;
@@ -157,20 +145,18 @@ export type Props = {
 	items: {
 		default: () => unknown;
 		required: boolean;
-		type: PropType<object>;
+		type: PropType<VDataTable["$props"]["items"]>;
 	};
 	itemsLength?: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
 	};
-	// * Custom Property //
 	level: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
 	};
-	// * Custom Property //
 	levels: {
 		default: number;
 		required: boolean;
@@ -201,7 +187,7 @@ export type Props = {
 	noDataText: {
 		default: string;
 		required: boolean;
-		type: PropType<string>;
+		type: PropType<VDataTable["$props"]["noDataText"]>;
 	};
 	// * Custom Property //
 	searchProps: {
@@ -209,18 +195,13 @@ export type Props = {
 		required?: boolean;
 		type?: PropType<SearchProps>;
 	};
-	// * Custom Property //
+
 	// TODO: Maybe add this //
 	// separator?: {
 	// 	default: string;
 	// 	required: boolean;
 	// 	type: PropType<string>;
 	// };
-	server?: {
-		default: boolean;
-		required: boolean;
-		type: PropType<boolean>;
-	};
 	// * Custom Property //
 	showFooterRow?: {
 		default: boolean;
@@ -233,7 +214,6 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
-	// * Custom Property //
 	skeltonType?: {
 		default: string;
 		required: boolean;
@@ -249,60 +229,59 @@ export type Props = {
 
 // -------------------------------------------------- Drilldown //
 export type LoadedDrilldown = {
-	colors?: boolean | ColorsObject; 															// * Custom Property
+	colors?: boolean | ColorsObject; 														// * Custom Property
 	customFilter?: VDataTable["$props"]["customFilter"];
 	customKeyFilter?: VDataTable["$props"]["customKeyFilter"];
-	debounceDelay?: number | undefined; 								// * Custom Property
-	density?: VTextField["$props"]["density"];						// ! This needs to be changed to VDataTable density once it's been added //
-	drilldown?: object; 																// * Custom Property
-	drilldownKey: string; 															// * Custom Property
-	elevation?: string | number | undefined; 						// * Custom Property
-	expandOnClick?: boolean;
+	debounceDelay?: number | undefined; 												// * Custom Property
+	density?: VDataTable["$props"]["density"];
+	drilldown?: object; 																				// * Custom Property
+	drilldownKey: string; 																			// * Custom Property
+	elevation?: string | number | undefined; 										// * Custom Property
+	expandOnClick?: VDataTable["$props"]["expandOnClick"];
 	expanded?: string[];
-	filterKeys?: VDataTable["$props"]["filterKeys"];		// ! Need more info/testing
+	filterKeys?: VDataTable["$props"]["filterKeys"];						// ! Need more info/testing
 	filterMode?: VDataTable["$props"]["filterMode"];
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
-	// footerProps?: object;														// ! Missing Vuetify Prop (maybe v2 only?)
+	// footerProps?: object;																		// ! Missing Vuetify Prop (maybe v2 only?)
 	footers?: VDataTable["$props"]["headers"];
-	// groupBy?: string[];															// ? Most likely this will not be used
+	// groupBy?: string[];																			// ? Most likely this will not be used
 	headers?: VDataTable["$props"]["headers"];
 	height?: string | number | undefined;
-	// hideDefaultFooter?: boolean;											// ? Custom Property - Need to add/test
-	// hideDefaultHeader?: boolean;											// ? Custom Property - Need to add/test
-	hideNoData?: boolean;
+	// hideDefaultFooter?: boolean;															// ? Custom Property - Need to add/test
+	// hideDefaultHeader?: boolean;															// ? Custom Property - Need to add/test
+	hideNoData?: VDataTable["$props"]["hideNoData"];
 	hover?: boolean;
-	isDrilldown?: boolean; 															// * Custom Property
-	item?: DataTableItem;																// * Custom Property
+	isDrilldown?: boolean; 																			// * Custom Property
+	item?: DataTableItem;																				// * Custom Property
 	itemChildren?: VDataTable["$props"]["itemChildren"];
-	itemChildrenKey: string; 														// * Custom Property
+	itemChildrenKey: string; 																		// * Custom Property
 	itemProps?: VDataTable["$props"]["itemProps"];
 	itemTitle?: VDataTable["$props"]["itemTitle"];
 	itemValue?: VDataTable["$props"]["itemValue"];
-	items: unknown[];
+	items: VDataTable["$props"]["items"];
 	itemsLength?: number;
-	itemsPerPage?: string | number;
-	level: number; 																			// * Custom Property
-	levels: number; 																		// * Custom Property
+	itemsPerPage?: VDataTable["$props"]["itemsPerPage"];
+	level: number; 																							// * Custom Property
+	levels: number; 																						// * Custom Property
 	loaderType?: string | string[];
-	loading?: boolean; 																	// ! Not working properly
-	loadingText?: string; 															// ! Not working properly
+	loading?: boolean; 																					// ! Not working properly
+	loadingText?: VDataTable["$props"]["loadingText"];					// ! Not working properly
 	modelValue?: unknown[];
-	multiSort?: boolean;
-	mustSort?: boolean;
-	noDataText?: string;
-	noFilter?: boolean;
-	page?: string | number;
-	// pageCount?: number; 															// ? Need to test (maybe v2 only?)
-	returnObject?: boolean;
+	multiSort?: VDataTable["$props"]["multiSort"];
+	mustSort?: VDataTable["$props"]["mustSort"];
+	noDataText?: VDataTable["$props"]["noDataText"];
+	noFilter?: VDataTable["$props"]["noFilter"];
+	page?: VDataTable["$props"]["page"];
+	// pageCount?: number; 																			// ? Need to test (maybe v2 only?)
+	returnObject?: VDataTable["$props"]["returnObject"];
 	search?: string | undefined;
-	searchProps: SearchProps; 													// * Custom Property
-	server?: boolean; 																	// ? Custom Property - Not sure if I'll use this
-	showExpand?: boolean;
-	showFooterRow?: boolean; 														// * Custom Property
-	showSearch?: boolean; 															// * Custom Property
-	showSelect?: boolean;
-	skeltonType?: string; 															// * Custom Property
+	searchProps: SearchProps; 																	// * Custom Property
+	showExpand?: VDataTable["$props"]["showExpand"];
+	showFooterRow?: boolean; 																		// * Custom Property
+	showSearch?: boolean; 																			// * Custom Property
+	showSelect?: VDataTable["$props"]["showSelect"];
+	skeltonType?: string; 																			// * Custom Property
 	sortBy?: VDataTable["$props"]["sortBy"];
 	width?: string | number | undefined;
 };
