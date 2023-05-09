@@ -2,7 +2,6 @@
 <!-- eslint-disable vue/no-v-model-argument -->
 <template>
 	<v-data-table
-		v-if="!loadedDrilldown.server"
 		v-bind="$attrs"
 		:class="tableClasses"
 		:density="loadedDrilldown.density"
@@ -250,17 +249,6 @@
 <script setup lang="ts">
 import { AllProps } from './utils/props';
 import { TableLoader } from './components';
-import { watchOnce } from '@vueuse/core';
-import { useMergeDeep } from './composables/helpers';
-import {
-	useEmitUpdatedExpanded,
-} from './composables/emits';
-import {
-	DataTableItem,
-	DrilldownEvent,
-	LoadedDrilldown,
-} from '@/types';
-import type { VDataTable } from "vuetify/labs/components";
 import {
 	BottomSlot,
 	HeadersSlot,
@@ -268,16 +256,18 @@ import {
 	TfootSlot,
 	TopSlot,
 } from './slots';
-
+import { useEmitUpdatedExpanded } from './composables/emits';
+import { useMergeDeep } from './composables/helpers';
+import { useSetLoadedDrilldown } from './composables/loadedDrilldown';
+import { useTableClasses } from './composables/classes';
+import { useTableStyles } from './composables/styles';
+import { watchOnce } from '@vueuse/core';
 import {
-	useTableClasses,
-} from './composables/classes';
-import {
-	useTableStyles,
-} from './composables/styles';
-import {
-	useSetLoadedDrilldown
-} from './composables/loadedDrilldown';
+	DataTableItem,
+	DrilldownEvent,
+	LoadedDrilldown,
+} from '@/types';
+import type { VDataTable } from "vuetify/labs/components";
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
