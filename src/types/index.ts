@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { PropType } from 'vue';
+import { CSSProperties, PropType, StyleValue } from 'vue';
+import { ThemeInstance } from 'vuetify';
 import type { VTextField } from "vuetify/components";
 import type { VDataTable, VDataTableRow } from "vuetify/labs/components";
 
@@ -8,6 +9,88 @@ import type { VDataTable, VDataTableRow } from "vuetify/labs/components";
 export type Density = null | 'default' | 'comfortable' | 'compact';
 
 export type DataTableItem = NonNullable<VDataTableRow["$props"]["item"]>;
+
+
+// -------------------------------------------------- Emits //
+export interface EmitUpdatedExpanded {
+	(
+		emit: {
+			(e: 'update:drilldown', drilldownData: LoadedDrilldown): void;
+			(e: 'update:expanded', data: DrilldownEvent): void;
+		},
+		data: DrilldownEvent,
+		drilldownData: LoadedDrilldown,
+	): void;
+}
+
+
+// -------------------------------------------------- Classes //
+export interface TableClasses {
+	(
+		isDrilldown: boolean,
+		elevation: string | number | undefined,
+		isHover: boolean | undefined,
+		level: number,
+		isServerSide: boolean,
+	): object;
+}
+
+export interface CellClasses {
+	(
+		elm: string,
+		column: Column,
+		level: number,
+	): object;
+}
+
+export interface HeaderCellClasses {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		column: Column,
+		slotName?: string,
+	): object;
+}
+
+export interface SortIconClasses {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		level: number,
+		key: string,
+	): object;
+}
+
+export interface BodyCellClasses {
+	(
+		column: Column,
+		level: number,
+	): object;
+}
+
+
+// -------------------------------------------------- Styles //
+export interface TableStyles {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		theme: ThemeInstance,
+	): StyleValue;
+}
+
+export interface HeaderCellStyles {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		column: { width?: string | number; },
+		theme: ThemeInstance,
+		dataTableExpand: boolean,
+	): CSSProperties;
+}
+
+export interface CellStyles {
+	(
+		loadedDrilldown: LoadedDrilldown,
+		theme: ThemeInstance,
+		elm: string,
+	): CSSProperties;
+}
 
 
 // -------------------------------------------------- Cell Rendering //
@@ -252,6 +335,11 @@ export type Props = {
 	// 	required: boolean;
 	// 	type: PropType<string>;
 	// };
+	server?: {
+		default: boolean;
+		required: boolean;
+		type: PropType<boolean>;
+	};
 	// * Custom Property //
 	showFooterRow?: {
 		default: boolean;
