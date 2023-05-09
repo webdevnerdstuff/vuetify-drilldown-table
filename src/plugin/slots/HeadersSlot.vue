@@ -79,7 +79,6 @@ import {
 
 const emit = defineEmits([
 	'click:selectAll',
-	'update:header:sort',
 ]);
 
 const props = defineProps({
@@ -248,8 +247,6 @@ const sortIconClasses = (key: string): object => {
 function sortColumn(column: DrilldownTypes.Column): void {
 	if (column.sortable) {
 		props.slotProps?.toggleSort(column.key);
-
-		emit('update:header:sort', { column, sortBy: props.loadedDrilldown.sortBy });
 	}
 }
 
