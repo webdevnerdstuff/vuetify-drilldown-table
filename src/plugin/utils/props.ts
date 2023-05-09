@@ -82,12 +82,12 @@ export const AllProps: Props = {
 	// 	type: Number,
 	// },
 	level: {
-		default: 0,
+		default: 1,
 		required: false,
 		type: Number,
 	},
 	levels: {
-		default: 0,
+		default: 1,
 		required: false,
 		type: Number,
 	},
