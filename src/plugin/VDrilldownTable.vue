@@ -15,7 +15,7 @@
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
 		:items-per-page="loadedDrilldown.itemsPerPage"
-		:loading="loadedDrilldown.loading"
+		:loading="(!loadedDrilldown.loaderType || $slots.loading) && loadedDrilldown.loading"
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
 		:no-data-text="loadedDrilldown.noDataText"
@@ -79,7 +79,7 @@
 				</template>
 			</HeadersSlot>
 			<tr
-				v-if="loadedDrilldown.loading"
+				v-if="loadedDrilldown.loading && loadedDrilldown.loaderType && !$slots.loading"
 				class="text-center ma-0 pa-0"
 			>
 				<td
@@ -97,6 +97,14 @@
 					/>
 				</td>
 			</tr>
+		</template>
+
+		<!-- ================================================== Loader Slot -->
+		<template
+			v-if="$slots.loading"
+			#loading
+		>
+			<slot name="loading" />
 		</template>
 
 
@@ -171,7 +179,7 @@
 					style="vertical-align: top;"
 				>
 					<TableLoader
-						v-if="item.raw[itemChildrenKey].loading"
+						v-if="loadedDrilldown.loaderType && !$slots.loading"
 						class="pa-0 ma-0"
 						:colors="item.raw[itemChildrenKey].colors || false"
 						:level="level + 1"
@@ -202,11 +210,11 @@
 					>
 						<!-- Pass on all named slots -->
 						<slot
-							v-for="slot in Object.keys(slots)"
+							v-for="slot in Object.keys($slots)"
 							:name="slot"
 						></slot>
 
-						<!--wPass on all scoped slots -->
+						<!--Pass on all scoped slots -->
 						<template
 							v-for="(_, slot) in $slots"
 							#[slot]="scope"
@@ -393,7 +401,6 @@ const currentSortBy = ref(loadedDrilldown.sortBy);
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
-const slots = useSlots();
 
 
 const hidingNoData = computed(() => {
