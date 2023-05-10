@@ -268,28 +268,26 @@ const headers = {
 	comments: [
 		{
 			align: 'start',
-			key: 'id',
-			title: 'Comment ID',
+			key: null,
+			title: '',
+			width: 110,
 		},
 		{
 			align: 'start',
 			key: 'postId',
 			title: 'Post ID',
+			width: 110,
+		},
+		{
+			align: 'start',
+			key: 'id',
+			title: 'Comment ID',
+			width: 150,
 		},
 		{
 			align: 'start',
 			key: 'name',
-			title: 'Name',
-		},
-		{
-			align: 'start',
-			key: 'email',
-			title: 'Email',
-		},
-		{
-			align: 'start',
-			key: 'body',
-			title: 'Body',
+			title: 'Comment',
 		},
 		{
 			key: 'data-table-expand',
