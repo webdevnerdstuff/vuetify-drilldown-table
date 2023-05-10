@@ -1,6 +1,6 @@
 <template>
 	<v-row
-		v-if="loading && loaderType"
+		v-if="loading"
 		:class="loaderContainerClasses"
 		no-gutters
 	>
