@@ -8,11 +8,11 @@ import {
 
 
 // -------------------------------------------------- VDrilldownTable //
-export const useTableStyles: TableStyles = (loadedDrilldown, theme) => {
+export const useTableStyles: TableStyles = (colors, level, theme) => {
 	let baseColors: { border?: string; } = {};
 
-	if (loadedDrilldown.colors) {
-		baseColors = useGetLevelColors(loadedDrilldown, theme, 'default');
+	if (colors) {
+		baseColors = useGetLevelColors(colors, level, theme, 'default');
 	}
 
 	const styles: { borderBottom: string; } = {
@@ -28,7 +28,7 @@ export const useTableStyles: TableStyles = (loadedDrilldown, theme) => {
 
 
 // -------------------------------------------------- HeaderSlot //
-export const useHeaderCellStyles: HeaderCellStyles = (loadedDrilldown, column, theme, dataTableExpand = false) => {
+export const useHeaderCellStyles: HeaderCellStyles = (colors, level, column, theme, dataTableExpand = false) => {
 	const styles: {
 		backgroundColor?: string | unknown;
 		color?: string | unknown;
@@ -44,11 +44,11 @@ export const useHeaderCellStyles: HeaderCellStyles = (loadedDrilldown, column, t
 		styles.minWidth = '48px';
 	}
 
-	if (loadedDrilldown.colors === false) {
+	if (colors === false) {
 		return styles as CSSProperties;
 	}
 
-	const headerColors = useGetLevelColors(loadedDrilldown, theme, 'header');
+	const headerColors = useGetLevelColors(colors, level, theme, 'header');
 
 	styles.backgroundColor = headerColors.bg;
 	styles.color = headerColors.text;
@@ -58,12 +58,12 @@ export const useHeaderCellStyles: HeaderCellStyles = (loadedDrilldown, column, t
 
 
 // -------------------------------------------------- TFootSlot //
-export const useCellStyles: CellStyles = (loadedDrilldown, theme, elm,) => {
-	if (loadedDrilldown.colors === false) {
+export const useCellStyles: CellStyles = (colors, level, theme, elm,) => {
+	if (colors === false) {
 		return {};
 	}
 
-	const baseColors = useGetLevelColors(loadedDrilldown, theme, elm);
+	const baseColors = useGetLevelColors(colors, level, theme, elm);
 
 	const styles = {
 		backgroundColor: baseColors.bg,

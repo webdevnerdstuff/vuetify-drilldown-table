@@ -3,7 +3,6 @@ import {
 	HEXColor,
 	HSLColor,
 	LevelColorResponse,
-	LoadedDrilldown,
 	RGBColor,
 } from '@/types';
 import { ThemeInstance } from 'vuetify';
@@ -13,22 +12,21 @@ import { ThemeInstance } from 'vuetify';
  * Converts the colors to HSL values
  */
 function convertLevelColors(
-	loadedDrilldown: LoadedDrilldown,
+	colors: ColorsObject,
+	level: number,
 	theme: ThemeInstance,
 	prop = 'default',
 	type: string | null,
 ): LevelColorResponse {
-	const colors = loadedDrilldown.colors as ColorsObject;
 	const propOptionResponse = { ...colors[prop as keyof ColorsObject] as LevelColorResponse };
 	const direction = colors.percentageDirection as keyof ColorsObject;
-	const level = loadedDrilldown.level as number;
 
 	// Color prop does not exist //
 	if (typeof propOptionResponse === 'undefined') {
 		throw new Error(`[VDrilldownTable]: The color option '${prop}' does not exist`);
 	}
 
-	let percentage = levelPercentage(loadedDrilldown, (level - 1), direction);
+	let percentage = levelPercentage(colors, (level - 1), direction);
 
 	// Convert colors to HSL //
 	if (!type) {
@@ -78,11 +76,10 @@ function convertLevelColors(
  * Gets the percentage difference for the current drilldown level
  */
 function levelPercentage(
-	loadedDrilldown: LoadedDrilldown,
+	colors: ColorsObject,
 	level: number,
 	direction: string,
 ): number {
-	const colors = loadedDrilldown.colors as ColorsObject;
 	let percentage = 100;
 	let percentageChange = colors.percentageChange ?? 0;
 
@@ -388,17 +385,18 @@ function hexToRGB(hex: string): RGBColor {
  * Gets the colors for the current drilldown level
  */
 export function useGetLevelColors(
-	loadedDrilldown: LoadedDrilldown,
+	colors: ColorsObject | false,
+	level: number,
 	themeColors: ThemeInstance,
 	prop = 'default',
 	type: string | null = null
 ): LevelColorResponse {
-	if (loadedDrilldown.colors === false) {
+	if (colors === false) {
 		console.trace();
 		throw new Error('The "colors" prop is set to false. This function should no be called.');
 	}
 
-	const levelColorOptions = convertLevelColors(loadedDrilldown, themeColors, prop, type);
+	const levelColorOptions = convertLevelColors(colors, level, themeColors, prop, type);
 
 	if (!type) {
 		return levelColorOptions;

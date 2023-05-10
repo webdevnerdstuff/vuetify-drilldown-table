@@ -17,13 +17,13 @@
 		>
 			<!--  Expand Column -->
 			<td
-				v-if="column.key === 'data-table-expand' || loadedDrilldown.showExpand
+				v-if="column.key === 'data-table-expand' || showExpand
 					"
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 			>
 				<div
-					v-if="loadedDrilldown.level < loadedDrilldown.levels"
+					v-if="level < levels"
 					class="v-drilldown-table--expand-icon"
 					:class="!isExpanded(item) ? '' : 'rotate-180'"
 					@click="drilldownEvent({
@@ -53,7 +53,7 @@
 				<v-checkbox
 					v-model="allSelected"
 					class="d-flex v-simple-checkbox"
-					:density="loadedDrilldown.density"
+					:density="density"
 					@click="emitClickRowCheckbox({
 						columns,
 						index,
@@ -65,14 +65,14 @@
 			</td>
 			<!-- Column Render `data-table-select` -->
 			<td
-				v-else-if="column.key === 'data-table-select' || loadedDrilldown.showSelect
+				v-else-if="column.key === 'data-table-select' || showSelect
 					"
 				:class="cellClasses(column)"
 			>
 				<v-checkbox
 					v-model="allSelected"
 					class="d-flex v-simple-checkbox"
-					:density="loadedDrilldown.density"
+					:density="density"
 					@click="emitClickRowCheckbox({
 						columns,
 						index,
@@ -107,7 +107,6 @@
 
 <script lang="ts" setup>
 import * as DrilldownTypes from '@/types';
-import type { VDataTable } from "vuetify/labs/components";
 import { useRenderCellItem } from '../composables/helpers';
 import {
 	useBodyRowClasses,
@@ -122,13 +121,33 @@ const emit = defineEmits([
 ]);
 
 const props = defineProps({
+	density: {
+		required: true,
+		type: String as PropType<DrilldownTypes.LoadedDrilldown['density']>,
+	},
+	expandOnClick: {
+		required: true,
+		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['expandOnClick']>,
+	},
 	items: {
 		required: true,
-		type: Array as PropType<VDataTable["$props"]["items"]>,
+		type: Array as PropType<DrilldownTypes.LoadedDrilldown['items']>,
 	},
-	loadedDrilldown: {
+	level: {
 		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
+		type: Number,
+	},
+	levels: {
+		required: true,
+		type: Number,
+	},
+	showExpand: {
+		required: true,
+		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showExpand']>,
+	},
+	showSelect: {
+		required: true,
+		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showSelect']>,
 	},
 	/**
 	 * @name slotProps
@@ -177,25 +196,25 @@ const toggleSelect = computed(() => props.slotProps.toggleSelect);
 
 // -------------------------------------------------- Row //
 const rowClasses = computed<object>(() => {
-	return useBodyRowClasses(props.loadedDrilldown);
+	return useBodyRowClasses(props.expandOnClick, props.level, props.levels);
 });
 
 
 // -------------------------------------------------- Row Cells //
 const cellClasses = (column: DrilldownTypes.Column): object => {
-	return useCellClasses('body', column, props.loadedDrilldown.level);
+	return useCellClasses('body', column, props.level);
 };
 
 function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
 	const { item, level, toggleExpand } = data as DrilldownTypes.DrilldownEvent;
 
-	if (props.loadedDrilldown.level >= props.loadedDrilldown.levels) {
+	if (props.level >= props.levels) {
 		return;
 	}
 
 	// Emits the click event on the row if `expandOnClick` true //
 	if (data.$event) {
-		if (!props.loadedDrilldown.expandOnClick) {
+		if (!props.expandOnClick) {
 			return;
 		}
 
@@ -203,7 +222,7 @@ function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
 	}
 
 	// Sets the expanded state of the item on current table //
-	if (level === props.loadedDrilldown.level) {
+	if (level === props.level) {
 		toggleExpand(item);
 	}
 
@@ -221,7 +240,7 @@ watch(() => props.slotProps.allRowsSelected, () => {
 function emitClickRowCheckbox(data: DrilldownTypes.ClickRowCheckboxEvent): void {
 	const { item, level, toggleSelect } = data as DrilldownTypes.ClickRowCheckboxEvent;
 
-	if (level === props.loadedDrilldown.level) {
+	if (level === props.level) {
 		toggleSelect(item);
 	}
 

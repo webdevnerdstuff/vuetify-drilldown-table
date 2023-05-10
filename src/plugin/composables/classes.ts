@@ -2,9 +2,9 @@ import { componentName } from '../utils/globals';
 import { useGetSortDirection } from './helpers';
 import {
 	BodyCellClasses,
+	BodyRowClasses,
 	CellClasses,
 	HeaderCellClasses,
-	LoadedDrilldown,
 	SortIconClasses,
 	TableClasses,
 } from '@/types';
@@ -66,14 +66,14 @@ export function useCellAlignClasses(align: string): object {
 };
 
 
-export const useHeaderCellClasses: HeaderCellClasses = (loadedDrilldown, column, slotName = '') => {
+export const useHeaderCellClasses: HeaderCellClasses = (colors, level, column, slotName = '') => {
 	const classes = {
 		[`${componentName}--header-row-th`]: true,
 		[`${componentName}--header-row-th-${slotName}`]: slotName !== '',
-		[`${componentName}--header-row-th-${slotName}-${loadedDrilldown.level}`]: slotName,
-		[`${componentName}--header-row-th-${loadedDrilldown.level}`]: true,
+		[`${componentName}--header-row-th-${slotName}-${level}`]: slotName,
+		[`${componentName}--header-row-th-${level}`]: true,
 		[`${componentName}--header-row-th-sortable`]: column.sortable,
-		[`${componentName}--header-row-th-sortable-default-color`]: column.sortable && loadedDrilldown.colors === false,
+		[`${componentName}--header-row-th-sortable-default-color`]: column.sortable && colors === false,
 		[`${column.cellClass}`]: column.cellClass,
 	};
 
@@ -94,13 +94,13 @@ export function useCheckBoxClasses(level: number): object {
 
 
 // ------------------------- Sort Icon //
-export const useSortIconClasses: SortIconClasses = (loadedDrilldown, level, key) => {
+export const useSortIconClasses: SortIconClasses = (sortBy, level, key) => {
 	return {
 		'px-1': true,
 		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-${level}`]: true,
-		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: useGetSortDirection(loadedDrilldown, key) === 'desc',
-		[`${componentName}--header-row-th-sortable-sort-icon-asc`]: useGetSortDirection(loadedDrilldown, key) === 'asc',
+		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: useGetSortDirection(sortBy, key) === 'desc',
+		[`${componentName}--header-row-th-sortable-sort-icon-asc`]: useGetSortDirection(sortBy, key) === 'asc',
 	};
 };
 
@@ -117,17 +117,13 @@ export const useBodyCellClasses: BodyCellClasses = (column, level) => {
 };
 
 
-export function useBodyRowClasses(loadedDrilldown: LoadedDrilldown): object {
-	const settings = loadedDrilldown;
-
+export const useBodyRowClasses: BodyRowClasses = (expandOnClick, level, levels) => {
 	const classes = {
 		'v-data-table__tr': true,
-		'v-data-table__tr--clickable': settings.expandOnClick && (settings.level < settings.levels),
+		'v-data-table__tr--clickable': expandOnClick && (level < levels),
 		[`${componentName}--body-row`]: true,
-		[`${componentName}--body-row-${settings.level}`]: true,
+		[`${componentName}--body-row-${level}`]: true,
 	};
 
 	return classes;
 };
-
-

@@ -1,5 +1,4 @@
 import { Props } from '@/types';
-import type { VTextField } from "vuetify/components";
 import type { VDataTable } from "vuetify/labs/components";
 
 export const AllProps: Props = {
@@ -7,7 +6,7 @@ export const AllProps: Props = {
 	colors: {
 		default: false,
 		required: false,
-		type: [Object, Boolean],
+		type: Object,
 	},
 	debounceDelay: {
 		default: 750,
@@ -17,8 +16,7 @@ export const AllProps: Props = {
 	density: {
 		default: 'comfortable',
 		required: false,
-		// ! This needs to be changed to VDataTable density once it's been added //
-		type: String as PropType<VTextField["density"]>,
+		type: String as PropType<VDataTable['$props']['density']>,
 	},
 	drilldown: {
 		default: () => { },
@@ -92,7 +90,7 @@ export const AllProps: Props = {
 		type: Number,
 	},
 	loaderType: {
-		default: ['linear', 'text'],
+		default: '',
 		required: false,
 		type: [String, Array],
 	},
@@ -150,6 +148,11 @@ export const AllProps: Props = {
 	// 	type: Boolean,
 	// },
 	showSearch: {
+		default: false,
+		required: false,
+		type: Boolean,
+	},
+	showSelect: {
 		default: false,
 		required: false,
 		type: Boolean,

@@ -86,7 +86,7 @@ export type Props = {
 		required: boolean;
 		type: PropType<number>;
 	};
-	density?: {
+	density: {
 		default: string,
 		required: boolean,
 		type: PropType<VDataTable["$props"]["density"]>;
@@ -106,10 +106,10 @@ export type Props = {
 		required: boolean;
 		type: PropType<number | string | undefined>;
 	};
-	expandOnClick?: {
+	expandOnClick: {
 		default: boolean;
 		required: boolean;
-		type: PropType<boolean>;
+		type: PropType<VDataTable["$props"]["expandOnClick"]>;
 	};
 	// * Custom Property - This might change //
 	footers: {
@@ -214,6 +214,11 @@ export type Props = {
 		required: boolean;
 		type: PropType<boolean>;
 	};
+	showSelect?: {
+		default: boolean;
+		required: boolean;
+		type: PropType<VDataTable["$props"]["showSelect"]>;
+	};
 	skeltonType?: {
 		default: string;
 		required: boolean;
@@ -233,11 +238,11 @@ export type LoadedDrilldown = {
 	customFilter?: VDataTable["$props"]["customFilter"];
 	customKeyFilter?: VDataTable["$props"]["customKeyFilter"];
 	debounceDelay?: number | undefined; 												// * Custom Property
-	density?: VDataTable["$props"]["density"];
+	density: VDataTable["$props"]["density"];
 	drilldown?: object; 																				// * Custom Property
 	drilldownKey: string; 																			// * Custom Property
 	elevation?: string | number | undefined; 										// * Custom Property
-	expandOnClick?: VDataTable["$props"]["expandOnClick"];
+	expandOnClick: VDataTable["$props"]["expandOnClick"];
 	expanded?: string[];
 	filterKeys?: VDataTable["$props"]["filterKeys"];						// ! Need more info/testing
 	filterMode?: VDataTable["$props"]["filterMode"];
@@ -346,7 +351,8 @@ export interface CellClasses {
 
 export interface HeaderCellClasses {
 	(
-		loadedDrilldown: LoadedDrilldown,
+		colors: ColorsObject | false,
+		level: number,
 		column: Column,
 		slotName?: string,
 	): object;
@@ -354,7 +360,7 @@ export interface HeaderCellClasses {
 
 export interface SortIconClasses {
 	(
-		loadedDrilldown: LoadedDrilldown,
+		sortBy: LoadedDrilldown['sortBy'],
 		level: number,
 		key: string,
 	): object;
@@ -367,18 +373,28 @@ export interface BodyCellClasses {
 	): object;
 }
 
+export interface BodyRowClasses {
+	(
+		expandOnClick: LoadedDrilldown['expandOnClick'],
+		level: number,
+		levels: number,
+	): object;
+}
+
 
 // -------------------------------------------------- Styles //
 export interface TableStyles {
 	(
-		loadedDrilldown: LoadedDrilldown,
+		colors: ColorsObject | false,
+		level: number,
 		theme: ThemeInstance,
 	): StyleValue;
 }
 
 export interface HeaderCellStyles {
 	(
-		loadedDrilldown: LoadedDrilldown,
+		colors: ColorsObject | false,
+		level: number,
 		column: { width?: string | number; },
 		theme: ThemeInstance,
 		dataTableExpand: boolean,
@@ -387,7 +403,8 @@ export interface HeaderCellStyles {
 
 export interface CellStyles {
 	(
-		loadedDrilldown: LoadedDrilldown,
+		colors: ColorsObject | false,
+		level: number,
 		theme: ThemeInstance,
 		elm: string,
 	): CSSProperties;

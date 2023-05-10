@@ -53,20 +53,31 @@
 </template>
 
 <script setup lang="ts">
-import * as DrilldownTypes from '@/types';
 import { componentName } from '@/plugin/utils/globals';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';
+import { ColorsObject } from '@/types';
+
+
 const theme = useTheme();
 
 const props = defineProps({
+	colors: {
+		required: true,
+		type: [Object, Boolean],
+	},
 	height: {
 		default: '2',
 		required: false,
 		type: String,
 	},
-	loadedDrilldown: {
+	level: {
 		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
+		type: Number,
+	},
+	loaderType: {
+		default: 'linear',
+		required: false,
+		type: [String, Array],
 	},
 	loading: {
 		required: true,
@@ -82,6 +93,11 @@ const props = defineProps({
 		required: false,
 		type: String,
 	},
+	skeltonType: {
+		default: 'default',
+		required: true,
+		type: String,
+	},
 	textLoader: {
 		default: true,
 		required: false,
@@ -90,11 +106,11 @@ const props = defineProps({
 });
 
 const baseColors = computed(() => {
-	if (props.loadedDrilldown.colors === false) {
+	if (props.colors === false) {
 		return;
 	}
 
-	return useGetLevelColors(props.loadedDrilldown, theme, 'loader');
+	return useGetLevelColors(props.colors as ColorsObject, props.level, theme, 'loader');
 });
 
 const loaderContainerClasses = computed(() => {
@@ -128,7 +144,7 @@ const circularColor = computed<string | undefined>(() => {
 
 // v-skeleton-loader //
 const skeltonType = computed<string>(() => {
-	return props.loadedDrilldown.skeltonType || 'heading@1';
+	return props.skeltonType || 'heading@1';
 });
 
 
@@ -148,7 +164,7 @@ const computedLoadingText = computed<string>(() => {
 
 // Get the order of the loader type //
 const getOrder = (type: string): number => {
-	const loaderType = props.loadedDrilldown.loaderType;
+	const loaderType = props.loaderType;
 
 	if (Array.isArray(loaderType)) {
 		return loaderType.indexOf(type);
@@ -160,9 +176,9 @@ const getOrder = (type: string): number => {
 
 // Check if the loader type is enabled //
 const loaderType = (type: string): boolean => {
-	const loaderType = props.loadedDrilldown.loaderType;
+	const loaderType = props.loaderType;
 
-	if (type === props.loadedDrilldown.loaderType) {
+	if (type === props.loaderType) {
 		return true;
 	}
 

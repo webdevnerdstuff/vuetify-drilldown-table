@@ -12,8 +12,9 @@ export function useSetLoadedDrilldown(
 	let settings = loadedDrilldown;
 
 	settings = useMergeDeep(loadedDrilldown, drilldown) as LoadedDrilldown;
+	const items = loadedDrilldown.items as LoadedDrilldown['items'] || [{}];
 
-	const drilldownItem = loadedDrilldown.items.find(<T, K extends keyof T>(item: T) => {
+	const drilldownItem = items.find(<T, K extends keyof T>(item: T) => {
 		const thisItem = item[loadedDrilldown.drilldownKey as K];
 		let propsItem = {};
 

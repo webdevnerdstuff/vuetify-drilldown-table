@@ -18,7 +18,7 @@
 				/>
 				<!-- Column Render `data-table-select` -->
 				<td
-					v-else-if="column.key === 'data-table-select' || loadedDrilldown.showSelect"
+					v-else-if="column.key === 'data-table-select' || showSelect"
 					:class="cellClasses(column)"
 					:colspan="column.colspan || 1"
 					:style="cellStyles"
@@ -62,9 +62,25 @@ import { useCellStyles } from '@/plugin/composables/styles';
 
 
 const props = defineProps({
-	loadedDrilldown: {
+	colors: {
 		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
+		type: [Object, Boolean],
+	},
+	footers: {
+		required: true,
+		type: Array as PropType<DrilldownTypes.LoadedDrilldown['footers']>,
+	},
+	itemTitle: {
+		required: true,
+		type: String as PropType<DrilldownTypes.LoadedDrilldown['itemTitle']>,
+	},
+	level: {
+		required: true,
+		type: Number,
+	},
+	showSelect: {
+		required: true,
+		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showSelect']>,
 	},
 	// TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
 	// slotProps: {
@@ -78,22 +94,22 @@ const theme = useTheme();
 
 // TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
 // const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps?.columns);
-const columns = computed<DrilldownTypes.Column[]>(() => props.loadedDrilldown.footers as DrilldownTypes.Column[]);
+const columns = computed<DrilldownTypes.Column[]>(() => props.footers as DrilldownTypes.Column[]);
 
 
 const cellClasses = (column: DrilldownTypes.Column): object => {
-	return useCellClasses('footer', column, props.loadedDrilldown.level);
+	return useCellClasses('footer', column, props.level);
 };
 
 const cellStyles = computed<CSSProperties>(() => {
-	return useCellStyles(props.loadedDrilldown, theme, 'footer');
+	return useCellStyles(props.colors as DrilldownTypes.ColorsObject, props.level, theme, 'footer');
 });
 
 
 // -------------------------------------------------- Render //
 function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 	const tempIndex = 0;
-	return useRenderCell(props.loadedDrilldown, column, tempIndex);
+	return useRenderCell(props.itemTitle, column, tempIndex);
 }
 </script>
 

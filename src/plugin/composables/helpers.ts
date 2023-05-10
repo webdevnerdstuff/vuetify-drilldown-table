@@ -1,3 +1,4 @@
+import type { VDataTable } from "vuetify/labs/components";
 import {
 	Column,
 	DrilldownDebounce,
@@ -43,9 +44,9 @@ export function useDrilldownDebounce<T extends DrilldownDebounce>(
 /**
 * Get's the sort direction for a column
 */
-export function useGetSortDirection(loadedDrilldown: LoadedDrilldown, id: string): string | boolean | void {
-	if (loadedDrilldown.sortBy) {
-		const item = loadedDrilldown.sortBy.find(item => item.key === id);
+export function useGetSortDirection(sortBy: VDataTable["$props"]["sortBy"], id: string): string | boolean | void {
+	if (sortBy) {
+		const item = sortBy.find(item => item.key === id);
 
 		if (item) {
 			return item.order;
@@ -96,11 +97,11 @@ export function useRenderCellItem(
 * Used for both header and footer
 */
 export function useRenderCell(
-	loadedDrilldown: LoadedDrilldown,
+	itemTitle: LoadedDrilldown["itemTitle"],
 	column: Column,
 	index: number
 ): unknown {
-	const columnTitle = column[loadedDrilldown.itemTitle as keyof Column];
+	const columnTitle = column[itemTitle as string];
 	const cellData = [columnTitle, column, index] as [string, Column, number];
 
 	if (column.renderer) {

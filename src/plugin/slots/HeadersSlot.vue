@@ -26,7 +26,7 @@
 				<v-checkbox
 					v-model="isAllSelected"
 					:class="checkBoxClasses"
-					:density="loadedDrilldown.density"
+					:density="density"
 					:focused="false"
 					:indeterminate="isIndeterminate"
 				></v-checkbox>
@@ -87,14 +87,26 @@ const emit = defineEmits([
 ]);
 
 const props = defineProps({
+	colors: {
+		required: true,
+		type: [Object, Boolean],
+	},
+	density: {
+		required: true,
+		type: String as PropType<DrilldownTypes.LoadedDrilldown['density']>,
+	},
 	isTheadSlot: {
 		default: false,
 		required: false,
 		type: Boolean,
 	},
-	loadedDrilldown: {
+	itemTitle: {
 		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
+		type: String as PropType<DrilldownTypes.LoadedDrilldown['itemTitle']>,
+	},
+	level: {
+		required: true,
+		type: Number,
 	},
 	/**
 	 * @name slotProps
@@ -134,6 +146,10 @@ const props = defineProps({
 		required: false,
 		type: Object,
 	},
+	sortBy: {
+		required: true,
+		type: Array as PropType<DrilldownTypes.LoadedDrilldown['sortBy']>,
+	},
 });
 
 const theme = useTheme();
@@ -147,7 +163,7 @@ const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.a
 
 // -------------------------------------------------- Header Row //
 const headerRowClasses = computed((): object => {
-	return useHeaderRowClasses(props.loadedDrilldown.level);
+	return useHeaderRowClasses(props.level);
 });
 
 
@@ -157,11 +173,17 @@ const cellAlignClasses = (align: string): object => {
 };
 
 const cellClasses = (column: DrilldownTypes.Column, slotName = ''): object => {
-	return useHeaderCellClasses(props.loadedDrilldown, column, slotName);
+	return useHeaderCellClasses(props.colors as DrilldownTypes.ColorsObject, props.level, column, slotName);
 };
 
 const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
-	return useHeaderCellStyles(props.loadedDrilldown, column, theme, dataTableExpand);
+	return useHeaderCellStyles(
+		props.colors as DrilldownTypes.ColorsObject,
+		props.level,
+		column,
+		theme,
+		dataTableExpand,
+	);
 };
 
 
@@ -182,13 +204,13 @@ watch(someSelected, (newVal) => {
 });
 
 const checkBoxClasses = computed((): object => {
-	return useCheckBoxClasses(props.loadedDrilldown.level);
+	return useCheckBoxClasses(props.level);
 });
 
 
 // -------------------------------------------------- Sorting //
 const sortIconClasses = (key: string): object => {
-	return useSortIconClasses(props.loadedDrilldown, props.loadedDrilldown.level, key);
+	return useSortIconClasses(props.sortBy, props.level, key);
 };
 
 function sortColumn(column: DrilldownTypes.Column): void {
@@ -201,7 +223,7 @@ function sortColumn(column: DrilldownTypes.Column): void {
 // -------------------------------------------------- Render //
 function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
 	const tempIndex = 0;
-	return useRenderCell(props.loadedDrilldown, column, tempIndex);
+	return useRenderCell(props.itemTitle, column, tempIndex);
 }
 </script>
 

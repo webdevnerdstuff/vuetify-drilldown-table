@@ -37,6 +37,8 @@
 			<TopSlot
 				:key="level"
 				:loaded-drilldown="loadedDrilldown"
+				:search-props="loadedDrilldown.searchProps"
+				:show-search="loadedDrilldown.showSearch"
 				@update:search="levelSearch = $event"
 			>
 				<!-- Pass on all scoped slots -->
@@ -57,8 +59,12 @@
 		<template #headers="props">
 			<HeadersSlot
 				:key="level"
-				:loaded-drilldown="loadedDrilldown"
+				:colors="loadedDrilldown.colors || false"
+				:density="loadedDrilldown.density"
+				:item-title="loadedDrilldown.itemTitle"
+				:level="level"
 				:slot-props="{ allRowsSelected, ...props }"
+				:sort-by="loadedDrilldown.sortBy"
 				@click:selectAll="emitAllSelectedEvent($event)"
 			>
 				<!-- Pass on all scoped slots -->
@@ -82,9 +88,12 @@
 					style="vertical-align: top;"
 				>
 					<TableLoader
-						:loaded-drilldown="loadedDrilldown"
+						:colors="loadedDrilldown.colors || false"
+						:level="loadedDrilldown.level"
+						:loader-type="loadedDrilldown.loaderType"
 						:loading="loadedDrilldown.loading || false"
 						:loading-text="loadingText"
+						:skelton-type="loadedDrilldown.skeltonType"
 					/>
 				</td>
 			</tr>
@@ -127,8 +136,13 @@
 		<template #item="props">
 			<ItemSlot
 				:key="level"
+				:density="loadedDrilldown.density"
+				:expand-on-click="loadedDrilldown.expandOnClick"
 				:items="loadedDrilldown.items"
-				:loaded-drilldown="loadedDrilldown"
+				:level="loadedDrilldown.level"
+				:levels="loadedDrilldown.levels"
+				:show-expand="loadedDrilldown.showExpand"
+				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ allRowsSelected, level, ...props }"
 				@click:row="emitClickRow($event)"
 				@click:row:checkbox="emitClickRowCheckbox($event)"
@@ -159,8 +173,12 @@
 					<TableLoader
 						v-if="item.raw[itemChildrenKey].loading"
 						class="pa-0 ma-0"
-						:loaded-drilldown="loadedDrilldown"
+						:colors="item.raw[itemChildrenKey].colors || false"
+						:level="level + 1"
+						:loader-type="item.raw[itemChildrenKey].loaderType"
 						:loading="item.raw[itemChildrenKey].loading"
+						:loading-text="loadingText"
+						:skelton-type="item.raw[itemChildrenKey].skeltonType"
 					/>
 
 					<VDrilldownTable
@@ -209,7 +227,11 @@
 		<template #tfoot>
 			<TfootSlot
 				:key="level"
-				:loaded-drilldown="loadedDrilldown"
+				:colors="loadedDrilldown.colors || false"
+				:footers="loadedDrilldown.footers"
+				:item-title="loadedDrilldown.itemTitle"
+				:level="loadedDrilldown.level"
+				:show-select="loadedDrilldown.showSelect"
 			/>
 		</template>
 
@@ -227,10 +249,7 @@
 			v-if="$slots.bottom"
 			#bottom
 		>
-			<BottomSlot
-				:key="level"
-				:loaded-drilldown="loadedDrilldown"
-			>
+			<BottomSlot :key="level">
 				<!-- Pass on all scoped slots -->
 				<template
 					v-for="(_, slot) in $slots"
@@ -263,6 +282,7 @@ import { useTableClasses } from './composables/classes';
 import { useTableStyles } from './composables/styles';
 import { watchOnce } from '@vueuse/core';
 import {
+	ColorsObject,
 	DataTableItem,
 	DrilldownEvent,
 	LoadedDrilldown,
@@ -300,16 +320,16 @@ let loadedDrilldown = reactive<LoadedDrilldown>({
 	customFilter: undefined, 			// ? Needs Testing
 	customKeyFilter: undefined,		// ? Needs Testing
 	// debounceDelay: 750,				// ? Works & Is Prop - Might remove
-	// density: 'comfortable',		// & Works & Is Prop
+	density: 'comfortable',				// * Works - Keep here
 	drilldownKey: '',							// * Custom Prop - Keep here
 	// elevation: 1, 							// & Works & Is Prop
-	// expandOnClick: false, 			// & Works & Is Prop
+	expandOnClick: false, 				// * Works - Keep here
 	expanded: [], 								// ? Needs Testing
 	filterKeys: [], 							// ? Needs Testing
 	filterMode: 'some',						// ? Needs Testing
 	fixedFooter: true, 						// ? Not sure what this does or if it works
 	fixedHeader: true, 						// ? Not sure what this does or if it works
-	// footers: [], 							// & Works & Is Prop
+	footers: [], 							// & Works & Is Prop
 	// footerProps: {},						// ? In v2 Missing in v3
 	// groupBy: [], 							// * Works, but this does not look very good by default
 	// headers: [],								// & Works & Is Prop
@@ -356,10 +376,10 @@ let loadedDrilldown = reactive<LoadedDrilldown>({
 	},
 	showExpand: false,						// ? Works but needs testing.- Not sure if needed in this object
 	// showFooterRow: false,					// ? Not sure if I will use this. Depends on a possible footer slot
-	// showSearch: false,					// & Works & Is Prop
-	// showSelect: false,					// & Works - Is binding prop
+	showSearch: false,						// * Custom Prop - Keep here
+	showSelect: false,						// * Works - Keep here
 	// skeltonType: '',						// & Works & Is Prop
-	// sortBy: [],								// & Works & Is Prop
+	sortBy: [],										// * Works - Keep here
 	width: '100%',								// ! Failed
 });
 
@@ -437,7 +457,7 @@ const tableClasses = computed<object>(() => {
 });
 
 const tableStyles = computed<StyleValue>(() => {
-	return useTableStyles(loadedDrilldown, theme);
+	return useTableStyles(loadedDrilldown.colors as ColorsObject, loadedDrilldown.level, theme);
 });
 
 

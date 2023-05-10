@@ -5,7 +5,7 @@
 	/>
 
 	<v-col
-		v-else-if="loadedDrilldown.showSearch || $slots[`top.left`] || $slots[`top.right`]"
+		v-else-if="showSearch || $slots[`top.left`] || $slots[`top.right`]"
 		lg="12"
 	>
 		<v-row>
@@ -15,20 +15,20 @@
 			/>
 
 			<v-col
-				v-else-if="loadedDrilldown.showSearch"
+				v-else-if="showSearch"
 				class="d-flex align-center justify-end"
 				:class="searchFieldClasses"
 			>
 				<!-- =========================== Search -->
 				<v-text-field
-					v-if="loadedDrilldown.showSearch"
+					v-if="showSearch"
 					v-model="levelSearch"
 					class="mt-0 pt-0"
-					:density="loadedDrilldown.searchProps.density"
+					:density="searchProps.density"
 					hide-details
 					label="Search"
 					single-line
-					:variant="loadedDrilldown.searchProps.variant"
+					:variant="searchProps.variant"
 				></v-text-field>
 			</v-col>
 
@@ -49,9 +49,13 @@ const emit = defineEmits([
 ]);
 
 const props = defineProps({
-	loadedDrilldown: {
+	searchProps: {
 		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
+		type: Object as PropType<DrilldownTypes.SearchProps>,
+	},
+	showSearch: {
+		required: true,
+		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showSearch']>,
 	},
 });
 
@@ -64,7 +68,7 @@ watch(levelSearch, () => {
 
 
 const searchFieldClasses = computed<object>(() => {
-	const searchProps = props.loadedDrilldown.searchProps as DrilldownTypes.SearchProps;
+	const searchProps = props.searchProps as DrilldownTypes.SearchProps;
 	const searchCols = searchProps.cols as DrilldownTypes.SearchPropCols;
 
 	const classes = {
