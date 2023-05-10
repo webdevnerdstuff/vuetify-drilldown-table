@@ -393,7 +393,7 @@ const tableDefaults = {
 	items: [],
 	itemsLength: 0,												// ? Needs Testing
 	itemsPerPage: 10,											// * Works
-	levels: 2,														// * Works - Custom Prop
+	levels: 3,														// * Works - Custom Prop
 	loaderType: [
 		'linear',
 		// 'circular',
@@ -435,7 +435,7 @@ tableSettings.value = {
 
 function fetchData(drilldown = null) {
 	const item = drilldown?.item?.raw ?? null;
-	// console.log({ drilldown });
+	console.log({ drilldown });
 
 	let url = 'https://jsonplaceholder.typicode.com/users';
 	let user = null;
@@ -443,15 +443,19 @@ function fetchData(drilldown = null) {
 	let userId = null;
 	let postId = null;
 
-
 	if (typeof drilldown?.level === 'undefined') {
 		tableSettings.value.loading = true;
 	}
 
-	if (drilldown?.level === 0) {
+	if (drilldown?.level === 1) {
 		userId = item.id;
 		url = `https://jsonplaceholder.typicode.com/posts?userId=${userId}`;
-		user = drilldown.items.find((a) => a.id === userId);
+		user = tableSettings.value.items.find((a) => a.id === userId);
+
+		tableSettings.value = {
+			...tableSettings.value,
+			...drilldown,
+		};
 
 		user.child = {};
 		user.child = {
@@ -459,16 +463,18 @@ function fetchData(drilldown = null) {
 			drilldownKey: 'id',
 			footers: footers.posts,
 			headers: headers.posts,
-			level: 1,
+			level: 2,
 			loading: true,
 		};
 	}
 
-	if (drilldown?.level === 1) {
+	if (drilldown?.level === 2) {
 		postId = item.id;
 		userId = item.userId;
-		user = drilldown.items.find((a) => a.id === userId);
+		user = tableSettings.value.items.find((a) => a.id === userId);
 		post = user.child.items.find((item) => item.id === postId);
+
+		user.child = { ...user.child, drilldown };
 
 		post.child = {};
 		post.child = {
@@ -476,13 +482,13 @@ function fetchData(drilldown = null) {
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,
-			level: 2,
+			level: 3,
 			loading: true,
 		};
 
 		url = `https://jsonplaceholder.typicode.com/comments?postId=${postId}`;
-		url = `https://jsonplaceholder.typicode.com/comments`;
 	}
+
 
 	fetch(url)
 		.then(response => response.json())
@@ -490,6 +496,7 @@ function fetchData(drilldown = null) {
 			// tableSettings.value.itemsLength = json.length;
 
 			setTimeout(() => {
+				// debugger;
 				if (!drilldown) {
 					tableSettings.value.items = json;
 					// tableSettings.value.items = [];
@@ -499,12 +506,13 @@ function fetchData(drilldown = null) {
 
 				user = tableSettings.value.items.find((a) => a.id === userId);
 
-				if (drilldown?.level === 0) {
+				if (drilldown?.level === 1) {
 					user.child.items = [...json];
 					user.child.loading = false;
+					return;
 				}
 
-				if (drilldown?.level === 1) {
+				if (drilldown?.level === 2) {
 					post.child.items = [...json];
 					post.child.loading = false;
 				}
@@ -565,7 +573,8 @@ function updatedModelValue(event) {
 }
 
 function updatedSortBy(event) {
-	tableSettings.value.sortBy = event;
+	// console.log('updatedSortBy', event);
+	// tableSettings.value.sortBy = event;
 }
 
 function rowClickEvent(event) {
