@@ -1,12 +1,11 @@
-import { Props } from '@/types';
-import type { VDataTable } from "vuetify/labs/components";
+import { LoadedDrilldown, Props } from '@/types';
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
 	colors: {
 		default: false,
 		required: false,
-		type: Object,
+		type: [Object, Boolean],
 	},
 	debounceDelay: {
 		default: 750,
@@ -16,7 +15,7 @@ export const AllProps: Props = {
 	density: {
 		default: 'comfortable',
 		required: false,
-		type: String as PropType<VDataTable['$props']['density']>,
+		type: String as PropType<LoadedDrilldown['density']>,
 	},
 	drilldown: {
 		default: () => { },
@@ -73,12 +72,6 @@ export const AllProps: Props = {
 		required: false,
 		type: Array,
 	},
-	// ? This is for v-data-table-server //
-	// itemsLength: {
-	// 	default: 0,
-	// 	required: false,
-	// 	type: Number,
-	// },
 	level: {
 		default: 1,
 		required: false,
@@ -88,6 +81,11 @@ export const AllProps: Props = {
 		default: 1,
 		required: false,
 		type: Number,
+	},
+	loaderHeight: {
+		default: 2,
+		required: false,
+		type: [Number, String],
 	},
 	loaderType: {
 		default: '',
@@ -165,7 +163,7 @@ export const AllProps: Props = {
 	sortBy: {
 		default: () => [],
 		required: false,
-		type: Array as PropType<VDataTable["sortBy"]>,
+		type: Array as PropType<LoadedDrilldown["sortBy"]>,
 	},
 };
 
