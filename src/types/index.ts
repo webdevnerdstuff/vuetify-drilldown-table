@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { CSSProperties, PropType, StyleValue } from 'vue';
 import { ThemeInstance } from 'vuetify';
-import type { VTextField } from "vuetify/components";
+import type { VTextField, VProgressLinear } from "vuetify/components";
 import type { VDataTable, VDataTableRow } from "vuetify/labs/components";
 
 
@@ -147,6 +147,11 @@ export type Props = {
 		required: boolean;
 		type: PropType<VDataTable["$props"]["items"]>;
 	};
+	// itemsPerPageOptions: {
+	// 	default: () => VDataTable["$props"]["itemsPerPageOptions"];
+	// 	required: boolean;
+	// 	type: PropType<VDataTable["$props"]["itemsPerPageOptions"]>;
+	// };
 	itemsLength?: {
 		default: number;
 		required: boolean;
@@ -161,6 +166,11 @@ export type Props = {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
+	};
+	loaderHeight: {
+		default: string | number;
+		required: boolean;
+		type: PropType<VProgressLinear['$props']['height']>;
 	};
 	loaderType: {
 		default: string | string[];
@@ -267,8 +277,10 @@ export type LoadedDrilldown = {
 	items: VDataTable["$props"]["items"];
 	itemsLength?: number;
 	itemsPerPage?: VDataTable["$props"]["itemsPerPage"];
+	itemsPerPageOptions?: VDataTable["$props"]["itemsPerPageOptions"];
 	level: number; 																							// * Custom Property
 	levels: number; 																						// * Custom Property
+	loaderHeight?: VProgressLinear['$props']['height'];					// * Custom Property
 	loaderType?: string | string[];
 	loading?: boolean; 																					// ! Not working properly
 	loadingText?: VDataTable["$props"]["loadingText"];					// ! Not working properly
