@@ -11,7 +11,7 @@
 		>
 			<v-progress-linear
 				:color="linearColor"
-				:height="height"
+				:height="loaderHeight"
 				indeterminate
 			></v-progress-linear>
 		</v-col>
@@ -56,6 +56,7 @@
 import { componentName } from '@/plugin/utils/globals';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';
 import { ColorsObject } from '@/types';
+import { useLoaderHeight } from '@/plugin/composables/helpers';
 
 
 const theme = useTheme();
@@ -66,9 +67,9 @@ const props = defineProps({
 		type: [Object, Boolean],
 	},
 	height: {
-		default: '2',
+		default: 2,
 		required: false,
-		type: String,
+		type: [String, Number],
 	},
 	level: {
 		required: true,
@@ -129,6 +130,10 @@ const loaderContainerClasses = computed(() => {
 // v-progress-linear //
 const linearColor = computed<string | undefined>(() => {
 	return baseColors.value?.linear || '';
+});
+
+const loaderHeight = computed(() => {
+	return useLoaderHeight(props.height as string | number);
 });
 
 
