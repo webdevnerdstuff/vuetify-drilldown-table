@@ -21,6 +21,8 @@
 					<v-row>
 						<v-col class="v-col-12">
 							<PlaygroundPage />
+							<!-- <PlaygroundServerPage />
+							<PlaygroundTemplatePage /> -->
 						</v-col>
 					</v-row>
 				</v-container>
@@ -34,7 +36,8 @@
 import { provide } from 'vue';
 import { useCoreStore } from '@/stores/index';
 import PlaygroundPage from '@/playground/PlaygroundPage.vue';
-// import PlaygroundPage from './PlaygroundPage.template.vue';
+// import PlaygroundServerPage from '@/playground/PlaygroundServerPage.vue';
+// import PlaygroundTemplatePage from './PlaygroundPage.template.vue';
 import AppBar from '@/layout/AppBar.vue';
 
 const store = useCoreStore();
