@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 const app = createApp(PlaygroundApp);
 app.use(VDrilldownTable);
 app.use(createPinia());
-app.component('font-awesome-icon', FontAwesomeIcon)
+app.component('font-awesome-icon', FontAwesomeIcon);
 app.component('FaIcon', FontAwesomeIcon);
 
 registerPlugins(app);
