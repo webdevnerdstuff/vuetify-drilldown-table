@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import { componentName } from '@/plugin/utils/globals';
 import * as DrilldownTypes from '@/types';
+import { watchDebounced } from '@vueuse/core';
 
 const emit = defineEmits([
 	'update:search',
@@ -62,10 +63,13 @@ const props = defineProps({
 
 const levelSearch = ref<string>('');
 
-watch(levelSearch, () => {
-	emit('update:search', levelSearch.value);
-});
-
+watchDebounced(
+	levelSearch,
+	() => {
+		emit('update:search', levelSearch.value);
+	},
+	{ debounce: 750, maxWait: 1000 },
+);
 
 const searchFieldClasses = computed<object>(() => {
 	const searchProps = props.searchProps as DrilldownTypes.SearchProps;
