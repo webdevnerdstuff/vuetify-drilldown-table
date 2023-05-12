@@ -1,7 +1,8 @@
 <!-- eslint-disable vue/no-v-for-template-key -->
 <!-- eslint-disable vue/no-v-model-argument -->
 <template>
-	<v-data-table
+	<component
+		:is="tableType"
 		v-bind="$attrs"
 		:class="tableClasses"
 		:density="loadedDrilldown.density"
@@ -10,7 +11,6 @@
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
 		:hide-no-data="hidingNoData"
-		:hover="loadedDrilldown.hover"
 		:item-title="loadedDrilldown.itemTitle"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
@@ -25,7 +25,6 @@
 		:return-object="loadedDrilldown.returnObject"
 		:search="levelSearch"
 		:show-expand="loadedDrilldown.showExpand"
-		:show-select="loadedDrilldown.showSelect"
 		:sort-by="currentSortBy"
 		:style="tableStyles"
 		@update:items-per-page="updateItemsPerPage"
@@ -33,6 +32,7 @@
 		@update:options="updateOptions"
 		@update:sort-by="updateSortBy"
 	>
+
 		<!-- ================================================== Top Slot -->
 		<template #top>
 			<TopSlot
@@ -190,7 +190,7 @@
 						:skelton-type="item.raw[itemChildrenKey].skeltonType"
 					/>
 
-					<VDrilldownTable
+					<VDrilldownBase
 						:key="item.raw"
 						:class="item.raw[itemChildrenKey].loading ? 'd-none' : ''"
 						:colors="colors"
@@ -198,6 +198,7 @@
 						:headers="item.raw[itemChildrenKey].headers"
 						:is-drilldown="true"
 						:item="item"
+						:items-length="item.raw[itemChildrenKey].itemsLength"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
 						:loading="item.raw[itemChildrenKey].loading"
@@ -205,8 +206,10 @@
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
 						:sort-by="loadedDrilldown.sortBy"
+						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
 						@update:items-per-page="updateItemsPerPage"
+						@update:model-value="updateModelValue"
 						@update:options="updateOptions"
 					>
 						<!-- Pass on all named slots -->
@@ -215,7 +218,7 @@
 							:name="slot"
 						></slot>
 
-						<!--Pass on all scoped slots -->
+						<!-- Pass on all scoped slots -->
 						<template
 							v-for="(_, slot) in $slots"
 							#[slot]="scope"
@@ -225,7 +228,7 @@
 								v-bind="{ ...scope }"
 							/>
 						</template>
-					</VDrilldownTable>
+					</VDrilldownBase>
 				</td>
 			</tr>
 		</template>
@@ -271,10 +274,12 @@
 				</template>
 			</BottomSlot>
 		</template>
-	</v-data-table>
+
+	</component>
 </template>
 
 <script setup lang="ts">
+import { VDataTableServer, VDataTable } from 'vuetify/labs/components';
 import { AllProps } from './utils/props';
 import { LoadedDrilldownDefaults } from './utils/loadedDrilldown';
 import { TableLoader } from './components';
@@ -290,14 +295,17 @@ import { useMergeDeep } from './composables/helpers';
 import { useSetLoadedDrilldown } from './composables/loadedDrilldown';
 import { useTableClasses } from './composables/classes';
 import { useTableStyles } from './composables/styles';
-import { watchOnce } from '@vueuse/core';
+import {
+	watchDebounced,
+	watchOnce,
+} from '@vueuse/core';
 import {
 	ColorsObject,
 	DataTableItem,
 	DrilldownEvent,
 	LoadedDrilldown,
 } from '@/types';
-import type { VDataTable } from "vuetify/labs/components";
+import type { VDataTable as VDT } from "vuetify/labs/components";
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
@@ -306,6 +314,8 @@ const emit = defineEmits([
 	'click:row:checkbox',
 	'update:expanded',
 	'update:drilldown',
+	'update:drilldown:sortby',
+	'update:search',
 	'update:sortBy',
 	'update:sortByCustom',
 ]);
@@ -313,6 +323,10 @@ const emit = defineEmits([
 
 // -------------------------------------------------- Props //
 const props = defineProps({ ...AllProps });
+
+const tableType = props.server || props.tableType.name === 'VDataTableServer' ? VDataTableServer : VDataTable;
+
+console.log({ tableType });
 
 
 // -------------------------------------------------- Table Settings (WIP) //
@@ -337,24 +351,16 @@ const hidingNoData = computed(() => {
 });
 
 // -------------------------------------------------- Watch //
-// watch(props, useDrilldownDebounce(() => {
-// 	if (props.level !== 0 || loadedDrilldown.level === 0) {
-// 		setLoadedDrilldown();
-// 	}
-// }, props.debounceDelay, props.level === 0), { deep: true });
-
-// watch(props, () => {
-// 	if (props.level !== 1 || loadedDrilldown.level === 1) {
-// 		setLoadedDrilldown();
-// 	}
-// });
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 watchOnce(props as any, () => {
 	if (props.level !== 1 || loadedDrilldown.level === 1) {
 		setLoadedDrilldown();
 	}
 }, { immediate: false });
+
+watch(() => props.items, () => {
+	setLoadedDrilldown();
+});
 
 watch(() => props.loading, (value) => {
 	if (value) {
@@ -363,6 +369,7 @@ watch(() => props.loading, (value) => {
 
 	setLoadedDrilldown();
 });
+
 
 
 // -------------------------------------------------- Table #
@@ -394,11 +401,23 @@ function setLoadedDrilldown(): void {
 }
 
 
+// -------------------------------------------------- Search //
+watchDebounced(
+	levelSearch,
+	() => {
+		emit('update:search', {
+			drilldown: loadedDrilldown,
+			query: levelSearch.value,
+		});
+	},
+	{ debounce: 750, maxWait: 1000 },
+);
+
+
 // -------------------------------------------------- Emit Events //
 function emitAllSelectedEvent(val: boolean): void {
 	allRowsSelected.value = val;
 }
-
 
 function emitClickRow(event: MouseEvent): void {
 	emit('click:row', event);
@@ -407,6 +426,10 @@ function emitClickRow(event: MouseEvent): void {
 function emitClickRowCheckbox(item: DataTableItem): void {
 	emit('click:row:checkbox', item);
 }
+
+// function emitLevelSearch(val: string): void {
+// 	emit('update:search', { loadedDrilldown });
+// }
 
 function emitUpdatedExpanded(data: DrilldownEvent): void {
 	const levelSortByValue = data?.sortBy ?? currentSortBy.value;
@@ -452,13 +475,40 @@ function updateOptions() {
 watch(() => loadedDrilldown.sortBy, () => {
 	currentSortBy.value = loadedDrilldown.sortBy;
 
+	// console.log(loadedDrilldown);
+
 	emit('update:sortBy', currentSortBy.value);
+
+	updateSortByInternal(loadedDrilldown);
 });
 
 
-function updateSortBy(val: VDataTable['sortBy']) {
+function updateSortBy(val: VDT['sortBy']) {
 	loadedDrilldown.sortBy = val;
 }
+
+function updateSortByInternal(data) {
+	console.log('%c%s', ['background-color: black', 'border: 2px dotted red', 'border-radius: 5px', 'color: red', 'font-weight: bold', 'padding: 5px 10px'].join(';'), 'updateSortByInternal event', data);
+
+
+	// if (!data.parent && data.sortBy?.length) {
+	// 	const drilldown = { ...loadedDrilldown };
+	// 	drilldown.item = data.parentItem;
+
+	const response = {
+		drilldown: data,
+		level: data.level,
+		parentItem: data.parentItem,
+		sortBy: data.sortBy,
+	};
+
+	// 	console.log('response', { response });
+	if (data.level !== 1) {
+		console.log('emit');
+		emit('update:drilldown:sortby', response);
+	}
+}
+
 
 </script>
 
