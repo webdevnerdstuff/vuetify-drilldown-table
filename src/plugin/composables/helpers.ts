@@ -1,44 +1,8 @@
 import type { VDataTable } from "vuetify/labs/components";
 import {
 	Column,
-	DrilldownDebounce,
 	LoadedDrilldown,
 } from '@/types';
-
-
-/**
-* Debounce the drilldown
-*/
-export function useDrilldownDebounce<T extends DrilldownDebounce>(
-	func: T,
-	wait: number,
-	immediate: boolean
-): () => void {
-	let timeout: ReturnType<typeof setTimeout> | undefined;
-
-	function debouncedFunction(this: undefined, ...args: undefined[]) {
-		// eslint-disable-next-line @typescript-eslint/no-this-alias
-		const context = this;
-
-		const later = () => {
-			timeout = undefined;
-			if (!immediate) {
-				func.apply(context, args);
-			}
-		};
-
-		const callNow = immediate && timeout === undefined;
-
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-
-		if (callNow) {
-			func.apply(context, args);
-		}
-	}
-
-	return debouncedFunction as T;
-}
 
 
 /**
