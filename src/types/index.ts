@@ -73,6 +73,17 @@ export type SearchProps = {
 };
 
 
+// -------------------------------------------------- Table //
+// export type TableType<T> = {
+// 	item: 'tableType';
+// 	[key: string]: T;
+// };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface TableType<T = any> {
+	[key: string]: T;
+}
+
 // -------------------------------------------------- Props //
 export type Props = {
 	colors?: {
@@ -205,7 +216,11 @@ export type Props = {
 		required?: boolean;
 		type?: PropType<SearchProps>;
 	};
-
+	server: {
+		default: boolean;
+		required: boolean;
+		type: PropType<boolean>;
+	};
 	// TODO: Maybe add this //
 	// separator?: {
 	// 	default: string;
@@ -238,6 +253,11 @@ export type Props = {
 		default: object | object[];
 		required: boolean;
 		type: PropType<VDataTable["$props"]["sortBy"]>;
+	};
+	tableType: {
+		default: object;
+		required: boolean;
+		type: PropType<TableType>;
 	};
 };
 
@@ -445,7 +465,7 @@ export type ClickRowCheckboxEvent = {
 };
 
 // -------------------------------------------------- Helpers //
-export type DrilldownDebounce = (...args: undefined[]) => void;
+
 
 
 // -------------------------------------------------- Emits //
