@@ -128,6 +128,11 @@ export const AllProps: Props = {
 		required: false,
 		type: Object,
 	},
+	server: {
+		default: false,
+		required: false,
+		type: Boolean,
+	},
 	// TODO: Add new feature //
 	// separator: {
 	// 	default: '',
@@ -165,5 +170,10 @@ export const AllProps: Props = {
 		required: false,
 		type: Array as PropType<LoadedDrilldown["sortBy"]>,
 	},
+	tableType: {
+		default: () => { },
+		required: false,
+		type: Object,
+	}
 };
 
