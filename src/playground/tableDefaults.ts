@@ -110,7 +110,7 @@ export default {
 	showCurrentPage: false,																		// * Works
 	showExpand: false,																				// * Works
 	showFooterRow: true,
-	showSearch: false,																				// * Works - May or may not keep
+	showSearch: true,																				// * Works - May or may not keep
 	showSelect: false,																				// * Works
 	skeltonType: 'heading@1',																	// * Works - Custom Prop
 	// sortAscIcon: '$sortAsc',																// ? Not sure if I will add this. Already made header.sort slot
