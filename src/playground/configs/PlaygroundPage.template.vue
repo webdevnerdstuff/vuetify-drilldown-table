@@ -148,12 +148,12 @@
 			</v-col>
 		</v-row>
 
-		<v-row class="mt-15">
+		<!-- <v-row class="mt-15">
 			<v-col cols="12">
 				<h2 class="pb-0">v-data-table</h2>
 			</v-col>
 			<v-col cols="12">
-				<!-- <v-data-table
+				<v-data-table
 					:color="tableSettings.color"
 					:colors="tableSettings.colors"
 					:density="tableSettings.density"
@@ -208,9 +208,9 @@
 							</td>
 						</tr>
 					</template>
-				</v-data-table> -->
+				</v-data-table>
 			</v-col>
-		</v-row>
+		</v-row> -->
 	</v-container>
 </template>
 
@@ -220,8 +220,8 @@ import { onMounted, ref } from 'vue';
 // import { watchDebounced } from '@vueuse/core';
 import tableDefaults from './tableDefaults';
 
-// Use this to swtich between Client and Server Side Tables //
-const isServerSide = ref(true);
+// Use this to switch between Client and Server Side Tables //
+const isServerSide = ref(false);
 
 const tableSettings = ref({ ...tableDefaults });
 
