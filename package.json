@@ -71,6 +71,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.21.8",
 		"@babel/eslint-parser": "^7.21.8",
+		"@faker-js/faker": "^8.0.0",
 		"@fortawesome/fontawesome-svg-core": "^6.4.0",
 		"@fortawesome/free-brands-svg-icons": "^6.4.0",
 		"@fortawesome/free-solid-svg-icons": "^6.4.0",
@@ -100,6 +101,7 @@
 		"gh-pages": "^5.0.0",
 		"husky": "^8.0.3",
 		"lint-staged": "^13.2.2",
+		"miragejs": "^0.1.47",
 		"pinia": "^2.0.36",
 		"postcss": "^8.4.23",
 		"postcss-html": "^1.5.0",
