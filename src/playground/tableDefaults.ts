@@ -30,7 +30,7 @@ export default {
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
-	density: 'compact',																				// * Works - Moved to default settings
+	density: 'compact',																				// * Works
 	drilldownKey: 'id',																				// * Works
 	elevation: 5,																							// * Works
 	expandOnClick: false, 																		// * Works
@@ -46,8 +46,12 @@ export default {
 	itemValue: 'id',																					// * Works, but is weird
 	items: [],
 	itemsLength: 0,																						// ? Needs Testing
-	itemsPerPage: 10,																					// * Works
+	itemsPerPage: 5,																					// * Works
 	itemsPerPageOptions: [																		// * Works
+		{
+			title: '5',
+			value: 5,
+		},
 		{
 			title: '10',
 			value: 10,
