@@ -1,4 +1,5 @@
-import { LoadedDrilldown, Props } from '@/types';
+import type { LoadedDrilldown, Props } from '@/types';
+import { LoadedDrilldownDefaults } from './loadedDrilldown';
 
 export const AllProps: Props = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
@@ -8,12 +9,12 @@ export const AllProps: Props = {
 		type: [Object, Boolean],
 	},
 	debounceDelay: {
-		default: 750,
+		default: LoadedDrilldownDefaults.debounceDelay as number,
 		required: false,
 		type: Number,
 	},
 	density: {
-		default: 'comfortable',
+		default: LoadedDrilldownDefaults.density as keyof LoadedDrilldown['density'],
 		required: false,
 		type: String as PropType<LoadedDrilldown['density']>,
 	},
@@ -23,22 +24,22 @@ export const AllProps: Props = {
 		type: Object,
 	},
 	drilldownKey: {
-		default: 'id',
+		default: LoadedDrilldownDefaults.drilldownKey as string,
 		required: false,
 		type: String,
 	},
 	elevation: {
-		default: 0,
+		default: LoadedDrilldownDefaults.elevation as number,
 		required: false,
 		type: [Number, String],
 	},
 	expandOnClick: {
-		default: false,
+		default: LoadedDrilldownDefaults.expandOnClick as boolean,
 		required: false,
 		type: Boolean,
 	},
 	footers: {
-		default: () => [],
+		default: () => LoadedDrilldownDefaults.footers as [],
 		required: false,
 		type: Array,
 	},
@@ -48,7 +49,7 @@ export const AllProps: Props = {
 		type: Array,
 	},
 	hover: {
-		default: false,
+		default: LoadedDrilldownDefaults.hover as boolean,
 		required: false,
 		type: Boolean,
 	},
@@ -63,32 +64,37 @@ export const AllProps: Props = {
 		type: Object,
 	},
 	itemChildrenKey: {
-		default: 'child',
+		default: LoadedDrilldownDefaults.itemChildrenKey as string,
 		required: false,
 		type: String,
 	},
 	items: {
-		default: () => { },
+		default: () => LoadedDrilldownDefaults.items as LoadedDrilldown['items'],
 		required: false,
 		type: Array,
 	},
+	itemsPerPage: {
+		default: LoadedDrilldownDefaults.itemsPerPage as number,
+		required: false,
+		type: [Number, String],
+	},
 	level: {
-		default: 1,
+		default: LoadedDrilldownDefaults.level as number,
 		required: false,
 		type: Number,
 	},
 	levels: {
-		default: 1,
+		default: LoadedDrilldownDefaults.levels as number,
 		required: false,
 		type: Number,
 	},
 	loaderHeight: {
-		default: 2,
+		default: LoadedDrilldownDefaults.loaderHeight as number,
 		required: false,
 		type: [Number, String],
 	},
 	loaderType: {
-		default: '',
+		default: LoadedDrilldownDefaults.loaderHeight as string,
 		required: false,
 		type: [String, Array],
 	},
@@ -103,12 +109,12 @@ export const AllProps: Props = {
 		type: String,
 	},
 	multiSort: {
-		default: false,
+		default: LoadedDrilldownDefaults.multiSort as boolean,
 		required: false,
 		type: Boolean,
 	},
 	noDataText: {
-		default: '$vuetify.noDataText',
+		default: LoadedDrilldownDefaults.noDataText as string,
 		required: false,
 		type: String,
 	},
@@ -151,24 +157,24 @@ export const AllProps: Props = {
 	// 	type: Boolean,
 	// },
 	showSearch: {
-		default: false,
+		default: LoadedDrilldownDefaults.showSearch as boolean,
 		required: false,
 		type: Boolean,
 	},
 	showSelect: {
-		default: false,
+		default: LoadedDrilldownDefaults.showSelect as boolean,
 		required: false,
 		type: Boolean,
 	},
 	skeltonType: {
-		default: 'heading@1',
+		default: LoadedDrilldownDefaults.skeltonType as string,
 		required: false,
 		type: String,
 	},
 	sortBy: {
-		default: () => [],
+		default: () => LoadedDrilldownDefaults.sortBy as LoadedDrilldown['sortBy'],
 		required: false,
-		type: Array as PropType<LoadedDrilldown["sortBy"]>,
+		type: Array as PropType<LoadedDrilldown['sortBy']>,
 	},
 	tableType: {
 		default: () => { },
