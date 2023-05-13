@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { CSSProperties, PropType, StyleValue } from 'vue';
 import { ThemeInstance } from 'vuetify';
-import type { VTextField, VProgressLinear } from "vuetify/components";
-import type { VDataTable, VDataTableRow } from "vuetify/labs/components";
+import type { VTextField, VProgressLinear } from 'vuetify/components';
+import type { VDataTable, VDataTableRow } from 'vuetify/labs/components';
 
 
 // -------------------------------------------------- Vuetify Types //
 export type Density = null | 'default' | 'comfortable' | 'compact';
 
-export type DataTableItem = NonNullable<VDataTableRow["$props"]["item"]>;
+export type DataTableItem = NonNullable<VDataTableRow['$props']['item']>;
 
 
 // -------------------------------------------------- Colors //
@@ -68,8 +68,8 @@ export type SearchPropCols = {
 
 export type SearchProps = {
 	cols?: SearchPropCols;
-	density?: VTextField["$props"]["density"];
-	variant?: VTextField["$props"]["variant"];
+	density?: VTextField['$props']['density'];
+	variant?: VTextField['$props']['variant'];
 };
 
 
@@ -100,7 +100,7 @@ export type Props = {
 	density: {
 		default: string,
 		required: boolean,
-		type: PropType<VDataTable["$props"]["density"]>;
+		type: PropType<VDataTable['$props']['density']>;
 	};
 	drilldown: {
 		default: () => void;
@@ -120,23 +120,23 @@ export type Props = {
 	expandOnClick: {
 		default: boolean;
 		required: boolean;
-		type: PropType<VDataTable["$props"]["expandOnClick"]>;
+		type: PropType<VDataTable['$props']['expandOnClick']>;
 	};
 	// * Custom Property - This might change //
 	footers: {
-		default: () => VDataTable["$props"]["headers"];
+		default: () => VDataTable['$props']['headers'];
 		required: boolean;
-		type: PropType<VDataTable["$props"]["headers"]>;
+		type: PropType<VDataTable['$props']['headers']>;
 	};
 	headers: {
-		default: () => VDataTable["$props"]["headers"];
+		default: () => VDataTable['$props']['headers'];
 		required: boolean;
-		type: PropType<VDataTable["$props"]["headers"]>;
+		type: PropType<VDataTable['$props']['headers']>;
 	};
 	hover?: {
 		default: boolean;
 		required: boolean;
-		type: PropType<VDataTable["$props"]["hover"]>;
+		type: PropType<VDataTable['$props']['hover']>;
 	};
 	isDrilldown: {
 		default: boolean;
@@ -156,17 +156,22 @@ export type Props = {
 	items: {
 		default: () => unknown;
 		required: boolean;
-		type: PropType<VDataTable["$props"]["items"]>;
+		type: PropType<VDataTable['$props']['items']>;
 	};
 	// itemsPerPageOptions: {
-	// 	default: () => VDataTable["$props"]["itemsPerPageOptions"];
+	// 	default: () => VDataTable['$props']['itemsPerPageOptions'];
 	// 	required: boolean;
-	// 	type: PropType<VDataTable["$props"]["itemsPerPageOptions"]>;
+	// 	type: PropType<VDataTable['$props']['itemsPerPageOptions']>;
 	// };
 	itemsLength?: {
 		default: number;
 		required: boolean;
 		type: PropType<number>;
+	};
+	itemsPerPage?: {
+		default: number;
+		required: boolean;
+		type: PropType<VDataTable['$props']['itemsPerPage']>;
 	};
 	level: {
 		default: number;
@@ -208,7 +213,12 @@ export type Props = {
 	noDataText: {
 		default: string;
 		required: boolean;
-		type: PropType<VDataTable["$props"]["noDataText"]>;
+		type: PropType<VDataTable['$props']['noDataText']>;
+	};
+	page?: {
+		default: number;
+		required: boolean;
+		type: PropType<VDataTable['$props']['page']>;
 	};
 	// * Custom Property //
 	searchProps: {
@@ -242,7 +252,7 @@ export type Props = {
 	showSelect?: {
 		default: boolean;
 		required: boolean;
-		type: PropType<VDataTable["$props"]["showSelect"]>;
+		type: PropType<VDataTable['$props']['showSelect']>;
 	};
 	skeltonType?: {
 		default: string;
@@ -252,7 +262,7 @@ export type Props = {
 	sortBy: {
 		default: object | object[];
 		required: boolean;
-		type: PropType<VDataTable["$props"]["sortBy"]>;
+		type: PropType<VDataTable['$props']['sortBy']>;
 	};
 	tableType: {
 		default: object;
@@ -264,62 +274,62 @@ export type Props = {
 
 // -------------------------------------------------- Drilldown //
 export type LoadedDrilldown = {
-	colors?: boolean | ColorsObject; 														// * Custom Property
-	customFilter?: VDataTable["$props"]["customFilter"];
-	customKeyFilter?: VDataTable["$props"]["customKeyFilter"];
-	debounceDelay?: number | undefined; 												// * Custom Property
-	density: VDataTable["$props"]["density"];
-	drilldown?: object; 																				// * Custom Property
-	drilldownKey: string; 																			// * Custom Property
-	elevation?: string | number | undefined; 										// * Custom Property
-	expandOnClick: VDataTable["$props"]["expandOnClick"];
+	colors?: boolean | ColorsObject; 																		// * Custom Property
+	customFilter?: VDataTable['$props']['customFilter'];
+	customKeyFilter?: VDataTable['$props']['customKeyFilter'];
+	debounceDelay?: number | undefined; 																// * Custom Property
+	density: VDataTable['$props']['density'];
+	drilldown?: object; 																								// * Custom Property
+	drilldownKey: string; 																							// * Custom Property
+	elevation?: string | number | undefined; 														// * Custom Property
+	expandOnClick: VDataTable['$props']['expandOnClick'];
 	expanded?: string[];
-	filterKeys?: VDataTable["$props"]["filterKeys"];						// ! Need more info/testing
-	filterMode?: VDataTable["$props"]["filterMode"];
+	filterKeys?: VDataTable['$props']['filterKeys'];										// ! Need more info/testing
+	filterMode?: VDataTable['$props']['filterMode'];
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
-	// footerProps?: object;																		// ! Missing Vuetify Prop (maybe v2 only?)
-	footers?: VDataTable["$props"]["headers"];
-	// groupBy?: string[];																			// ? Most likely this will not be used
-	headers?: VDataTable["$props"]["headers"];
+	// footerProps?: object;																						// ! Missing Vuetify Prop (maybe v2 only?)
+	footers?: VDataTable['$props']['headers'];
+	// groupBy?: string[];																							// ? Most likely this will not be used
+	headers?: VDataTable['$props']['headers'];
 	height?: string | number | undefined;
-	// hideDefaultFooter?: boolean;															// ? Custom Property - Need to add/test
-	// hideDefaultHeader?: boolean;															// ? Custom Property - Need to add/test
-	hideNoData?: VDataTable["$props"]["hideNoData"];
+	// hideDefaultFooter?: boolean;																			// ? Custom Property - Need to add/test
+	// hideDefaultHeader?: boolean;																			// ? Custom Property - Need to add/test
+	hideNoData?: VDataTable['$props']['hideNoData'];
 	hover?: boolean;
-	isDrilldown?: boolean; 																			// * Custom Property
-	item?: DataTableItem;																				// * Custom Property
-	itemChildren?: VDataTable["$props"]["itemChildren"];
-	itemChildrenKey: string; 																		// * Custom Property
-	itemProps?: VDataTable["$props"]["itemProps"];
-	itemTitle?: VDataTable["$props"]["itemTitle"];
-	itemValue?: VDataTable["$props"]["itemValue"];
-	items: VDataTable["$props"]["items"];
+	isDrilldown?: boolean; 																							// * Custom Property
+	item?: DataTableItem;																								// * Custom Property
+	itemChildren?: VDataTable['$props']['itemChildren'];
+	itemChildrenKey: string; 																						// * Custom Property
+	itemProps?: VDataTable['$props']['itemProps'];
+	itemTitle?: VDataTable['$props']['itemTitle'];
+	itemValue?: VDataTable['$props']['itemValue'];
+	items: VDataTable['$props']['items'];
 	itemsLength?: number;
-	itemsPerPage?: VDataTable["$props"]["itemsPerPage"];
-	itemsPerPageOptions?: VDataTable["$props"]["itemsPerPageOptions"];
-	level: number; 																							// * Custom Property
-	levels: number; 																						// * Custom Property
-	loaderHeight?: VProgressLinear['$props']['height'];					// * Custom Property
+	itemsPerPage?: VDataTable['$props']['itemsPerPage'];
+	itemsPerPageOptions?: VDataTable['$props']['itemsPerPageOptions'];
+	level: number; 																											// * Custom Property
+	levels: number; 																										// * Custom Property
+	loaderHeight?: VProgressLinear['$props']['height'];									// * Custom Property
 	loaderType?: string | string[];
-	loading?: boolean; 																					// ! Not working properly
-	loadingText?: VDataTable["$props"]["loadingText"];					// ! Not working properly
+	loading?: boolean; 																									// ! Not working properly
+	loadingText?: VDataTable['$props']['loadingText'];									// ! Not working properly
 	modelValue?: unknown[];
-	multiSort?: VDataTable["$props"]["multiSort"];
-	mustSort?: VDataTable["$props"]["mustSort"];
-	noDataText?: VDataTable["$props"]["noDataText"];
-	noFilter?: VDataTable["$props"]["noFilter"];
-	page?: VDataTable["$props"]["page"];
-	// pageCount?: number; 																			// ? Need to test (maybe v2 only?)
-	returnObject?: VDataTable["$props"]["returnObject"];
+	multiSort?: VDataTable['$props']['multiSort'];
+	mustSort?: VDataTable['$props']['mustSort'];
+	noDataText?: VDataTable['$props']['noDataText'];
+	noFilter?: VDataTable['$props']['noFilter'];
+	page?: VDataTable['$props']['page'];
+	// pageCount?: number; 																							// ? Need to test (maybe v2 only?)
+	returnObject?: VDataTable['$props']['returnObject'];
 	search?: string | undefined;
-	searchProps: SearchProps; 																	// * Custom Property
-	showExpand?: VDataTable["$props"]["showExpand"];
-	showFooterRow?: boolean; 																		// * Custom Property
-	showSearch?: boolean; 																			// * Custom Property
-	showSelect?: VDataTable["$props"]["showSelect"];
-	skeltonType?: string; 																			// * Custom Property
-	sortBy?: VDataTable["$props"]["sortBy"];
+	searchProps: SearchProps; 																					// * Custom Property
+	showExpand?: VDataTable['$props']['showExpand'];
+	showFooterRow?: boolean; 																						// * Custom Property
+	showSearch?: boolean; 																							// * Custom Property
+	showSelect?: VDataTable['$props']['showSelect'];
+	skeltonType?: string; 																							// * Custom Property
+	sortBy?: VDataTable['$props']['sortBy'];
 	width?: string | number | undefined;
 };
 

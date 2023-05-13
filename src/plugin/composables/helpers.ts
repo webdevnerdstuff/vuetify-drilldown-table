@@ -1,4 +1,4 @@
-import type { VDataTable } from "vuetify/labs/components";
+import type { VDataTable } from 'vuetify/labs/components';
 import {
 	Column,
 	LoadedDrilldown,
@@ -8,7 +8,7 @@ import {
 /**
 * Get's the sort direction for a column
 */
-export function useGetSortDirection(sortBy: VDataTable["$props"]["sortBy"], id: string): string | boolean | void {
+export function useGetSortDirection(sortBy: VDataTable['$props']['sortBy'], id: string): string | boolean | void {
 	if (sortBy) {
 		const item = sortBy.find(item => item.key === id);
 
@@ -87,7 +87,7 @@ export function useRenderCellItem(
 * Used for both header and footer
 */
 export function useRenderCell(
-	itemTitle: LoadedDrilldown["itemTitle"],
+	itemTitle: LoadedDrilldown['itemTitle'],
 	column: Column,
 	index: number
 ): unknown {

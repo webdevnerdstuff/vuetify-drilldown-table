@@ -1,10 +1,13 @@
 import '@/Libraries/fontawesome';
 import PlaygroundApp from './PlaygroundApp.vue';
-import VDrilldownTable from '@/index';
+import VDrilldownTable from '../../index';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import { registerPlugins } from '@/plugins';
+import { registerPlugins } from '../../plugins';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { makeServer } from '../../server';
+
+makeServer();
 
 const app = createApp(PlaygroundApp);
 app.use(VDrilldownTable);
