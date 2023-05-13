@@ -190,7 +190,7 @@
 						:skelton-type="item.raw[itemChildrenKey].skeltonType"
 					/>
 
-					<VDrilldownBase
+					<VDrilldownTable
 						:key="item.raw"
 						:class="item.raw[itemChildrenKey].loading ? 'd-none' : ''"
 						:colors="colors"
@@ -228,7 +228,7 @@
 								v-bind="{ ...scope }"
 							/>
 						</template>
-					</VDrilldownBase>
+					</VDrilldownTable>
 				</td>
 			</tr>
 		</template>
@@ -324,9 +324,7 @@ const emit = defineEmits([
 // -------------------------------------------------- Props //
 const props = defineProps({ ...AllProps });
 
-const tableType = props.server || props.tableType.name === 'VDataTableServer' ? VDataTableServer : VDataTable;
-
-console.log({ tableType });
+const tableType = props.server || props.tableType?.name === 'VDataTableServer' ? VDataTableServer : VDataTable;
 
 
 // -------------------------------------------------- Table Settings (WIP) //
