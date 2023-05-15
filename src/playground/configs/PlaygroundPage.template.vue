@@ -147,70 +147,6 @@
 				</VDrilldownTable>
 			</v-col>
 		</v-row>
-
-		<!-- <v-row class="mt-15">
-			<v-col cols="12">
-				<h2 class="pb-0">v-data-table</h2>
-			</v-col>
-			<v-col cols="12">
-				<v-data-table
-					:color="tableSettings.color"
-					:colors="tableSettings.colors"
-					:density="tableSettings.density"
-					:drilldown-key="tableSettings.drilldownKey"
-					:elevation="tableSettings.elevation"
-					:expand-on-click="tableSettings.expandOnClick"
-					:first-icon="tableSettings.firstIcon"
-					:footers="footers.users"
-					:headers="headers.users"
-					:hover="tableSettings.hover"
-					:item-children-key="tableSettings.itemChildrenKey"
-					:item-props="tableSettings.itemProps"
-					:items="tableSettings.items"
-					:items-length="tableSettings.itemsLength"
-					:items-per-page="tableSettings.itemsPerPage"
-					:items-per-page-options="tableSettings.itemsPerPageOptions"
-					:items-per-page-text="tableSettings.itemsPerPageText"
-					:last-icon="tableSettings.lastIcon"
-					:last-page-label="tableSettings.lastPageLabel"
-					:levels="tableSettings.levels"
-					:loader-height="tableSettings.loaderHeight"
-					:loader-type="tableSettings.loaderType"
-					:loading="tableSettings.loading"
-					:loading-text="tableSettings.loadingText"
-					:multi-sort="tableSettings.multiSort"
-					:next-icon="tableSettings.nextIcon"
-					:next-page-label="tableSettings.nextPageLabel"
-					:no-data-text="tableSettings.noDataText"
-					:page="tableSettings.page"
-					:page-text="tableSettings.pageText"
-					:prev-icon="tableSettings.prevIcon"
-					:prev-page-label="tableSettings.prevPageLabel"
-					:server="isServerSide"
-					:show-current-page="tableSettings.showCurrentPage"
-					:show-expand="tableSettings.showExpand"
-					:show-footer-row="tableSettings.showFooterRow"
-					:show-search="tableSettings.showSearch"
-					:show-select="tableSettings.showSelect"
-					:skelton-type="tableSettings.skeltonType"
-					:sort-by="tableSettings.sortBy"
-					:tag="tableSettings.tag"
-					:theme="tableSettings.theme"
-					@click:row="rowClickEvent($event)"
-				>
-					<template #expanded-row="{ columns }">
-						<tr>
-							<td
-								class="pa-4"
-								:colspan="columns.length"
-							>
-								Hello World
-							</td>
-						</tr>
-					</template>
-				</v-data-table>
-			</v-col>
-		</v-row> -->
 	</v-container>
 </template>
 
@@ -476,9 +412,11 @@ function fetchServerData(drilldown = null) {
 	// Get User Post Comments //
 	if (drilldown?.level === 2) {
 		userId = item.userId;
-		user = tableSettings.value.items.find((a) => a.id === userId);
+		user = tableSettings.value.items.find((a) => a.id == userId);
+		user.child = { ...drilldown };
+
 		postId = item.id;
-		post = user.child.items.find((item) => item.id === postId);
+		post = user.child.items.find((item) => item.id == postId);
 		url = 'api/users/posts/comments';
 
 		user.child = { ...user.child, drilldown };
@@ -566,13 +504,15 @@ function fetchClientData(drilldown = null) {
 	let userId = null;
 	let postId = null;
 
+	// Users Level 1 //
 	if (typeof drilldown?.level === 'undefined') {
 		tableSettings.value.loading = true;
 	}
 
+	// Posts Level 2 //
 	if (drilldown?.level === 1) {
 		userId = item.id;
-		user = tableSettings.value.items.find((a) => a.id === userId);
+		user = tableSettings.value.items.find((a) => a.id == userId);
 		url = `api/users/${userId}/posts`;
 
 		tableSettings.value = {
@@ -591,13 +531,14 @@ function fetchClientData(drilldown = null) {
 		};
 	}
 
+	// Comments Level 3 //
 	if (drilldown?.level === 2) {
-		postId = item.id;
 		userId = item.userId;
-		user = tableSettings.value.items.find((a) => a.id === userId);
-		post = user.child.items.find((item) => item.id === postId);
+		user = tableSettings.value.items.find((a) => a.id == userId);
+		user.child = { ...drilldown };
 
-		user.child = { ...user.child, drilldown };
+		postId = item.id;
+		post = user.child.items.find((item) => item.id == postId);
 
 		post.child = {};
 		post.child = {
@@ -612,24 +553,29 @@ function fetchClientData(drilldown = null) {
 		url = `api/posts/${postId}/comments`;
 	}
 
+	// ------------------------- Fetch Data //
 	fetch(url)
 		.then(response => response.json())
 		.then(json => {
 			setTimeout(() => {
+
+				// Users Level 1 //
 				if (!drilldown) {
 					tableSettings.value.items = json.users;
 					tableSettings.value.loading = false;
 					return;
 				}
 
-				user = tableSettings.value.items.find((a) => a.id === userId);
+				user = tableSettings.value.items.find((a) => a.id == userId);
 
+				// Posts Level 2 //
 				if (drilldown?.level === 1) {
 					user.child.items = [...json.posts];
 					user.child.loading = false;
 					return;
 				}
 
+				// Comments Level 3 //
 				if (drilldown?.level === 2) {
 					post.child.items = [...json.comments];
 					post.child.loading = false;
