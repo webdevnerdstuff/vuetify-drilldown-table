@@ -9,6 +9,7 @@ import {
 	hasMany,
 } from 'miragejs';
 import { faker } from '@faker-js/faker';
+import database from '../playground/configs/database.json';
 
 
 Serializer.extend({
@@ -67,17 +68,16 @@ export function makeServer({ environment = 'development' } = {}) {
 			});
 
 			this.get('/users/:id/posts', (schema, request) => {
-				const user = schema.users.find(request.params.id);
+				const posts = schema.posts.where({ userId: request.params.id });
 
-				return user.posts;
+				return posts;
 			});
 
 			this.get('/posts/:id/comments', (schema, request) => {
-				const post = schema.posts.find(request.params.id);
+				const comments = schema.comments.where({ postId: request.params.id });
 
-				return post.comments;
+				return comments;
 			});
-
 
 			// ------------------------- Server Side //
 			this.post('/users', (schema, request) => {
@@ -91,7 +91,7 @@ export function makeServer({ environment = 'development' } = {}) {
 				users = users.slice(start, end);
 
 				// query users.models
-				console.log({query});
+				console.log({ query });
 				if (query) {
 					users = users.models.filter((user) => {
 						return (
@@ -167,13 +167,16 @@ export function makeServer({ environment = 'development' } = {}) {
 
 		// -------------------------------------------------- Seeds //
 		seeds(server) {
-			server.createList('user', 15).forEach((user) => {
-				server.createList('post', 15, { user }).forEach((post) => {
-					server.createList('comment', 5, { post });
-				});
-			});
+			// server.createList('user', 15).forEach((user) => {
+			// 	server.createList('post', 15, { user }).forEach((post) => {
+			// 		server.createList('comment', 5, { post });
+			// 	});
+			// });
+
+			server.db.loadData(database);
 		},
 
+		// -------------------------------------------------- Serializers //
 		serializers: {
 			application: RestSerializer,
 			comment: Serializer.extend({
