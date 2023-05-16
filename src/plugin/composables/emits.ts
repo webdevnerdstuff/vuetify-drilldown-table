@@ -10,5 +10,14 @@ export const useEmitUpdatedExpanded: EmitUpdatedExpanded = (emit, data, drilldow
 		emit('update:drilldown', drilldownData);
 	}
 
+	// const emitData = {
+	// 	columns: data.columns,
+	// 	index: data.index,
+	// 	isExpanded: data.isExpanded,
+	// 	item: data.item,
+	// 	level: data.level,
+	// 	toggleExpand: data.toggleExpand,
+	// };
+
 	emit('update:expanded', data);
 };
