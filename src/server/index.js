@@ -86,6 +86,16 @@ export function makeServer({ environment = 'development' } = {}) {
 
 				let users = schema.users.all();
 				const itemsLength = users.models.length;
+
+				const sortOrder = sortBy[0].order;
+
+				users = users.sort((a, b) => {
+					if (sortOrder === 'asc') {
+						return a.id - b.id;
+					}
+					return b.id - a.id;
+				});
+
 				const start = page * limit - limit;
 				const end = start + limit;
 				users = users.slice(start, end);
