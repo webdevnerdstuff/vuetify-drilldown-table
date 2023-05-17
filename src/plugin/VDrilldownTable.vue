@@ -211,6 +211,7 @@
 						@update:items-per-page="updateItemsPerPage"
 						@update:model-value="updateModelValue"
 						@update:options="updateOptions"
+						@update:sort-by="childUpdateSortBy($event, item)"
 					>
 						<!-- Pass on all named slots -->
 						<slot
@@ -306,6 +307,7 @@ import {
 	LoadedDrilldown,
 } from '@/types';
 import type { VDataTable as VDT } from "vuetify/labs/components";
+import type { ChildUpdateSortBy } from '../types';
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
@@ -334,11 +336,13 @@ const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 // -------------------------------------------------- Data //
 const allRowsSelected = ref<boolean>(false);
-const currentSortBy = ref(loadedDrilldown.sortBy);
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
 
+const currentSortBy = computed(() => {
+	return loadedDrilldown.sortBy;
+});
 
 const hidingNoData = computed(() => {
 	if (loadedDrilldown.loading) {
@@ -367,7 +371,6 @@ watch(() => props.loading, (value) => {
 
 	setLoadedDrilldown();
 });
-
 
 
 // -------------------------------------------------- Table #
@@ -470,42 +473,42 @@ function updateOptions() {
 // }
 
 
-watch(() => loadedDrilldown.sortBy, () => {
-	currentSortBy.value = loadedDrilldown.sortBy;
-
-	// console.log(loadedDrilldown);
-
-	emit('update:sortBy', currentSortBy.value);
-
-	updateSortByInternal(loadedDrilldown);
-});
-
-
+// ------------ Column Sorting //
 function updateSortBy(val: VDT['sortBy']) {
 	loadedDrilldown.sortBy = val;
+
+	emit('update:sortBy', { drilldown: loadedDrilldown, sortBy: loadedDrilldown.sortBy });
 }
 
-function updateSortByInternal(data) {
-	console.log('%c%s', ['background-color: black', 'border: 2px dotted red', 'border-radius: 5px', 'color: red', 'font-weight: bold', 'padding: 5px 10px'].join(';'), 'updateSortByInternal event', data);
+const childUpdateSortBy: ChildUpdateSortBy = (data, item) => {
+	const drilldown = data.drilldown;
+	drilldown.item = item;
+
+	emit('update:sortBy', { drilldown: data.drilldown, sortBy: data.drilldown.sortBy });
+};
 
 
-	// if (!data.parent && data.sortBy?.length) {
-	// 	const drilldown = { ...loadedDrilldown };
-	// 	drilldown.item = data.parentItem;
+// function updateSortByInternal(data) {
+// 	console.log('%c%s', ['background-color: black', 'border: 2px dotted red', 'border-radius: 5px', 'color: red', 'font-weight: bold', 'padding: 5px 10px'].join(';'), 'updateSortByInternal event', data);
 
-	const response = {
-		drilldown: data,
-		level: data.level,
-		parentItem: data.parentItem,
-		sortBy: data.sortBy,
-	};
 
-	// 	console.log('response', { response });
-	if (data.level !== 1) {
-		console.log('emit');
-		emit('update:drilldown:sortby', response);
-	}
-}
+// 	// if (!data.parent && data.sortBy?.length) {
+// 	// 	const drilldown = { ...loadedDrilldown };
+// 	// 	drilldown.item = data.parentItem;
+
+// 	const response = {
+// 		drilldown: data,
+// 		level: data.level,
+// 		parentItem: data.parentItem,
+// 		sortBy: data.sortBy,
+// 	};
+
+// 	// 	console.log('response', { response });
+// 	if (data.level !== 1) {
+// 		console.log('emit');
+// 		emit('update:drilldown:sortby', response);
+// 	}
+// }
 
 
 </script>
