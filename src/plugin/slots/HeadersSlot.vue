@@ -162,7 +162,7 @@ const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.a
 
 
 // -------------------------------------------------- Header Row //
-const headerRowClasses = computed((): object => {
+const headerRowClasses = computed<object>(() => {
 	return useHeaderRowClasses(props.level);
 });
 
@@ -203,7 +203,7 @@ watch(someSelected, (newVal) => {
 	}
 });
 
-const checkBoxClasses = computed((): object => {
+const checkBoxClasses = computed<object>(() => {
 	return useCheckBoxClasses(props.level);
 });
 
