@@ -70,7 +70,7 @@ export const LoadedDrilldownDefaults: LoadedDrilldown = {
 	// nextIcon: '', 											// & Works - Is binding prop
 	noDataText: '$vuetify.noDataText',	// * Works - Keep here
 	noFilter: false,										// * Works, but not sure why you would use this.
-	// page: 1, 														// * Works
+	page: 1, 														// * Works
 	// prevIcon: '', 											// & Works - Is binding prop
 	returnObject: true,									// ? Not sure what this does or if it works - Missing Docs
 	// search: '',											// ? Need to test this when top slot is used over showSearch prop
