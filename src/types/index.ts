@@ -489,3 +489,8 @@ export interface EmitUpdatedExpanded {
 		drilldownData: LoadedDrilldown,
 	): void;
 }
+
+export type ChildUpdateSortBy = (
+	data: { drilldown: LoadedDrilldown, sortBy: LoadedDrilldown['sortBy']; },
+	item: DataTableItem,
+) => void;
