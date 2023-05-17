@@ -86,31 +86,33 @@ export function makeServer({ environment = 'development' } = {}) {
 
 				let users = schema.users.all();
 				const itemsLength = users.models.length;
+				const sortOrder = sortBy[0]?.order;
 
-				const sortOrder = sortBy[0].order;
-
-				users = users.sort((a, b) => {
-					if (sortOrder === 'asc') {
-						return a.id - b.id;
-					}
-					return b.id - a.id;
-				});
+				if (sortOrder) {
+					// TODO: Need to update this to sort strings as well //
+					users = users.sort((a, b) => {
+						if (sortOrder === 'asc') {
+							return a.id - b.id;
+						}
+						return b.id - a.id;
+					});
+				}
 
 				const start = page * limit - limit;
 				const end = start + limit;
 				users = users.slice(start, end);
 
 				// query users.models
-				console.log({ query });
-				if (query) {
-					users = users.models.filter((user) => {
-						return (
-							user.name.toLowerCase().includes(query.toLowerCase()) ||
-							user.username.toLowerCase().includes(query.toLowerCase()) ||
-							user.email.toLowerCase().includes(query.toLowerCase())
-						);
-					});
-				}
+				// console.log({ query });
+				// if (query) {
+				// 	users = users.models.filter((user) => {
+				// 		return (
+				// 			user.name.toLowerCase().includes(query.toLowerCase()) ||
+				// 			user.username.toLowerCase().includes(query.toLowerCase()) ||
+				// 			user.email.toLowerCase().includes(query.toLowerCase())
+				// 		);
+				// 	});
+				// }
 
 				return {
 					pagination: {
@@ -132,6 +134,18 @@ export function makeServer({ environment = 'development' } = {}) {
 
 				let posts = schema.posts.where({ userId });
 				const itemsLength = posts.models.length;
+				const sortOrder = sortBy[0]?.order;
+
+				if (sortOrder) {
+					// TODO: Need to update this to sort strings as well //
+					posts = posts.sort((a, b) => {
+						if (sortOrder === 'asc') {
+							return a.id - b.id;
+						}
+						return b.id - a.id;
+					});
+				}
+
 				const start = page * limit - limit;
 				const end = start + limit;
 				posts = posts.slice(start, end);
@@ -156,6 +170,19 @@ export function makeServer({ environment = 'development' } = {}) {
 
 				let comments = schema.comments.where({ postId });
 				const itemsLength = comments.models.length;
+
+				const sortOrder = sortBy[0]?.order;
+
+				if (sortOrder) {
+					// TODO: Need to update this to sort strings as well //
+					comments = comments.sort((a, b) => {
+						if (sortOrder === 'asc') {
+							return a.id - b.id;
+						}
+						return b.id - a.id;
+					});
+				}
+
 				const start = page * limit - limit;
 				const end = start + limit;
 				comments = comments.slice(start, end);
