@@ -27,10 +27,10 @@ export const LoadedDrilldownDefaults: LoadedDrilldown = {
 	hover: false, 											// & Works & Is Prop
 	// isDrilldown: false,							// & Works & Is Prop
 	// item: [],												// & Works & Is Prop
-	itemChildren: 'children',						// ? Missing Docs
+	// itemChildren: 'children',						// ? Missing Docs
 	itemChildrenKey: 'child',						// * Custom Prop - Keep here
-	itemProps: 'props',									// ? Not sure what this does
-	itemTitle: 'title',									// * Works, but is weird
+	// itemProps: 'props',									// ? Not sure what this does
+	// itemTitle: 'title',									// * Works, but is weird
 	itemValue: 'id',										// * Works, but is weird
 	items: [],													// * Custom Prop - Keep here
 	// itemsLength: 0,											// ? Not sure if this will be used
@@ -87,7 +87,7 @@ export const LoadedDrilldownDefaults: LoadedDrilldown = {
 		variant: 'underlined',
 	},
 	showExpand: false,									// ? Works but needs testing.- Not sure if needed in this object
-	// showFooterRow: false,								// ? Not sure if I will use this. Depends on a possible footer slot
+	showFooterRow: false,								// ? Not sure if I will use this. Depends on a possible footer slot
 	showSearch: false,									// * Custom Prop - Keep here
 	showSelect: false,									// * Works - Keep here
 	skeltonType: 'heading@1',						// * Works - Keep here

@@ -150,12 +150,11 @@ export const AllProps: Props = {
 	// 	required: false,
 	// 	type: Object,
 	// },
-	// ? TBD if this is needed //
-	// showFooterRow: {
-	// 	default: false,
-	// 	required: false,
-	// 	type: Boolean,
-	// },
+	showFooterRow: {
+		default: false,
+		required: false,
+		type: Boolean,
+	},
 	showSearch: {
 		default: LoadedDrilldownDefaults.showSearch as boolean,
 		required: false,
