@@ -65,7 +65,7 @@
 			</td>
 			<!-- Column Render `data-table-select` -->
 			<td
-				v-else-if="column.key === 'data-table-select' || showSelect
+				v-else-if="column.key === 'data-table-select' && showSelect
 					"
 				:class="cellClasses(column)"
 			>
