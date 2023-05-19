@@ -127,3 +127,40 @@ export const useBodyRowClasses: BodyRowClasses = (expandOnClick, level, levels) 
 
 	return classes;
 };
+
+
+// -------------------------------------------------- TfootSlot //
+// ------------------------- Tfoot //
+export function useTfootClasses(level: number): object {
+	const classes = {
+		[`${componentName}--tfoot`]: true,
+		[`${componentName}--tfoot-${level}`]: true,
+	};
+
+	return classes;
+};
+
+// ------------------------- Tfoot Row //
+export function useTfootRowClasses(level: number): object {
+	const classes = {
+		[`${componentName}--tfoot-row`]: true,
+		[`${componentName}--tfoot-row-${level}`]: true,
+	};
+
+	return classes;
+};
+
+// ------------------------- Tfoot Row Cell //
+export const useTfootCellClasses: HeaderCellClasses = (colors, level, column, slotName = '') => {
+	const classes = {
+		[`${componentName}--tfoot-row-td`]: true,
+		[`${componentName}--tfoot-row-td-${slotName}`]: slotName !== '',
+		[`${componentName}--tfoot-row-td-${slotName}-${level}`]: slotName,
+		[`${componentName}--tfoot-row-td-${level}`]: true,
+		[`${componentName}--tfoot-row-td-sortable`]: column.sortable,
+		[`${componentName}--tfoot-row-td-sortable-default-color`]: column.sortable && colors === false,
+		[`${column.cellClass}`]: column.cellClass,
+	};
+
+	return classes;
+};

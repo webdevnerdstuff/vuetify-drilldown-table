@@ -57,8 +57,25 @@ export const useHeaderCellStyles: HeaderCellStyles = (colors, level, column, the
 };
 
 
+// -------------------------------------------------- Cell Styles //
+export const useCellStyles: CellStyles = (colors, level, theme, elm) => {
+	if (colors === false) {
+		return {};
+	}
+
+	const baseColors = useGetLevelColors(colors, level, theme, elm);
+
+	const styles = {
+		backgroundColor: baseColors.bg,
+		color: baseColors.text,
+	};
+
+	return styles as CSSProperties;
+};
+
+
 // -------------------------------------------------- TFootSlot //
-export const useCellStyles: CellStyles = (colors, level, theme, elm,) => {
+export const useTfootCellStyles: CellStyles = (colors, level, theme, elm) => {
 	if (colors === false) {
 		return {};
 	}
