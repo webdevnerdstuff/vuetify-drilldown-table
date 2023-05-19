@@ -148,11 +148,11 @@ export type Props = {
 		required: boolean;
 		type: PropType<DataTableItem>;
 	};
-	// itemChildrenKey: {
-	// 	default: string;
-	// 	required: boolean;
-	// 	type: PropType<string>;
-	// };
+	itemChildrenKey: {
+		default: string;
+		required: boolean;
+		type: PropType<string>;
+	};
 	items: {
 		default: () => unknown;
 		required: boolean;
@@ -302,7 +302,6 @@ export type LoadedDrilldown = {
 	// itemChildren?: VDataTable['$props']['itemChildren'];							// ? Type missing in v3.3.0
 	itemChildrenKey: string; 																						// * Custom Property
 	// itemProps?: VDataTable['$props']['itemProps'];										// ? Type missing in v3.3.0
-	// itemTitle?: VDataTable['$props']['itemTitle'];										// ? Type missing in v3.3.0
 	itemValue?: VDataTable['$props']['itemValue'];
 	items: VDataTable['$props']['items'];
 	itemsLength?: number;
