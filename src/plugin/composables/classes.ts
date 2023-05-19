@@ -7,6 +7,7 @@ import {
 	HeaderCellClasses,
 	SortIconClasses,
 	TableClasses,
+	TFootCellClasses,
 } from '@/types';
 
 
@@ -31,8 +32,31 @@ export const useTableClasses: TableClasses = (
 	return classes;
 };
 
+// ------------------------- Cell Align //
+export function useCellAlignClasses(align: string): object {
+	const classes = {
+		'd-flex align-center': true,
+		[`justify-${align}`]: align,
+		[`justify-start`]: !align,
+	};
+
+	return classes;
+};
+
+// ------------------------- Checkbox //
+export function useCheckBoxClasses(level: number): object {
+	const classes = {
+		'd-flex': true,
+		[`${componentName}--header-select-all-checkbox`]: true,
+		[`${componentName}--header-select-all-checkbox-${level}`]: true,
+	};
+
+	return classes;
+};
+
 
 // -------------------------------------------------- Table Cells //
+// ------------------------- TD Cells //
 export const useCellClasses: CellClasses = (elm, column, level) => {
 	return {
 		[`${componentName}--${elm}-row-td`]: true,
@@ -53,19 +77,7 @@ export function useHeaderRowClasses(level: number): object {
 	return classes;
 };
 
-
-// ------------------------- Header Row Cells //
-export function useCellAlignClasses(align: string): object {
-	const classes = {
-		'd-flex align-center': true,
-		[`justify-${align}`]: align,
-		[`justify-start`]: !align,
-	};
-
-	return classes;
-};
-
-
+// ------------------------- Header Cells //
 export const useHeaderCellClasses: HeaderCellClasses = (colors, level, column, slotName = '') => {
 	const classes = {
 		[`${componentName}--header-row-th`]: true,
@@ -80,20 +92,7 @@ export const useHeaderCellClasses: HeaderCellClasses = (colors, level, column, s
 	return classes;
 };
 
-
-// ------------------------- Checkbox //
-export function useCheckBoxClasses(level: number): object {
-	const classes = {
-		'd-flex': true,
-		[`${componentName}--header-select-all-checkbox`]: true,
-		[`${componentName}--header-select-all-checkbox-${level}`]: true,
-	};
-
-	return classes;
-};
-
-
-// ------------------------- Sort Icon //
+// ------------------------- Header Sort Icon //
 export const useSortIconClasses: SortIconClasses = (sortBy, level, key) => {
 	return {
 		'px-1': true,
@@ -106,6 +105,7 @@ export const useSortIconClasses: SortIconClasses = (sortBy, level, key) => {
 
 
 // -------------------------------------------------- ItemSlot //
+// ------------------------- Body Cells //
 export const useBodyCellClasses: BodyCellClasses = (column, level) => {
 	const classes = {
 		[`${componentName}--body-row-td`]: true,
@@ -116,7 +116,7 @@ export const useBodyCellClasses: BodyCellClasses = (column, level) => {
 	return classes;
 };
 
-
+// ------------------------- Body Row //
 export const useBodyRowClasses: BodyRowClasses = (expandOnClick, level, levels) => {
 	const classes = {
 		'v-data-table__tr': true,
@@ -151,14 +151,12 @@ export function useTfootRowClasses(level: number): object {
 };
 
 // ------------------------- Tfoot Row Cell //
-export const useTfootCellClasses: HeaderCellClasses = (colors, level, column, slotName = '') => {
+export const useTfootCellClasses: TFootCellClasses = (level, column, slotName = '') => {
 	const classes = {
 		[`${componentName}--tfoot-row-td`]: true,
 		[`${componentName}--tfoot-row-td-${slotName}`]: slotName !== '',
 		[`${componentName}--tfoot-row-td-${slotName}-${level}`]: slotName,
 		[`${componentName}--tfoot-row-td-${level}`]: true,
-		[`${componentName}--tfoot-row-td-sortable`]: column.sortable,
-		[`${componentName}--tfoot-row-td-sortable-default-color`]: column.sortable && colors === false,
 		[`${column.cellClass}`]: column.cellClass,
 	};
 

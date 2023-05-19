@@ -178,7 +178,7 @@ const cellAlignClasses = (align: string): object => {
 };
 
 const cellClasses = (column: DrilldownTypes.Column, slotName = ''): object => {
-	return useTfootCellClasses(props.colors as DrilldownTypes.ColorsObject, props.level, column, slotName);
+	return useTfootCellClasses(props.level, column, slotName);
 };
 
 const cellStyles = computed<CSSProperties>(() => {
