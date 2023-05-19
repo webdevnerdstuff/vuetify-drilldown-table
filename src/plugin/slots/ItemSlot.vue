@@ -98,7 +98,7 @@
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 			>
-				<span v-html="renderCellItem(item, column, index)"></span>
+				<span v-html="renderCellItem(item, column)"></span>
 			</td>
 		</template>
 	</tr>
@@ -249,8 +249,8 @@ function emitClickRowCheckbox(data: DrilldownTypes.ClickRowCheckboxEvent): void 
 
 
 // -------------------------------------------------- Render //
-function renderCellItem(item: DrilldownTypes.DataTableItem, column: DrilldownTypes.Column, index: number): unknown {
-	return useRenderCellItem(item.raw as DrilldownTypes.DataTableItem['raw'], column, index);
+function renderCellItem(item: DrilldownTypes.DataTableItem, column: DrilldownTypes.Column): unknown {
+	return useRenderCellItem(item.raw as DrilldownTypes.DataTableItem['raw'], column);
 }
 </script>
 

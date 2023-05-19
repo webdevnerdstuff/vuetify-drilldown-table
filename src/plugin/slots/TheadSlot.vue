@@ -4,9 +4,9 @@
 			:colors="colors || false"
 			:density="density"
 			:is-thead-slot="true"
-			:item-title="itemTitle"
 			:items="items"
 			:level="level"
+			:slot-props="slotProps"
 			:sort-by="sortBy"
 			@click:selectAll="clickSelectAll($event)"
 			@update:sortBy="updateSortBy($event)"
@@ -38,10 +38,6 @@ defineProps({
 		default: false,
 		required: false,
 		type: Boolean,
-	},
-	itemTitle: {
-		required: true,
-		type: String as PropType<DrilldownTypes.LoadedDrilldown['itemTitle']>,
 	},
 	items: {
 		required: true,
@@ -86,7 +82,7 @@ defineProps({
 	 * 		@returns { void }
 	*/
 	slotProps: {
-		required: false,
+		required: true,
 		type: Object,
 	},
 	sortBy: {

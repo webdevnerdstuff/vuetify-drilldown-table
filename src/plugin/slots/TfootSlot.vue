@@ -5,7 +5,7 @@
 	>
 		<tr :class="tfootRowClasses">
 			<template
-				v-for="(column, index) in columns"
+				v-for="column in columns"
 				:key="column"
 			>
 				<!-- Column Dynamic Name Tfoot Slot -->
@@ -41,7 +41,7 @@
 					:class="cellClasses(column, 'tfoot-data-table-expand')"
 					:colspan="column.colspan || 1"
 					:style="cellStyles"
-					v-html="renderCell(column, index)"
+					v-html="renderCell(column)"
 				></th>
 				<!-- Column renderFooterCell TH -->
 				<th
@@ -49,7 +49,7 @@
 					:class="cellClasses(column)"
 					:colspan="column.colspan || 1"
 					:style="cellStyles"
-					v-html="renderCell(column, index)"
+					v-html="renderCell(column)"
 				></th>
 				<!-- Column Render TH -->
 				<th
@@ -59,7 +59,7 @@
 					:style="cellStyles"
 				>
 					<div :class="cellAlignClasses(column.align as keyof DrilldownTypes.Column)">
-						<span v-html="renderCell(column, index)"></span>
+						<span v-html="renderCell(column)"></span>
 					</div>
 				</th>
 			</template>
@@ -96,10 +96,6 @@ const props = defineProps({
 	footers: {
 		required: true,
 		type: Array as PropType<DrilldownTypes.LoadedDrilldown['footers']>,
-	},
-	itemTitle: {
-		required: true,
-		type: String as PropType<DrilldownTypes.LoadedDrilldown['itemTitle']>,
 	},
 	level: {
 		required: true,
@@ -208,8 +204,8 @@ const checkBoxClasses = computed<object>(() => {
 
 
 // -------------------------------------------------- Render //
-function renderCell(column: DrilldownTypes.Column, index: number): unknown {
-	return useRenderCell(props.itemTitle, column, index);
+function renderCell(column: DrilldownTypes.Column): unknown {
+	return useRenderCell(column);
 }
 </script>
 

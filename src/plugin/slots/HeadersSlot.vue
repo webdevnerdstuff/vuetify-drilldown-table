@@ -37,7 +37,7 @@
 				:class="cellClasses(column, 'data-table-expand')"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
-				v-html="renderCell(column /* , index */)"
+				v-html="renderCell(column)"
 			></th>
 			<!-- Column Render TH -->
 			<th
@@ -48,7 +48,7 @@
 				@click="sortColumn(column)"
 			>
 				<div :class="cellAlignClasses(column.align as keyof DrilldownTypes.Column)">
-					<span v-html="renderCell(column /* , index */)"></span>
+					<span v-html="renderCell(column)"></span>
 
 					<template v-if="column.sortable && $slots[`header.sortIcon`]">
 						<span :class="sortIconClasses(column.key as keyof DrilldownTypes.Column)">
@@ -76,10 +76,8 @@ import {
 	useHeaderRowClasses,
 	useSortIconClasses,
 } from '@/plugin/composables/classes';
+import { useHeaderCellStyles } from '@/plugin/composables/styles';
 import { useRenderCell } from '@/plugin/composables/helpers';
-import {
-	useHeaderCellStyles
-} from '@/plugin/composables/styles';
 
 
 const emit = defineEmits([
@@ -99,10 +97,6 @@ const props = defineProps({
 		default: false,
 		required: false,
 		type: Boolean,
-	},
-	itemTitle: {
-		required: true,
-		type: String as PropType<DrilldownTypes.LoadedDrilldown['itemTitle']>,
 	},
 	level: {
 		required: true,
@@ -143,7 +137,7 @@ const props = defineProps({
 	 * 		@returns { void }
 	*/
 	slotProps: {
-		required: false,
+		required: true,
 		type: Object,
 	},
 	sortBy: {
@@ -155,9 +149,9 @@ const props = defineProps({
 const theme = useTheme();
 const isAllSelected = ref<boolean>(!props.slotProps?.allSelected);
 
+const allSelected = computed(() => props.slotProps?.allSelected || isAllSelected.value);
 const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps?.columns);
 const someSelected = computed(() => props.slotProps?.someSelected);
-const allSelected = computed(() => props.slotProps?.allSelected || isAllSelected.value);
 const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.allSelected);
 
 
@@ -221,9 +215,8 @@ function sortColumn(column: DrilldownTypes.Column): void {
 
 
 // -------------------------------------------------- Render //
-function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
-	const tempIndex = 0;
-	return useRenderCell(props.itemTitle, column, tempIndex);
+function renderCell(column: DrilldownTypes.Column): unknown {
+	return useRenderCell(column);
 }
 </script>
 

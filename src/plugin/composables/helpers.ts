@@ -1,8 +1,5 @@
 import type { VDataTable } from 'vuetify/labs/components';
-import {
-	Column,
-	LoadedDrilldown,
-} from '@/types';
+import { Column } from '@/types';
 
 
 /**
@@ -70,12 +67,11 @@ export function useConvertToUnit(str: string | number, unit = 'px'): string | vo
 export function useRenderCellItem(
 	item: object,
 	column: Column,
-	index: number
 ): unknown {
 	const itemValue = item[column.key as keyof object];
 
 	if (column.renderItem) {
-		return column.renderItem(itemValue, item, column, index);
+		return column.renderItem(itemValue, item, column);
 	}
 
 	return itemValue;
@@ -86,13 +82,9 @@ export function useRenderCellItem(
 * Render the cell
 * Used for both header and footer
 */
-export function useRenderCell(
-	itemTitle: LoadedDrilldown['itemTitle'],
-	column: Column,
-	index: number
-): unknown {
-	const columnTitle = column[itemTitle as string];
-	const cellData = [columnTitle, column, index] as [string, Column, number];
+export function useRenderCell(column: Column): unknown {
+	const columnTitle = column['title'];
+	const cellData = [columnTitle, column] as [string, Column];
 
 	if (column.renderer) {
 		return column.renderer(...cellData);
