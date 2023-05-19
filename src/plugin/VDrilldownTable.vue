@@ -350,8 +350,6 @@ const emit = defineEmits([
 const props = defineProps({ ...AllProps });
 const slots = useSlots();
 
-console.log({ slots });
-
 const tableType = props.server || props.tableType?.name === 'VDataTableServer' ? VDataTableServer : VDataTable;
 
 
