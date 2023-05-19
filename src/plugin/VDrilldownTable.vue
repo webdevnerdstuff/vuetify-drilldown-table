@@ -11,12 +11,11 @@
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
 		:hide-no-data="hidingNoData"
-		:item-title="loadedDrilldown.itemTitle"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
 		:items-per-page="loadedDrilldown.itemsPerPage"
 		:items-per-page-options="loadedDrilldown.itemsPerPageOptions"
-		:loading="(!loadedDrilldown.loaderType || $slots.loading) && loadedDrilldown.loading"
+		:loading="(!loadedDrilldown.loaderType || slots.loading) && loadedDrilldown.loading"
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
 		:no-data-text="loadedDrilldown.noDataText"
@@ -44,7 +43,7 @@
 			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(_, slot) in $slots"
+					v-for="(_, slot) in slots"
 					#[slot]="scope"
 				>
 					<slot
@@ -62,7 +61,6 @@
 				:key="level"
 				:colors="loadedDrilldown.colors || false"
 				:density="loadedDrilldown.density"
-				:item-title="loadedDrilldown.itemTitle"
 				:level="level"
 				:slot-props="{ allRowsSelected, ...props }"
 				:sort-by="loadedDrilldown.sortBy"
@@ -70,7 +68,7 @@
 			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(_, slot) in $slots"
+					v-for="(_, slot) in slots"
 					#[slot]="scope"
 				>
 					<slot
@@ -80,7 +78,7 @@
 				</template>
 			</HeadersSlot>
 			<tr
-				v-if="loadedDrilldown.loading && loadedDrilldown.loaderType && !$slots.loading"
+				v-if="loadedDrilldown.loading && loadedDrilldown.loaderType && !slots.loading"
 				class="text-center ma-0 pa-0"
 			>
 				<td
@@ -102,7 +100,7 @@
 
 		<!-- ================================================== Loader Slot -->
 		<template
-			v-if="$slots.loading"
+			v-if="slots.loading"
 			#loading
 		>
 			<slot name="loading" />
@@ -111,30 +109,30 @@
 
 		<!-- ================================================== Body Slot -->
 		<template
-			v-if="$slots.body"
+			v-if="slots.body"
 			#body="props"
 		>
 			<slot
 				name="body"
-				:props="props"
+				v-bind="{ ...props }"
 			/>
 		</template>
 
 
 		<!-- ================================================== tbody Slot -->
 		<template
-			v-if="$slots.tbody"
+			v-if="slots.tbody"
 			#tbody="props"
 		>
 			<slot
 				name="tbody"
-				:props="props"
+				v-bind="{ ...props }"
 			/>
 		</template>
 
 
 		<template
-			v-if="$slots['no-data']"
+			v-if="slots['no-data']"
 			#no-data
 		>
 			<slot name="no-data" />
@@ -159,7 +157,7 @@
 			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(_, slot) in $slots"
+					v-for="(_, slot) in slots"
 					#[slot]="scope"
 				>
 					<slot
@@ -180,7 +178,7 @@
 					style="vertical-align: top;"
 				>
 					<TableLoader
-						v-if="loadedDrilldown.loaderType && !$slots.loading"
+						v-if="loadedDrilldown.loaderType && !slots.loading"
 						class="pa-0 ma-0"
 						:colors="item.raw[itemChildrenKey].colors || false"
 						:level="level + 1"
@@ -215,13 +213,13 @@
 					>
 						<!-- Pass on all named slots -->
 						<slot
-							v-for="slot in Object.keys($slots)"
+							v-for="slot in Object.keys(slots)"
 							:name="slot"
 						></slot>
 
 						<!-- Pass on all scoped slots -->
 						<template
-							v-for="(_, slot) in $slots"
+							v-for="(_, slot) in slots"
 							#[slot]="scope"
 						>
 							<slot
@@ -236,36 +234,61 @@
 
 
 		<!-- ================================================== tfoot Slot -->
-		<!-- // ! The tfoot slot is currently missing `props` -->
-		<template #tfoot>
+		<template
+			v-if="slots.tfoot || showFooterRow"
+			#tfoot="props"
+		>
+			<slot
+				v-if="slots.tfoot"
+				name="tfoot"
+				v-bind="{ ...props }"
+			/>
+
 			<TfootSlot
+				v-else
 				:key="level"
 				:colors="loadedDrilldown.colors || false"
+				:density="loadedDrilldown.density"
 				:footers="loadedDrilldown.footers"
-				:item-title="loadedDrilldown.itemTitle"
 				:level="loadedDrilldown.level"
 				:show-select="loadedDrilldown.showSelect"
-			/>
+				:slotProps="props"
+			>
+				<!-- Pass on all scoped slots -->
+				<template
+					v-for="(_, slot) in slots"
+					#[slot]="scope"
+				>
+					<slot
+						:name="slot"
+						v-bind="{ ...scope }"
+					/>
+				</template>
+			</TfootSlot>
+
 		</template>
 
 
 		<!-- ================================================== Footer Prepend Slot -->
 		<template #[`footer.prepend`]>
 			<slot
-				v-if="$slots[`footer.prepend`]"
+				v-if="slots[`footer.prepend`]"
 				name="footer.prepend"
 			/>
 		</template>
 
 		<!-- ================================================== Bottom Slot -->
 		<template
-			v-if="$slots.bottom"
-			#bottom
+			v-if="slots.bottom"
+			#bottom="props"
 		>
-			<BottomSlot :key="level">
+			<BottomSlot
+				:key="level"
+				:slot-props="props"
+			>
 				<!-- Pass on all scoped slots -->
 				<template
-					v-for="(_, slot) in $slots"
+					v-for="(_, slot) in slots"
 					#[slot]="scope"
 				>
 					<slot
@@ -325,6 +348,9 @@ const emit = defineEmits([
 
 // -------------------------------------------------- Props //
 const props = defineProps({ ...AllProps });
+const slots = useSlots();
+
+console.log({ slots });
 
 const tableType = props.server || props.tableType?.name === 'VDataTableServer' ? VDataTableServer : VDataTable;
 
