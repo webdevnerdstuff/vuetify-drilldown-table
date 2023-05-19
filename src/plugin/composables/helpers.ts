@@ -102,8 +102,8 @@ export function useRenderCell(
 		return column.renderHeader(...cellData);
 	}
 
-	if (column.renderFooter) {
-		return column.renderFooter(...cellData);
+	if (column.renderFooterCell) {
+		return column.renderFooterCell(...cellData);
 	}
 
 	if (columnTitle) {
