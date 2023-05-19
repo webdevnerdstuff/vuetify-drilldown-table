@@ -10,7 +10,7 @@
 			>
 				<!-- Column Dynamic Name Tfoot Slot -->
 				<th
-					v-if="$slots[`tfoot.${column.key}`]"
+					v-if="slots[`tfoot.${column.key}`]"
 					:class="cellClasses(column, column.key)"
 					:colspan="column.colspan || 1"
 					:style="cellStyles"
@@ -79,7 +79,7 @@ import {
 import { useTfootCellStyles } from '@/plugin/composables/styles';
 import { useRenderCell } from '@/plugin/composables/helpers';
 
-
+const slots = useSlots();
 const emit = defineEmits([
 	'click:selectAll',
 ]);

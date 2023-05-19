@@ -1,16 +1,16 @@
 <template>
 	<slot
-		v-if="$slots.top"
+		v-if="slots.top"
 		name="top"
 	/>
 
 	<v-col
-		v-else-if="showSearch || $slots[`top.left`] || $slots[`top.right`]"
+		v-else-if="showSearch || slots[`top.left`] || slots[`top.right`]"
 		lg="12"
 	>
 		<v-row>
 			<slot
-				v-if="$slots[`top.left`]"
+				v-if="slots[`top.left`]"
 				name="top.left"
 			/>
 
@@ -33,7 +33,7 @@
 			</v-col>
 
 			<slot
-				v-if="$slots[`top.right`]"
+				v-if="slots[`top.right`]"
 				name="top.right"
 			/>
 		</v-row>
@@ -45,6 +45,8 @@ import { componentName } from '@/plugin/utils/globals';
 import * as DrilldownTypes from '@/types';
 import { watchDebounced } from '@vueuse/core';
 
+
+const slots = useSlots();
 const emit = defineEmits([
 	'update:search',
 ]);
