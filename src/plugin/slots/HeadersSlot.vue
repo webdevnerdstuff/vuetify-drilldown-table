@@ -6,7 +6,7 @@
 		>
 			<!-- Column Dynamic Name Header Slot -->
 			<th
-				v-if="$slots[`header.${column.key}`]"
+				v-if="slots[`header.${column.key}`]"
 				:class="cellClasses(column, column.key)"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
@@ -50,7 +50,7 @@
 				<div :class="cellAlignClasses(column.align as keyof DrilldownTypes.Column)">
 					<span v-html="renderCell(column)"></span>
 
-					<template v-if="column.sortable && $slots[`header.sortIcon`]">
+					<template v-if="column.sortable && slots[`header.sortIcon`]">
 						<span :class="sortIconClasses(column.key as keyof DrilldownTypes.Column)">
 							<slot name="header.sortIcon" />
 						</span>
@@ -80,6 +80,7 @@ import { useHeaderCellStyles } from '@/plugin/composables/styles';
 import { useRenderCell } from '@/plugin/composables/helpers';
 
 
+const slots = useSlots();
 const emit = defineEmits([
 	'click:selectAll',
 ]);
@@ -209,7 +210,7 @@ const sortIconClasses = (key: string): object => {
 
 function sortColumn(column: DrilldownTypes.Column): void {
 	if (column.sortable) {
-		props.slotProps?.toggleSort(column.key);
+		props.slotProps?.toggleSort(column);
 	}
 }
 
