@@ -94,7 +94,7 @@ export const AllProps: Props = {
 		type: [Number, String],
 	},
 	loaderType: {
-		default: LoadedDrilldownDefaults.loaderHeight as string,
+		default: LoadedDrilldownDefaults.loaderType as string,
 		required: false,
 		type: [String, Array],
 	},
