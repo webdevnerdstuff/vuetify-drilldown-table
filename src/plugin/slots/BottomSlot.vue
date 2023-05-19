@@ -6,11 +6,11 @@
 <script setup lang="ts">
 // import * as DrilldownTypes from '@/types';
 
-// defineProps({
-// 	// slotProps: {
-// 	// 	required: true,
-// 	// 	type: Object,
-// 	// },
-// });
+defineProps({
+	slotProps: {
+		required: true,
+		type: Object,
+	},
+});
 
 </script>
