@@ -12,7 +12,6 @@
 					:elevation="tableSettings.elevation"
 					:expand-on-click="tableSettings.expandOnClick"
 					:first-icon="tableSettings.firstIcon"
-					:footers="footers.users"
 					:headers="headers.users"
 					:hover="tableSettings.hover"
 					:item-children-key="tableSettings.itemChildrenKey"
@@ -101,6 +100,19 @@
 						[header cell Slot]: slot {{ column.title }}
 					</template> -->
 
+					<!-- <template #thead="props">
+						<thead>
+							<tr>
+								<td
+									v-for="column in props.columns"
+									:key="column"
+								>
+									{{ column.title }}
+								</td>
+							</tr>
+						</thead>
+					</template> -->
+
 					<!-- <template #body>
 						[body Slot]
 					</template> -->
@@ -116,7 +128,7 @@
 					</template> -->
 
 					<!-- <template #[`item.id`]="{ item }">
-						<td>[item cell Slot]: {{ item.raw.id }}</td>
+						[item cell Slot]: {{ item.raw.id }}
 					</template> -->
 
 					<!-- <template #[`item.data-table-select`]>
@@ -125,6 +137,19 @@
 
 					<!-- <template #[`item.data-table-expand`]>
 						<fa-icon icon="fa-solid fa-chevron-down"></fa-icon>
+					</template> -->
+
+					<!-- <template #tfoot="props">
+						<tfoot>
+							<tr>
+								<td
+									v-for="column in props.columns"
+									:key="column"
+								>
+									{{ column.title }}
+								</td>
+							</tr>
+						</tfoot>
 					</template> -->
 
 					<!-- <template #[`tfoot.name`]>
@@ -157,7 +182,7 @@ import { onMounted, ref } from 'vue';
 import tableDefaults from './tableDefaults';
 
 // Use this to switch between Client and Server Side Tables //
-const isServerSide = ref(false);
+const isServerSide = ref(true);
 
 const tableSettings = ref({ ...tableDefaults });
 
@@ -251,6 +276,10 @@ const headers = {
 		},
 	],
 	users: [
+		// {
+		// 	key: 'data-table-select',
+		// 	title: '',
+		// },
 		{
 			align: 'start',
 			key: 'id',
@@ -331,10 +360,10 @@ const footers = {
 		},
 	],
 	users: [
-		// {
-		// 	key: 'data-table-select',
-		// 	title: '',
-		// },
+		{
+			key: 'data-table-select',
+			title: '',
+		},
 		{
 			align: 'start',
 			key: 'id',
@@ -363,140 +392,176 @@ const footers = {
 
 
 // -------------------------------------------------- Server Side Examples //
-function fetchServerData(drilldown = null) {
-	console.log({ drilldown });
+function fetchServerData(drilldown = null, updateCurrentLevel = false) {
+	// console.log('fetchServerData', { drilldown, updateCurrentLevel });
+	// console.log('drilldown.level', drilldown?.level);
+	if (drilldown === null || (updateCurrentLevel && drilldown.level === 1)) {
+		getUsers(drilldown ?? tableSettings.value);
+		return;
+	}
+
+	if (drilldown?.level === 1 || (updateCurrentLevel && drilldown.level === 2)) {
+		getUserPosts(drilldown, updateCurrentLevel);
+		return;
+	}
+
+	if (drilldown?.level === 2 || (updateCurrentLevel && drilldown.level === 3)) {
+		getPostComments(drilldown, updateCurrentLevel);
+		return;
+	}
+}
+
+function getUsers(drilldown = null) {
+	tableSettings.value = {
+		...tableSettings.value,
+		...drilldown,
+	};
+
+	tableSettings.value.loading = true;
+
+	const url = 'api/users';
+
+	const body = {
+		limit: drilldown.itemsPerPage,
+		page: drilldown.page,
+		query: drilldown.search,
+		sortBy: drilldown.sortBy.length ? drilldown.sortBy : defaultSortBy,
+	};
+
+	serverFetch(url, body)
+		.then((data) => {
+			const { users, pagination } = data;
+
+			tableSettings.value = {
+				...drilldown,
+				...{
+					items: users,
+					itemsLength: pagination.itemsLength,
+					loading: false,
+					page: pagination.page,
+				},
+			};
+
+			tableSettings.value.loading = false;
+			return data;
+		});
+}
+
+function getUserPosts(drilldown = null, updateCurrentLevel = false) {
+	console.log('getUserPosts', { drilldown });
 	const item = drilldown?.item?.raw ?? null;
+	const userId = item.id;
+	const user = tableSettings.value.items.find((a) => parseInt(a.id) === parseInt(userId));
+	const url = 'api/users/posts';
 
-	let limit = tableSettings.value.itemsPerPage;
-	let page = tableSettings.value.page;
-	let post = null;
-	let postId = null;
-	let query = tableSettings.value.search;
-	let sortBy = tableSettings.value.sortBy.length ? tableSettings.value.sortBy : defaultSortBy;
-	let url = 'api/users';
-	let user = null;
-	let userId = null;
+	user.child = {};
+	user.child = {
+		...tableDefaults,
+		drilldownKey: 'id',
+		footers: footers.posts,
+		headers: headers.posts,
+		level: 2,
+		loading: true,
+	};
 
+	let sortBy = user.child.sortBy.length ? user.child.sortBy : defaultSortBy;
 
-	if (typeof drilldown?.level === 'undefined') {
-		tableSettings.value.loading = true;
+	if (updateCurrentLevel && drilldown.sortBy.length) {
+		sortBy = drilldown.sortBy;
+		user.child.sortBy = sortBy;
 	}
 
-	// Get User Posts //
-	if (drilldown?.level === 1) {
-		userId = item.id;
-		user = tableSettings.value.items.find((a) => a.id === userId);
-		url = 'api/users/posts';
-
-		tableSettings.value = {
-			...tableSettings.value,
-			...drilldown,
-		};
-
-		user.child = {};
-		user.child = {
-			...tableDefaults,
-			drilldownKey: 'id',
-			footers: footers.posts,
-			headers: headers.posts,
-			level: 2,
-			loading: true,
-		};
-
-		limit = user.child.itemsPerPage;
-		page = user.child.page;
-		query = user.child.search;
-		sortBy = user.child.sortBy.length ? user.child.sortBy : defaultSortBy;
-	}
-
-	// Get User Post Comments //
-	if (drilldown?.level === 2) {
-		userId = item.userId;
-		user = tableSettings.value.items.find((a) => a.id == userId);
-		user.child = { ...drilldown };
-
-		postId = item.id;
-		post = user.child.items.find((item) => item.id == postId);
-		url = 'api/users/posts/comments';
-
-		user.child = { ...user.child, drilldown };
-
-		post.child = {};
-		post.child = {
-			...tableDefaults,
-			drilldownKey: 'id',
-			footers: footers.comments,
-			headers: headers.comments,
-			level: 3,
-			loading: true,
-		};
-
-		limit = post.child.itemsPerPage;
-		page = post.child.page;
-		query = post.child.search;
-		sortBy = post.child.sortBy.length ? post.child.sortBy : defaultSortBy;
-	}
-
-	const data = {
-		limit,
-		page,
-		postId,
-		query,
-		sortBy,
+	const body = {
+		limit: user.child.itemsPerPage,
+		page: user.child.page,
+		query: user.child.search,
+		sortBy: user.child.sortBy,
 		userId,
 	};
 
-	fetch(url,
+	serverFetch(url, body)
+		.then((data) => {
+			// console.log({ data });
+			const { posts, pagination } = data;
+
+			user.child.items = posts;
+			user.child.loading = false;
+			user.child.itemsLength = pagination.itemsLength;
+			user.child.page = pagination.page;
+		});
+}
+
+function getPostComments(drilldown = null, updateCurrentLevel = false) {
+	const item = drilldown?.item?.raw ?? null;
+	console.log('getPostComments', { drilldown, item, updateCurrentLevel });
+	const userId = item.id;
+	const user = tableSettings.value.items.find((a) => parseInt(a.id) === parseInt(userId));
+
+	user.child = { ...drilldown };
+
+	const postId = item.id;
+	const post = user.child.items.find((item) => parseInt(item.id) === parseInt(postId));
+	const url = 'api/users/posts/comments';
+
+	user.child = { ...user.child, drilldown };
+
+	post.child = {};
+	post.child = {
+		...tableDefaults,
+		drilldownKey: 'id',
+		footers: footers.comments,
+		headers: headers.comments,
+		level: 3,
+		loading: true,
+	};
+
+	let sortBy = post.child.sortBy.length ? post.child.sortBy : defaultSortBy;
+
+	if (updateCurrentLevel && drilldown.sortBy.length) {
+		sortBy = drilldown.sortBy;
+		post.child.sortBy = sortBy;
+	}
+
+	const body = {
+		limit: post.child.itemsPerPage,
+		page: post.child.page,
+		postId,
+		query: post.child.search,
+		sortBy: post.child.sortBy.length ? post.child.sortBy : defaultSortBy,
+		userId,
+	};
+
+	serverFetch(url, body)
+		.then((data) => {
+			// console.log({ data });
+			const { comments, pagination } = data;
+
+			post.child.items = comments;
+			post.child.loading = false;
+			post.child.itemsLength = pagination.itemsLength;
+			post.child.page = pagination.page;
+		});
+}
+
+async function serverFetch(url, body) {
+	const response = await fetch(url,
 		{
-			body: JSON.stringify(data),
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			body: JSON.stringify(body),
+			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
 		}
 	)
 		.then(response => response.json())
-		.then(json => {
-			const data = json;
-			const pagination = json.pagination;
-			setTimeout(() => {
-				if (typeof drilldown?.level === 'undefined') {
-					tableSettings.value = {
-						...tableSettings.value,
-						items: data.users,
-						itemsLength: pagination.itemsLength,
-						loading: false,
-						page: pagination.page,
-					};
+		.then(json => json);
 
-					tableSettings.value.loading = false;
-					return;
-				}
-
-				if (drilldown?.level === 1) {
-					user.child.items = json.posts;
-					user.child.loading = false;
-					user.child.itemsLength = pagination.itemsLength;
-					user.child.page = pagination.page;
-					return;
-				}
-
-				if (drilldown?.level === 2) {
-					post.child.items = json.comments;
-					post.child.loading = false;
-					post.child.itemsLength = pagination.itemsLength;
-					post.child.page = pagination.page;
-				}
-
-			}, fakeNetworkThrottlingTime);
-		});
+	return response;
 }
 
 
 // -------------------------------------------------- Client Side Examples //
 function fetchClientData(drilldown = null) {
 	const item = drilldown?.item?.raw ?? null;
-	console.log({ drilldown });
+	// console.log({ drilldown });
 
 	let url = 'api/users';
 	let user = null;
@@ -594,8 +659,9 @@ function rowClickEvent() {
 }
 
 function updateExpanded() {
+	// function updateExpanded(event) {
 	// do something...
-	// console.log('updateExpanded', event);
+	// console.log('%c%s', ['background-color: black', 'border: 2px dotted lime', 'border-radius: 5px', 'color: lime', 'font-weight: normal', 'padding: 5px 10px'].join(';'), 'updateExpanded', event);
 }
 
 function updatedItemsPerPage(val) {
@@ -631,15 +697,17 @@ function updatedSearch(event) {
 	}
 }
 
-function updatedSortBy(val) {
-	// console.log('updatedSortBy', val);
-	tableSettings.value.sortBy = val;
+// @param val = { drilldown, orderBy }
+function updatedSortBy(data) {
+	console.log('%c%s', ['background-color: black', 'border: 2px dotted red', 'border-radius: 5px', 'color: lime', 'font-weight: normal', 'padding: 5px 10px'].join(';'), 'updatedSortBy', data);
 
-	// if (isServerSide.value) {
-	// 	fetchServerData();
-	// }
+	if (isServerSide.value) {
+		console.log('data.drilldown', data.drilldown);
+		fetchServerData(data.drilldown, true);
+	}
 }
 </script>
+
 
 <style lang="scss">
 </style>
