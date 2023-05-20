@@ -15,9 +15,45 @@
 			v-for="column in columns"
 			:key="column"
 		>
-			<!--  Expand Column -->
+			<!-- Dynamic Name Item Slot -->
 			<td
-				v-if="column.key === 'data-table-expand' || showExpand
+				v-if="$slots[`item.${column.key}`]"
+				:class="cellClasses(column)"
+				:colspan="column.colspan || 1"
+			>
+				<slot
+					:columns="columns"
+					:index="index"
+					:item="item"
+					:name="`item.${column.key}`"
+				/>
+			</td>
+			<!-- Column Render `data-table-select` -->
+			<td
+				v-else-if="column.key === 'data-table-select' || (column.key === 'data-table-select' && props.showSelect)"
+				:class="cellClasses(column)"
+				:colspan="column.colspan || 1"
+			>
+				<slot
+					v-if="slots[`item.data-table-select`]"
+					name="item.data-table-select"
+				/>
+				<v-checkbox
+					v-model="allSelected"
+					class="d-flex v-simple-checkbox"
+					:density="density"
+					@click="emitClickRowCheckbox({
+						columns,
+						index,
+						item,
+						level,
+						toggleSelect,
+					})"
+				></v-checkbox>
+			</td>
+			<!-- Column Render `data-table-expand` -->
+			<td
+				v-else-if="column.key === 'data-table-expand' || (column.key === 'data-table-expand' && showExpand)
 					"
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
@@ -44,54 +80,6 @@
 					</v-icon>
 				</div>
 			</td>
-			<!-- Column Render `data-table-select` -->
-			<td
-				v-else-if="column.key === 'data-table-select' && $slots[`item.data-table-select`]
-					"
-				:class="cellClasses(column)"
-			>
-				<v-checkbox
-					v-model="allSelected"
-					class="d-flex v-simple-checkbox"
-					:density="density"
-					@click="emitClickRowCheckbox({
-						columns,
-						index,
-						item,
-						level,
-						toggleSelect,
-					})"
-				></v-checkbox>
-			</td>
-			<!-- Column Render `data-table-select` -->
-			<td
-				v-else-if="column.key === 'data-table-select' && showSelect
-					"
-				:class="cellClasses(column)"
-			>
-				<v-checkbox
-					v-model="allSelected"
-					class="d-flex v-simple-checkbox"
-					:density="density"
-					@click="emitClickRowCheckbox({
-						columns,
-						index,
-						item,
-						level,
-						toggleSelect,
-					})"
-				></v-checkbox>
-			</td>
-			<!-- Dynamic Name Item Slot -->
-			<slot
-				v-else-if="$slots[`item.${column.key}`]"
-				:colspan="column.colspan || 1"
-				:column="column"
-				:index="index"
-				:item="item"
-				:name="`item.${column.key}`"
-				:value="item.raw[column.key as keyof DrilldownTypes.Column]"
-			/>
 			<!-- Render Cell Item -->
 			<td
 				v-else
@@ -114,6 +102,7 @@ import {
 } from '@/plugin/composables/classes';
 
 
+const slots = defineSlots();
 const emit = defineEmits([
 	'click:row',
 	'click:row:checkbox',
@@ -146,7 +135,8 @@ const props = defineProps({
 		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showExpand']>,
 	},
 	showSelect: {
-		required: true,
+		default: false,
+		required: false,
 		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showSelect']>,
 	},
 	/**
