@@ -62,6 +62,7 @@
 				:colors="loadedDrilldown.colors || false"
 				:density="loadedDrilldown.density"
 				:level="level"
+				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ allRowsSelected, ...props }"
 				:sort-by="loadedDrilldown.sortBy"
 				@click:selectAll="emitAllSelectedEvent($event)"
@@ -98,12 +99,25 @@
 			</tr>
 		</template>
 
+
 		<!-- ================================================== Loader Slot -->
 		<template
 			v-if="slots.loading"
 			#loading
 		>
 			<slot name="loading" />
+		</template>
+
+
+		<!-- ================================================== Thead Slot -->
+		<template
+			v-if="slots.thead"
+			#thead="props"
+		>
+			<slot
+				name="thead"
+				v-bind="{ ...props }"
+			/>
 		</template>
 
 
@@ -233,7 +247,7 @@
 		</template>
 
 
-		<!-- ================================================== tfoot Slot -->
+		<!-- ================================================== Tfoot Slot -->
 		<template
 			v-if="slots.tfoot || showFooterRow"
 			#tfoot="props"
@@ -265,7 +279,6 @@
 					/>
 				</template>
 			</TfootSlot>
-
 		</template>
 
 
@@ -276,6 +289,7 @@
 				name="footer.prepend"
 			/>
 		</template>
+
 
 		<!-- ================================================== Bottom Slot -->
 		<template
