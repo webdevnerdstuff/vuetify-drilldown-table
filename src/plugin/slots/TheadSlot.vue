@@ -4,8 +4,8 @@
 			:colors="colors || false"
 			:density="density"
 			:is-thead-slot="true"
-			:items="items"
 			:level="level"
+			:show-select="showSelect"
 			:slot-props="slotProps"
 			:sort-by="sortBy"
 			@click:selectAll="clickSelectAll($event)"
@@ -34,18 +34,14 @@ defineProps({
 		required: true,
 		type: String as PropType<DrilldownTypes.LoadedDrilldown['density']>,
 	},
-	isTheadSlot: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
-	items: {
-		required: true,
-		type: Array as PropType<DrilldownTypes.DataTableItem[]>,
-	},
 	level: {
 		required: true,
 		type: Number,
+	},
+	showSelect: {
+		default: false,
+		required: false,
+		type: Boolean,
 	},
 	/**
 	 * @name slotProps
