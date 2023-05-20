@@ -18,7 +18,7 @@
 			</th>
 			<!-- Column Render `data-table-select` -->
 			<th
-				v-else-if="column.key === 'data-table-select'"
+				v-else-if="column.key === 'data-table-select' || (column.key === 'data-table-select' && showSelect)"
 				:class="cellClasses(column, 'header-data-table-select')"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
@@ -102,6 +102,11 @@ const props = defineProps({
 	level: {
 		required: true,
 		type: Number,
+	},
+	showSelect: {
+		default: false,
+		required: false,
+		type: Boolean,
 	},
 	/**
 	 * @name slotProps
