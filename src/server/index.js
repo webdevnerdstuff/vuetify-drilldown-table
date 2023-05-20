@@ -48,6 +48,7 @@ export function makeServer({ environment = 'development' } = {}) {
 		models: {
 			comment: Model.extend({
 				post: belongsTo(),
+				user: belongsTo(),
 			}),
 			post: Model.extend({
 				comments: hasMany(),
@@ -166,11 +167,10 @@ export function makeServer({ environment = 'development' } = {}) {
 
 			this.post('/users/posts/comments', (schema, request) => {
 				const attrs = JSON.parse(request.requestBody);
-				const { limit, page, postId, query, sortBy, sortDesc } = attrs;
+				const { limit, page, postId, query, sortBy, sortDesc, userId } = attrs;
 
 				let comments = schema.comments.where({ postId });
 				const itemsLength = comments.models.length;
-
 				const sortOrder = sortBy[0]?.order;
 
 				if (sortOrder) {
