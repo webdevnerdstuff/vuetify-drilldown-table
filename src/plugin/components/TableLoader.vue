@@ -5,7 +5,7 @@
 		no-gutters
 	>
 		<v-col
-			v-if="loaderType('linear')"
+			v-if="checkLoaderType('linear')"
 			class="pa-0 ma-0"
 			:order="getOrder('linear')"
 		>
@@ -17,7 +17,7 @@
 		</v-col>
 
 		<v-col
-			v-if="loaderType('circular')"
+			v-if="checkLoaderType('circular')"
 			class="pa-0 my-2"
 			:order="getOrder('circular')"
 		>
@@ -30,19 +30,19 @@
 		</v-col>
 
 		<v-col
-			v-if="loaderType('skelton')"
+			v-if="checkLoaderType('skelton')"
 			class="pa-0 ma-0"
 			:order="getOrder('skelton')"
 		>
 			<v-skeleton-loader
 				:loading="loading"
-				:type="skeltonType"
+				:type="currentSkeltonType"
 			>
 			</v-skeleton-loader>
 		</v-col>
 
 		<v-col
-			v-if="loaderType('text')"
+			v-if="checkLoaderType('text')"
 			class="my-2"
 			:order="getOrder('text')"
 			:style="textStyles"
@@ -148,7 +148,7 @@ const circularColor = computed<string | undefined>(() => {
 
 
 // v-skeleton-loader //
-const skeltonType = computed<string>(() => {
+const currentSkeltonType = computed<string>(() => {
 	return props.skeltonType || 'heading@1';
 });
 
@@ -180,7 +180,7 @@ const getOrder = (type: string): number => {
 
 
 // Check if the loader type is enabled //
-const loaderType = (type: string): boolean => {
+const checkLoaderType = (type: string): boolean => {
 	const loaderType = props.loaderType;
 
 	if (type === props.loaderType) {

@@ -6,7 +6,7 @@
 			index,
 			isExpanded,
 			item,
-			level,
+			level: currentLevel,
 			toggleExpand,
 			$event,
 		})"
@@ -46,7 +46,7 @@
 						columns,
 						index,
 						item,
-						level,
+						level: currentLevel,
 						toggleSelect,
 					})"
 				></v-checkbox>
@@ -59,7 +59,7 @@
 				:colspan="column.colspan || 1"
 			>
 				<div
-					v-if="level < levels"
+					v-if="currentLevel < levels"
 					class="v-drilldown-table--expand-icon"
 					:class="!isExpanded(item) ? '' : 'rotate-180'"
 					@click="drilldownEvent({
@@ -67,7 +67,7 @@
 						index,
 						isExpanded,
 						item,
-						level,
+						level: currentLevel,
 						toggleExpand,
 					})"
 				>
@@ -179,7 +179,7 @@ const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps.columns)
 const index = computed(() => props.slotProps.index);
 const isExpanded = computed(() => props.slotProps.isExpanded);
 const item = computed(() => props.slotProps.item);
-const level = computed(() => props.slotProps.level);
+const currentLevel = computed(() => props.slotProps.level);
 const toggleExpand = computed(() => props.slotProps.toggleExpand);
 const toggleSelect = computed(() => props.slotProps.toggleSelect);
 
