@@ -4,13 +4,12 @@
 
 
 <script setup lang="ts">
-// import * as DrilldownTypes from '@/types';
+import {
+	BottomSlotProps,
+} from '@/types';
 
-defineProps({
-	slotProps: {
-		required: true,
-		type: Object,
-	},
-});
+
+withDefaults(defineProps<BottomSlotProps>(), {});
+
 
 </script>

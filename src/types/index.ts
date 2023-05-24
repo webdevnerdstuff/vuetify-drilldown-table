@@ -134,7 +134,7 @@ export interface Props {
 	filterMode?: VDataTable['$props']['filterMode'];
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
-	footers?: VDataTable['$props']['headers']; 													// * Custom Property - This might change //
+	footers?: Column[]; 																								// * Custom Property - This might change //
 	headers?: VDataTable['$props']['headers'];
 	// groupBy?: string[];																							// ? Most likely this will not be used
 	height?: string | number | undefined;
@@ -156,12 +156,12 @@ export interface Props {
 	levels: number; 																										// * Custom Property
 	loaderHeight?: VProgressLinear['$props']['height'];									// * Custom Property
 	loaderType?: string | string[];																			// * Custom Property
-	loading: VDataTable['$props']['loading'];
+	loading?: VDataTable['$props']['loading'];
 	loadingText?: VDataTable['$props']['loadingText'];										// ! Not working properly //
 	modelValue?: unknown[];
 	multiSort?: VDataTable['$props']['multiSort'];
 	mustSort?: VDataTable['$props']['mustSort'];
-	noDataText: VDataTable['$props']['noDataText'];
+	noDataText?: VDataTable['$props']['noDataText'];
 	noFilter?: VDataTable['$props']['noFilter'];
 	page?: VDataTable['$props']['page'];
 	// pageCount?: number;																							// ? Need to test (maybe v2 only?)
@@ -183,66 +183,114 @@ export interface Props {
 export type Drilldown = Props;
 
 // -------------------------------------------------- Slots //
-export interface SlotProps {
-	allRowsSelected: boolean;
-	columns: Column[];
-	getFixedStyles: (column: InternalDataTableHeader, y: number) => CSSProperties | undefined;
-	getSortIcon: (column: InternalDataTableHeader) => IconValue;
-	headers: Props['headers'];
-	selectAll: (value: boolean) => void;
-	someSelected: boolean;
-	sortBy: Props['sortBy'];
-	toggleSort: (column: InternalDataTableHeader) => void;
-}
+type GetSortIcon = (column: InternalDataTableHeader) => IconValue;
+type IsExpanded = (item: DataTableItem<any>) => boolean;
+type SelectAll = (value: boolean) => void;
+type ToggleExpandSelect = (item: DataTableItem<any>) => void;
+type ToggleSort = (column: InternalDataTableHeader) => void;
 
-export interface HeaderSlotProps {
+export interface AllSlotProps {
 	colors: Props['colors'];
 	density: Props['density'];
-	isTheadSlot?: boolean;
 	level: Props['level'];
 	showSelect?: Props['showSelect'];
-	/**
- * @name slotProps
- *
- * @param { Boolean } allSelected
- * @param { object[] } columns
- * 		@returns { DrilldownTypes.Column[] }
- * @param { Function } getFixedStyles
- * 		@param { InternalDataTableHeader } column
- * 		@param { Number } y
- * 		@returns { object }
- * 			{
- *				left:				@type { String | Number | undefined },
- *				position:		@type { String },
- *				top:				@type { String | Number | undefined },
- *				zIndex:			@type { Number | undefined },
- *			}
- * @param { Function } getSortIcon
- *		@returns { IconValue }
- *			@type { String } $sortAsc | $sortDesc
- * @param {( DataTableHeader[] | DataTableHeader[][] )} headers.
- * @param { Function } selectAll
- * 		@param { Boolean } value
- * 		@returns { void }
- * @param { Boolean } someSelected
- * @param { Object } sortBy
- * 		@returns { SortItem[] }
- * 			[{
- * 				key: 		@type { String },
- * 				order?:	@type { boolean | 'asc' | 'desc' },
- * 			}]
- * @param { Function } toggleSort
- * 		@param { String } key
- * 		@returns { void }
-*/
-	slotProps: SlotProps,
 	sortBy: Props['sortBy'];
-};
+}
 
 export interface TopSlotProps {
 	searchProps?: SearchProps;
 	showSearch: boolean;
+};
+
+export interface HeaderSlotProps extends AllSlotProps {
+	isTheadSlot?: boolean;
+	slotProps: {
+		allRowsSelected: boolean;
+		columns: Column[];
+		getSortIcon?: GetSortIcon;
+		index?: number;
+		item?: Props['item'] | any;
+		selectAll: SelectAll;
+		someSelected: boolean;
+		sortBy: Props['sortBy'];
+		toggleSort: ToggleSort;
+	},
 }
+
+export interface THeadSlotProps extends AllSlotProps {
+	slotProps: {
+		allRowsSelected: boolean;
+		columns: Column[];
+		getSortIcon?: GetSortIcon;
+		index?: number;
+		item?: Props['item'] | any;
+		selectAll: SelectAll;
+		someSelected: boolean;
+		sortBy: Props['sortBy'];
+		toggleSort: ToggleSort;
+	},
+}
+
+export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
+	expandOnClick: Props['expandOnClick'];
+	items: Props['items'];
+	levels: Props['levels'];
+	showExpand: Props['showExpand'];
+	slotProps: {
+		allRowsSelected: boolean;
+		columns: Column[];
+		index?: number;
+		isExpanded: IsExpanded;
+		isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
+		item: DataTableItem | any;
+		level: Props['level'];
+		toggleExpand: ToggleExpandSelect;
+		toggleSelect: ToggleExpandSelect;
+	},
+}
+
+export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortBy'> {
+	footers: Column[];
+	slotProps: {
+		allRowsSelected: boolean;
+		columns: Column[];
+		getFixedStyles?: (column: InternalDataTableHeader, y: number) => CSSProperties | undefined;
+		getSortIcon?: GetSortIcon;
+		headers?: Props['headers'];
+		index?: number;
+		isExpanded: IsExpanded;
+		item?: Props['item'] | any;
+		selectAll: SelectAll;
+		someSelected?: boolean;
+		sortBy?: Props['sortBy'];
+		toggleExpand: ToggleExpandSelect;
+		toggleSelect: ToggleExpandSelect;
+		toggleSort?: ToggleSort;
+	};
+}
+
+export interface BottomSlotProps {
+	slotProps: {
+		allSelected: boolean;
+		columns: InternalDataTableHeader[];
+		headers: InternalDataTableHeader[][];
+		isExpanded: IsExpanded;
+		isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
+		items: readonly DataTableItem[];
+		itemsPerPage: Props['itemsPerPage'];
+		page: Props['page'];
+		pageCount: number;
+		select: (items: DataTableItem[], value: boolean) => void;
+		selectAll: SelectAll;
+		setItemsPerPage: (itemsPerPage: number) => void;
+		someSelected: boolean;
+		sortBy: Props['sortBy'];
+		toggleExpand: ToggleExpandSelect;
+		toggleSelect: ToggleExpandSelect;
+		toggleSort: ToggleSort;
+	};
+}
+
 
 
 // -------------------------------------------------- Components //
@@ -391,12 +439,12 @@ export type DrilldownEvent = {
 	$event?: MouseEvent | undefined;
 	columns?: object;
 	index?: number;
-	isExpanded: (item: object) => boolean;
-	item: object;
+	isExpanded: IsExpanded;
+	item: DataTableItem | any;
 	items?: object;
 	level?: number;
 	sortBy?: object;
-	toggleExpand(item?: object): void;
+	toggleExpand: ToggleExpandSelect;
 };
 
 export type ClickRowCheckboxEvent = {

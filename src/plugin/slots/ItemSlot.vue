@@ -94,7 +94,13 @@
 
 
 <script lang="ts" setup>
-import * as DrilldownTypes from '@/types';
+import {
+	ClickRowCheckboxEvent,
+	Column,
+	DataTableItem,
+	DrilldownEvent,
+	ItemSlotProps,
+} from '@/types';
 import { useRenderCellItem } from '../composables/helpers';
 import {
 	useBodyRowClasses,
@@ -109,73 +115,9 @@ const emit = defineEmits([
 	'update:expanded',
 ]);
 
-const props = defineProps({
-	density: {
-		required: true,
-		type: String as PropType<DrilldownTypes.Props['density']>,
-	},
-	expandOnClick: {
-		required: true,
-		type: Boolean as PropType<DrilldownTypes.Props['expandOnClick']>,
-	},
-	items: {
-		required: true,
-		type: Array as PropType<DrilldownTypes.Props['items']>,
-	},
-	level: {
-		required: true,
-		type: Number,
-	},
-	levels: {
-		required: true,
-		type: Number,
-	},
-	showExpand: {
-		required: true,
-		type: Boolean as PropType<DrilldownTypes.Props['showExpand']>,
-	},
-	showSelect: {
-		default: false,
-		required: false,
-		type: Boolean as PropType<DrilldownTypes.Props['showSelect']>,
-	},
-	/**
-	 * @name slotProps
-	 *
-	 * @param { Boolean } allRowsSelected
-	 * @param { object[] } columns
-	 * 		@returns { object }
-	 * 			[{
-	 * 				align:			@type { String },
-	 * 				fixeOffset:	@type { Number },
-	 * 				key:				@type { String },
-	 * 				sortable:		@type { Boolean },
-	 * 				title:			@type { String },
-	 * 				width:			@type { Number },
-	 *			}]
-	 * @param { Number } index
-	 * @param { Function } isExpanded
-	 * 		@param { DrilldownTypes.DataTableItem } item
-	 * 		@returns { Boolean }
-	 * @param { Function } isSelected
-	 * 		@param { DrilldownTypes.DataTableItem[] } items
-	 * 		@returns { Boolean }
-	 * @param { DrilldownTypes.DataTableItem } item
-	 * @param { Number } level
-	 * @param { Function } toggleExpand
-	 * 		@param { DrilldownTypes.DataTableItem } item
-	 * 		@returns { void }
-	 * @param { Function } toggleSelect
-	 * 		@param { DrilldownTypes.DataTableItem } item
-	 * 		@returns { void }
-	*/
-	slotProps: {
-		required: true,
-		type: Object,
-	},
-});
+const props = withDefaults(defineProps<ItemSlotProps>(), {});
 
-const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps.columns);
+const columns = computed<Column[]>(() => props.slotProps.columns);
 const index = computed(() => props.slotProps.index);
 const isExpanded = computed(() => props.slotProps.isExpanded);
 const item = computed(() => props.slotProps.item);
@@ -191,12 +133,12 @@ const rowClasses = computed<object>(() => {
 
 
 // -------------------------------------------------- Row Cells //
-const cellClasses = (column: DrilldownTypes.Column): object => {
+const cellClasses = (column: Column): object => {
 	return useCellClasses('body', column, props.level);
 };
 
-function drilldownEvent(data: DrilldownTypes.DrilldownEvent): void {
-	const { item, level, toggleExpand } = data as DrilldownTypes.DrilldownEvent;
+function drilldownEvent(data: DrilldownEvent): void {
+	const { item, level, toggleExpand } = data as DrilldownEvent;
 
 	if (props.level >= props.levels) {
 		return;
@@ -227,8 +169,8 @@ watch(() => props.slotProps.allRowsSelected, () => {
 	allSelected.value = props.slotProps.allRowsSelected;
 });
 
-function emitClickRowCheckbox(data: DrilldownTypes.ClickRowCheckboxEvent): void {
-	const { item, level, toggleSelect } = data as DrilldownTypes.ClickRowCheckboxEvent;
+function emitClickRowCheckbox(data: ClickRowCheckboxEvent): void {
+	const { item, level, toggleSelect } = data as ClickRowCheckboxEvent;
 
 	if (level === props.level) {
 		toggleSelect(item);
@@ -239,8 +181,8 @@ function emitClickRowCheckbox(data: DrilldownTypes.ClickRowCheckboxEvent): void 
 
 
 // -------------------------------------------------- Render //
-function renderCellItem(item: DrilldownTypes.DataTableItem, column: DrilldownTypes.Column): unknown {
-	return useRenderCellItem(item.raw as DrilldownTypes.DataTableItem['raw'], column);
+function renderCellItem(item: DataTableItem, column: Column): unknown {
+	return useRenderCellItem(item.raw as DataTableItem['raw'], column);
 }
 </script>
 

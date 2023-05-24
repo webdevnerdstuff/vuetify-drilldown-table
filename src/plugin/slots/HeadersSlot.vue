@@ -96,12 +96,12 @@ const props = withDefaults(defineProps<HeaderSlotProps>(), {
 });
 
 const theme = useTheme();
-const isAllSelected = ref<boolean>(!props.slotProps?.allRowsSelected);
+const isAllSelected = ref<boolean>(!props.slotProps.allRowsSelected);
 
-const allSelected = computed(() => props.slotProps?.allRowsSelected || isAllSelected.value);
-const columns = computed<Column[]>(() => props.slotProps?.columns);
-const someSelected = computed(() => props.slotProps?.someSelected);
-const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.allRowsSelected);
+const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelected.value);
+const columns = computed<Column[]>(() => props.slotProps.columns);
+const someSelected = computed(() => props.slotProps.someSelected);
+const isIndeterminate = computed(() => someSelected.value && !props.slotProps.allRowsSelected);
 
 
 // -------------------------------------------------- Header Row //
@@ -132,7 +132,7 @@ const cellStyles = (column: { width?: string | number; }, dataTableExpand = fals
 
 // -------------------------------------------------- Select //
 watch(isAllSelected, (newVal) => {
-	props.slotProps?.selectAll(newVal);
+	props.slotProps.selectAll(newVal);
 	emit('click:selectAll', isAllSelected.value);
 });
 
@@ -158,7 +158,7 @@ const sortIconClasses = (key: string): object => {
 
 function sortColumn(column: InternalDataTableHeader): void {
 	if (column.sortable) {
-		props.slotProps?.toggleSort(column);
+		props.slotProps.toggleSort(column);
 	}
 }
 

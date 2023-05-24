@@ -58,7 +58,7 @@
 					:colspan="column.colspan || 1"
 					:style="cellStyles"
 				>
-					<div :class="cellAlignClasses(column.align as keyof DrilldownTypes.Column)">
+					<div :class="cellAlignClasses(column.align as keyof Column)">
 						<span v-html="renderCell(column)"></span>
 					</div>
 				</th>
@@ -68,7 +68,12 @@
 </template>
 
 <script setup lang="ts">
-import * as DrilldownTypes from '@/types';
+import {
+	ColorsObject,
+	Column,
+	TFootSlotProps,
+	Props,
+} from '@/types';
 import {
 	useCellAlignClasses,
 	useTfootCellClasses,
@@ -79,81 +84,27 @@ import {
 import { useTfootCellStyles } from '@/plugin/composables/styles';
 import { useRenderCell } from '@/plugin/composables/helpers';
 
+
 const slots = useSlots();
 const emit = defineEmits([
 	'click:selectAll',
 ]);
 
-const props = defineProps({
-	colors: {
-		required: true,
-		type: [Object, Boolean],
-	},
-	density: {
-		required: true,
-		type: String as PropType<DrilldownTypes.Props['density']>,
-	},
-	footers: {
-		required: true,
-		type: Array as PropType<DrilldownTypes.Props['footers']>,
-	},
-	level: {
-		required: true,
-		type: Number,
-	},
-	/**
-	 * @name slotProps
-	 *
-	 * @param { Boolean } allSelected
-	 * @param { object[] } columns
-	 * 		@returns { DrilldownTypes.Column[] }
-	 * @param { Function } getFixedStyles
-	 * 		@param { InternalDataTableHeader } column
-	 * 		@param { Number } y
-	 * 		@returns { object }
-	 * 			{
-	 *				left:				@type { String | Number | undefined },
-	 *				position:		@type { String },
-	 *				top:				@type { String | Number | undefined },
-	 *				zIndex:			@type { Number | undefined },
-	 *			}
-	 * @param { Function } getSortIcon
-	 *		@returns { IconValue }
-	 *			@type { String } $sortAsc | $sortDesc
-	 * @param {( DataTableHeader[] | DataTableHeader[][] )} headers.
-	 * @param { Function } selectAll
-	 * 		@param { Boolean } value
-	 * 		@returns { void }
-	 * @param { Boolean } someSelected
-	 * @param { Object } sortBy
-	 * 		@returns { SortItem[] }
-	 * 			[{
-	 * 				key: 		@type { String },
-	 * 				order?:	@type { boolean | 'asc' | 'desc' },
-	 * 			}]
-	 * @param { Function } toggleSort
-	 * 		@param { String } key
-	 * 		@returns { void }
-	*/
-	slotProps: {
-		required: true,
-		type: Object,
-	},
-});
+const props = withDefaults(defineProps<TFootSlotProps>(), {});
 
 const theme = useTheme();
-const isAllSelected = ref<boolean>(!props.slotProps?.allSelected);
+const isAllSelected = ref<boolean>(!props.slotProps.allRowsSelected);
 
-const allSelected = computed(() => props.slotProps?.allSelected || isAllSelected.value);
-const columns = computed<DrilldownTypes.Column[]>(() => {
-	if (props.footers?.length) {
+const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelected.value);
+const columns = computed<Column[] | Props['footers']>(() => {
+	if (props.footers.length) {
 		return props.footers;
 	}
 
-	return props.slotProps?.columns;
+	return props.slotProps.columns;
 });
-const someSelected = computed(() => props.slotProps?.someSelected);
-const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.allSelected);
+const someSelected = computed(() => props.slotProps.someSelected);
+const isIndeterminate = computed(() => someSelected.value && !props.slotProps.allRowsSelected);
 
 
 // -------------------------------------------------- Tfoot //
@@ -173,18 +124,18 @@ const cellAlignClasses = (align: string): object => {
 	return useCellAlignClasses(align);
 };
 
-const cellClasses = (column: DrilldownTypes.Column, slotName = ''): object => {
+const cellClasses = (column: Column, slotName = ''): object => {
 	return useTfootCellClasses(props.level, column, slotName);
 };
 
 const cellStyles = computed<CSSProperties>(() => {
-	return useTfootCellStyles(props.colors as DrilldownTypes.ColorsObject, props.level, theme, 'footer');
+	return useTfootCellStyles(props.colors as ColorsObject, props.level, theme, 'footer');
 });
 
 
 // -------------------------------------------------- Select //
 watch(isAllSelected, (newVal) => {
-	props.slotProps?.selectAll(newVal);
+	props.slotProps.selectAll(newVal);
 	emit('click:selectAll', isAllSelected.value);
 });
 
@@ -204,7 +155,7 @@ const checkBoxClasses = computed<object>(() => {
 
 
 // -------------------------------------------------- Render //
-function renderCell(column: DrilldownTypes.Column): unknown {
+function renderCell(column: Column): unknown {
 	return useRenderCell(column);
 }
 </script>
