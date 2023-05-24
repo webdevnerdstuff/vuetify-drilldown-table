@@ -1,4 +1,4 @@
-import type { Props } from '@/types';
+import { Column } from '@/types';
 
 export const AllProps = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
@@ -18,8 +18,8 @@ export const AllProps = {
 	// firstPageLabel: '',														// ? Not sure what this does or if it works
 	fixedFooter: true, 																// ? Not sure what this does or if it works
 	fixedHeader: true, 																// ? Not sure what this does or if it works
-	// footers: () => [],
-	// headers: () => [],
+	footers: () => [] as Column[],
+	// headers: () => [] as const,
 	height: 'auto',																		// * Works
 	// hideDefaultFooter: false, 											// ? In v2 Missing in v3
 	// hideDefaultHeader: true,	 											// ? In v2 Missing in v3
@@ -29,10 +29,10 @@ export const AllProps = {
 	// item: () => ({}), 															// * Works - Keep Commented Out
 	itemChildrenKey: 'child', 												// * Works
 	itemValue: 'id',																	// * Works, but is weird
-	// items: () => [], 																	// * Works
+	// items: () => [], 															// * Works
 	itemsLength: 0,																		// ? Not sure if this will be used
 	itemsPerPage: 10, 																// * Works
-	// itemsPerPageOptions: [													// ? Works - Test drilldowns
+	// itemsPerPageOptions: [													// ? Works - Keep Commented Out - Test drilldowns
 	// 	{
 	// 		title: '10',
 	// 		value: 10,
@@ -68,18 +68,18 @@ export const AllProps = {
 	page: 1, 																					// * Works
 	returnObject: true,																// ? Not sure what this does or if it works - Missing Docs
 	// search: '',																		// ? Need to test this when top slot is used over showSearch prop
-	// searchProps: () => ({													// ! Type Errors
-	// 	cols: {
-	// 		lg: 3,
-	// 		md: 6,
-	// 		sm: 12,
-	// 		xl: 3,
-	// 		xs: 12,
-	// 		xxl: 2,
-	// 	},
-	// 	density: 'comfortable',
-	// 	variant: 'underlined',
-	// }),
+	searchProps: () => ({															// ? Needs more testing
+		cols: {
+			lg: 3,
+			md: 6,
+			sm: 12,
+			xl: 3,
+			xs: 12,
+			xxl: 2,
+		},
+		density: 'comfortable',
+		variant: 'underlined',
+	}) as const,
 	// TODO: Add new feature //
 	// separator: '',
 	server: false,
@@ -88,9 +88,7 @@ export const AllProps = {
 	showSearch: false,																// * Custom Prop
 	showSelect: false,																// * Works
 	skeltonType: 'heading@1',													// * Works
-	// sortBy: () => ({}),																				// * Works
+	sortBy: () => [],																	// * Works
 	tableType: () => ({}),
 	width: '100%',																		// ! Failed
 };
-
-
