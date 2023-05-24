@@ -35,7 +35,7 @@
 			:order="getOrder('skelton')"
 		>
 			<v-skeleton-loader
-				:loading="loading"
+				:loading="skeltonLoading"
 				:type="currentSkeltonType"
 			>
 			</v-skeleton-loader>
@@ -55,63 +55,25 @@
 <script setup lang="ts">
 import { componentName } from '@/plugin/utils/globals';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';
-import { ColorsObject } from '@/types';
+import { TableLoader } from '@/types';
 import { useLoaderHeight } from '@/plugin/composables/helpers';
 
 
 const theme = useTheme();
 
-const props = defineProps({
-	colors: {
-		required: true,
-		type: [Object, Boolean],
-	},
-	height: {
-		default: 2,
-		required: false,
-		type: [String, Number],
-	},
-	level: {
-		required: true,
-		type: Number,
-	},
-	loaderType: {
-		default: 'linear',
-		required: false,
-		type: [String, Array],
-	},
-	loading: {
-		required: true,
-		type: Boolean,
-	},
-	loadingText: {
-		default: 'Loading...',
-		required: false,
-		type: String,
-	},
-	size: {
-		default: 'default',
-		required: false,
-		type: String,
-	},
-	skeltonType: {
-		default: 'default',
-		required: true,
-		type: String,
-	},
-	textLoader: {
-		default: true,
-		required: false,
-		type: Boolean,
-	}
+const props = withDefaults(defineProps<TableLoader>(), {
+	height: 2,
+	loadingText: 'Loading...',
+	size: 'default',
+	textLoader: true,
 });
 
 const baseColors = computed(() => {
-	if (props.colors === false) {
-		return;
+	if (typeof props.colors === 'object' && props.colors !== null) {
+		return useGetLevelColors(props.colors, props.level, theme, 'loader');
 	}
 
-	return useGetLevelColors(props.colors as ColorsObject, props.level, theme, 'loader');
+	return;
 });
 
 const loaderContainerClasses = computed(() => {
@@ -150,6 +112,10 @@ const circularColor = computed<string | undefined>(() => {
 // v-skeleton-loader //
 const currentSkeltonType = computed<string>(() => {
 	return props.skeltonType || 'heading@1';
+});
+
+const skeltonLoading = computed(() => {
+	return props.loading as boolean;
 });
 
 
