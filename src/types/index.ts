@@ -239,6 +239,11 @@ export interface HeaderSlotProps {
 	sortBy: Props['sortBy'];
 };
 
+export interface TopSlotProps {
+	searchProps?: SearchProps;
+	showSearch: boolean;
+}
+
 
 // -------------------------------------------------- Components //
 export type TableLoader = {
