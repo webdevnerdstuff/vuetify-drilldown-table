@@ -195,7 +195,7 @@
 					<TableLoader
 						v-if="loadedDrilldown.loaderType && !slots.loading"
 						class="pa-0 ma-0"
-						:colors="item.raw[itemChildrenKey].colors || false"
+						:colors="item.raw[itemChildrenKey]?.colors ?? null"
 						:level="level + 1"
 						:loader-type="item.raw[itemChildrenKey].loaderType"
 						:loading="item.raw[itemChildrenKey].loading"
@@ -262,12 +262,12 @@
 			<TfootSlot
 				v-else
 				:key="level"
-				:colors="loadedDrilldown.colors || false"
+				:colors="loadedDrilldown.colors || null"
 				:density="loadedDrilldown.density"
-				:footers="loadedDrilldown.footers"
+				:footers="loadedDrilldown.footers || []"
 				:level="loadedDrilldown.level"
 				:show-select="loadedDrilldown.showSelect"
-				:slotProps="props"
+				:slot-props="{ allRowsSelected, ...props }"
 			>
 				<!-- Pass on all scoped slots -->
 				<template
@@ -367,9 +367,8 @@ const slots = useSlots();
 const tableType = props.server || props.tableType?.name === 'VDataTableServer' ? VDataTableServer : VDataTable;
 
 
-// -------------------------------------------------- Table Settings (WIP) //
-let loadedDrilldown = reactive<Props>({ ...AllProps });
-console.log({ loadedDrilldown });
+// -------------------------------------------------- Table Settings //
+let loadedDrilldown = reactive<Props>(Object.assign({}, props));
 const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 
