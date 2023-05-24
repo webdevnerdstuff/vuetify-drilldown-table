@@ -41,8 +41,12 @@
 </template>
 
 <script setup lang="ts">
+import {
+	SearchProps,
+	SearchPropCols,
+	TopSlotProps,
+} from '@/types';
 import { componentName } from '@/plugin/utils/globals';
-import * as DrilldownTypes from '@/types';
 import { watchDebounced } from '@vueuse/core';
 
 
@@ -51,17 +55,20 @@ const emit = defineEmits([
 	'update:search',
 ]);
 
-const props = defineProps({
-	searchProps: {
-		required: true,
-		type: Object as PropType<DrilldownTypes.SearchProps>,
-	},
-	showSearch: {
-		required: true,
-		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showSearch']>,
-	},
+const props = withDefaults(defineProps<TopSlotProps>(), {
+	searchProps: () => ({
+		cols: {
+			lg: 3,
+			md: 6,
+			sm: 12,
+			xl: 3,
+			xs: 12,
+			xxl: 2,
+		},
+		density: 'comfortable',
+		variant: 'underlined',
+	})
 });
-
 
 const levelSearch = ref<string>('');
 
@@ -74,8 +81,8 @@ watchDebounced(
 );
 
 const searchFieldClasses = computed<object>(() => {
-	const searchProps = props.searchProps as DrilldownTypes.SearchProps;
-	const searchCols = searchProps.cols as DrilldownTypes.SearchPropCols;
+	const searchProps = props.searchProps as SearchProps;
+	const searchCols = searchProps.cols as SearchPropCols;
 
 	const classes = {
 		[`${componentName}--search-field`]: true,

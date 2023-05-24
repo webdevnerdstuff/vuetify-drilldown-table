@@ -112,15 +112,15 @@ const emit = defineEmits([
 const props = defineProps({
 	density: {
 		required: true,
-		type: String as PropType<DrilldownTypes.LoadedDrilldown['density']>,
+		type: String as PropType<DrilldownTypes.Props['density']>,
 	},
 	expandOnClick: {
 		required: true,
-		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['expandOnClick']>,
+		type: Boolean as PropType<DrilldownTypes.Props['expandOnClick']>,
 	},
 	items: {
 		required: true,
-		type: Array as PropType<DrilldownTypes.LoadedDrilldown['items']>,
+		type: Array as PropType<DrilldownTypes.Props['items']>,
 	},
 	level: {
 		required: true,
@@ -132,12 +132,12 @@ const props = defineProps({
 	},
 	showExpand: {
 		required: true,
-		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showExpand']>,
+		type: Boolean as PropType<DrilldownTypes.Props['showExpand']>,
 	},
 	showSelect: {
 		default: false,
 		required: false,
-		type: Boolean as PropType<DrilldownTypes.LoadedDrilldown['showSelect']>,
+		type: Boolean as PropType<DrilldownTypes.Props['showSelect']>,
 	},
 	/**
 	 * @name slotProps

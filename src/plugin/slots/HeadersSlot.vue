@@ -45,19 +45,19 @@
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column)"
-				@click="sortColumn(column)"
+				@click="sortColumn(column as InternalDataTableHeader)"
 			>
-				<div :class="cellAlignClasses(column.align as keyof DrilldownTypes.Column)">
+				<div :class="cellAlignClasses(column.align as keyof Column)">
 					<span v-html="renderCell(column)"></span>
 
 					<template v-if="column.sortable && slots[`header.sortIcon`]">
-						<span :class="sortIconClasses(column.key as keyof DrilldownTypes.Column)">
+						<span :class="sortIconClasses(column.key as keyof Column)">
 							<slot name="header.sortIcon" />
 						</span>
 					</template>
 					<v-icon
 						v-else-if="column.sortable"
-						:class="sortIconClasses(column.key as keyof DrilldownTypes.Column)"
+						:class="sortIconClasses(column.key as keyof Column)"
 					>
 						mdi mdi-arrow-up
 					</v-icon>
@@ -68,7 +68,12 @@
 </template>
 
 <script setup lang="ts">
-import * as DrilldownTypes from '@/types';
+import {
+	ColorsObject,
+	Column,
+	HeaderSlotProps,
+	InternalDataTableHeader,
+} from '@/types';
 import {
 	useCellAlignClasses,
 	useHeaderCellClasses,
@@ -85,80 +90,18 @@ const emit = defineEmits([
 	'click:selectAll',
 ]);
 
-const props = defineProps({
-	colors: {
-		required: true,
-		type: [Object, Boolean],
-	},
-	density: {
-		required: true,
-		type: String as PropType<DrilldownTypes.LoadedDrilldown['density']>,
-	},
-	isTheadSlot: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
-	level: {
-		required: true,
-		type: Number,
-	},
-	showSelect: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
-	/**
-	 * @name slotProps
-	 *
-	 * @param { Boolean } allSelected
-	 * @param { object[] } columns
-	 * 		@returns { DrilldownTypes.Column[] }
-	 * @param { Function } getFixedStyles
-	 * 		@param { InternalDataTableHeader } column
-	 * 		@param { Number } y
-	 * 		@returns { object }
-	 * 			{
-	 *				left:				@type { String | Number | undefined },
-	 *				position:		@type { String },
-	 *				top:				@type { String | Number | undefined },
-	 *				zIndex:			@type { Number | undefined },
-	 *			}
-	 * @param { Function } getSortIcon
-	 *		@returns { IconValue }
-	 *			@type { String } $sortAsc | $sortDesc
-	 * @param {( DataTableHeader[] | DataTableHeader[][] )} headers.
-	 * @param { Function } selectAll
-	 * 		@param { Boolean } value
-	 * 		@returns { void }
-	 * @param { Boolean } someSelected
-	 * @param { Object } sortBy
-	 * 		@returns { SortItem[] }
-	 * 			[{
-	 * 				key: 		@type { String },
-	 * 				order?:	@type { boolean | 'asc' | 'desc' },
-	 * 			}]
-	 * @param { Function } toggleSort
-	 * 		@param { String } key
-	 * 		@returns { void }
-	*/
-	slotProps: {
-		required: true,
-		type: Object,
-	},
-	sortBy: {
-		required: true,
-		type: Array as PropType<DrilldownTypes.LoadedDrilldown['sortBy']>,
-	},
+const props = withDefaults(defineProps<HeaderSlotProps>(), {
+	isTheadSlot: false,
+	showSelect: false,
 });
 
 const theme = useTheme();
-const isAllSelected = ref<boolean>(!props.slotProps?.allSelected);
+const isAllSelected = ref<boolean>(!props.slotProps?.allRowsSelected);
 
-const allSelected = computed(() => props.slotProps?.allSelected || isAllSelected.value);
-const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps?.columns);
+const allSelected = computed(() => props.slotProps?.allRowsSelected || isAllSelected.value);
+const columns = computed<Column[]>(() => props.slotProps?.columns);
 const someSelected = computed(() => props.slotProps?.someSelected);
-const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.allSelected);
+const isIndeterminate = computed(() => someSelected.value && !props.slotProps?.allRowsSelected);
 
 
 // -------------------------------------------------- Header Row //
@@ -172,13 +115,13 @@ const cellAlignClasses = (align: string): object => {
 	return useCellAlignClasses(align);
 };
 
-const cellClasses = (column: DrilldownTypes.Column, slotName = ''): object => {
-	return useHeaderCellClasses(props.colors as DrilldownTypes.ColorsObject, props.level, column, slotName);
+const cellClasses = (column: Column, slotName = ''): object => {
+	return useHeaderCellClasses(props.colors as ColorsObject, props.level, column, slotName);
 };
 
 const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
 	return useHeaderCellStyles(
-		props.colors as DrilldownTypes.ColorsObject,
+		props.colors as ColorsObject,
 		props.level,
 		column,
 		theme,
@@ -213,7 +156,7 @@ const sortIconClasses = (key: string): object => {
 	return useSortIconClasses(props.sortBy, props.level, key);
 };
 
-function sortColumn(column: DrilldownTypes.Column): void {
+function sortColumn(column: InternalDataTableHeader): void {
 	if (column.sortable) {
 		props.slotProps?.toggleSort(column);
 	}
@@ -221,7 +164,7 @@ function sortColumn(column: DrilldownTypes.Column): void {
 
 
 // -------------------------------------------------- Render //
-function renderCell(column: DrilldownTypes.Column): unknown {
+function renderCell(column: Column): unknown {
 	return useRenderCell(column);
 }
 </script>

@@ -91,11 +91,11 @@ const props = defineProps({
 	},
 	density: {
 		required: true,
-		type: String as PropType<DrilldownTypes.LoadedDrilldown['density']>,
+		type: String as PropType<DrilldownTypes.Props['density']>,
 	},
 	footers: {
 		required: true,
-		type: Array as PropType<DrilldownTypes.LoadedDrilldown['footers']>,
+		type: Array as PropType<DrilldownTypes.Props['footers']>,
 	},
 	level: {
 		required: true,

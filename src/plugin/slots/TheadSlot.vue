@@ -1,7 +1,7 @@
 <template>
 	<thead>
 		<HeadersSlot
-			:colors="colors || false"
+			:colors="colors"
 			:density="density"
 			:is-thead-slot="true"
 			:level="level"
@@ -32,7 +32,7 @@ defineProps({
 	},
 	density: {
 		required: true,
-		type: String as PropType<DrilldownTypes.LoadedDrilldown['density']>,
+		type: String as PropType<DrilldownTypes.Props['density']>,
 	},
 	level: {
 		required: true,
@@ -83,7 +83,7 @@ defineProps({
 	},
 	sortBy: {
 		required: true,
-		type: Array as PropType<DrilldownTypes.LoadedDrilldown['sortBy']>,
+		type: Array as PropType<DrilldownTypes.Props['sortBy']>,
 	},
 });
 
