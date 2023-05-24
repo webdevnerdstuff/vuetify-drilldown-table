@@ -44,7 +44,7 @@ export const useHeaderCellStyles: HeaderCellStyles = (colors, level, column, the
 		styles.minWidth = '48px';
 	}
 
-	if (colors === false) {
+	if (colors === false || colors === null) {
 		return styles as CSSProperties;
 	}
 
@@ -59,7 +59,7 @@ export const useHeaderCellStyles: HeaderCellStyles = (colors, level, column, the
 
 // -------------------------------------------------- Cell Styles //
 export const useCellStyles: CellStyles = (colors, level, theme, elm) => {
-	if (colors === false) {
+	if (colors === false || colors === null) {
 		return {};
 	}
 
