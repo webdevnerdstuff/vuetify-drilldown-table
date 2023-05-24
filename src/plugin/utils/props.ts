@@ -1,184 +1,96 @@
-import type { LoadedDrilldown, Props } from '@/types';
-import { LoadedDrilldownDefaults } from './loadedDrilldown';
+import type { Props } from '@/types';
 
-export const AllProps: Props = {
+export const AllProps = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
-	colors: {
-		default: false,
-		required: false,
-		type: [Object, Boolean],
-	},
-	debounceDelay: {
-		default: LoadedDrilldownDefaults.debounceDelay as number,
-		required: false,
-		type: Number,
-	},
-	density: {
-		default: LoadedDrilldownDefaults.density as keyof LoadedDrilldown['density'],
-		required: false,
-		type: String as PropType<LoadedDrilldown['density']>,
-	},
-	drilldown: {
-		default: () => { },
-		required: false,
-		type: Object,
-	},
-	drilldownKey: {
-		default: LoadedDrilldownDefaults.drilldownKey as string,
-		required: false,
-		type: String,
-	},
-	elevation: {
-		default: LoadedDrilldownDefaults.elevation as number,
-		required: false,
-		type: [Number, String],
-	},
-	expandOnClick: {
-		default: LoadedDrilldownDefaults.expandOnClick as boolean,
-		required: false,
-		type: Boolean,
-	},
-	footers: {
-		default: () => LoadedDrilldownDefaults.footers as [],
-		required: false,
-		type: Array,
-	},
-	headers: {
-		default: () => [],
-		required: false,
-		type: Array,
-	},
-	hover: {
-		default: LoadedDrilldownDefaults.hover as boolean,
-		required: false,
-		type: Boolean,
-	},
-	isDrilldown: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
-	item: {
-		default: () => { },
-		required: false,
-		type: Object,
-	},
-	itemChildrenKey: {
-		default: LoadedDrilldownDefaults.itemChildrenKey as string,
-		required: false,
-		type: String,
-	},
-	items: {
-		default: () => LoadedDrilldownDefaults.items as LoadedDrilldown['items'],
-		required: false,
-		type: Array,
-	},
-	itemsPerPage: {
-		default: LoadedDrilldownDefaults.itemsPerPage as number,
-		required: false,
-		type: [Number, String],
-	},
-	level: {
-		default: LoadedDrilldownDefaults.level as number,
-		required: false,
-		type: Number,
-	},
-	levels: {
-		default: LoadedDrilldownDefaults.levels as number,
-		required: false,
-		type: Number,
-	},
-	loaderHeight: {
-		default: LoadedDrilldownDefaults.loaderHeight as number,
-		required: false,
-		type: [Number, String],
-	},
-	loaderType: {
-		default: LoadedDrilldownDefaults.loaderType as string,
-		required: false,
-		type: [String, Array],
-	},
-	loading: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
-	loadingText: {
-		default: '$vuetify.dataIterator.loadingText',
-		required: false,
-		type: String,
-	},
-	multiSort: {
-		default: LoadedDrilldownDefaults.multiSort as boolean,
-		required: false,
-		type: Boolean,
-	},
-	noDataText: {
-		default: LoadedDrilldownDefaults.noDataText as string,
-		required: false,
-		type: String,
-	},
-	searchProps: {
-		default: () => ({
-			cols: {
-				lg: 3,
-				md: 6,
-				sm: 12,
-				xl: 3,
-				xs: 12,
-				xxl: 2,
-			},
-			density: 'default',
-			variant: 'underlined',
-		}),
-		required: false,
-		type: Object,
-	},
-	server: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
+	colors: null,																			// * Works
+	// customFilter: undefined, 													// ? Needs Testing
+	// customKeyFilter: undefined,												// ? Needs Testing
+	debounceDelay: 750,																// ? Works & Is Prop - Might remove
+	density: 'comfortable',														// * Works
+	// drilldown: () => ({}),
+	drilldownKey: 'id',																// * Works
+	elevation: 0,																			// * Works
+	expandOnClick: false, 														// * Works
+	// expanded: () => [], 																	// ? Needs Testing
+	filterKeys: undefined, 																	// ? Needs Testing
+	// filterMode: 'some',																// ? Needs Testing
+	// firstIcon: '',																	// & Works - Is binding prop
+	// firstPageLabel: '',														// ? Not sure what this does or if it works
+	fixedFooter: true, 																// ? Not sure what this does or if it works
+	fixedHeader: true, 																// ? Not sure what this does or if it works
+	// footers: () => [],
+	// headers: () => [],
+	height: 'auto',																		// * Works
+	// hideDefaultFooter: false, 											// ? In v2 Missing in v3
+	// hideDefaultHeader: true,	 											// ? In v2 Missing in v3
+	hideNoData: false, 																// * Works
+	hover: false, 																		// * Works
+	isDrilldown: false, 															// * Works
+	// item: () => ({}), 															// * Works - Keep Commented Out
+	itemChildrenKey: 'child', 												// * Works
+	itemValue: 'id',																	// * Works, but is weird
+	// items: () => [], 																	// * Works
+	itemsLength: 0,																		// ? Not sure if this will be used
+	itemsPerPage: 10, 																// * Works
+	// itemsPerPageOptions: [													// ? Works - Test drilldowns
+	// 	{
+	// 		title: '10',
+	// 		value: 10,
+	// 	},
+	// 	{
+	// 		title: '25',
+	// 		value: 25,
+	// 	},
+	// 	{
+	// 		title: '50',
+	// 		value: 50,
+	// 	},
+	// 	{
+	// 		title: '100',
+	// 		value: 100,
+	// 	},
+	// 	{
+	// 		title: '$vuetify.dataFooter.itemsPerPageAll',
+	// 		value: -1,
+	// 	}
+	// ],
+	// lastIcon: '', 																	// & Works - Is binding prop
+	level: 1,
+	levels: 1,
+	loaderHeight: '1px',
+	loaderType: 'linear',
+	loading: false,
+	loadingText: '$vuetify.dataIterator.loadingText',
+	multiSort: false,																	// ! Not sure if this is working correctly - Is binding prop
+	// nextIcon: '', 																	// & Works - Is binding prop
+	noDataText: '$vuetify.noDataText',								// * Works
+	noFilter: false,																	// * Works, but not sure why you would use this.
+	page: 1, 																					// * Works
+	returnObject: true,																// ? Not sure what this does or if it works - Missing Docs
+	// search: '',																		// ? Need to test this when top slot is used over showSearch prop
+	// searchProps: () => ({													// ! Type Errors
+	// 	cols: {
+	// 		lg: 3,
+	// 		md: 6,
+	// 		sm: 12,
+	// 		xl: 3,
+	// 		xs: 12,
+	// 		xxl: 2,
+	// 	},
+	// 	density: 'comfortable',
+	// 	variant: 'underlined',
+	// }),
 	// TODO: Add new feature //
-	// separator: {
-	// 	default: '',
-	// 	required: false,
-	// 	type: String,
-	// },
-	// settings: {
-	// 	default: () => { },
-	// 	required: false,
-	// 	type: Object,
-	// },
-	showFooterRow: {
-		default: false,
-		required: false,
-		type: Boolean,
-	},
-	showSearch: {
-		default: LoadedDrilldownDefaults.showSearch as boolean,
-		required: false,
-		type: Boolean,
-	},
-	showSelect: {
-		default: LoadedDrilldownDefaults.showSelect as boolean,
-		required: false,
-		type: Boolean,
-	},
-	skeltonType: {
-		default: LoadedDrilldownDefaults.skeltonType as string,
-		required: false,
-		type: String,
-	},
-	sortBy: {
-		default: () => LoadedDrilldownDefaults.sortBy as LoadedDrilldown['sortBy'],
-		required: false,
-		type: Array as PropType<LoadedDrilldown['sortBy']>,
-	},
-	tableType: {
-		default: () => { },
-		required: false,
-		type: Object,
-	}
+	// separator: '',
+	server: false,
+	showExpand: false,																// ? Works but needs testing.- Not sure if needed in this object
+	showFooterRow: true,															// ? Not sure if I will use this. Depends on a possible footer slot
+	showSearch: false,																// * Custom Prop
+	showSelect: false,																// * Works
+	skeltonType: 'heading@1',													// * Works
+	// sortBy: () => ({}),																				// * Works
+	tableType: () => ({}),
+	width: '100%',																		// ! Failed
 };
+
 
