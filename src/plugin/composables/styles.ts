@@ -11,7 +11,7 @@ import {
 export const useTableStyles: TableStyles = (colors, level, theme) => {
 	let baseColors: { border?: string; } = {};
 
-	if (colors) {
+	if (typeof colors === 'object' && colors !== null) {
 		baseColors = useGetLevelColors(colors, level, theme, 'default');
 	}
 
@@ -76,7 +76,7 @@ export const useCellStyles: CellStyles = (colors, level, theme, elm) => {
 
 // -------------------------------------------------- TFootSlot //
 export const useTfootCellStyles: CellStyles = (colors, level, theme, elm) => {
-	if (colors === false) {
+	if (colors === false || colors === null) {
 		return {};
 	}
 

@@ -1,34 +1,34 @@
-import { DataTableItem, LoadedDrilldown } from '@/types';
+import { DataTableItem, Props } from '@/types';
 import { useMergeDeep } from './helpers';
 
 
 export function useSetLoadedDrilldown(
-	loadedDrilldown: LoadedDrilldown,
+	loadedDrilldown: Props,
 	drilldown: object,
 	rawItem: DataTableItem['raw'],
 	level: number,
 	levels: number,
-): LoadedDrilldown {
+): Props {
 	let settings = loadedDrilldown;
 
-	settings = useMergeDeep(loadedDrilldown, drilldown) as LoadedDrilldown;
-	const items = loadedDrilldown.items as LoadedDrilldown['items'] || [{}];
+	settings = useMergeDeep(loadedDrilldown, drilldown) as Props;
+	const items = loadedDrilldown.items as Props['items'] || [{}];
 
 	const drilldownItem = items.find(<T, K extends keyof T>(item: T) => {
 		const thisItem = item[loadedDrilldown.drilldownKey as K];
 		let propsItem = {};
 
 		if (rawItem) {
-			propsItem = rawItem[loadedDrilldown.drilldownKey];
+			propsItem = rawItem[loadedDrilldown.drilldownKey as K];
 		}
 
 		return thisItem === propsItem;
-	}) as LoadedDrilldown;
+	}) as Props;
 
 	settings = useMergeDeep(
 		loadedDrilldown,
-		drilldownItem[loadedDrilldown.itemChildrenKey] as LoadedDrilldown,
-	) as LoadedDrilldown;
+		drilldownItem[loadedDrilldown.itemChildrenKey as keyof Props] as Props,
+	) as Props;
 
 	// Hide expand icon if this is the last drilldown level //
 	if (levels === level) {

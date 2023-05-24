@@ -18,7 +18,8 @@ function convertLevelColors(
 	prop = 'default',
 	type: string | null,
 ): LevelColorResponse {
-	const propOptionResponse = { ...colors[prop as keyof ColorsObject] as LevelColorResponse };
+
+	const propOptionResponse = { ...colors[prop] as LevelColorResponse };
 	const direction = colors.percentageDirection as keyof ColorsObject;
 
 	// Color prop does not exist //
@@ -385,18 +386,18 @@ function hexToRGB(hex: string): RGBColor {
  * Gets the colors for the current drilldown level
  */
 export function useGetLevelColors(
-	colors: ColorsObject | false,
+	colors: ColorsObject | undefined | null,
 	level: number,
 	themeColors: ThemeInstance,
 	prop = 'default',
 	type: string | null = null
 ): LevelColorResponse {
-	if (colors === false) {
+	if (typeof colors !== 'object' || colors === null) {
 		console.trace();
 		throw new Error('The "colors" prop is set to false. This function should no be called.');
 	}
 
-	const levelColorOptions = convertLevelColors(colors, level, themeColors, prop, type);
+	const levelColorOptions = convertLevelColors(colors as ColorsObject, level, themeColors, prop, type);
 
 	if (!type) {
 		return levelColorOptions;
