@@ -13,6 +13,7 @@
 		:hide-no-data="hidingNoData"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
+		:items-length="loadedDrilldown.itemsLength"
 		:items-per-page="loadedDrilldown.itemsPerPage"
 		:items-per-page-options="loadedDrilldown.itemsPerPageOptions"
 		:loading="(!loadedDrilldown.loaderType || slots.loading) && loadedDrilldown.loading"
@@ -38,7 +39,7 @@
 				:key="level"
 				:loaded-drilldown="loadedDrilldown"
 				:search-props="loadedDrilldown.searchProps"
-				:show-search="loadedDrilldown.showSearch"
+				:show-search="loadedDrilldown.showSearch ?? false"
 				@update:search="levelSearch = $event"
 			>
 				<!-- Pass on all scoped slots -->
@@ -59,7 +60,7 @@
 		<template #headers="props">
 			<HeadersSlot
 				:key="level"
-				:colors="loadedDrilldown.colors || false"
+				:colors="loadedDrilldown.colors"
 				:density="loadedDrilldown.density"
 				:level="level"
 				:show-select="loadedDrilldown.showSelect"
@@ -88,7 +89,7 @@
 					style="vertical-align: top;"
 				>
 					<TableLoader
-						:colors="loadedDrilldown.colors || false"
+						:colors="loadedDrilldown.colors || null"
 						:level="loadedDrilldown.level"
 						:loader-type="loadedDrilldown.loaderType"
 						:loading="loadedDrilldown.loading || false"
@@ -319,7 +320,6 @@
 <script setup lang="ts">
 import { VDataTableServer, VDataTable } from 'vuetify/labs/components';
 import { AllProps } from './utils/props';
-import { LoadedDrilldownDefaults } from './utils/loadedDrilldown';
 import { TableLoader } from './components';
 import {
 	BottomSlot,
@@ -338,13 +338,12 @@ import {
 	watchOnce,
 } from '@vueuse/core';
 import {
-	ColorsObject,
+	ChildUpdateSortBy,
 	DataTableItem,
 	DrilldownEvent,
-	LoadedDrilldown,
+	Props,
 } from '@/types';
 import type { VDataTable as VDT } from "vuetify/labs/components";
-import type { ChildUpdateSortBy } from '../types';
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
@@ -361,14 +360,16 @@ const emit = defineEmits([
 
 
 // -------------------------------------------------- Props //
-const props = defineProps({ ...AllProps });
+const props = withDefaults(defineProps<Props>(), { ...AllProps });
+
 const slots = useSlots();
 
 const tableType = props.server || props.tableType?.name === 'VDataTableServer' ? VDataTableServer : VDataTable;
 
 
 // -------------------------------------------------- Table Settings (WIP) //
-let loadedDrilldown = reactive<LoadedDrilldown>({ ...LoadedDrilldownDefaults });
+let loadedDrilldown = reactive<Props>({ ...AllProps });
+console.log({ loadedDrilldown });
 const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 
@@ -425,18 +426,18 @@ const tableClasses = computed<object>(() => {
 });
 
 const tableStyles = computed<StyleValue>(() => {
-	return useTableStyles(loadedDrilldown.colors as ColorsObject, loadedDrilldown.level, theme);
+	return useTableStyles(loadedDrilldown.colors, loadedDrilldown.level, theme);
 });
 
 
 // -------------------------------------------------- Methods #
 function setLoadedDrilldown(): void {
 	if (props.drilldown) {
-		loadedDrilldown = useSetLoadedDrilldown(loadedDrilldown, props.drilldown, props.item.raw, props.level, props.levels);
+		loadedDrilldown = useSetLoadedDrilldown(loadedDrilldown, props.drilldown, props.item?.raw, props.level, props.levels);
 		return;
 	}
 
-	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as LoadedDrilldown;
+	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as Props;
 }
 
 
@@ -480,7 +481,7 @@ function emitUpdatedExpanded(data: DrilldownEvent): void {
 		...{ sortBy: levelSortByValue },
 	};
 
-	useEmitUpdatedExpanded(emit, data, drilldownData as LoadedDrilldown);
+	useEmitUpdatedExpanded(emit, data, drilldownData as Props);
 }
 
 
