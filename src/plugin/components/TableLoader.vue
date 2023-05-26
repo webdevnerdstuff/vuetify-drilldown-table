@@ -1,12 +1,9 @@
 <template>
-	<tr
-		class="text-center ma-0 pa-0"
-		style=" height: 0; position: relative; top: 0; width: 100%; z-index: 99999;"
-	>
+	<tr class="v-drilldown-table--loader-tr text-center ma-0 pa-0">
 		<td
 			class="px-0 ma-0"
 			:colspan="colspan"
-			:style="isLinearOnly ? `height: ${loaderHeight}; position: absolute; top: 0; width: 100%;` : ''"
+			:style="loaderTrStyles"
 		>
 			<v-row
 				v-if="loading"
@@ -88,6 +85,19 @@ const baseColors = computed(() => {
 	return;
 });
 
+const loaderTrStyles = computed<StyleValue>(() => {
+	if (isLinearOnly.value) {
+		return {
+			height: loaderHeight.value,
+			position: 'absolute',
+			top: 0,
+			width: '100%',
+		};
+	}
+
+	return {};
+});
+
 const loaderContainerClasses = computed(() => {
 	return {
 		[`${componentName}--table-loader`]: true,
@@ -115,8 +125,6 @@ const isLinearOnly = computed<boolean>(() => {
 
 	return response;
 });
-
-console.log({ isLinearOnly });
 
 
 // v-progress-circular //
@@ -184,6 +192,14 @@ const checkLoaderType = (type: string): boolean => {
 
 <style lang="scss" scoped>
 .v-drilldown-table {
+	&--loader-tr {
+		height: 0;
+		position: relative;
+		top: 0;
+		width: 100%;
+		z-index: 99999;
+	}
+
 	&--table-loader {
 		background: rgb(var(--v-theme-surface));
 	}
