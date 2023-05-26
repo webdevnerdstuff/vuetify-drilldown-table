@@ -80,8 +80,7 @@ export const AllProps = {
 		density: 'comfortable',
 		variant: 'underlined',
 	}) as const,
-	// TODO: Add new feature //
-	// separator: '',
+	// separator: '', 																// TODO: Maybe add this //
 	server: false,
 	showDrilldownWhenLoading: true,
 	showExpand: false,																// ? Works but needs testing.- Not sure if needed in this object
