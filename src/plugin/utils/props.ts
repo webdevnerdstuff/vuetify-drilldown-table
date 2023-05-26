@@ -83,6 +83,7 @@ export const AllProps = {
 	// TODO: Add new feature //
 	// separator: '',
 	server: false,
+	showDrilldownWhenLoading: true,
 	showExpand: false,																// ? Works but needs testing.- Not sure if needed in this object
 	showFooterRow: true,															// ? Not sure if I will use this. Depends on a possible footer slot
 	showSearch: false,																// * Custom Prop
@@ -90,5 +91,5 @@ export const AllProps = {
 	skeltonType: 'heading@1',													// * Works
 	sortBy: () => [],																	// * Works
 	tableType: () => ({}),
-	width: '100%',																		// ! Failed
+	width: '100%',																		// ! Not working properly //
 };

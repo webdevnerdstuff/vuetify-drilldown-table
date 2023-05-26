@@ -120,7 +120,7 @@ interface TableType<T = any> {
 
 // -------------------------------------------------- Props //
 export interface Props {
-	colors?: ColorsObject | null;
+	colors?: ColorsObject | null;																				// * Custom Property
 	customFilter?: VDataTable['$props']['customFilter'];
 	customKeyFilter?: VDataTable['$props']['customKeyFilter'];
 	debounceDelay?: number | undefined | null; 													// ? Might not need this anymore //
@@ -143,7 +143,7 @@ export interface Props {
 	hideNoData?: VDataTable['$props']['hideNoData'];
 	hover?: VDataTable['$props']['hover'];
 	isDrilldown?: boolean;																							// * Custom Property
-	item?: VDataTableRow['$props']['item'];																								// * Custom Property
+	item?: VDataTableRow['$props']['item'];															// * Custom Property
 	// itemChildren?: VDataTable['$props']['itemChildren'];							// ? Type missing in v3.3.0
 	itemChildrenKey?: string;																						// * Custom Property
 	// itemProps?: VDataTable['$props']['itemProps'];										// ? Type missing in v3.3.0
@@ -157,7 +157,7 @@ export interface Props {
 	loaderHeight?: VProgressLinear['$props']['height'];									// * Custom Property
 	loaderType?: string | string[];																			// * Custom Property
 	loading?: VDataTable['$props']['loading'];
-	loadingText?: VDataTable['$props']['loadingText'];										// ! Not working properly //
+	loadingText?: VDataTable['$props']['loadingText'];									// ! Not working properly //
 	modelValue?: unknown[];
 	multiSort?: VDataTable['$props']['multiSort'];
 	mustSort?: VDataTable['$props']['mustSort'];
@@ -169,15 +169,16 @@ export interface Props {
 	search?: string | undefined;
 	searchProps?: SearchProps; 																					// * Custom Property
 	separator?: string;																									// TODO: Maybe add this //
-	server?: boolean;
+	server?: boolean;																										// * Custom Property
+	showDrilldownWhenLoading?: boolean;																	// * Custom Property
 	showExpand?: VDataTable['$props']['showExpand'];
 	showFooterRow?: boolean; 																						// * Custom Property
 	showSearch?: boolean; 																							// * Custom Property
 	showSelect?: VDataTable['$props']['showSelect'];
-	skeltonType?: string;
+	skeltonType?: string;																								// * Custom Property
 	sortBy?: VDataTable['$props']['sortBy'];
-	tableType?: TableType;
-	width?: string | number | undefined;
+	tableType?: TableType;																							// * Custom Property
+	width?: string | number | undefined;																// ! Not working properly //
 }
 
 export type Drilldown = Props;
@@ -296,6 +297,7 @@ export interface BottomSlotProps {
 // -------------------------------------------------- Components //
 export type TableLoader = {
 	colors: Props['colors'];
+	colspan: number;
 	height?: VProgressLinear['$props']['height'];
 	level: Props['level'];
 	loaderType: Props['loaderType'];
