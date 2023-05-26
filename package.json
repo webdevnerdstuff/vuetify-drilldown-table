@@ -130,6 +130,7 @@
 		"vite-plugin-vuetify": "^1.0.2",
 		"vue-tsc": "^1.6.5",
 		"vue3-code-block": "^2.1.2",
+		"vue3-unicorn-log": "^1.0.0",
 		"webfontloader": "^1.6.28"
 	}
 }

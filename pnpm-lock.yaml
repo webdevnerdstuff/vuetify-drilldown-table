@@ -63,6 +63,7 @@ specifiers:
   vue: ^3.3.4
   vue-tsc: ^1.6.5
   vue3-code-block: ^2.1.2
+  vue3-unicorn-log: ^1.0.0
   vuetify: 3.3.0
   webfontloader: ^1.6.28
 
@@ -132,6 +133,7 @@ devDependencies:
   vite-plugin-vuetify: 1.0.2_p4i6ifkci5kmtqe4ncdxhan2ue
   vue-tsc: 1.6.5_typescript@5.0.4
   vue3-code-block: 2.1.2_vue@3.3.4
+  vue3-unicorn-log: 1.0.0_vue@3.3.4
   webfontloader: 1.6.28
 
 packages:
@@ -9632,6 +9634,14 @@ packages:
       highlight.js: 11.8.0
       prismjs: 1.29.0
       ua-parser-js: 1.0.35
+      vue: 3.3.4
+    dev: true
+
+  /vue3-unicorn-log/1.0.0_vue@3.3.4:
+    resolution: {integrity: sha512-ZQYnWV/wpI0TuawT1TlJ6sqHPB38PEHc4UO0QgjI4/O0JgY5u2NVxFxy+gH06QHwtv3S3n6ELykFqT+od9yvPw==}
+    peerDependencies:
+      vue: ^3.2.47
+    dependencies:
       vue: 3.3.4
     dev: true
 
