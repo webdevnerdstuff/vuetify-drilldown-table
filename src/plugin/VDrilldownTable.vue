@@ -79,25 +79,17 @@
 					/>
 				</template>
 			</HeadersSlot>
-			<tr
-				v-if="loadedDrilldown.loading && loadedDrilldown.loaderType && !slots.loading"
-				class="text-center ma-0 pa-0"
-			>
-				<td
-					class="pa-0"
-					:colspan="props.columns.length"
-					style="vertical-align: top;"
-				>
-					<TableLoader
-						:colors="loadedDrilldown.colors || null"
-						:level="loadedDrilldown.level"
-						:loader-type="loadedDrilldown.loaderType"
-						:loading="loadedDrilldown.loading || false"
-						:loading-text="loadingText"
-						:skelton-type="loadedDrilldown.skeltonType"
-					/>
-				</td>
-			</tr>
+			<TableLoader
+				v-if="loadedDrilldown.loading && loadedDrilldown.loaderType && !slots.loading && level === 1"
+				:colors="loadedDrilldown.colors || null"
+				:colspan="props.columns.length"
+				:height="loadedDrilldown.loaderHeight"
+				:level="loadedDrilldown.level"
+				:loader-type="loadedDrilldown.loaderType"
+				:loading="loadedDrilldown.loading || false"
+				:loading-text="loadingText"
+				:skelton-type="loadedDrilldown.skeltonType"
+			/>
 		</template>
 
 
@@ -186,26 +178,28 @@
 
 		<!-- ================================================== Expanded Row Slot -->
 		<template #expanded-row="{ columns, item }">
-			<tr>
+			<TableLoader
+				v-if="item.raw[itemChildrenKey].loading && loadedDrilldown.loaderType && !slots.loading"
+				class="pa-0 ma-0"
+				:colors="item.raw[itemChildrenKey]?.colors ?? null"
+				:colspan="columns.length"
+				:height="item.raw[itemChildrenKey].loaderHeight"
+				:level="level + 1"
+				:loader-type="item.raw[itemChildrenKey].loaderType"
+				:loading="item.raw[itemChildrenKey].loading"
+				:loading-text="loadingText"
+				:skelton-type="item.raw[itemChildrenKey].skeltonType"
+			/>
+
+			<tr :class="showLoadingDrilldownTable(item.raw[itemChildrenKey].loading) ? '' : 'd-none'">
 				<td
 					class="px-0 ma-0"
 					:colspan="columns.length"
 					style="vertical-align: top;"
 				>
-					<TableLoader
-						v-if="loadedDrilldown.loaderType && !slots.loading"
-						class="pa-0 ma-0"
-						:colors="item.raw[itemChildrenKey]?.colors ?? null"
-						:level="level + 1"
-						:loader-type="item.raw[itemChildrenKey].loaderType"
-						:loading="item.raw[itemChildrenKey].loading"
-						:loading-text="loadingText"
-						:skelton-type="item.raw[itemChildrenKey].skeltonType"
-					/>
-
+					<!-- :class="item.raw[itemChildrenKey].loading ? 'd-none' : ''" -->
 					<VDrilldownTable
 						:key="item.raw"
-						:class="item.raw[itemChildrenKey].loading ? 'd-none' : ''"
 						:colors="colors"
 						:drilldown="loadedDrilldown"
 						:headers="item.raw[itemChildrenKey].headers"
@@ -412,6 +406,26 @@ watch(() => props.loading, (value) => {
 
 
 // -------------------------------------------------- Table #
+const showLoadingDrilldownTable = (loading: boolean): boolean => {
+	const loaderType = loadedDrilldown.loaderType;
+
+	if (loading) {
+		if (loaderType === 'skelton') {
+			return false;
+		}
+
+		if (Array.isArray(loaderType) && loaderType.length === 1 && loaderType[0] === 'skelton') {
+			return false;
+		}
+
+		if (!loadedDrilldown.showDrilldownWhenLoading) {
+			return false;
+		}
+	}
+
+	return true;
+};
+
 const tableClasses = computed<object>(() => {
 	const isServerSide = false;
 
@@ -438,6 +452,7 @@ function setLoadedDrilldown(): void {
 
 	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as Props;
 }
+
 
 
 // -------------------------------------------------- Search //

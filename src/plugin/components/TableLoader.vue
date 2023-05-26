@@ -1,68 +1,80 @@
 <template>
-	<v-row
-		v-if="loading"
-		:class="loaderContainerClasses"
-		no-gutters
+	<tr
+		class="text-center ma-0 pa-0"
+		style=" height: 0; position: relative; top: 0; width: 100%; z-index: 99999;"
 	>
-		<v-col
-			v-if="checkLoaderType('linear')"
-			class="pa-0 ma-0"
-			:order="getOrder('linear')"
+		<td
+			class="px-0 ma-0"
+			:colspan="colspan"
+			:style="isLinearOnly ? `height: ${loaderHeight}; position: absolute; top: 0; width: 100%;` : ''"
 		>
-			<v-progress-linear
-				:color="linearColor"
-				:height="loaderHeight"
-				indeterminate
-			></v-progress-linear>
-		</v-col>
-
-		<v-col
-			v-if="checkLoaderType('circular')"
-			class="pa-0 my-2"
-			:order="getOrder('circular')"
-		>
-			<v-progress-circular
-				:bg-color="circularBackgroundColor"
-				:color="circularColor"
-				indeterminate
-				:size="size"
-			></v-progress-circular>
-		</v-col>
-
-		<v-col
-			v-if="checkLoaderType('skelton')"
-			class="pa-0 ma-0"
-			:order="getOrder('skelton')"
-		>
-			<v-skeleton-loader
-				:loading="skeltonLoading"
-				:type="currentSkeltonType"
+			<v-row
+				v-if="loading"
+				:class="loaderContainerClasses"
+				no-gutters
 			>
-			</v-skeleton-loader>
-		</v-col>
+				<v-col
+					v-if="checkLoaderType('linear')"
+					class="pa-0 ma-0"
+					:order="getOrder('linear')"
+				>
+					<v-progress-linear
+						:color="linearColor"
+						:height="loaderHeight"
+						indeterminate
+					></v-progress-linear>
+				</v-col>
 
-		<v-col
-			v-if="checkLoaderType('text')"
-			class="my-2"
-			:order="getOrder('text')"
-			:style="textStyles"
-		>
-			{{ computedLoadingText }}
-		</v-col>
-	</v-row>
+				<v-col
+					v-if="checkLoaderType('circular')"
+					class="pa-0 my-2"
+					:order="getOrder('circular')"
+				>
+					<v-progress-circular
+						:bg-color="circularBackgroundColor"
+						:color="circularColor"
+						indeterminate
+						:size="size"
+					></v-progress-circular>
+				</v-col>
+
+				<v-col
+					v-if="checkLoaderType('skelton')"
+					class="pa-0 ma-0"
+					:order="getOrder('skelton')"
+				>
+					<v-skeleton-loader
+						:loading="skeltonLoading"
+						:type="currentSkeltonType"
+					>
+					</v-skeleton-loader>
+				</v-col>
+
+				<v-col
+					v-if="checkLoaderType('text')"
+					class="my-2"
+					:order="getOrder('text')"
+					:style="textStyles"
+				>
+					{{ computedLoadingText }}
+				</v-col>
+			</v-row>
+		</td>
+	</tr>
 </template>
 
 <script setup lang="ts">
 import { componentName } from '@/plugin/utils/globals';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';
 import { TableLoader } from '@/types';
-import { useLoaderHeight } from '@/plugin/composables/helpers';
+import { useIsOnlyLinearLoader, useLoaderHeight } from '@/plugin/composables/helpers';
 
 
 const theme = useTheme();
 
 const props = withDefaults(defineProps<TableLoader>(), {
 	height: 2,
+	loaderType: 'linear',
 	loadingText: 'Loading...',
 	size: 'default',
 	textLoader: true,
@@ -97,6 +109,14 @@ const linearColor = computed<string | undefined>(() => {
 const loaderHeight = computed(() => {
 	return useLoaderHeight(props.height as string | number);
 });
+
+const isLinearOnly = computed<boolean>(() => {
+	const response = useIsOnlyLinearLoader(props.loaderType);
+
+	return response;
+});
+
+console.log({ isLinearOnly });
 
 
 // v-progress-circular //
