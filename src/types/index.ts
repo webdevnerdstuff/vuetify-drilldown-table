@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { CSSProperties, JSXComponent, StyleValue } from 'vue';
 import { ThemeInstance } from 'vuetify';
+import type { EventBusKey } from '@vueuse/core';
 import type { VTextField, VProgressCircular, VProgressLinear } from 'vuetify/components';
 import type { VDataTable, VDataTableRow } from 'vuetify/labs/components';
 
@@ -457,8 +458,16 @@ export type ClickRowCheckboxEvent = {
 	toggleSelect(item?: object): void;
 };
 
-// -------------------------------------------------- Helpers //
+// -------------------------------------------------- Event Bus //
+export interface OptionsEventObject {
+	drilldown: Props,
+	name?: string;
+	sortBy?: Props['sortBy'];
+	page?: Props['page'];
+	itemsPerPage?: Props['itemsPerPage'];
+}
 
+export const OptionsEventBus: EventBusKey<OptionsEventObject> = Symbol('data');
 
 
 // -------------------------------------------------- Emits //
@@ -472,8 +481,3 @@ export interface EmitUpdatedExpanded {
 		drilldownData: Props,
 	): void;
 }
-
-export type ChildUpdateSortBy = (
-	data: { drilldown: Props, sortBy: Props['sortBy']; },
-	item: DataTableItem,
-) => void;
