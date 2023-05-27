@@ -23,6 +23,7 @@
 					:items-per-page-text="tableSettings.itemsPerPageText"
 					:last-icon="tableSettings.lastIcon"
 					:last-page-label="tableSettings.lastPageLabel"
+					:level="tableSettings.level"
 					:levels="tableSettings.levels"
 					:loader-height="tableSettings.loaderHeight"
 					:loader-type="tableSettings.loaderType"
@@ -49,11 +50,9 @@
 					@click:row="rowClickEvent($event)"
 					@update:drilldown="isServerSide ? fetchServerData($event) : fetchClientData($event)"
 					@update:expanded="updateExpanded($event)"
-					@update:itemsPerPage="updatedItemsPerPage"
 					@update:model-value="updatedModelValue($event)"
-					@update:page="updatedPage"
+					@update:options="updateOptions"
 					@update:search="updatedSearch"
-					@update:sort-by="updatedSortBy"
 				>
 					<!-- ! This is not working since adding the TableLoader component -->
 					<!-- <template #loading>
@@ -177,7 +176,7 @@
 
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 // import { watchDebounced } from '@vueuse/core';
 import tableDefaults from './tableDefaults';
 
@@ -189,8 +188,14 @@ const tableSettings = ref({ ...tableDefaults });
 // Use this to mock the network throttling time //
 const fakeNetworkThrottlingTime = ref(0);
 const fakeNetworkThrottlingTime2 = ref(0);
+const $unicornLog = inject('$unicornLog');
 
-const currentPage = ref(1);
+const unicornStyles = [
+	'background: black',
+	'color: lime',
+	'padding: 2px',
+];
+
 const defaultSortBy = [
 	{
 		key: 'id',
@@ -448,7 +453,13 @@ function getUsers(drilldown = null) {
 }
 
 function getUserPosts(drilldown = null, updateCurrentLevel = false) {
-	console.log('getUserPosts', { drilldown });
+	$unicornLog({
+		logPrefix: '[PlaygroundPage]:',
+		objects: drilldown,
+		styles: unicornStyles,
+		text: 'getUserPosts',
+	});
+
 	const item = drilldown?.item?.raw ?? null;
 	const userId = item.id;
 	const user = tableSettings.value.items.find((a) => parseInt(a.id) === parseInt(userId));
@@ -464,6 +475,10 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 		loading: true,
 	};
 
+	if (updateCurrentLevel) {
+		user.child.items = drilldown.items;
+	}
+
 	let sortBy = user.child.sortBy.length ? user.child.sortBy : defaultSortBy;
 
 	if (updateCurrentLevel && drilldown.sortBy.length) {
@@ -472,10 +487,10 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 	}
 
 	const body = {
-		limit: user.child.itemsPerPage,
-		page: user.child.page,
-		query: user.child.search,
-		sortBy: user.child.sortBy,
+		limit: drilldown.itemsPerPage,
+		page: drilldown.page,
+		query: drilldown.search,
+		sortBy: drilldown.sortBy.length ? drilldown.sortBy : defaultSortBy,
 		userId,
 	};
 
@@ -484,26 +499,49 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 			// console.log({ data });
 			const { posts, pagination } = data;
 
-			user.child.items = posts;
-			user.child.loading = false;
-			user.child.itemsLength = pagination.itemsLength;
-			user.child.page = pagination.page;
+			user.child = {
+				...user.child,
+				...{
+					items: posts,
+					itemsLength: pagination.itemsLength,
+					itemsPerPage: pagination.limit,
+					loading: false,
+					page: pagination.page,
+				},
+			};
+
+			console.log(user.child);
 		});
 }
 
 function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	const item = drilldown?.item?.raw ?? null;
-	console.log('getPostComments', { drilldown, item, updateCurrentLevel });
-	const userId = item.id;
+
+	// if (updateCurrentLevel) {
+	// 	item = item.child.item.raw ?? null;
+	// }
+
+	$unicornLog({
+		logPrefix: '[PlaygroundPage]:',
+		objects: { drilldown, item, updateCurrentLevel },
+		styles: unicornStyles,
+		text: 'getPostComments',
+	});
+
+	const userId = item.userId;
 	const user = tableSettings.value.items.find((a) => parseInt(a.id) === parseInt(userId));
 
-	user.child = { ...drilldown };
+	console.log({ user });
+
+	// user.child = { ...drilldown };
 
 	const postId = item.id;
 	const post = user.child.items.find((item) => parseInt(item.id) === parseInt(postId));
 	const url = 'api/users/posts/comments';
 
-	user.child = { ...user.child, drilldown };
+	console.log({ post });
+
+	// user.child = { ...user.child, drilldown };
 
 	post.child = {};
 	post.child = {
@@ -515,7 +553,17 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 		loading: true,
 	};
 
+	if (updateCurrentLevel) {
+		post.child.items = drilldown.items;
+	}
+
 	let sortBy = post.child.sortBy.length ? post.child.sortBy : defaultSortBy;
+
+	// TODO: What is this?
+	if (updateCurrentLevel && drilldown.sortBy.length) {
+		sortBy = drilldown.sortBy;
+		user.child.sortBy = sortBy;
+	}
 
 	if (updateCurrentLevel && drilldown.sortBy.length) {
 		sortBy = drilldown.sortBy;
@@ -523,11 +571,11 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	}
 
 	const body = {
-		limit: post.child.itemsPerPage,
-		page: post.child.page,
+		limit: drilldown.itemsPerPage,
+		page: drilldown.page,
 		postId,
-		query: post.child.search,
-		sortBy: post.child.sortBy.length ? post.child.sortBy : defaultSortBy,
+		query: drilldown.search,
+		sortBy: drilldown.sortBy.length ? drilldown.sortBy : defaultSortBy,
 		userId,
 	};
 
@@ -536,10 +584,16 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 			// console.log({ data });
 			const { comments, pagination } = data;
 
-			post.child.items = comments;
-			post.child.loading = false;
-			post.child.itemsLength = pagination.itemsLength;
-			post.child.page = pagination.page;
+			post.child = {
+				...post.child,
+				...{
+					items: comments,
+					itemsLength: pagination.itemsLength,
+					itemsPerPage: pagination.limit,
+					loading: false,
+					page: pagination.page,
+				},
+			};
 		});
 }
 
@@ -611,6 +665,7 @@ function fetchClientData(drilldown = null) {
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,
+			itemsPerPage: 2,
 			level: 3,
 			loading: true,
 		};
@@ -623,6 +678,7 @@ function fetchClientData(drilldown = null) {
 		.then(response => response.json())
 		.then(json => {
 			setTimeout(() => {
+				fakeNetworkThrottlingTime.value = fakeNetworkThrottlingTime2.value;
 
 				// Users Level 1 //
 				if (!drilldown) {
@@ -646,7 +702,7 @@ function fetchClientData(drilldown = null) {
 					post.child.loading = false;
 				}
 
-				fakeNetworkThrottlingTime.value = fakeNetworkThrottlingTime2.value;
+
 			}, fakeNetworkThrottlingTime.value);
 		});
 }
@@ -664,28 +720,9 @@ function updateExpanded() {
 	// console.log('%c%s', ['background-color: black', 'border: 2px dotted lime', 'border-radius: 5px', 'color: lime', 'font-weight: normal', 'padding: 5px 10px'].join(';'), 'updateExpanded', event);
 }
 
-function updatedItemsPerPage(val) {
-	// console.log('updatedItemsPerPage', val);
-	tableSettings.value.itemsPerPage = val;
-
-	if (isServerSide.value) {
-		fetchServerData();
-	}
-}
-
 function updatedModelValue() {
 	// do something...
 	// console.log('updatedModelValue', event);
-}
-
-function updatedPage(val) {
-	// console.log('updatedPage', val);
-	currentPage.value = val;
-	tableSettings.value.page = val;
-
-	if (isServerSide.value) {
-		fetchServerData();
-	}
 }
 
 function updatedSearch(event) {
@@ -697,9 +734,8 @@ function updatedSearch(event) {
 	}
 }
 
-// @param val = { drilldown, orderBy }
-function updatedSortBy(data) {
-	console.log('%c%s', ['background-color: black', 'border: 2px dotted red', 'border-radius: 5px', 'color: lime', 'font-weight: normal', 'padding: 5px 10px'].join(';'), 'updatedSortBy', data);
+function updateOptions(data) {
+	console.log('%c%s', ['background-color: black', 'border: 2px dotted red', 'border-radius: 5px', 'color: lime', 'font-weight: normal', 'padding: 5px 10px'].join(';'), 'updateOptions', data);
 
 	if (isServerSide.value) {
 		console.log('data.drilldown', data.drilldown);
