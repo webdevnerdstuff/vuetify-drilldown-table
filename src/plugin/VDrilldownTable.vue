@@ -29,7 +29,7 @@
 		:style="tableStyles"
 		@update:items-per-page="updateItemsPerPage"
 		@update:model-value="updateModelValue"
-		@update:options="updateOptions"
+		@update:page="updatePage"
 		@update:sort-by="updateSortBy"
 	>
 
@@ -215,10 +215,7 @@
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
-						@update:items-per-page="updateItemsPerPage"
 						@update:model-value="updateModelValue"
-						@update:options="updateOptions"
-						@update:sort-by="childUpdateSortBy($event, item)"
 					>
 						<!-- Pass on all named slots -->
 						<slot
@@ -328,13 +325,15 @@ import { useSetLoadedDrilldown } from './composables/loadedDrilldown';
 import { useTableClasses } from './composables/classes';
 import { useTableStyles } from './composables/styles';
 import {
+	useEventBus,
 	watchDebounced,
 	watchOnce,
 } from '@vueuse/core';
 import {
-	ChildUpdateSortBy,
 	DataTableItem,
 	DrilldownEvent,
+	OptionsEventBus,
+	OptionsEventObject,
 	Props,
 } from '@/types';
 import type { VDataTable as VDT } from "vuetify/labs/components";
@@ -347,6 +346,9 @@ const emit = defineEmits([
 	'update:expanded',
 	'update:drilldown',
 	'update:drilldown:sortby',
+	'update:options',
+	'update:itemsPerPage',
+	'update:page',
 	'update:search',
 	'update:sortBy',
 	'update:sortByCustom',
@@ -486,83 +488,82 @@ function emitClickRowCheckbox(item: DataTableItem): void {
 // }
 
 function emitUpdatedExpanded(data: DrilldownEvent): void {
-	const levelSortByValue = data?.sortBy ?? currentSortBy.value;
-
 	const drilldownData = {
-		...defaultDrilldownSettings,
 		...loadedDrilldown,
+		...defaultDrilldownSettings,
 		...data,
-		...{ sortBy: levelSortByValue },
 	};
 
 	useEmitUpdatedExpanded(emit, data, drilldownData as Props);
 }
 
 
-// ------------------------- Table Events //
+// -------------------------------------------------- Table Options //
+function updatedOptions(drilldown: Props) {
+	return {
+		items: drilldown.items,
+		itemsPerPage: drilldown.itemsPerPage,
+		page: drilldown.page,
+		server: drilldown.server,
+		sortBy: drilldown.sortBy,
+	};
+}
+
+// ------------ Bus Event //
+const optionsBus = useEventBus(OptionsEventBus);
+
+function optionsListener(data: OptionsEventObject) {
+	if (props.level === 1 && data.drilldown.server) {
+		emit('update:options', { ...data });
+	}
+}
+
+const unsubscribeOptionsBus = optionsBus.on(optionsListener);
+
+onUnmounted(() => {
+	unsubscribeOptionsBus();
+});
+
+// ------------ Items Per Page //
+function updateItemsPerPage(val: VDT['itemsPerPage']) {
+	loadedDrilldown.itemsPerPage = val;
+
+	const options = updatedOptions(loadedDrilldown);
+	const drilldown = { ...props, ...options, ...{ itemsPerPage: val } };
+	const data = { drilldown, itemsPerPage: val, name: 'update:itemsPerPage' };
+
+	optionsBus.emit(data);
+}
+
+// ------------ Paging //
+function updatePage(val: VDT['page']) {
+	loadedDrilldown.page = val;
+
+	const options = updatedOptions(loadedDrilldown);
+	const drilldown = { ...props, ...options, ...{ page: val } };
+	const data = { drilldown, name: 'update:page', page: val };
+
+	optionsBus.emit(data);
+}
+
+// ------------ Column Sorting //
+function updateSortBy(val: VDT['sortBy']) {
+	loadedDrilldown.sortBy = val;
+	const options = updatedOptions(loadedDrilldown);
+	const drilldown = { ...props, ...options, ...{ sortBy: val } };
+	const data = { drilldown, name: 'update:sortBy', sortBy: val };
+
+	optionsBus.emit(data);
+}
 
 // function clickedRow(e, item) {
 // 	console.log('clickedRow', { e, item });
 // }
 
-// ? Probably more useful when using server side
-function updateItemsPerPage(itemsCount: number) {
-	loadedDrilldown.itemsPerPage = itemsCount;
-
-	return true;
-}
-
 // ! Not sure what this does or if it works
 function updateModelValue(val) {
 	console.log('updateModelValue', val);
 }
-
-function updateOptions() {
-	// console.log('updateOptions', val);
-}
-
-// function updatePage(val) {
-// 	// console.log('updatePage', val);
-// }
-
-
-// ------------ Column Sorting //
-function updateSortBy(val: VDT['sortBy']) {
-	loadedDrilldown.sortBy = val;
-
-	emit('update:sortBy', { drilldown: loadedDrilldown, sortBy: loadedDrilldown.sortBy });
-}
-
-const childUpdateSortBy: ChildUpdateSortBy = (data, item) => {
-	const drilldown = data.drilldown;
-	drilldown.item = item;
-
-	emit('update:sortBy', { drilldown: data.drilldown, sortBy: data.drilldown.sortBy });
-};
-
-
-// function updateSortByInternal(data) {
-// 	console.log('%c%s', ['background-color: black', 'border: 2px dotted red', 'border-radius: 5px', 'color: red', 'font-weight: bold', 'padding: 5px 10px'].join(';'), 'updateSortByInternal event', data);
-
-
-// 	// if (!data.parent && data.sortBy?.length) {
-// 	// 	const drilldown = { ...loadedDrilldown };
-// 	// 	drilldown.item = data.parentItem;
-
-// 	const response = {
-// 		drilldown: data,
-// 		level: data.level,
-// 		parentItem: data.parentItem,
-// 		sortBy: data.sortBy,
-// 	};
-
-// 	// 	console.log('response', { response });
-// 	if (data.level !== 1) {
-// 		console.log('emit');
-// 		emit('update:drilldown:sortby', response);
-// 	}
-// }
-
 
 </script>
 
