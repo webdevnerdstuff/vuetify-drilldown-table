@@ -4,13 +4,12 @@ import { CSSProperties, JSXComponent, StyleValue } from 'vue';
 import { ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
 import type { VTextField, VProgressCircular, VProgressLinear } from 'vuetify/components';
-import type { VDataTable, VDataTableRow } from 'vuetify/labs/components';
+import type { VDataTable, VDataTableServer, VDataTableRow } from 'vuetify/labs/components';
 
 
 // -------------------------------------------------- Vuetify Types //
 export type Density = 'default' | 'comfortable' | 'compact';
 
-// export type DataTableItem = NonNullable<VDataTableRow['$props']['item']>;
 type IconValue = string | (string | [path: string, opacity: number])[] | JSXComponent;
 type SelectItemKey = boolean | string | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any);
 type DataTableCompareFunction<T = any> = (a: T, b: T) => number;
@@ -45,12 +44,10 @@ export interface DataTableItem<T = any> {
 }
 
 
-
 // -------------------------------------------------- Colors //
 export interface TableColors<T = any> {
 	[key: string]: T;
 }
-
 
 export type ColorsObject = {
 	body?: {
@@ -115,9 +112,8 @@ export type SearchProps = {
 
 
 // -------------------------------------------------- Table //
-interface TableType<T = any> {
-	[key: string]: T;
-}
+export type TableType = VDataTable | VDataTableServer | unknown;
+
 
 // -------------------------------------------------- Props //
 export interface Props {
@@ -183,6 +179,7 @@ export interface Props {
 }
 
 export type Drilldown = Props;
+
 
 // -------------------------------------------------- Slots //
 type GetSortIcon = (column: InternalDataTableHeader) => IconValue;
@@ -294,7 +291,6 @@ export interface BottomSlotProps {
 }
 
 
-
 // -------------------------------------------------- Components //
 export type TableLoader = {
 	colors: Props['colors'];
@@ -308,6 +304,44 @@ export type TableLoader = {
 	skeltonType: Props['skeltonType'];
 	textLoader?: boolean;
 };
+
+
+// -------------------------------------------------- Composables //
+export interface UseSetLoadedDrilldown {
+	(
+		options: {
+			loadedDrilldown: Props,
+			drilldown: object,
+			rawItem: DataTableItem['raw'],
+			level: number,
+			levels: number,
+		}
+	): Props;
+}
+
+export interface UseGetLevelColors {
+	(
+		options: {
+			colors: ColorsObject | undefined | null,
+			level: number,
+			prop: string,
+			themeColors: ThemeInstance,
+			type?: string | null,
+		}
+	): LevelColorResponse;
+}
+
+export interface ConvertLevelColors {
+	(
+		options: {
+			colors: ColorsObject,
+			level: number,
+			prop: string,
+			theme: ThemeInstance,
+			type: string | null,
+		}
+	): LevelColorResponse;
+}
 
 
 // -------------------------------------------------- Cell Rendering //
@@ -349,90 +383,161 @@ export interface Column {
 
 
 // -------------------------------------------------- Classes //
-export interface TableClasses {
+export interface UseBodyCellClasses {
 	(
-		isDrilldown: boolean,
-		elevation: string | number | undefined,
-		isHover: boolean | undefined,
-		level: number,
-		isServerSide: boolean,
+		options: {
+			column: Column,
+			level: number,
+		}
 	): object;
 }
 
-export interface CellClasses {
+export interface UseBodyRowClasses {
 	(
-		elm: string,
-		column: Column,
-		level: number,
+		options: {
+			expandOnClick: Props['expandOnClick'],
+			level: number,
+			levels: number,
+		}
 	): object;
 }
 
-export interface HeaderCellClasses {
+export interface UseCellAlignClasses {
 	(
-		colors: ColorsObject | undefined | null | false,
-		level: number,
-		column: Column,
-		slotName?: string,
+		options: {
+			align: string;
+		}
 	): object;
 }
 
-export interface SortIconClasses {
+export interface UseCellClasses {
 	(
-		sortBy: Props['sortBy'],
-		level: number,
-		key: string,
+		options: {
+			column: Column,
+			elm: string,
+			level: number;
+		},
 	): object;
 }
 
-export interface BodyCellClasses {
+export interface UseCheckBoxClasses {
 	(
-		column: Column,
-		level: number,
+		options: {
+			level: number,
+		}
 	): object;
 }
 
-export interface BodyRowClasses {
+export interface UseHeaderCellClasses {
 	(
-		expandOnClick: Props['expandOnClick'],
-		level: number,
-		levels: number,
+		options: {
+			colors: ColorsObject | undefined | null | false,
+			column: Column,
+			level: number,
+			slotName?: string,
+		}
 	): object;
 }
 
-export interface TFootCellClasses {
+export interface UseHeaderRowClasses {
 	(
-		level: number,
-		column: Column,
-		slotName?: string,
+		options: {
+			level: number,
+		}
+	): object;
+}
+
+export interface UseSortIconClasses {
+	(
+		options: {
+			key: string,
+			level: number,
+			sortBy: Props['sortBy'],
+		}
+	): object;
+}
+
+export interface UseTableClasses {
+	(
+		options: {
+			elevation: string | number | undefined,
+			isDrilldown: boolean,
+			isHover: boolean | undefined,
+			isServerSide: boolean,
+			level: number,
+		}
+	): object;
+}
+
+export interface UseTFootClasses {
+	(
+		options: {
+			level: number,
+		}
+	): object;
+}
+
+export interface UseTFootCellClasses {
+	(
+		options: {
+			column: Column,
+			level: number,
+			slotName?: string,
+		}
+	): object;
+}
+
+export interface UseTFootRowClasses {
+	(
+		options: {
+			level: number,
+		}
 	): object;
 }
 
 
 // -------------------------------------------------- Styles //
-export interface TableStyles {
+export interface UseCellStyles {
 	(
-		colors: ColorsObject | undefined | null | false,
-		level: number,
-		theme: ThemeInstance,
-	): StyleValue;
-}
-
-export interface HeaderCellStyles {
-	(
-		colors: ColorsObject | undefined | null | false,
-		level: number,
-		column: { width?: string | number; },
-		theme: ThemeInstance,
-		dataTableExpand: boolean,
+		options: {
+			colors: ColorsObject | undefined | null | false,
+			elm: string,
+			level: number,
+			theme: ThemeInstance,
+		}
 	): CSSProperties;
 }
 
-export interface CellStyles {
+export interface UseHeaderCellStyles {
 	(
-		colors: ColorsObject | undefined | null | false,
-		level: number,
-		theme: ThemeInstance,
-		elm: string,
+		options: {
+			colors: ColorsObject | undefined | null | false,
+			column: { width?: string | number; },
+			dataTableExpand: boolean,
+			level: number,
+			theme: ThemeInstance,
+		}
+	): CSSProperties;
+}
+
+export interface UseTableStyles {
+	(
+		options: {
+			colors: ColorsObject | undefined | null | false,
+			level: number,
+			theme: ThemeInstance,
+		}
+	): StyleValue;
+}
+
+export interface UseTFootCellStyles {
+	(
+		options: {
+			colors: ColorsObject | undefined | null | false,
+			elm: string,
+			level: number,
+			theme: ThemeInstance,
+		}
 	): CSSProperties;
 }
 
@@ -458,6 +563,7 @@ export type ClickRowCheckboxEvent = {
 	toggleSelect(item?: object): void;
 };
 
+
 // -------------------------------------------------- Event Bus //
 export interface OptionsEventObject {
 	drilldown: Props,
@@ -471,13 +577,15 @@ export const OptionsEventBus: EventBusKey<OptionsEventObject> = Symbol('data');
 
 
 // -------------------------------------------------- Emits //
-export interface EmitUpdatedExpanded {
+export interface UseEmitUpdatedExpanded {
 	(
-		emit: {
-			(e: 'update:drilldown', drilldownData: Props): void;
-			(e: 'update:expanded', data: DrilldownEvent): void;
-		},
-		data: DrilldownEvent,
-		drilldownData: Props,
+		options: {
+			emit: {
+				(e: 'update:drilldown', drilldownData: Props): void;
+				(e: 'update:expanded', data: DrilldownEvent): void;
+			},
+			data: DrilldownEvent,
+			drilldownData: Props,
+		}
 	): void;
 }

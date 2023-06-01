@@ -54,7 +54,7 @@
 			<!-- Column Render `data-table-expand` -->
 			<td
 				v-else-if="column.key === 'data-table-expand' || (column.key === 'data-table-expand' && showExpand)
-					"
+				"
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 			>
@@ -128,13 +128,21 @@ const toggleSelect = computed(() => props.slotProps.toggleSelect);
 
 // -------------------------------------------------- Row //
 const rowClasses = computed<object>(() => {
-	return useBodyRowClasses(props.expandOnClick, props.level, props.levels);
+	return useBodyRowClasses({
+		expandOnClick: props.expandOnClick,
+		level: props.level,
+		levels: props.levels,
+	});
 });
 
 
 // -------------------------------------------------- Row Cells //
 const cellClasses = (column: Column): object => {
-	return useCellClasses('body', column, props.level);
+	return useCellClasses({
+		column,
+		elm: 'body',
+		level: props.level,
+	});
 };
 
 function drilldownEvent(data: DrilldownEvent): void {

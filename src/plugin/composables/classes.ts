@@ -1,24 +1,25 @@
 import { componentName } from '../utils/globals';
 import { useGetSortDirection } from './helpers';
 import {
-	BodyCellClasses,
-	BodyRowClasses,
-	CellClasses,
-	HeaderCellClasses,
-	SortIconClasses,
-	TableClasses,
-	TFootCellClasses,
+	UseBodyCellClasses,
+	UseBodyRowClasses,
+	UseCellAlignClasses,
+	UseCellClasses,
+	UseCheckBoxClasses,
+	UseHeaderCellClasses,
+	UseHeaderRowClasses,
+	UseSortIconClasses,
+	UseTFootCellClasses,
+	UseTableClasses,
+	UseTFootClasses,
+	UseTFootRowClasses,
 } from '@/types';
 
 
 // -------------------------------------------------- VDrilldownTable //
-export const useTableClasses: TableClasses = (
-	isDrilldown,
-	elevation,
-	isHover,
-	level,
-	isServerSide,
-) => {
+export const useTableClasses: UseTableClasses = (options) => {
+	const { elevation, isDrilldown, isHover, isServerSide, level } = options;
+
 	const classes = {
 		'pb-2': true,
 		[`${componentName}--child`]: isDrilldown,
@@ -33,7 +34,9 @@ export const useTableClasses: TableClasses = (
 };
 
 // ------------------------- Cell Align //
-export function useCellAlignClasses(align: string): object {
+export const useCellAlignClasses: UseCellAlignClasses = (options) => {
+	const { align } = options;
+
 	const classes = {
 		'd-flex align-center': true,
 		[`justify-${align}`]: align,
@@ -44,7 +47,9 @@ export function useCellAlignClasses(align: string): object {
 };
 
 // ------------------------- Checkbox //
-export function useCheckBoxClasses(level: number): object {
+export const useCheckBoxClasses: UseCheckBoxClasses = (options) => {
+	const { level } = options;
+
 	const classes = {
 		'd-flex': true,
 		[`${componentName}--header-select-all-checkbox`]: true,
@@ -57,7 +62,9 @@ export function useCheckBoxClasses(level: number): object {
 
 // -------------------------------------------------- Table Cells //
 // ------------------------- TD Cells //
-export const useCellClasses: CellClasses = (elm, column, level) => {
+export const useCellClasses: UseCellClasses = (options) => {
+	const { column, elm, level } = options;
+
 	return {
 		[`${componentName}--${elm}-row-td`]: true,
 		[`${componentName}--${elm}-row-td-${level}`]: true,
@@ -68,7 +75,9 @@ export const useCellClasses: CellClasses = (elm, column, level) => {
 
 // -------------------------------------------------- HeaderSlot //
 // ------------------------- Header Row //
-export function useHeaderRowClasses(level: number): object {
+export const useHeaderRowClasses: UseHeaderRowClasses = (options) => {
+	const { level } = options;
+
 	const classes = {
 		[`${componentName}--header-row`]: true,
 		[`${componentName}--header-row-${level}`]: true,
@@ -78,7 +87,9 @@ export function useHeaderRowClasses(level: number): object {
 };
 
 // ------------------------- Header Cells //
-export const useHeaderCellClasses: HeaderCellClasses = (colors, level, column, slotName = '') => {
+export const useHeaderCellClasses: UseHeaderCellClasses = (options) => {
+	const { colors, column, level, slotName = '' } = options;
+
 	const classes = {
 		[`${componentName}--header-row-th`]: true,
 		[`${componentName}--header-row-th-${slotName}`]: slotName !== '',
@@ -93,7 +104,9 @@ export const useHeaderCellClasses: HeaderCellClasses = (colors, level, column, s
 };
 
 // ------------------------- Header Sort Icon //
-export const useSortIconClasses: SortIconClasses = (sortBy, level, key) => {
+export const useSortIconClasses: UseSortIconClasses = (options) => {
+	const { key, level, sortBy } = options;
+
 	return {
 		'px-1': true,
 		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
@@ -106,7 +119,10 @@ export const useSortIconClasses: SortIconClasses = (sortBy, level, key) => {
 
 // -------------------------------------------------- ItemSlot //
 // ------------------------- Body Cells //
-export const useBodyCellClasses: BodyCellClasses = (column, level) => {
+// ! Not being used currently //
+export const useBodyCellClasses: UseBodyCellClasses = (options) => {
+	const { column, level } = options;
+
 	const classes = {
 		[`${componentName}--body-row-td`]: true,
 		[`${componentName}--body-row-td-${level}`]: true,
@@ -117,7 +133,9 @@ export const useBodyCellClasses: BodyCellClasses = (column, level) => {
 };
 
 // ------------------------- Body Row //
-export const useBodyRowClasses: BodyRowClasses = (expandOnClick, level, levels) => {
+export const useBodyRowClasses: UseBodyRowClasses = (options) => {
+	const { expandOnClick, level, levels } = options;
+
 	const classes = {
 		'v-data-table__tr': true,
 		'v-data-table__tr--clickable': expandOnClick && (level < levels),
@@ -131,7 +149,9 @@ export const useBodyRowClasses: BodyRowClasses = (expandOnClick, level, levels) 
 
 // -------------------------------------------------- TfootSlot //
 // ------------------------- Tfoot //
-export function useTfootClasses(level: number): object {
+export const useTFootClasses: UseTFootClasses = (options) => {
+	const { level } = options;
+
 	const classes = {
 		[`${componentName}--tfoot`]: true,
 		[`${componentName}--tfoot-${level}`]: true,
@@ -141,7 +161,9 @@ export function useTfootClasses(level: number): object {
 };
 
 // ------------------------- Tfoot Row //
-export function useTfootRowClasses(level: number): object {
+export const useTFootRowClasses: UseTFootRowClasses = (options) => {
+	const { level } = options;
+
 	const classes = {
 		[`${componentName}--tfoot-row`]: true,
 		[`${componentName}--tfoot-row-${level}`]: true,
@@ -151,7 +173,9 @@ export function useTfootRowClasses(level: number): object {
 };
 
 // ------------------------- Tfoot Row Cell //
-export const useTfootCellClasses: TFootCellClasses = (level, column, slotName = '') => {
+export const useTFootCellClasses: UseTFootCellClasses = (options) => {
+	const { column, level, slotName = '' } = options;
+
 	const classes = {
 		[`${componentName}--tfoot-row-td`]: true,
 		[`${componentName}--tfoot-row-td-${slotName}`]: slotName !== '',

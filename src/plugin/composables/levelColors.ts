@@ -1,24 +1,19 @@
 import {
 	ColorsObject,
+	ConvertLevelColors,
 	HEXColor,
 	HSLColor,
 	LevelColorResponse,
 	RGBColor,
+	UseGetLevelColors,
 } from '@/types';
-import { ThemeInstance } from 'vuetify';
 
 
 /**
  * Converts the colors to HSL values
  */
-function convertLevelColors(
-	colors: ColorsObject,
-	level: number,
-	theme: ThemeInstance,
-	prop = 'default',
-	type: string | null,
-): LevelColorResponse {
-
+const convertLevelColors: ConvertLevelColors = (options) => {
+	const { colors, level, prop = 'default', theme, type } = options;
 	const propOptionResponse = { ...colors[prop] as LevelColorResponse };
 	const direction = colors.percentageDirection as keyof ColorsObject;
 
@@ -71,7 +66,8 @@ function convertLevelColors(
 	}
 
 	return propOptionResponse;
-}
+};
+
 
 /**
  * Gets the percentage difference for the current drilldown level
@@ -385,23 +381,25 @@ function hexToRGB(hex: string): RGBColor {
 /**
  * Gets the colors for the current drilldown level
  */
-export function useGetLevelColors(
-	colors: ColorsObject | undefined | null,
-	level: number,
-	themeColors: ThemeInstance,
-	prop = 'default',
-	type: string | null = null
-): LevelColorResponse {
+export const useGetLevelColors: UseGetLevelColors = (options) => {
+	const { colors, level, prop = 'default', themeColors, type = null } = options;
+
 	if (typeof colors !== 'object' || colors === null) {
 		console.trace();
 		throw new Error('The "colors" prop is set to false. This function should no be called.');
 	}
 
-	const levelColorOptions = convertLevelColors(colors as ColorsObject, level, themeColors, prop, type);
+	const levelColorOptions = convertLevelColors({
+		colors,
+		level,
+		prop,
+		theme: themeColors,
+		type,
+	});
 
 	if (!type) {
 		return levelColorOptions;
 	}
 
 	return levelColorOptions[type as keyof LevelColorResponse] as LevelColorResponse;
-}
+};

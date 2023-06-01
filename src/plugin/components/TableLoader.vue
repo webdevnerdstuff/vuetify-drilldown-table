@@ -79,7 +79,12 @@ const props = withDefaults(defineProps<TableLoader>(), {
 
 const baseColors = computed(() => {
 	if (typeof props.colors === 'object' && props.colors !== null) {
-		return useGetLevelColors(props.colors, props.level, theme, 'loader');
+		return useGetLevelColors({
+			colors: props.colors,
+			level: props.level,
+			prop: 'loader',
+			themeColors: theme,
+		});
 	}
 
 	return;

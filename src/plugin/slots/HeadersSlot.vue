@@ -106,27 +106,32 @@ const isIndeterminate = computed(() => someSelected.value && !props.slotProps.al
 
 // -------------------------------------------------- Header Row //
 const headerRowClasses = computed<object>(() => {
-	return useHeaderRowClasses(props.level);
+	return useHeaderRowClasses({ level: props.level });
 });
 
 
 // -------------------------------------------------- Header Row Cells //
 const cellAlignClasses = (align: string): object => {
-	return useCellAlignClasses(align);
+	return useCellAlignClasses({ align });
 };
 
 const cellClasses = (column: Column, slotName = ''): object => {
-	return useHeaderCellClasses(props.colors as ColorsObject, props.level, column, slotName);
+	return useHeaderCellClasses({
+		colors: props.colors as ColorsObject,
+		column,
+		level: props.level,
+		slotName,
+	});
 };
 
 const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
-	return useHeaderCellStyles(
-		props.colors as ColorsObject,
-		props.level,
+	return useHeaderCellStyles({
+		colors: props.colors as ColorsObject,
 		column,
-		theme,
 		dataTableExpand,
-	);
+		level: props.level,
+		theme,
+	});
 };
 
 
@@ -147,13 +152,17 @@ watch(someSelected, (newVal) => {
 });
 
 const checkBoxClasses = computed<object>(() => {
-	return useCheckBoxClasses(props.level);
+	return useCheckBoxClasses({ level: props.level });
 });
 
 
 // -------------------------------------------------- Sorting //
 const sortIconClasses = (key: string): object => {
-	return useSortIconClasses(props.sortBy, props.level, key);
+	return useSortIconClasses({
+		key,
+		level: props.level,
+		sortBy: props.sortBy,
+	});
 };
 
 function sortColumn(column: InternalDataTableHeader): void {

@@ -1,11 +1,13 @@
-import type { VDataTable } from 'vuetify/labs/components';
-import { Column } from '@/types';
+import {
+	Column,
+	Props,
+} from '@/types';
 
 
 /**
 * Get's the sort direction for a column
 */
-export function useGetSortDirection(sortBy: VDataTable['$props']['sortBy'], id: string): string | boolean | void {
+export function useGetSortDirection(sortBy: Props['sortBy'], id: string): string | boolean | void {
 	if (sortBy) {
 		const item = sortBy.find(item => item.key === id);
 

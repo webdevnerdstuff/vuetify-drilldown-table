@@ -1,18 +1,25 @@
 import { useConvertToUnit } from './helpers';
 import { useGetLevelColors } from './levelColors';
 import {
-	HeaderCellStyles,
-	CellStyles,
-	TableStyles,
+	UseCellStyles,
+	UseHeaderCellStyles,
+	UseTableStyles,
+	UseTFootCellStyles,
 } from '@/types';
 
 
 // -------------------------------------------------- VDrilldownTable //
-export const useTableStyles: TableStyles = (colors, level, theme) => {
+export const useTableStyles: UseTableStyles = (options) => {
+	const { colors, level, theme } = options;
 	let baseColors: { border?: string; } = {};
 
 	if (typeof colors === 'object' && colors !== null) {
-		baseColors = useGetLevelColors(colors, level, theme, 'default');
+		baseColors = useGetLevelColors({
+			colors,
+			level,
+			prop: 'default',
+			themeColors: theme,
+		});
 	}
 
 	const styles: { borderBottom: string; } = {
@@ -28,7 +35,8 @@ export const useTableStyles: TableStyles = (colors, level, theme) => {
 
 
 // -------------------------------------------------- HeaderSlot //
-export const useHeaderCellStyles: HeaderCellStyles = (colors, level, column, theme, dataTableExpand = false) => {
+export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
+	const { colors, column, dataTableExpand = false, level, theme } = options;
 	const styles: {
 		backgroundColor?: string | unknown;
 		color?: string | unknown;
@@ -48,7 +56,12 @@ export const useHeaderCellStyles: HeaderCellStyles = (colors, level, column, the
 		return styles as CSSProperties;
 	}
 
-	const headerColors = useGetLevelColors(colors, level, theme, 'header');
+	const headerColors = useGetLevelColors({
+		colors,
+		level,
+		prop: 'header',
+		themeColors: theme,
+	});
 
 	styles.backgroundColor = headerColors.bg;
 	styles.color = headerColors.text;
@@ -58,12 +71,20 @@ export const useHeaderCellStyles: HeaderCellStyles = (colors, level, column, the
 
 
 // -------------------------------------------------- Cell Styles //
-export const useCellStyles: CellStyles = (colors, level, theme, elm) => {
+// ! Not used currently //
+export const useCellStyles: UseCellStyles = (options) => {
+	const { colors, elm, level, theme } = options;
+
 	if (colors === false || colors === null) {
 		return {};
 	}
 
-	const baseColors = useGetLevelColors(colors, level, theme, elm);
+	const baseColors = useGetLevelColors({
+		colors,
+		level,
+		prop: elm,
+		themeColors: theme,
+	});
 
 	const styles = {
 		backgroundColor: baseColors.bg,
@@ -75,12 +96,19 @@ export const useCellStyles: CellStyles = (colors, level, theme, elm) => {
 
 
 // -------------------------------------------------- TFootSlot //
-export const useTfootCellStyles: CellStyles = (colors, level, theme, elm) => {
+export const useTFootCellStyles: UseTFootCellStyles = (options) => {
+	const { colors, elm, level, theme } = options;
+
 	if (colors === false || colors === null) {
 		return {};
 	}
 
-	const baseColors = useGetLevelColors(colors, level, theme, elm);
+	const baseColors = useGetLevelColors({
+		colors,
+		level,
+		prop: elm,
+		themeColors: theme,
+	});
 
 	const styles = {
 		backgroundColor: baseColors.bg,

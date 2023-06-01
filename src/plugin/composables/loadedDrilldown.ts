@@ -1,14 +1,12 @@
-import { DataTableItem, Props } from '@/types';
+import {
+	Props,
+	UseSetLoadedDrilldown,
+} from '@/types';
 import { useMergeDeep } from './helpers';
 
 
-export function useSetLoadedDrilldown(
-	loadedDrilldown: Props,
-	drilldown: object,
-	rawItem: DataTableItem['raw'],
-	level: number,
-	levels: number,
-): Props {
+export const useSetLoadedDrilldown: UseSetLoadedDrilldown = (options) => {
+	const { loadedDrilldown, drilldown, rawItem, level, levels } = options;
 	let settings = loadedDrilldown;
 
 	settings = useMergeDeep(loadedDrilldown, drilldown) as Props;
@@ -36,4 +34,4 @@ export function useSetLoadedDrilldown(
 	}
 
 	return settings;
-}
+};

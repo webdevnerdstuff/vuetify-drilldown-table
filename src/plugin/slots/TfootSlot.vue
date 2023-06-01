@@ -76,12 +76,12 @@ import {
 } from '@/types';
 import {
 	useCellAlignClasses,
-	useTfootCellClasses,
+	useTFootCellClasses,
 	useCheckBoxClasses,
-	useTfootClasses,
-	useTfootRowClasses,
+	useTFootClasses,
+	useTFootRowClasses,
 } from '@/plugin/composables/classes';
-import { useTfootCellStyles } from '@/plugin/composables/styles';
+import { useTFootCellStyles } from '@/plugin/composables/styles';
 import { useRenderCell } from '@/plugin/composables/helpers';
 
 
@@ -109,27 +109,36 @@ const isIndeterminate = computed(() => someSelected.value && !props.slotProps.al
 
 // -------------------------------------------------- Tfoot //
 const tfootClasses = computed<object>(() => {
-	return useTfootClasses(props.level);
+	return useTFootClasses({ level: props.level });
 });
 
 
 // -------------------------------------------------- Tfoot Row //
 const tfootRowClasses = computed<object>(() => {
-	return useTfootRowClasses(props.level);
+	return useTFootRowClasses({ level: props.level });
 });
 
 
 // -------------------------------------------------- Tfoot Row Cells //
 const cellAlignClasses = (align: string): object => {
-	return useCellAlignClasses(align);
+	return useCellAlignClasses({ align });
 };
 
 const cellClasses = (column: Column, slotName = ''): object => {
-	return useTfootCellClasses(props.level, column, slotName);
+	return useTFootCellClasses({
+		column,
+		level: props.level,
+		slotName,
+	});
 };
 
 const cellStyles = computed<CSSProperties>(() => {
-	return useTfootCellStyles(props.colors as ColorsObject, props.level, theme, 'footer');
+	return useTFootCellStyles({
+		colors: props.colors as ColorsObject,
+		elm: 'footer',
+		level: props.level,
+		theme,
+	});
 });
 
 
@@ -150,7 +159,7 @@ watch(someSelected, (newVal) => {
 });
 
 const checkBoxClasses = computed<object>(() => {
-	return useCheckBoxClasses(props.level);
+	return useCheckBoxClasses({ level: props.level });
 });
 
 
