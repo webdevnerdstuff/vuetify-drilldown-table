@@ -1,9 +1,13 @@
 <template>
 	<thead>
 		<HeadersSlot
+			:colors="colors"
+			:density="density"
 			:is-thead-slot="true"
-			:items="items"
-			:loaded-drilldown="loadedDrilldown"
+			:level="level"
+			:show-select="showSelect"
+			:slot-props="slotProps"
+			:sort-by="sortBy"
 			@click:selectAll="clickSelectAll($event)"
 			@update:sortBy="updateSortBy($event)"
 		/>
@@ -11,7 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import * as DrilldownTypes from '@/types';
+import {
+	Column,
+	THeadSlotProps,
+} from '@/types';
 import { HeadersSlot } from '@/plugin/slots';
 
 
@@ -20,24 +27,15 @@ const emit = defineEmits([
 	'update:sortBy',
 ]);
 
-
-defineProps({
-	items: {
-		required: true,
-		type: Array as PropType<DrilldownTypes.DataTableItem[]>,
-	},
-	loadedDrilldown: {
-		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
-	},
+withDefaults(defineProps<THeadSlotProps>(), {
+	showSelect: false,
 });
-
 
 function clickSelectAll(e: boolean) {
 	emit('click:selectAll', e);
 }
 
-function updateSortBy(e: DrilldownTypes.Column) {
+function updateSortBy(e: Column) {
 	emit('update:sortBy', e);
 }
 </script>

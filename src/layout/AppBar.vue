@@ -31,7 +31,7 @@
 
 		<v-btn
 			v-if="isPlayground"
-			class="me-2"
+			class="me-2 text-capitalize"
 			:href="links.vuetifyGithub"
 			target="_blank"
 			title="Vuetify Github"
@@ -42,7 +42,7 @@
 
 		<v-btn
 			v-if="isPlayground"
-			class="me-2"
+			class="me-2 text-capitalize"
 			:href="`${links.vuetify}en/api/v-data-table/`"
 			target="_blank"
 			title="Vuetify v-data-table API"
@@ -53,7 +53,7 @@
 
 		<v-btn
 			v-if="isPlayground"
-			class="me-2"
+			class="me-2 text-capitalize"
 			:href="`${links.vuetify}en/api/v-text-field/`"
 			target="_blank"
 			title="Vuetify v-text-field API"

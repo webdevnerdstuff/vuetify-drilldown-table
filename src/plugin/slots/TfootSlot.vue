@@ -1,120 +1,174 @@
 <template>
-	<slot
-		v-if="$slots.tfoot"
-		name="tfoot"
-	/>
-	<tfoot v-if="columns?.length">
-		<tr class="v-drilldown-table--footer-row">
+	<tfoot
+		v-if="columns?.length"
+		:class="tfootClasses"
+	>
+		<tr :class="tfootRowClasses">
 			<template
 				v-for="column in columns"
 				:key="column"
 			>
-				<!-- Column Dynamic Name tfoot Slot -->
-				<slot
-					v-if="$slots[`tfoot.${column.key}`]"
-					:column="column"
-					:name="`tfoot.${column.key}`"
+				<!-- Column Dynamic Name Tfoot Slot -->
+				<th
+					v-if="slots[`tfoot.${column.key}`]"
+					:class="cellClasses(column, column.key)"
+					:colspan="column.colspan || 1"
 					:style="cellStyles"
-				/>
+				>
+					<slot
+						:column="column"
+						:name="`tfoot.${column.key}`"
+					/>
+				</th>
 				<!-- Column Render `data-table-select` -->
-				<td
-					v-else-if="column.key === 'data-table-select' || loadedDrilldown.showSelect"
-					:class="cellClasses(column)"
+				<th
+					v-else-if="column.key === 'data-table-select'"
+					:class="cellClasses(column, 'tfoot-data-table-select')"
 					:colspan="column.colspan || 1"
 					:style="cellStyles"
-					v-html="renderCell(column /* , index */)"
-				></td>
+				>
+					<v-checkbox
+						v-model="isAllSelected"
+						:class="checkBoxClasses"
+						:density="density"
+						:focused="false"
+						:indeterminate="isIndeterminate"
+					></v-checkbox>
+				</th>
 				<!-- Column Render `data-table-expand` -->
-				<td
+				<th
 					v-else-if="column.key === 'data-table-expand'"
+					:class="cellClasses(column, 'tfoot-data-table-expand')"
+					:colspan="column.colspan || 1"
+					:style="cellStyles"
+					v-html="renderCell(column)"
+				></th>
+				<!-- Column renderFooterCell TH -->
+				<th
+					v-else-if="column.renderFooterCell"
 					:class="cellClasses(column)"
 					:colspan="column.colspan || 1"
 					:style="cellStyles"
-					v-html="renderCell(column /* , index */)"
-				></td>
-				<!-- Column Render TD -->
-				<td
-					v-else-if="column.renderFooter || column.renderer || column.renderCell"
-					:class="cellClasses(column)"
-					:colspan="column.colspan || 1"
-					:style="cellStyles"
-					v-html="renderCell(column /* , index */)"
-				></td>
-				<!-- Column use `title` -->
-				<td
+					v-html="renderCell(column)"
+				></th>
+				<!-- Column Render TH -->
+				<th
 					v-else
 					:class="cellClasses(column)"
 					:colspan="column.colspan || 1"
 					:style="cellStyles"
 				>
-					{{ column.title }}
-				</td>
+					<div :class="cellAlignClasses(column.align as keyof Column)">
+						<span v-html="renderCell(column)"></span>
+					</div>
+				</th>
 			</template>
 		</tr>
 	</tfoot>
 </template>
 
 <script setup lang="ts">
-import { componentName } from '@/plugin/utils/globals';
-import * as DrilldownTypes from '@/types';
-import { useGetLevelColors } from '@/plugin/composables/levelColors';
 import {
-	useRenderCell,
-} from '@/plugin/composables/helpers';
+	ColorsObject,
+	Column,
+	TFootSlotProps,
+	Props,
+} from '@/types';
+import {
+	useCellAlignClasses,
+	useTFootCellClasses,
+	useCheckBoxClasses,
+	useTFootClasses,
+	useTFootRowClasses,
+} from '@/plugin/composables/classes';
+import { useTFootCellStyles } from '@/plugin/composables/styles';
+import { useRenderCell } from '@/plugin/composables/helpers';
 
 
-const props = defineProps({
-	loadedDrilldown: {
-		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
-	},
-	// TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
-	// slotProps: {
-	// 	required: true,
-	// 	type: Object,
-	// },
-});
+const slots = useSlots();
+const emit = defineEmits([
+	'click:selectAll',
+]);
 
-// const columns = ref();
+const props = withDefaults(defineProps<TFootSlotProps>(), {});
+
 const theme = useTheme();
+const isAllSelected = ref<boolean>(!props.slotProps.allRowsSelected);
 
-// TODO: This will be used if/when Vuetify adds the columns prop to tfoot //
-// const columns = computed<DrilldownTypes.Column[]>(() => props.slotProps?.columns);
-const columns = computed<DrilldownTypes.Column[]>(() => props.loadedDrilldown.footers as DrilldownTypes.Column[]);
-
-
-const cellClasses = (column: DrilldownTypes.Column): object => {
-	return {
-		[`${componentName}--footer-row-td`]: true,
-		[`${componentName}--footer-row-td-${props.loadedDrilldown.level}`]: true,
-		[`${column.cellClass}`]: column.cellClass,
-	};
-};
-
-
-const cellStyles = computed<CSSProperties>(() => {
-	if (props.loadedDrilldown.colors === false) {
-		return {};
+const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelected.value);
+const columns = computed<Column[] | Props['footers']>(() => {
+	if (props.footers.length) {
+		return props.footers;
 	}
 
-	const footerColors = useGetLevelColors(props.loadedDrilldown, theme, 'footer');
+	return props.slotProps.columns;
+});
+const someSelected = computed(() => props.slotProps.someSelected);
+const isIndeterminate = computed(() => someSelected.value && !props.slotProps.allRowsSelected);
 
-	const styles = {
-		backgroundColor: footerColors.bg,
-		color: footerColors.text,
-	};
 
-	return styles as CSSProperties;
+// -------------------------------------------------- Tfoot //
+const tfootClasses = computed<object>(() => {
+	return useTFootClasses({ level: props.level });
+});
+
+
+// -------------------------------------------------- Tfoot Row //
+const tfootRowClasses = computed<object>(() => {
+	return useTFootRowClasses({ level: props.level });
+});
+
+
+// -------------------------------------------------- Tfoot Row Cells //
+const cellAlignClasses = (align: string): object => {
+	return useCellAlignClasses({ align });
+};
+
+const cellClasses = (column: Column, slotName = ''): object => {
+	return useTFootCellClasses({
+		column,
+		level: props.level,
+		slotName,
+	});
+};
+
+const cellStyles = computed<CSSProperties>(() => {
+	return useTFootCellStyles({
+		colors: props.colors as ColorsObject,
+		elm: 'footer',
+		level: props.level,
+		theme,
+	});
+});
+
+
+// -------------------------------------------------- Select //
+watch(isAllSelected, (newVal) => {
+	props.slotProps.selectAll(newVal);
+	emit('click:selectAll', isAllSelected.value);
+});
+
+watch(allSelected, (newVal) => {
+	isAllSelected.value = newVal;
+});
+
+watch(someSelected, (newVal) => {
+	if (!newVal) {
+		isAllSelected.value = false;
+	}
+});
+
+const checkBoxClasses = computed<object>(() => {
+	return useCheckBoxClasses({ level: props.level });
 });
 
 
 // -------------------------------------------------- Render //
-function renderCell(column: DrilldownTypes.Column, /* , index */): unknown {
-	const tempIndex = 0;
-	return useRenderCell(props.loadedDrilldown, column, tempIndex);
+function renderCell(column: Column): unknown {
+	return useRenderCell(column);
 }
-
 </script>
+
 
 <style lang="scss">
 $inactive: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
@@ -122,7 +176,7 @@ $inactive: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
 .v-drilldown-table {
 	&--footer {
 		&-row {
-			td {
+			th {
 				color: $inactive;
 			}
 		}

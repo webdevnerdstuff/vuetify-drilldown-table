@@ -1,100 +1,106 @@
 <template>
-	<v-row
-		v-if="loading"
-		:class="loaderContainerClasses"
-		no-gutters
-	>
-		<v-col
-			v-if="loaderType('linear')"
-			class="pa-0 ma-0"
-			:order="getOrder('linear')"
+	<tr class="v-drilldown-table--loader-tr text-center ma-0 pa-0">
+		<td
+			class="px-0 ma-0"
+			:colspan="colspan"
+			:style="loaderTrStyles"
 		>
-			<v-progress-linear
-				:color="linearColor"
-				:height="height"
-				indeterminate
-			></v-progress-linear>
-		</v-col>
-
-		<v-col
-			v-if="loaderType('circular')"
-			class="pa-0 my-2"
-			:order="getOrder('circular')"
-		>
-			<v-progress-circular
-				:bg-color="circularBackgroundColor"
-				:color="circularColor"
-				indeterminate
-				:size="size"
-			></v-progress-circular>
-		</v-col>
-
-		<v-col
-			v-if="loaderType('skelton')"
-			class="pa-0 ma-0"
-			:order="getOrder('skelton')"
-		>
-			<v-skeleton-loader
-				:loading="loading"
-				:type="skeltonType"
+			<v-row
+				v-if="loading"
+				:class="loaderContainerClasses"
+				no-gutters
 			>
-			</v-skeleton-loader>
-		</v-col>
+				<v-col
+					v-if="checkLoaderType('linear')"
+					class="pa-0 ma-0"
+					:order="getOrder('linear')"
+				>
+					<v-progress-linear
+						:color="linearColor"
+						:height="loaderHeight"
+						indeterminate
+					></v-progress-linear>
+				</v-col>
 
-		<v-col
-			v-if="loaderType('text')"
-			class="my-2"
-			:order="getOrder('text')"
-			:style="textStyles"
-		>
-			{{ computedLoadingText }}
-		</v-col>
-	</v-row>
+				<v-col
+					v-if="checkLoaderType('circular')"
+					class="pa-0 my-2"
+					:order="getOrder('circular')"
+				>
+					<v-progress-circular
+						:bg-color="circularBackgroundColor"
+						:color="circularColor"
+						indeterminate
+						:size="size"
+					></v-progress-circular>
+				</v-col>
+
+				<v-col
+					v-if="checkLoaderType('skelton')"
+					class="pa-0 ma-0"
+					:order="getOrder('skelton')"
+				>
+					<v-skeleton-loader
+						:loading="skeltonLoading"
+						:type="currentSkeltonType"
+					>
+					</v-skeleton-loader>
+				</v-col>
+
+				<v-col
+					v-if="checkLoaderType('text')"
+					class="my-2"
+					:order="getOrder('text')"
+					:style="textStyles"
+				>
+					{{ computedLoadingText }}
+				</v-col>
+			</v-row>
+		</td>
+	</tr>
 </template>
 
 <script setup lang="ts">
-import * as DrilldownTypes from '@/types';
 import { componentName } from '@/plugin/utils/globals';
 import { useGetLevelColors } from '@/plugin/composables/levelColors';
+import { TableLoader } from '@/types';
+import { useIsOnlyLinearLoader, useLoaderHeight } from '@/plugin/composables/helpers';
+
+
 const theme = useTheme();
 
-const props = defineProps({
-	height: {
-		default: '2',
-		required: false,
-		type: String,
-	},
-	loadedDrilldown: {
-		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
-	},
-	loading: {
-		required: true,
-		type: Boolean,
-	},
-	loadingText: {
-		default: 'Loading...',
-		required: false,
-		type: String,
-	},
-	size: {
-		default: 'default',
-		required: false,
-		type: String,
-	},
-	textLoader: {
-		default: true,
-		required: false,
-		type: Boolean,
-	}
+const props = withDefaults(defineProps<TableLoader>(), {
+	height: 2,
+	loaderType: 'linear',
+	loadingText: 'Loading...',
+	size: 'default',
+	textLoader: true,
 });
 
 const baseColors = computed(() => {
-	if (props.loadedDrilldown.colors === false) {
-		return;
+	if (typeof props.colors === 'object' && props.colors !== null) {
+		return useGetLevelColors({
+			colors: props.colors,
+			level: props.level,
+			prop: 'loader',
+			themeColors: theme,
+		});
 	}
 
-	return useGetLevelColors(props.loadedDrilldown, theme, 'loader');
+	return;
+});
+
+const loaderTrStyles = computed<StyleValue>(() => {
+	if (isLinearOnly.value) {
+		return {
+			height: loaderHeight.value,
+			position: 'absolute',
+			top: 0,
+			width: '100%',
+		};
+	}
+
+	return {};
 });
 
 const loaderContainerClasses = computed(() => {
@@ -115,6 +121,16 @@ const linearColor = computed<string | undefined>(() => {
 	return baseColors.value?.linear || '';
 });
 
+const loaderHeight = computed(() => {
+	return useLoaderHeight(props.height as string | number);
+});
+
+const isLinearOnly = computed<boolean>(() => {
+	const response = useIsOnlyLinearLoader(props.loaderType);
+
+	return response;
+});
+
 
 // v-progress-circular //
 const circularBackgroundColor = computed<string | undefined>(() => {
@@ -127,8 +143,12 @@ const circularColor = computed<string | undefined>(() => {
 
 
 // v-skeleton-loader //
-const skeltonType = computed<string>(() => {
-	return props.loadedDrilldown.skeltonType || 'heading@1';
+const currentSkeltonType = computed<string>(() => {
+	return props.skeltonType || 'heading@1';
+});
+
+const skeltonLoading = computed(() => {
+	return props.loading as boolean;
 });
 
 
@@ -148,7 +168,7 @@ const computedLoadingText = computed<string>(() => {
 
 // Get the order of the loader type //
 const getOrder = (type: string): number => {
-	const loaderType = props.loadedDrilldown.loaderType;
+	const loaderType = props.loaderType;
 
 	if (Array.isArray(loaderType)) {
 		return loaderType.indexOf(type);
@@ -159,10 +179,10 @@ const getOrder = (type: string): number => {
 
 
 // Check if the loader type is enabled //
-const loaderType = (type: string): boolean => {
-	const loaderType = props.loadedDrilldown.loaderType;
+const checkLoaderType = (type: string): boolean => {
+	const loaderType = props.loaderType;
 
-	if (type === props.loadedDrilldown.loaderType) {
+	if (type === props.loaderType) {
 		return true;
 	}
 
@@ -177,6 +197,14 @@ const loaderType = (type: string): boolean => {
 
 <style lang="scss" scoped>
 .v-drilldown-table {
+	&--loader-tr {
+		height: 0;
+		position: relative;
+		top: 0;
+		width: 100%;
+		z-index: 99999;
+	}
+
 	&--table-loader {
 		background: rgb(var(--v-theme-surface));
 	}

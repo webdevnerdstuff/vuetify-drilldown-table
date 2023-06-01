@@ -1,1 +1,4 @@
-export { default as VDrilldownTable } from '@/plugin/VDrilldownTable.vue';
+import VDrilldownTable from '@/plugin/VDrilldownTable.vue';
+
+
+export default VDrilldownTable;

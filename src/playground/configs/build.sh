@@ -10,6 +10,9 @@ PLAYGROUND_VUE_DIR=src/playground
 PLAYGROUND_VUE_TEMPLATE=PlaygroundPage.template.vue
 PLAYGROUND_VUE_FILE=PlaygroundPage.vue
 
+PLAYGROUND_TABLE_DEFAULTS_TEMPLATE=tableDefaults.template.ts
+PLAYGROUND_TABLE_DEFAULTS=tableDefaults.ts
+
 
 # Check if Playground.vue file exists before trying to create it #
 if [ ! -f "$PLAYGROUND_VUE_DIR/$PLAYGROUND_VUE_FILE" ]; then
@@ -17,5 +20,14 @@ if [ ! -f "$PLAYGROUND_VUE_DIR/$PLAYGROUND_VUE_FILE" ]; then
 
 	echo ""
 	echo "  ${BOLD_GREEN}${CHECKMARK}${BOLD_WHITE} $PLAYGROUND_VUE_FILE file has been created.${WHITE}"
+	echo ""
+fi
+
+# Check if tableDefaults.ts file exists before trying to create it #
+if [ ! -f "$PLAYGROUND_VUE_DIR/$PLAYGROUND_TABLE_DEFAULTS" ]; then
+	cp "$PLAYGROUND_VUE_DIR/configs/$PLAYGROUND_TABLE_DEFAULTS_TEMPLATE" "$PLAYGROUND_VUE_DIR/$PLAYGROUND_TABLE_DEFAULTS"
+
+	echo ""
+	echo "  ${BOLD_GREEN}${CHECKMARK}${BOLD_WHITE} $PLAYGROUND_TABLE_DEFAULTS file has been created.${WHITE}"
 	echo ""
 fi

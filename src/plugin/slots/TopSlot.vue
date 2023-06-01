@@ -1,39 +1,39 @@
 <template>
 	<slot
-		v-if="$slots.top"
+		v-if="slots.top"
 		name="top"
 	/>
 
 	<v-col
-		v-else-if="loadedDrilldown.showSearch || $slots[`top.left`] || $slots[`top.right`]"
+		v-else-if="showSearch || slots[`top.left`] || slots[`top.right`]"
 		lg="12"
 	>
 		<v-row>
 			<slot
-				v-if="$slots[`top.left`]"
+				v-if="slots[`top.left`]"
 				name="top.left"
 			/>
 
 			<v-col
-				v-else-if="loadedDrilldown.showSearch"
+				v-else-if="showSearch"
 				class="d-flex align-center justify-end"
 				:class="searchFieldClasses"
 			>
 				<!-- =========================== Search -->
 				<v-text-field
-					v-if="loadedDrilldown.showSearch"
+					v-if="showSearch"
 					v-model="levelSearch"
 					class="mt-0 pt-0"
-					:density="loadedDrilldown.searchProps.density"
+					:density="searchProps.density"
 					hide-details
 					label="Search"
 					single-line
-					:variant="loadedDrilldown.searchProps.variant"
+					:variant="searchProps.variant"
 				></v-text-field>
 			</v-col>
 
 			<slot
-				v-if="$slots[`top.right`]"
+				v-if="slots[`top.right`]"
 				name="top.right"
 			/>
 		</v-row>
@@ -41,31 +41,48 @@
 </template>
 
 <script setup lang="ts">
+import {
+	SearchProps,
+	SearchPropCols,
+	TopSlotProps,
+} from '@/types';
 import { componentName } from '@/plugin/utils/globals';
-import * as DrilldownTypes from '@/types';
+import { watchDebounced } from '@vueuse/core';
 
+
+const slots = useSlots();
 const emit = defineEmits([
 	'update:search',
 ]);
 
-const props = defineProps({
-	loadedDrilldown: {
-		required: true,
-		type: Object as PropType<DrilldownTypes.LoadedDrilldown>,
-	},
+const props = withDefaults(defineProps<TopSlotProps>(), {
+	searchProps: () => ({
+		cols: {
+			lg: 3,
+			md: 6,
+			sm: 12,
+			xl: 3,
+			xs: 12,
+			xxl: 2,
+		},
+		density: 'comfortable',
+		variant: 'underlined',
+	})
 });
-
 
 const levelSearch = ref<string>('');
 
-watch(levelSearch, () => {
-	emit('update:search', levelSearch.value);
-});
-
+watchDebounced(
+	levelSearch,
+	() => {
+		emit('update:search', levelSearch.value);
+	},
+	{ debounce: 750, maxWait: 1000 },
+);
 
 const searchFieldClasses = computed<object>(() => {
-	const searchProps = props.loadedDrilldown.searchProps as DrilldownTypes.SearchProps;
-	const searchCols = searchProps.cols as DrilldownTypes.SearchPropCols;
+	const searchProps = props.searchProps as SearchProps;
+	const searchCols = searchProps.cols as SearchPropCols;
 
 	const classes = {
 		[`${componentName}--search-field`]: true,

@@ -1,43 +1,49 @@
 import {
 	Column,
-	DrilldownDebounce,
-	LoadedDrilldown,
+	Props,
 } from '@/types';
 
 
 /**
-* Debounce the drilldown
+* Get's the sort direction for a column
 */
-export function useDrilldownDebounce<T extends DrilldownDebounce>(
-	func: T,
-	wait: number,
-	immediate: boolean
-): () => void {
-	let timeout: ReturnType<typeof setTimeout> | undefined;
+export function useGetSortDirection(sortBy: Props['sortBy'], id: string): string | boolean | void {
+	if (sortBy) {
+		const item = sortBy.find(item => item.key === id);
 
-	function debouncedFunction(this: undefined, ...args: undefined[]) {
-		// eslint-disable-next-line @typescript-eslint/no-this-alias
-		const context = this;
-
-		const later = () => {
-			timeout = undefined;
-			if (!immediate) {
-				func.apply(context, args);
-			}
-		};
-
-		const callNow = immediate && timeout === undefined;
-
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-
-		if (callNow) {
-			func.apply(context, args);
+		if (item) {
+			return item.order;
 		}
 	}
 
-	return debouncedFunction as T;
+	return;
 }
+
+
+/**
+* Checks if the loader is only linear
+*/
+export function useIsOnlyLinearLoader(loaderType: string | string[]): boolean {
+	let linearOnly = false;
+
+	if (loaderType === 'linear') {
+		linearOnly = true;
+	}
+
+	if (Array.isArray(loaderType)) {
+		linearOnly = loaderType.length === 1 && loaderType[0] === 'linear';
+	}
+
+	return linearOnly;
+};
+
+
+/**
+* Get's the loader height
+*/
+export function useLoaderHeight(loaderHeight: string | number): string | undefined {
+	return useConvertToUnit(loaderHeight) || '2px';
+};
 
 
 /**
@@ -63,28 +69,24 @@ export function useConvertToUnit(str: string | number, unit = 'px'): string | vo
 export function useRenderCellItem(
 	item: object,
 	column: Column,
-	index: number
 ): unknown {
 	const itemValue = item[column.key as keyof object];
 
 	if (column.renderItem) {
-		return column.renderItem(itemValue, item, column, index);
+		return column.renderItem(itemValue, item, column);
 	}
 
 	return itemValue;
 }
 
+
 /**
 * Render the cell
 * Used for both header and footer
 */
-export function useRenderCell(
-	loadedDrilldown: LoadedDrilldown,
-	column: Column,
-	index: number
-): unknown {
-	const columnTitle = column[loadedDrilldown.itemTitle as keyof Column];
-	const cellData = [columnTitle, column, index] as [string, Column, number];
+export function useRenderCell(column: Column): unknown {
+	const columnTitle = column['title'];
+	const cellData = [columnTitle, column] as [string, Column];
 
 	if (column.renderer) {
 		return column.renderer(...cellData);
@@ -94,8 +96,8 @@ export function useRenderCell(
 		return column.renderHeader(...cellData);
 	}
 
-	if (column.renderFooter) {
-		return column.renderFooter(...cellData);
+	if (column.renderFooterCell) {
+		return column.renderFooterCell(...cellData);
 	}
 
 	if (columnTitle) {

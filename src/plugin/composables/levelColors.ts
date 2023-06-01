@@ -1,34 +1,28 @@
 import {
 	ColorsObject,
+	ConvertLevelColors,
 	HEXColor,
 	HSLColor,
 	LevelColorResponse,
-	LoadedDrilldown,
 	RGBColor,
+	UseGetLevelColors,
 } from '@/types';
-import { ThemeInstance } from 'vuetify';
 
 
 /**
  * Converts the colors to HSL values
  */
-function convertLevelColors(
-	loadedDrilldown: LoadedDrilldown,
-	theme: ThemeInstance,
-	prop = 'default',
-	type: string | null,
-): LevelColorResponse {
-	const colors = loadedDrilldown.colors as ColorsObject;
-	const propOptionResponse = { ...colors[prop as keyof ColorsObject] as LevelColorResponse };
+const convertLevelColors: ConvertLevelColors = (options) => {
+	const { colors, level, prop = 'default', theme, type } = options;
+	const propOptionResponse = { ...colors[prop] as LevelColorResponse };
 	const direction = colors.percentageDirection as keyof ColorsObject;
-	const level = loadedDrilldown.level as number;
 
 	// Color prop does not exist //
 	if (typeof propOptionResponse === 'undefined') {
 		throw new Error(`[VDrilldownTable]: The color option '${prop}' does not exist`);
 	}
 
-	let percentage = levelPercentage(loadedDrilldown, level, direction);
+	let percentage = levelPercentage(colors, (level - 1), direction);
 
 	// Convert colors to HSL //
 	if (!type) {
@@ -72,17 +66,17 @@ function convertLevelColors(
 	}
 
 	return propOptionResponse;
-}
+};
+
 
 /**
  * Gets the percentage difference for the current drilldown level
  */
 function levelPercentage(
-	loadedDrilldown: LoadedDrilldown,
+	colors: ColorsObject,
 	level: number,
 	direction: string,
 ): number {
-	const colors = loadedDrilldown.colors as ColorsObject;
 	let percentage = 100;
 	let percentageChange = colors.percentageChange ?? 0;
 
@@ -387,22 +381,25 @@ function hexToRGB(hex: string): RGBColor {
 /**
  * Gets the colors for the current drilldown level
  */
-export function useGetLevelColors(
-	loadedDrilldown: LoadedDrilldown,
-	themeColors: ThemeInstance,
-	prop = 'default',
-	type: string | null = null
-): LevelColorResponse {
-	if (loadedDrilldown.colors === false) {
+export const useGetLevelColors: UseGetLevelColors = (options) => {
+	const { colors, level, prop = 'default', themeColors, type = null } = options;
+
+	if (typeof colors !== 'object' || colors === null) {
 		console.trace();
 		throw new Error('The "colors" prop is set to false. This function should no be called.');
 	}
 
-	const levelColorOptions = convertLevelColors(loadedDrilldown, themeColors, prop, type);
+	const levelColorOptions = convertLevelColors({
+		colors,
+		level,
+		prop,
+		theme: themeColors,
+		type,
+	});
 
 	if (!type) {
 		return levelColorOptions;
 	}
 
 	return levelColorOptions[type as keyof LevelColorResponse] as LevelColorResponse;
-}
+};

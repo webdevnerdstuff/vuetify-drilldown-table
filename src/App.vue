@@ -35,7 +35,7 @@
 	</v-app>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { provide, ref } from 'vue';
 import AppBar from './layout/AppBar.vue';
 import MenuComponent from './components/MenuComponent.vue';
@@ -44,7 +44,7 @@ import { useCoreStore } from './stores/index';
 
 
 const store = useCoreStore();
-const drawer = ref<boolean>(true);
+const drawer = ref(true);
 const drawerOptions = ref({
 	absolute: false,
 	color: '',
@@ -79,7 +79,7 @@ html {
 .v-heading {
 	position: relative;
 
-	>a {
+	> a {
 		color: rgb(var(--v-theme-primary));
 		display: inline-block;
 		inset: 0;
