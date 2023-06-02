@@ -126,7 +126,7 @@ export interface Props {
 	drilldownKey?: string;
 	elevation?: string | number | undefined;
 	expandOnClick?: VDataTable['$props']['expandOnClick'];
-	expanded?: string[];
+	expanded?: readonly string[] | undefined;
 	filterKeys?: VDataTable['$props']['filterKeys'];										// ! Need more info/testing
 	filterMode?: VDataTable['$props']['filterMode'];
 	fixedFooter?: boolean;
