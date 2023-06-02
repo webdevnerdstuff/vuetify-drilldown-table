@@ -37,7 +37,7 @@
 					:page-text="tableSettings.pageText"
 					:prev-icon="tableSettings.prevIcon"
 					:prev-page-label="tableSettings.prevPageLabel"
-					:server="isServerSide"
+					:server="tableSettings.server"
 					:show-current-page="tableSettings.showCurrentPage"
 					:show-expand="tableSettings.showExpand"
 					:show-footer-row="tableSettings.showFooterRow"
@@ -48,126 +48,12 @@
 					:tag="tableSettings.tag"
 					:theme="tableSettings.theme"
 					@click:row="rowClickEvent($event)"
-					@update:drilldown="isServerSide ? fetchServerData($event) : fetchClientData($event)"
+					@update:drilldown="fetchServerData($event)"
 					@update:expanded="updateExpanded($event)"
 					@update:model-value="updatedModelValue($event)"
 					@update:options="updateOptions"
 					@update:search="updatedSearch"
 				>
-					<!-- ! This is not working since adding the TableLoader component -->
-					<!-- <template #loading>
-						[loading Slot]
-					</template> -->
-
-					<!-- <template #no-data>
-						[no-data Slot]
-					</template> -->
-
-					<!-- <template #top>
-						[top Slot]
-					</template> -->
-
-					<!-- <template
-						v-if="isServerSide"
-						#[`top.left`]
-					>
-						<v-col cols="4">
-							<v-text-field
-								v-model="tableSettings.search"
-								class="mt-0 pt-0"
-								density="compact"
-								hide-details
-								label="Search"
-								single-line
-								variant="outlined"
-							></v-text-field>
-						</v-col>
-					</template> -->
-
-					<!-- <template #[`header.data-table-select`]>
-						<div class="d-flex justify-center">
-							<v-icon>mdi mdi-vuetify</v-icon>
-						</div>
-					</template> -->
-
-
-					<!-- <template #[`header.sortIcon`]>
-						<fa-icon icon="fa-solid fa-arrow-up"></fa-icon>
-					</template> -->
-
-					<!-- <template #[`header.id`]="{ column }">
-						[header cell Slot]: slot {{ column.title }}
-					</template> -->
-
-					<!-- <template #thead="props">
-						<thead>
-							<tr>
-								<td
-									v-for="column in props.columns"
-									:key="column"
-								>
-									{{ column.title }}
-								</td>
-							</tr>
-						</thead>
-					</template> -->
-
-					<!-- <template #body>
-						[body Slot]
-					</template> -->
-
-					<!-- <template #tbody="{ props }">
-						<tbody>
-							<tr>
-								<td :colspan="Object.keys(tableSettings.headers.users).length">
-									[tbody Slot] {{ props }}
-								</td>
-							</tr>
-						</tbody>
-					</template> -->
-
-					<!-- <template #[`item.id`]="{ item }">
-						[item cell Slot]: {{ item.raw.id }}
-					</template> -->
-
-					<!-- <template #[`item.data-table-select`]>
-						<v-icon>mdi mdi-vuetify</v-icon>
-					</template> -->
-
-					<!-- <template #[`item.data-table-expand`]>
-						<fa-icon icon="fa-solid fa-chevron-down"></fa-icon>
-					</template> -->
-
-					<!-- <template #tfoot="props">
-						<tfoot>
-							<tr>
-								<td
-									v-for="column in props.columns"
-									:key="column"
-								>
-									{{ column.title }}
-								</td>
-							</tr>
-						</tfoot>
-					</template> -->
-
-					<!-- <template #[`tfoot.name`]>
-						<td>
-							[tfoot Slot]
-						</td>
-					</template> -->
-
-					<!-- <template #bottom>
-						[bottom Slot]
-					</template> -->
-
-
-					<!-- <template #[`footer.prepend`]>
-						<div class="me-2">
-							[footer.prepend Slot]
-						</div>
-					</template> -->
-
 				</VDrilldownTable>
 			</v-col>
 		</v-row>
@@ -181,31 +67,27 @@ import { inject, onMounted, ref } from 'vue';
 import tableDefaults from './tableDefaults';
 
 // Use this to switch between Client and Server Side Tables //
-const isServerSide = ref(true);
+const isServerSide = ref(false);
 
-const tableSettings = ref({ ...tableDefaults });
+// Set the table setings //
+const tableSettings = ref({ ...tableDefaults, ...{ server: isServerSide } });
 
 // Use this to mock the network throttling time //
 const fakeNetworkThrottlingTime = ref(0);
 const fakeNetworkThrottlingTime2 = ref(0);
-const $unicornLog = inject('$unicornLog');
 
-const unicornStyles = [
-	'background: black',
-	'color: lime',
-	'padding: 2px',
-];
+// ! Debugging - Remove later //
+const $unicornLog = inject('$unicornLog');
+const unicornStyles = ['background: black', 'color: lime', 'padding: 2px'];
 
 const defaultSortBy = [
 	{
 		key: 'id',
 		order: 'asc',
-	}
+	},
 ];
 
 onMounted(() => {
-	// fetchComments();
-
 	if (isServerSide.value) {
 		fetchServerData();
 		return;
@@ -219,14 +101,6 @@ onMounted(() => {
 // 	return tableSettings.value.search;
 // });
 
-// watchDebounced(
-// 	query,
-// 	() => {
-// 		fetchServerData();
-// 	},
-// 	{ debounce: 750, maxWait: 1000 },
-// );
-
 const headers = {
 	comments: [
 		{
@@ -238,6 +112,7 @@ const headers = {
 		{
 			align: 'start',
 			key: 'postId',
+			sortable: false,
 			title: 'Post ID',
 			width: 110,
 		},
@@ -261,6 +136,7 @@ const headers = {
 		{
 			align: 'start',
 			key: 'userId',
+			sortable: false,
 			title: 'User ID',
 			width: 110,
 		},
@@ -294,13 +170,11 @@ const headers = {
 		{
 			align: 'start',
 			key: 'name',
-			sortable: false,
 			title: 'Name',
 		},
 		{
 			align: 'start',
 			key: 'email',
-			sortable: false,
 			title: 'Email',
 		},
 		{
@@ -395,11 +269,8 @@ const footers = {
 	],
 };
 
-
 // -------------------------------------------------- Server Side Examples //
 function fetchServerData(drilldown = null, updateCurrentLevel = false) {
-	// console.log('fetchServerData', { drilldown, updateCurrentLevel });
-	// console.log('drilldown.level', drilldown?.level);
 	if (drilldown === null || (updateCurrentLevel && drilldown.level === 1)) {
 		getUsers(drilldown ?? tableSettings.value);
 		return;
@@ -433,23 +304,22 @@ function getUsers(drilldown = null) {
 		sortBy: drilldown.sortBy.length ? drilldown.sortBy : defaultSortBy,
 	};
 
-	serverFetch(url, body)
-		.then((data) => {
-			const { users, pagination } = data;
+	serverFetch(url, body).then((data) => {
+		const { users, pagination } = data;
 
-			tableSettings.value = {
-				...drilldown,
-				...{
-					items: users,
-					itemsLength: pagination.itemsLength,
-					loading: false,
-					page: pagination.page,
-				},
-			};
+		tableSettings.value = {
+			...drilldown,
+			...{
+				items: users,
+				itemsLength: pagination.itemsLength,
+				loading: false,
+				page: pagination.page,
+			},
+		};
 
-			tableSettings.value.loading = false;
-			return data;
-		});
+		tableSettings.value.loading = false;
+		return data;
+	});
 }
 
 function getUserPosts(drilldown = null, updateCurrentLevel = false) {
@@ -462,7 +332,9 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 
 	const item = drilldown?.item?.raw ?? null;
 	const userId = item.id;
-	const user = tableSettings.value.items.find((a) => parseInt(a.id) === parseInt(userId));
+	const user = tableSettings.value.items.find(
+		(a) => parseInt(a.id) === parseInt(userId),
+	);
 	const url = 'api/users/posts';
 
 	user.child = {};
@@ -471,8 +343,11 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 		drilldownKey: 'id',
 		footers: footers.posts,
 		headers: headers.posts,
+		itemsLength: drilldown?.itemsLength ?? 0,
+		itemsPerPage: drilldown?.itemsPerPage ?? 0,
 		level: 2,
 		loading: true,
+		// server: false,
 	};
 
 	if (updateCurrentLevel) {
@@ -487,39 +362,31 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 	}
 
 	const body = {
-		limit: drilldown.itemsPerPage,
+		limit: user.child.server ? drilldown?.itemsPerPage ?? 10 : 10,
 		page: drilldown.page,
 		query: drilldown.search,
 		sortBy: drilldown.sortBy.length ? drilldown.sortBy : defaultSortBy,
 		userId,
 	};
 
-	serverFetch(url, body)
-		.then((data) => {
-			// console.log({ data });
-			const { posts, pagination } = data;
+	serverFetch(url, body).then((data) => {
+		const { posts, pagination } = data;
 
-			user.child = {
-				...user.child,
-				...{
-					items: posts,
-					itemsLength: pagination.itemsLength,
-					itemsPerPage: pagination.limit,
-					loading: false,
-					page: pagination.page,
-				},
-			};
-
-			console.log(user.child);
-		});
+		user.child = {
+			...user.child,
+			...{
+				items: posts,
+				itemsLength: pagination.itemsLength,
+				itemsPerPage: user.child.server ? pagination.itemsPerPage : 5,
+				loading: false,
+				page: pagination.page,
+			},
+		};
+	});
 }
 
 function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	const item = drilldown?.item?.raw ?? null;
-
-	// if (updateCurrentLevel) {
-	// 	item = item.child.item.raw ?? null;
-	// }
 
 	$unicornLog({
 		logPrefix: '[PlaygroundPage]:',
@@ -529,19 +396,15 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	});
 
 	const userId = item.userId;
-	const user = tableSettings.value.items.find((a) => parseInt(a.id) === parseInt(userId));
-
-	console.log({ user });
-
-	// user.child = { ...drilldown };
+	const user = tableSettings.value.items.find(
+		(a) => parseInt(a.id) === parseInt(userId),
+	);
 
 	const postId = item.id;
-	const post = user.child.items.find((item) => parseInt(item.id) === parseInt(postId));
+	const post = user.child.items.find(
+		(item) => parseInt(item.id) === parseInt(postId),
+	);
 	const url = 'api/users/posts/comments';
-
-	console.log({ post });
-
-	// user.child = { ...user.child, drilldown };
 
 	post.child = {};
 	post.child = {
@@ -549,8 +412,11 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 		drilldownKey: 'id',
 		footers: footers.comments,
 		headers: headers.comments,
+		itemsLength: drilldown?.itemsLength ?? 0,
+		itemsPerPage: drilldown?.itemsPerPage ?? 0,
 		level: 3,
 		loading: true,
+		// server: false,
 	};
 
 	if (updateCurrentLevel) {
@@ -559,19 +425,14 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 
 	let sortBy = post.child.sortBy.length ? post.child.sortBy : defaultSortBy;
 
-	// TODO: What is this?
 	if (updateCurrentLevel && drilldown.sortBy.length) {
 		sortBy = drilldown.sortBy;
 		user.child.sortBy = sortBy;
-	}
-
-	if (updateCurrentLevel && drilldown.sortBy.length) {
-		sortBy = drilldown.sortBy;
 		post.child.sortBy = sortBy;
 	}
 
 	const body = {
-		limit: drilldown.itemsPerPage,
+		limit: post.child.server ? drilldown?.itemsPerPage ?? 10 : 10,
 		page: drilldown.page,
 		postId,
 		query: drilldown.search,
@@ -579,43 +440,38 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 		userId,
 	};
 
-	serverFetch(url, body)
-		.then((data) => {
-			// console.log({ data });
-			const { comments, pagination } = data;
+	serverFetch(url, body).then((data) => {
+		const { comments, pagination } = data;
 
-			post.child = {
-				...post.child,
-				...{
-					items: comments,
-					itemsLength: pagination.itemsLength,
-					itemsPerPage: pagination.limit,
-					loading: false,
-					page: pagination.page,
-				},
-			};
-		});
+		post.child = {
+			...post.child,
+			...{
+				items: comments,
+				itemsLength: pagination.itemsLength,
+				limit: post.child.server ? drilldown.itemsPerPage : 10,
+				loading: false,
+				page: pagination.page,
+				// server: false,
+			},
+		};
+	});
 }
 
 async function serverFetch(url, body) {
-	const response = await fetch(url,
-		{
-			body: JSON.stringify(body),
-			headers: { 'Content-Type': 'application/json' },
-			method: 'POST',
-		}
-	)
-		.then(response => response.json())
-		.then(json => json);
+	const response = await fetch(url, {
+		body: JSON.stringify(body),
+		headers: { 'Content-Type': 'application/json' },
+		method: 'POST',
+	})
+		.then((response) => response.json())
+		.then((json) => json);
 
 	return response;
 }
 
-
 // -------------------------------------------------- Client Side Examples //
 function fetchClientData(drilldown = null) {
 	const item = drilldown?.item?.raw ?? null;
-	// console.log({ drilldown });
 
 	let url = 'api/users';
 	let user = null;
@@ -631,7 +487,9 @@ function fetchClientData(drilldown = null) {
 	// Posts Level 2 //
 	if (drilldown?.level === 1) {
 		userId = item.id;
-		user = tableSettings.value.items.find((a) => a.id == userId);
+		user = tableSettings.value.items.find(
+			(a) => parseInt(a.id) == parseInt(userId),
+		);
 		url = `api/users/${userId}/posts`;
 
 		tableSettings.value = {
@@ -647,17 +505,23 @@ function fetchClientData(drilldown = null) {
 			headers: headers.posts,
 			level: 2,
 			loading: true,
+			// server: false,
 		};
 	}
 
 	// Comments Level 3 //
 	if (drilldown?.level === 2) {
 		userId = item.userId;
-		user = tableSettings.value.items.find((a) => a.id == userId);
+		user = tableSettings.value.items.find(
+			(a) => parseInt(a.id) == parseInt(userId),
+		);
+
 		user.child = { ...drilldown };
 
 		postId = item.id;
-		post = user.child.items.find((item) => item.id == postId);
+		post = user.child.items.find(
+			(item) => parseInt(item.id) == parseInt(postId),
+		);
 
 		post.child = {};
 		post.child = {
@@ -668,6 +532,7 @@ function fetchClientData(drilldown = null) {
 			itemsPerPage: 2,
 			level: 3,
 			loading: true,
+			// server: false,
 		};
 
 		url = `api/posts/${postId}/comments`;
@@ -675,8 +540,8 @@ function fetchClientData(drilldown = null) {
 
 	// ------------------------- Fetch Data //
 	fetch(url)
-		.then(response => response.json())
-		.then(json => {
+		.then((response) => response.json())
+		.then((json) => {
 			setTimeout(() => {
 				fakeNetworkThrottlingTime.value = fakeNetworkThrottlingTime2.value;
 
@@ -687,26 +552,31 @@ function fetchClientData(drilldown = null) {
 					return;
 				}
 
-				user = tableSettings.value.items.find((a) => a.id == userId);
-
 				// Posts Level 2 //
 				if (drilldown?.level === 1) {
-					user.child.items = [...json.posts];
-					user.child.loading = false;
+					user.child = {
+						...user.child,
+						...{
+							items: json.posts,
+							loading: false,
+						},
+					};
 					return;
 				}
 
 				// Comments Level 3 //
 				if (drilldown?.level === 2) {
-					post.child.items = [...json.comments];
-					post.child.loading = false;
+					post.child = {
+						...post.child,
+						...{
+							items: json.comments,
+							loading: false,
+						},
+					};
 				}
-
-
 			}, fakeNetworkThrottlingTime.value);
 		});
 }
-
 
 // -------------------------------------------------- Common Events //
 function rowClickEvent() {
@@ -717,7 +587,6 @@ function rowClickEvent() {
 function updateExpanded() {
 	// function updateExpanded(event) {
 	// do something...
-	// console.log('%c%s', ['background-color: black', 'border: 2px dotted lime', 'border-radius: 5px', 'color: lime', 'font-weight: normal', 'padding: 5px 10px'].join(';'), 'updateExpanded', event);
 }
 
 function updatedModelValue() {
@@ -735,11 +604,24 @@ function updatedSearch(event) {
 }
 
 function updateOptions(data) {
-	console.log('%c%s', ['background-color: black', 'border: 2px dotted red', 'border-radius: 5px', 'color: lime', 'font-weight: normal', 'padding: 5px 10px'].join(';'), 'updateOptions', data);
+	console.log(
+		'%c%s',
+		[
+			'background-color: black',
+			'border: 2px dotted red',
+			'border-radius: 5px',
+			'color: lime',
+			'font-weight: normal',
+			'padding: 5px 10px',
+		].join(';'),
+		'updateOptions',
+		data,
+	);
 
 	if (isServerSide.value) {
-		console.log('data.drilldown', data.drilldown);
+		// console.log('data.drilldown', data.drilldown);
 		fetchServerData(data.drilldown, true);
+		return;
 	}
 }
 </script>
