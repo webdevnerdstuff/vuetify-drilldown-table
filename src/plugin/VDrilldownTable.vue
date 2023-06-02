@@ -210,6 +210,7 @@
 						:multi-sort="item.raw[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
+						:server="item.raw[itemChildrenKey]?.server"
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
@@ -361,7 +362,7 @@ const slots = useSlots();
 const tableType = shallowRef<TableType>(null);
 
 onBeforeMount(() => {
-	tableType.value = props.server ? VDataTableServer : VDataTable;
+	tableType.value = Object.assign({}, props.server ? VDataTableServer : VDataTable);
 });
 
 
@@ -394,6 +395,8 @@ watchOnce(props as any, () => {
 	if (props.level !== 1 || loadedDrilldown.level === 1) {
 		setLoadedDrilldown();
 	}
+
+	// loadedDrilldown.itemsPerPage = props.itemsPerPage;
 }, { immediate: false });
 
 watch(() => props.items, () => {
@@ -467,20 +470,6 @@ function setLoadedDrilldown(): void {
 	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as Props;
 }
 
-
-// -------------------------------------------------- Search //
-watchDebounced(
-	levelSearch,
-	() => {
-		emit('update:search', {
-			drilldown: loadedDrilldown,
-			query: levelSearch.value,
-		});
-	},
-	{ debounce: 750, maxWait: 1000 },
-);
-
-
 // -------------------------------------------------- Emit Events //
 function emitAllSelectedEvent(val: boolean): void {
 	allRowsSelected.value = val;
@@ -527,6 +516,7 @@ function updatedOptions(drilldown: Props) {
 		items: drilldown.items,
 		itemsPerPage: drilldown.itemsPerPage,
 		page: drilldown.page,
+		search: levelSearch.value,
 		server: drilldown.server,
 		sortBy: drilldown.sortBy,
 	};
@@ -568,6 +558,24 @@ function updatePage(val: Props['page']) {
 
 	optionsBus.emit(data);
 }
+
+// ------------ Search //
+watchDebounced(
+	levelSearch,
+	() => {
+		loadedDrilldown.search = levelSearch.value;
+
+		console.log('loadedDrilldown', loadedDrilldown);
+
+		const options = updatedOptions(loadedDrilldown);
+		console.log('options', options);
+		const drilldown = { ...props, ...options, ...{ search: levelSearch.value } };
+		const data = { drilldown, name: 'update:search', search: levelSearch.value };
+
+		optionsBus.emit(data);
+	},
+	{ debounce: 750, maxWait: 1000 },
+);
 
 // ------------ Column Sorting //
 function updateSortBy(val: Props['sortBy']) {
