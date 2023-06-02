@@ -18,6 +18,44 @@ Serializer.extend({
 	}
 });
 
+const search = (items, query, keys) => {
+	return items.filter((item) => {
+		for (let i = 0; i < keys.length; i++) {
+			const key = keys[i];
+			let value = item[key];
+			value = value.toLowerCase();
+
+			if (value.includes(query)) {
+				return true;
+			}
+		}
+	});
+};
+
+const sortArray = (array, key, order) => {
+	return array.sort((a, b) => {
+		const aValue = a[key];
+		const bValue = b[key];
+
+		const aa = parseInt(aValue);
+		const bb = parseInt(bValue);
+
+		if (isNaN(aa) || isNaN(bb)) {
+			if (order === 'asc') {
+				return aValue.localeCompare(bValue);
+			}
+
+			return bValue.localeCompare(aValue);
+		}
+
+		if (order === 'asc') {
+			return aa - bb;
+		}
+
+		return bb - aa;
+	});
+};
+
 
 export function makeServer({ environment = 'development' } = {}) {
 	const server = createServer({
@@ -63,6 +101,7 @@ export function makeServer({ environment = 'development' } = {}) {
 		routes() {
 			this.namespace = 'vuetify-drilldown-table/playground/api';
 
+
 			// ------------------------- Client Side //
 			this.get('/users', (schema) => {
 				return schema.users.all();
@@ -80,40 +119,32 @@ export function makeServer({ environment = 'development' } = {}) {
 				return comments;
 			});
 
+
 			// ------------------------- Server Side //
+			// Users //
 			this.post('/users', (schema, request) => {
 				const attrs = JSON.parse(request.requestBody);
 				const { limit, page, postId, query, sortBy, sortDesc } = attrs;
 
 				let users = schema.users.all();
-				const itemsLength = users.models.length;
+
+				// Sort //
+				const sortKey = sortBy[0]?.key;
 				const sortOrder = sortBy[0]?.order;
 
 				if (sortOrder) {
-					// TODO: Need to update this to sort strings as well //
-					users = users.sort((a, b) => {
-						if (sortOrder === 'asc') {
-							return a.id - b.id;
-						}
-						return b.id - a.id;
-					});
+					users = sortArray(users, sortKey, sortOrder);
+				}
+
+				// Query //
+				if (query) {
+					users = search(users, query, ['email', 'name', 'id']);
 				}
 
 				const start = page * limit - limit;
 				const end = start + limit;
+				const itemsLength = users.length;
 				users = users.slice(start, end);
-
-				// query users.models
-				// console.log({ query });
-				// if (query) {
-				// 	users = users.models.filter((user) => {
-				// 		return (
-				// 			user.name.toLowerCase().includes(query.toLowerCase()) ||
-				// 			user.username.toLowerCase().includes(query.toLowerCase()) ||
-				// 			user.email.toLowerCase().includes(query.toLowerCase())
-				// 		);
-				// 	});
-				// }
 
 				return {
 					pagination: {
@@ -127,28 +158,32 @@ export function makeServer({ environment = 'development' } = {}) {
 					},
 					users: users?.models ?? users,
 				};
-			});
+			}, { timing: 750 });
 
+
+			// Posts //
 			this.post('/users/posts', (schema, request) => {
 				const attrs = JSON.parse(request.requestBody);
 				const { limit, page, postId, query, sortBy, sortDesc, userId } = attrs;
 
 				let posts = schema.posts.where({ userId });
-				const itemsLength = posts.models.length;
+
+				// Sort //
+				const sortKey = sortBy[0]?.key;
 				const sortOrder = sortBy[0]?.order;
 
 				if (sortOrder) {
-					// TODO: Need to update this to sort strings as well //
-					posts = posts.sort((a, b) => {
-						if (sortOrder === 'asc') {
-							return a.id - b.id;
-						}
-						return b.id - a.id;
-					});
+					posts = sortArray(posts, sortKey, sortOrder);
+				}
+
+				// Query //
+				if (query) {
+					posts = search(posts, query, ['id', 'title']);
 				}
 
 				const start = page * limit - limit;
 				const end = start + limit;
+				const itemsLength = posts.models.length;
 				posts = posts.slice(start, end);
 
 				return {
@@ -163,28 +198,32 @@ export function makeServer({ environment = 'development' } = {}) {
 					},
 					posts: posts.models,
 				};
-			});
+			}, { timing: 750 });
 
+
+			// Comments //
 			this.post('/users/posts/comments', (schema, request) => {
 				const attrs = JSON.parse(request.requestBody);
-				const { limit, page, postId, query, sortBy, sortDesc, userId } = attrs;
+				const { limit, page, postId, query, sortBy, sortDesc } = attrs;
 
 				let comments = schema.comments.where({ postId });
-				const itemsLength = comments.models.length;
+
+				// Sort //
+				const sortKey = sortBy[0]?.key;
 				const sortOrder = sortBy[0]?.order;
 
 				if (sortOrder) {
-					// TODO: Need to update this to sort strings as well //
-					comments = comments.sort((a, b) => {
-						if (sortOrder === 'asc') {
-							return a.id - b.id;
-						}
-						return b.id - a.id;
-					});
+					comments = sortArray(comments, sortKey, sortOrder);
+				}
+
+				// Query //
+				if (query) {
+					comments = search(comments, query, ['id', 'name']);
 				}
 
 				const start = page * limit - limit;
 				const end = start + limit;
+				const itemsLength = comments.models.length;
 				comments = comments.slice(start, end);
 
 				return {
@@ -204,12 +243,6 @@ export function makeServer({ environment = 'development' } = {}) {
 
 		// -------------------------------------------------- Seeds //
 		seeds(server) {
-			// server.createList('user', 15).forEach((user) => {
-			// 	server.createList('post', 15, { user }).forEach((post) => {
-			// 		server.createList('comment', 5, { post });
-			// 	});
-			// });
-
 			server.db.loadData(database);
 		},
 
