@@ -204,6 +204,7 @@
 						:is-drilldown="true"
 						:item="item"
 						:items-length="item.raw[itemChildrenKey]?.itemsLength"
+						:items-per-page="item.raw[itemChildrenKey]?.itemsPerPage"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
 						:loading="item.raw[itemChildrenKey]?.loading"
@@ -361,6 +362,14 @@ const slots = useSlots();
 
 const tableType = shallowRef<TableType>(null);
 
+
+// -------------------------------------------------- Mounted Hooks //
+onMounted(() => {
+	if (props.level !== 1 || loadedDrilldown.level === 1) {
+		setLoadedDrilldown();
+	}
+});
+
 onBeforeMount(() => {
 	tableType.value = Object.assign({}, props.server ? VDataTableServer : VDataTable);
 });
@@ -396,7 +405,7 @@ watchOnce(props as any, () => {
 		setLoadedDrilldown();
 	}
 
-	// loadedDrilldown.itemsPerPage = props.itemsPerPage;
+	loadedDrilldown.itemsPerPage = props.itemsPerPage;
 }, { immediate: false });
 
 watch(() => props.items, () => {
@@ -512,6 +521,7 @@ function emitUpdatedExpanded(data: DrilldownEvent): void {
 
 // -------------------------------------------------- Table Options //
 function updatedOptions(drilldown: Props) {
+	console.log('updatedOptions', { drilldown });
 	return {
 		items: drilldown.items,
 		itemsPerPage: drilldown.itemsPerPage,
