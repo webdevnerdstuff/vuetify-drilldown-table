@@ -96,7 +96,7 @@ const props = withDefaults(defineProps<HeaderSlotProps>(), {
 });
 
 const theme = useTheme();
-const isAllSelected = ref<boolean>(!props.slotProps.allRowsSelected);
+const isAllSelected = ref<boolean>(props.slotProps.allRowsSelected);
 
 const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelected.value);
 const columns = computed<Column[]>(() => props.slotProps.columns);
