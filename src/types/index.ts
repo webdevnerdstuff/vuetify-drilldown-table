@@ -120,7 +120,6 @@ export interface Props {
 	colors?: ColorsObject | null;																				// * Custom Property
 	customFilter?: VDataTable['$props']['customFilter'];
 	customKeyFilter?: VDataTable['$props']['customKeyFilter'];
-	debounceDelay?: number | undefined | null; 													// ? Might not need this anymore //
 	density?: VDataTable['$options']['density'];
 	drilldown?: object;
 	drilldownKey?: string;
@@ -164,6 +163,8 @@ export interface Props {
 	// pageCount?: number;																							// ? Need to test (maybe v2 only?)
 	returnObject?: VDataTable['$props']['returnObject'];
 	search?: string | undefined;
+	searchDebounce?: number | undefined | null; 												// * Custom Property
+	searchMaxWait?: number | undefined | null; 													// * Custom Property
 	searchProps?: SearchProps; 																					// * Custom Property
 	separator?: string;																									// TODO: Maybe add this //
 	server?: boolean;																										// * Custom Property
@@ -188,6 +189,28 @@ type SelectAll = (value: boolean) => void;
 type ToggleExpandSelect = (item: DataTableItem<any>) => void;
 type ToggleSort = (column: InternalDataTableHeader) => void;
 
+export interface VDataTableSlotProps {
+	slotProps: {
+		allSelected: boolean;
+		columns: InternalDataTableHeader[];
+		headers: InternalDataTableHeader[][];
+		isExpanded: IsExpanded;
+		isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
+		items: readonly DataTableItem[];
+		itemsPerPage: Props['itemsPerPage'];
+		page: Props['page'];
+		pageCount: number;
+		select: (items: DataTableItem[], value: boolean) => void;
+		selectAll: SelectAll;
+		setItemsPerPage: (itemsPerPage: number) => void;
+		someSelected: boolean;
+		sortBy: Props['sortBy'];
+		toggleExpand: ToggleExpandSelect;
+		toggleSelect: ToggleExpandSelect;
+		toggleSort: ToggleSort;
+	};
+}
+
 export interface AllSlotProps {
 	colors: Props['colors'];
 	density: Props['density'];
@@ -196,7 +219,10 @@ export interface AllSlotProps {
 	sortBy: Props['sortBy'];
 }
 
-export interface TopSlotProps {
+export interface TopSlotProps extends VDataTableSlotProps {
+	items: Props['items'];
+	level: Props['level'];
+	loading: Props['loading'];
 	searchProps?: SearchProps;
 	showSearch: boolean;
 };
@@ -268,27 +294,7 @@ export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortB
 	};
 }
 
-export interface BottomSlotProps {
-	slotProps: {
-		allSelected: boolean;
-		columns: InternalDataTableHeader[];
-		headers: InternalDataTableHeader[][];
-		isExpanded: IsExpanded;
-		isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
-		items: readonly DataTableItem[];
-		itemsPerPage: Props['itemsPerPage'];
-		page: Props['page'];
-		pageCount: number;
-		select: (items: DataTableItem[], value: boolean) => void;
-		selectAll: SelectAll;
-		setItemsPerPage: (itemsPerPage: number) => void;
-		someSelected: boolean;
-		sortBy: Props['sortBy'];
-		toggleExpand: ToggleExpandSelect;
-		toggleSelect: ToggleExpandSelect;
-		toggleSort: ToggleSort;
-	};
-}
+
 
 
 // -------------------------------------------------- Components //
