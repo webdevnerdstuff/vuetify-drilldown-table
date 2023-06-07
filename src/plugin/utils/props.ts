@@ -5,7 +5,6 @@ export const AllProps = {
 	colors: null,																			// * Works
 	// customFilter: undefined, 													// ? Needs Testing
 	// customKeyFilter: undefined,												// ? Needs Testing
-	debounceDelay: 750,																// ? Works & Is Prop - Might remove
 	density: 'comfortable',														// * Works
 	// drilldown: () => ({}),
 	drilldownKey: 'id',																// * Works
@@ -67,7 +66,9 @@ export const AllProps = {
 	noFilter: false,																	// * Works, but not sure why you would use this.
 	page: 1, 																					// * Works
 	returnObject: true,																// ? Not sure what this does or if it works - Missing Docs
-	// search: '',																		// ? Need to test this when top slot is used over showSearch prop
+	search: '',																				// ? Need to test this when top slot is used over showSearch prop
+	searchDebounce: 750,															// * Works
+	searchMaxWait: 1000,															// * Works
 	searchProps: () => ({															// ? Needs more testing
 		cols: {
 			lg: 3,

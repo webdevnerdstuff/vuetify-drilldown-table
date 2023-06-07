@@ -93,7 +93,7 @@ const emit = defineEmits([
 const props = withDefaults(defineProps<TFootSlotProps>(), {});
 
 const theme = useTheme();
-const isAllSelected = ref<boolean>(!props.slotProps.allRowsSelected);
+const isAllSelected = ref<boolean>(props.slotProps.allRowsSelected);
 
 const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelected.value);
 const columns = computed<Column[] | Props['footers']>(() => {

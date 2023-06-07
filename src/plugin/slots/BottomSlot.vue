@@ -5,11 +5,11 @@
 
 <script setup lang="ts">
 import {
-	BottomSlotProps,
+	VDataTableSlotProps,
 } from '@/types';
 
 
-withDefaults(defineProps<BottomSlotProps>(), {});
+withDefaults(defineProps<VDataTableSlotProps>(), {});
 
 
 </script>

@@ -33,12 +33,16 @@
 	>
 
 		<!-- ================================================== Top Slot -->
-		<template #top>
+		<template #top="props">
 			<TopSlot
 				:key="level"
-				:loaded-drilldown="loadedDrilldown"
+				:items="loadedDrilldown.items"
+				:level="loadedDrilldown.level"
+				:loading="loadedDrilldown.loading"
 				:search-props="loadedDrilldown.searchProps"
 				:show-search="loadedDrilldown.showSearch ?? false"
+				:slot-props="props"
+				@click:selectAll="emitAllSelectedEvent($event)"
 				@update:search="levelSearch = $event"
 			>
 				<!-- Pass on all scoped slots -->
@@ -204,6 +208,7 @@
 						:is-drilldown="true"
 						:item="item"
 						:items-length="item.raw[itemChildrenKey]?.itemsLength"
+						:items-per-page="item.raw[itemChildrenKey]?.itemsPerPage"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
 						:loading="item.raw[itemChildrenKey]?.loading"
@@ -361,6 +366,19 @@ const slots = useSlots();
 
 const tableType = shallowRef<TableType>(null);
 
+
+// -------------------------------------------------- Mounted Hooks //
+/**
+ * ? This is needs to make sure the drilldown is remounted on sortBy change
+ * ? Client Side Table Only
+ */
+onMounted(() => {
+	if ((props.level !== 1 || loadedDrilldown.level === 1) && !loadedDrilldown.server) {
+		setLoadedDrilldown();
+	}
+});
+
+// ? Determines which table type to use //
 onBeforeMount(() => {
 	tableType.value = Object.assign({}, props.server ? VDataTableServer : VDataTable);
 });
@@ -396,7 +414,7 @@ watchOnce(props as any, () => {
 		setLoadedDrilldown();
 	}
 
-	// loadedDrilldown.itemsPerPage = props.itemsPerPage;
+	loadedDrilldown.itemsPerPage = props.itemsPerPage;
 }, { immediate: false });
 
 watch(() => props.items, () => {
@@ -483,10 +501,6 @@ function emitClickRowCheckbox(item: DataTableItem): void {
 	emit('click:row:checkbox', item);
 }
 
-// function emitLevelSearch(val: string): void {
-// 	emit('update:search', { loadedDrilldown });
-// }
-
 function emitUpdatedExpanded(data: DrilldownEvent): void {
 	let drilldownData = {
 		...defaultDrilldownSettings,
@@ -565,16 +579,16 @@ watchDebounced(
 	() => {
 		loadedDrilldown.search = levelSearch.value;
 
-		console.log('loadedDrilldown', loadedDrilldown);
-
 		const options = updatedOptions(loadedDrilldown);
-		console.log('options', options);
 		const drilldown = { ...props, ...options, ...{ search: levelSearch.value } };
 		const data = { drilldown, name: 'update:search', search: levelSearch.value };
 
 		optionsBus.emit(data);
 	},
-	{ debounce: 750, maxWait: 1000 },
+	{
+		debounce: loadedDrilldown.searchDebounce as number,
+		maxWait: loadedDrilldown.searchMaxWait as number,
+	},
 );
 
 // ------------ Column Sorting //
