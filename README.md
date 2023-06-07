@@ -3,7 +3,7 @@
 </p>
 
 <p>
-  <h1 align="center">Vuetify Drilldown Table (alpha)</h1>
+  <h1 align="center">Vuetify Drilldown Table (beta)</h1>
 </p>
 
 <p align="center">
