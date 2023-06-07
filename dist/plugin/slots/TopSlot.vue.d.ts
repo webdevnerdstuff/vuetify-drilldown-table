@@ -1,15 +1,125 @@
-import * as DrilldownTypes from '../../types';
+import type { PropType as __PropType } from 'vue';
+import { SearchProps } from '../../types';
 declare const _sfc_main: import("vue").DefineComponent<{
-    loadedDrilldown: {
+    items: {
+        type: __PropType<any[] | undefined>;
         required: true;
-        type: globalThis.PropType<DrilldownTypes.LoadedDrilldown>;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:search"[], "update:search", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    loadedDrilldown: {
+    level: {
+        type: __PropType<number>;
         required: true;
-        type: globalThis.PropType<DrilldownTypes.LoadedDrilldown>;
+    };
+    loading: {
+        type: __PropType<string | boolean | undefined>;
+        required: true;
+    };
+    searchProps: {
+        type: __PropType<SearchProps | undefined>;
+        required: false;
+        default: () => {
+            cols: {
+                lg: number;
+                md: number;
+                sm: number;
+                xl: number;
+                xs: number;
+                xxl: number;
+            };
+            density: string;
+            variant: string;
+        };
+    };
+    showSearch: {
+        type: __PropType<boolean>;
+        required: true;
+    };
+    slotProps: {
+        type: __PropType<{
+            allSelected: boolean;
+            columns: import('../../types').InternalDataTableHeader[];
+            headers: import('../../types').InternalDataTableHeader[][];
+            isExpanded: (item: import('../../types').DataTableItem<any>) => boolean;
+            isSelected: (items: import('../../types').DataTableItem<any> | import('../../types').DataTableItem<any>[]) => boolean;
+            items: readonly import('../../types').DataTableItem<any>[];
+            itemsPerPage: string | number | undefined;
+            page: string | number | undefined;
+            pageCount: number;
+            select: (items: import('../../types').DataTableItem<any>[], value: boolean) => void;
+            selectAll: (value: boolean) => void;
+            setItemsPerPage: (itemsPerPage: number) => void;
+            someSelected: boolean;
+            sortBy: readonly {
+                key: string;
+                order?: boolean | "asc" | "desc" | undefined;
+            }[] | undefined;
+            toggleExpand: (item: import('../../types').DataTableItem<any>) => void;
+            toggleSelect: (item: import('../../types').DataTableItem<any>) => void;
+            toggleSort: (column: import('../../types').InternalDataTableHeader) => void;
+        }>;
+        required: true;
+    };
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:search" | "click:selectAll")[], "update:search" | "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    items: {
+        type: __PropType<any[] | undefined>;
+        required: true;
+    };
+    level: {
+        type: __PropType<number>;
+        required: true;
+    };
+    loading: {
+        type: __PropType<string | boolean | undefined>;
+        required: true;
+    };
+    searchProps: {
+        type: __PropType<SearchProps | undefined>;
+        required: false;
+        default: () => {
+            cols: {
+                lg: number;
+                md: number;
+                sm: number;
+                xl: number;
+                xs: number;
+                xxl: number;
+            };
+            density: string;
+            variant: string;
+        };
+    };
+    showSearch: {
+        type: __PropType<boolean>;
+        required: true;
+    };
+    slotProps: {
+        type: __PropType<{
+            allSelected: boolean;
+            columns: import('../../types').InternalDataTableHeader[];
+            headers: import('../../types').InternalDataTableHeader[][];
+            isExpanded: (item: import('../../types').DataTableItem<any>) => boolean;
+            isSelected: (items: import('../../types').DataTableItem<any> | import('../../types').DataTableItem<any>[]) => boolean;
+            items: readonly import('../../types').DataTableItem<any>[];
+            itemsPerPage: string | number | undefined;
+            page: string | number | undefined;
+            pageCount: number;
+            select: (items: import('../../types').DataTableItem<any>[], value: boolean) => void;
+            selectAll: (value: boolean) => void;
+            setItemsPerPage: (itemsPerPage: number) => void;
+            someSelected: boolean;
+            sortBy: readonly {
+                key: string;
+                order?: boolean | "asc" | "desc" | undefined;
+            }[] | undefined;
+            toggleExpand: (item: import('../../types').DataTableItem<any>) => void;
+            toggleSelect: (item: import('../../types').DataTableItem<any>) => void;
+            toggleSort: (column: import('../../types').InternalDataTableHeader) => void;
+        }>;
+        required: true;
     };
 }>> & {
     "onUpdate:search"?: ((...args: any[]) => any) | undefined;
+    "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
+}, {
+    searchProps: SearchProps | undefined;
 }, {}>;
 export default _sfc_main;

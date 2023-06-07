@@ -1,44 +1,41 @@
-import { PropType } from 'vue';
-import type { VTextField } from "vuetify/components";
-import type { VDataTable } from "vuetify/labs/VDataTable";
-export type Density = null | 'default' | 'comfortable' | 'compact';
-export interface InternalItem<T = object> {
-    children?: InternalItem<T>[];
-    props: {
-        [key: string]: unknown;
-        title: string;
-        value: unknown;
-    };
-    raw: T;
+import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
+import { ThemeInstance } from 'vuetify';
+import type { EventBusKey } from '@vueuse/core';
+import type { VTextField, VProgressCircular, VProgressLinear } from 'vuetify/components';
+import type { VDataTable, VDataTableServer, VDataTableRow } from 'vuetify/labs/components';
+export type Density = 'default' | 'comfortable' | 'compact';
+type IconValue = string | (string | [path: string, opacity: number])[] | JSXComponent;
+type SelectItemKey = boolean | string | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any);
+type DataTableCompareFunction<T = any> = (a: T, b: T) => number;
+type DataTableHeader = {
+    key: string;
+    value?: SelectItemKey;
     title: string;
-    value: unknown;
-}
-export interface DataTableItem extends InternalItem {
-    [key: string]: string;
-}
-interface CellRender {
-    (key?: string, column?: object, index?: number): void;
-}
-interface ItemCellRender {
-    (itemValue?: string, item?: object, column?: object, index?: number): void;
-}
-export interface Column {
-    align?: string;
-    cellClass?: string;
     colspan?: number;
-    columnFooter?: string;
-    fixedOffset?: number;
-    key?: string;
-    renderCell?: CellRender;
-    renderFooter?: CellRender;
-    renderHeader?: CellRender;
-    renderItem?: ItemCellRender;
-    renderer?: CellRender;
-    rowClass?: string;
     rowspan?: number;
+    fixed?: boolean;
+    align?: 'start' | 'end';
+    width?: number;
+    minWidth?: string;
+    maxWidth?: string;
     sortable?: boolean;
-    title?: string;
-    width?: string | number;
+    sort?: DataTableCompareFunction;
+};
+export type InternalDataTableHeader = DataTableHeader & {
+    sortable: boolean;
+    fixedOffset?: number;
+    lastFixed?: boolean;
+};
+export interface DataTableItem<T = any> {
+    value: any;
+    type: 'item';
+    raw: T;
+    columns: {
+        [key: string]: any;
+    };
+}
+export interface TableColors<T = any> {
+    [key: string]: T;
 }
 export type ColorsObject = {
     body?: {
@@ -63,6 +60,7 @@ export type ColorsObject = {
     loader?: {
         bg?: string;
         circular?: string;
+        color?: string;
         linear?: string;
         text?: string;
     };
@@ -90,203 +88,359 @@ export type SearchPropCols = {
 };
 export type SearchProps = {
     cols?: SearchPropCols;
-    density?: VTextField["$props"]["density"];
-    variant?: VTextField["$props"]["variant"];
+    density?: VTextField['$props']['density'];
+    variant?: VTextField['$props']['variant'];
 };
-export type Props = {
-    colors?: {
-        default: boolean;
-        required: boolean;
-        type: PropType<boolean> | PropType<ColorsObject>;
-    };
-    debounceDelay: {
-        default: number;
-        required: boolean;
-        type: PropType<number>;
-    };
-    density?: {
-        default: string;
-        required: boolean;
-        type: PropType<VTextField["$props"]["density"]>;
-    };
-    drilldown: {
-        default: () => void;
-        required: boolean;
-        type: PropType<object>;
-    };
-    drilldownKey?: {
-        default: string;
-        required: boolean;
-        type: PropType<string>;
-    };
-    elevation?: {
-        default: number;
-        required: boolean;
-        type: PropType<number | string | undefined>;
-    };
-    expandOnClick?: {
-        default: boolean;
-        required: boolean;
-        type: PropType<boolean>;
-    };
-    footers: {
-        default: () => VDataTable["$props"]["headers"];
-        required: boolean;
-        type: PropType<VDataTable["$props"]["headers"]>;
-    };
-    headers: {
-        default: () => VDataTable["$props"]["headers"];
-        required: boolean;
-        type: PropType<VDataTable["$props"]["headers"]>;
-    };
-    hover?: {
-        default: boolean;
-        required: boolean;
-        type: PropType<boolean>;
-    };
-    isDrilldown: {
-        default: boolean;
-        required: boolean;
-        type: PropType<boolean>;
-    };
-    item: {
-        default: DataTableItem | object;
-        required: boolean;
-        type: PropType<DataTableItem>;
-    };
-    itemChildrenKey: {
-        default: string;
-        required: boolean;
-        type: PropType<string>;
-    };
-    items: {
-        default: () => unknown;
-        required: boolean;
-        type: PropType<object>;
-    };
-    itemsLength?: {
-        default: number;
-        required: boolean;
-        type: PropType<number>;
-    };
-    level: {
-        default: number;
-        required: boolean;
-        type: PropType<number>;
-    };
-    levels: {
-        default: number;
-        required: boolean;
-        type: PropType<number>;
-    };
-    loaderType: {
-        default: string | string[];
-        required: boolean;
-        type: PropType<string | string[]>;
-    };
-    loading: {
-        default: boolean;
-        required: boolean;
-        type: PropType<boolean>;
-    };
-    loadingText: {
-        default: string;
-        required: boolean;
-        type: PropType<string>;
-    };
-    noDataText: {
-        default: string;
-        required: boolean;
-        type: PropType<string>;
-    };
-    searchProps: {
-        default: () => SearchProps;
-        required?: boolean;
-        type?: PropType<SearchProps>;
-    };
-    showFooterRow?: {
-        default: boolean;
-        required: boolean;
-        type: PropType<boolean>;
-    };
-    showSearch?: {
-        default: boolean;
-        required: boolean;
-        type: PropType<boolean>;
-    };
-    skeltonType?: {
-        default: string;
-        required: boolean;
-        type: PropType<string>;
-    };
-    sortBy: {
-        default: object | object[];
-        required: boolean;
-        type: PropType<VDataTable["$props"]["sortBy"]>;
-    };
-};
-export type LoadedDrilldown = {
-    colors?: boolean | ColorsObject;
-    customFilter?: VDataTable["$props"]["customFilter"];
-    customKeyFilter?: VDataTable["$props"]["customKeyFilter"];
-    debounceDelay?: number | undefined;
-    density?: VTextField["$props"]["density"];
+export type TableType = VDataTable | VDataTableServer | unknown;
+export interface Props {
+    colors?: ColorsObject | null;
+    customFilter?: VDataTable['$props']['customFilter'];
+    customKeyFilter?: VDataTable['$props']['customKeyFilter'];
+    density?: VDataTable['$options']['density'];
     drilldown?: object;
-    drilldownKey: string;
+    drilldownKey?: string;
     elevation?: string | number | undefined;
-    expandOnClick?: boolean;
-    expanded?: string[];
-    filterKeys?: VDataTable["$props"]["filterKeys"];
-    filterMode?: VDataTable["$props"]["filterMode"];
+    expandOnClick?: VDataTable['$props']['expandOnClick'];
+    expanded?: readonly string[] | undefined;
+    filterKeys?: VDataTable['$props']['filterKeys'];
+    filterMode?: VDataTable['$props']['filterMode'];
     fixedFooter?: boolean;
     fixedHeader?: boolean;
-    footers?: VDataTable["$props"]["headers"];
-    headers?: VDataTable["$props"]["headers"];
+    footers?: Column[];
+    headers?: VDataTable['$props']['headers'];
     height?: string | number | undefined;
-    hideNoData?: boolean;
-    hover?: boolean;
+    hideNoData?: VDataTable['$props']['hideNoData'];
+    hover?: VDataTable['$props']['hover'];
     isDrilldown?: boolean;
-    item?: object;
-    itemChildren?: VDataTable["$props"]["itemChildren"];
-    itemChildrenKey: string;
-    itemProps?: VDataTable["$props"]["itemProps"];
-    itemTitle?: VDataTable["$props"]["itemTitle"];
-    itemValue?: VDataTable["$props"]["itemValue"];
-    items: unknown[];
+    item?: VDataTableRow['$props']['item'];
+    itemChildrenKey?: string;
+    itemValue?: VDataTable['$props']['itemValue'];
+    items?: VDataTable['$props']['items'];
     itemsLength?: number;
-    itemsPerPage?: string | number;
+    itemsPerPage?: VDataTable['$props']['itemsPerPage'];
+    itemsPerPageOptions?: VDataTable['$props']['itemsPerPageOptions'];
     level: number;
     levels: number;
+    loaderHeight?: VProgressLinear['$props']['height'];
     loaderType?: string | string[];
-    loading?: boolean;
-    loadingText?: string;
+    loading?: VDataTable['$props']['loading'];
+    loadingText?: VDataTable['$props']['loadingText'];
     modelValue?: unknown[];
-    multiSort?: boolean;
-    mustSort?: boolean;
-    noDataText?: string;
-    noFilter?: boolean;
-    page?: string | number;
-    returnObject?: boolean;
+    multiSort?: VDataTable['$props']['multiSort'];
+    mustSort?: VDataTable['$props']['mustSort'];
+    noDataText?: VDataTable['$props']['noDataText'];
+    noFilter?: VDataTable['$props']['noFilter'];
+    page?: VDataTable['$props']['page'];
+    returnObject?: VDataTable['$props']['returnObject'];
     search?: string | undefined;
-    searchProps: SearchProps;
+    searchDebounce?: number | undefined | null;
+    searchMaxWait?: number | undefined | null;
+    searchProps?: SearchProps;
+    separator?: string;
     server?: boolean;
-    showExpand?: boolean;
+    showDrilldownWhenLoading?: boolean;
+    showExpand?: VDataTable['$props']['showExpand'];
     showFooterRow?: boolean;
     showSearch?: boolean;
-    showSelect?: boolean;
+    showSelect?: VDataTable['$props']['showSelect'];
     skeltonType?: string;
-    sortBy?: VDataTable["$props"]["sortBy"];
+    sortBy?: VDataTable['$props']['sortBy'];
+    tableType?: TableType;
     width?: string | number | undefined;
+}
+export type Drilldown = Props;
+type GetSortIcon = (column: InternalDataTableHeader) => IconValue;
+type IsExpanded = (item: DataTableItem<any>) => boolean;
+type SelectAll = (value: boolean) => void;
+type ToggleExpandSelect = (item: DataTableItem<any>) => void;
+type ToggleSort = (column: InternalDataTableHeader) => void;
+export interface VDataTableSlotProps {
+    slotProps: {
+        allSelected: boolean;
+        columns: InternalDataTableHeader[];
+        headers: InternalDataTableHeader[][];
+        isExpanded: IsExpanded;
+        isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
+        items: readonly DataTableItem[];
+        itemsPerPage: Props['itemsPerPage'];
+        page: Props['page'];
+        pageCount: number;
+        select: (items: DataTableItem[], value: boolean) => void;
+        selectAll: SelectAll;
+        setItemsPerPage: (itemsPerPage: number) => void;
+        someSelected: boolean;
+        sortBy: Props['sortBy'];
+        toggleExpand: ToggleExpandSelect;
+        toggleSelect: ToggleExpandSelect;
+        toggleSort: ToggleSort;
+    };
+}
+export interface AllSlotProps {
+    colors: Props['colors'];
+    density: Props['density'];
+    level: Props['level'];
+    showSelect?: Props['showSelect'];
+    sortBy: Props['sortBy'];
+}
+export interface TopSlotProps extends VDataTableSlotProps {
+    items: Props['items'];
+    level: Props['level'];
+    loading: Props['loading'];
+    searchProps?: SearchProps;
+    showSearch: boolean;
+}
+export interface HeaderSlotProps extends AllSlotProps {
+    isTheadSlot?: boolean;
+    slotProps: {
+        allRowsSelected: boolean;
+        columns: Column[];
+        getSortIcon?: GetSortIcon;
+        index?: number;
+        item?: Props['item'] | any;
+        selectAll: SelectAll;
+        someSelected: boolean;
+        sortBy: Props['sortBy'];
+        toggleSort: ToggleSort;
+    };
+}
+export interface THeadSlotProps extends AllSlotProps {
+    slotProps: {
+        allRowsSelected: boolean;
+        columns: Column[];
+        getSortIcon?: GetSortIcon;
+        index?: number;
+        item?: Props['item'] | any;
+        selectAll: SelectAll;
+        someSelected: boolean;
+        sortBy: Props['sortBy'];
+        toggleSort: ToggleSort;
+    };
+}
+export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
+    expandOnClick: Props['expandOnClick'];
+    items: Props['items'];
+    levels: Props['levels'];
+    showExpand: Props['showExpand'];
+    slotProps: {
+        allRowsSelected: boolean;
+        columns: Column[];
+        index?: number;
+        isExpanded: IsExpanded;
+        isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
+        item: DataTableItem | any;
+        level: Props['level'];
+        toggleExpand: ToggleExpandSelect;
+        toggleSelect: ToggleExpandSelect;
+    };
+}
+export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortBy'> {
+    footers: Column[];
+    slotProps: {
+        allRowsSelected: boolean;
+        columns: Column[];
+        getFixedStyles?: (column: InternalDataTableHeader, y: number) => CSSProperties | undefined;
+        getSortIcon?: GetSortIcon;
+        headers?: Props['headers'];
+        index?: number;
+        isExpanded: IsExpanded;
+        item?: Props['item'] | any;
+        selectAll: SelectAll;
+        someSelected?: boolean;
+        sortBy?: Props['sortBy'];
+        toggleExpand: ToggleExpandSelect;
+        toggleSelect: ToggleExpandSelect;
+        toggleSort?: ToggleSort;
+    };
+}
+export type TableLoader = {
+    colors: Props['colors'];
+    colspan: number;
+    height?: VProgressLinear['$props']['height'];
+    level: Props['level'];
+    loaderType: Props['loaderType'];
+    loading: VDataTable['$props']['loading'];
+    loadingText?: VDataTable['$props']['loadingText'];
+    size?: VProgressCircular['$props']['size'];
+    skeltonType: Props['skeltonType'];
+    textLoader?: boolean;
 };
+export interface UseLoaderStyles {
+    (options: {
+        isLinearOnly: MaybeRef<boolean>;
+        loaderHeight: MaybeRef<Props['loaderHeight']>;
+    }): CSSProperties;
+}
+export interface UseSetLoadedDrilldown {
+    (options: {
+        loadedDrilldown: Props;
+        drilldown: object;
+        rawItem: DataTableItem['raw'];
+        level: number;
+        levels: number;
+    }): Props;
+}
+export interface UseGetLevelColors {
+    (options: {
+        colors: ColorsObject | undefined | null;
+        level: number;
+        prop: string;
+        themeColors: ThemeInstance;
+        type?: string | null;
+    }): LevelColorResponse;
+}
+export interface ConvertLevelColors {
+    (options: {
+        colors: ColorsObject;
+        level: number;
+        prop: string;
+        theme: ThemeInstance;
+        type: string | null;
+    }): LevelColorResponse;
+}
+interface CellRender {
+    (key?: string, column?: object, index?: number): void;
+}
+interface ItemCellRender {
+    (itemValue?: string, item?: object, column?: object, index?: number): void;
+}
+export interface Column {
+    align?: string;
+    cellClass?: string;
+    colspan?: number;
+    columnFooter?: string;
+    fixedOffset?: number;
+    key?: string;
+    renderCell?: CellRender;
+    renderFooterCell?: CellRender;
+    renderHeader?: CellRender;
+    renderItem?: ItemCellRender;
+    renderer?: CellRender;
+    rowClass?: string;
+    rowspan?: number;
+    sortable?: boolean;
+    title?: string;
+    width?: string | number;
+}
+export interface UseBodyCellClasses {
+    (options: {
+        column: Column;
+        level: number;
+    }): object;
+}
+export interface UseBodyRowClasses {
+    (options: {
+        expandOnClick: Props['expandOnClick'];
+        level: number;
+        levels: number;
+    }): object;
+}
+export interface UseCellAlignClasses {
+    (options: {
+        align: string;
+    }): object;
+}
+export interface UseCellClasses {
+    (options: {
+        column: Column;
+        elm: string;
+        level: number;
+    }): object;
+}
+export interface UseCheckBoxClasses {
+    (options: {
+        level: number;
+    }): object;
+}
+export interface UseHeaderCellClasses {
+    (options: {
+        colors: ColorsObject | undefined | null | false;
+        column: Column;
+        level: number;
+        slotName?: string;
+    }): object;
+}
+export interface UseHeaderRowClasses {
+    (options: {
+        level: number;
+    }): object;
+}
+export interface UseSortIconClasses {
+    (options: {
+        key: string;
+        level: number;
+        sortBy: Props['sortBy'];
+    }): object;
+}
+export interface UseTableClasses {
+    (options: {
+        elevation: string | number | undefined;
+        isDrilldown: boolean;
+        isHover: boolean | undefined;
+        isServerSide: boolean;
+        level: number;
+    }): object;
+}
+export interface UseTFootClasses {
+    (options: {
+        level: number;
+    }): object;
+}
+export interface UseTFootCellClasses {
+    (options: {
+        column: Column;
+        level: number;
+        slotName?: string;
+    }): object;
+}
+export interface UseTFootRowClasses {
+    (options: {
+        level: number;
+    }): object;
+}
+export interface UseCellStyles {
+    (options: {
+        colors: ColorsObject | undefined | null | false;
+        elm: string;
+        level: number;
+        theme: ThemeInstance;
+    }): CSSProperties;
+}
+export interface UseHeaderCellStyles {
+    (options: {
+        colors: ColorsObject | undefined | null | false;
+        column: {
+            width?: string | number;
+        };
+        dataTableExpand: boolean;
+        level: number;
+        theme: ThemeInstance;
+    }): CSSProperties;
+}
+export interface UseTableStyles {
+    (options: {
+        colors: ColorsObject | undefined | null | false;
+        level: number;
+        theme: ThemeInstance;
+    }): StyleValue;
+}
+export interface UseTFootCellStyles {
+    (options: {
+        colors: ColorsObject | undefined | null | false;
+        elm: string;
+        level: number;
+        theme: ThemeInstance;
+    }): CSSProperties;
+}
 export type DrilldownEvent = {
     $event?: MouseEvent | undefined;
     columns?: object;
     index?: number;
-    isExpanded: (item: object) => boolean;
-    item: object;
+    isExpanded: IsExpanded;
+    item: DataTableItem | any;
     items?: object;
     level?: number;
-    toggleExpand(item?: object): void;
+    sortBy?: object;
+    toggleExpand: ToggleExpandSelect;
 };
 export type ClickRowCheckboxEvent = {
     columns?: object;
@@ -295,5 +449,22 @@ export type ClickRowCheckboxEvent = {
     level?: number;
     toggleSelect(item?: object): void;
 };
-export type DrilldownDebounce = (...args: undefined[]) => void;
+export interface OptionsEventObject {
+    drilldown: Props;
+    name?: string;
+    sortBy?: Props['sortBy'];
+    page?: Props['page'];
+    itemsPerPage?: Props['itemsPerPage'];
+}
+export declare const OptionsEventBus: EventBusKey<OptionsEventObject>;
+export interface UseEmitUpdatedExpanded {
+    (options: {
+        emit: {
+            (e: 'update:drilldown', drilldownData: Props): void;
+            (e: 'update:expanded', data: DrilldownEvent): void;
+        };
+        data: DrilldownEvent;
+        drilldownData: Props;
+    }): void;
+}
 export {};

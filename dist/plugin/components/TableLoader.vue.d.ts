@@ -1,66 +1,101 @@
-import * as DrilldownTypes from '../../types';
+import type { PropType as __PropType } from 'vue';
 declare const _sfc_main: import("vue").DefineComponent<{
-    height: {
-        default: string;
-        required: false;
-        type: StringConstructor;
-    };
-    loadedDrilldown: {
+    colors: {
+        type: __PropType<import('../../types').ColorsObject | null | undefined>;
         required: true;
-        type: globalThis.PropType<DrilldownTypes.LoadedDrilldown>;
+    };
+    colspan: {
+        type: __PropType<number>;
+        required: true;
+    };
+    height: {
+        type: __PropType<string | number | undefined>;
+        required: false;
+        default: number;
+    };
+    level: {
+        type: __PropType<number>;
+        required: true;
+    };
+    loaderType: {
+        type: __PropType<string | string[] | undefined>;
+        required: true;
+        default: string;
     };
     loading: {
+        type: __PropType<string | boolean | undefined>;
         required: true;
-        type: BooleanConstructor;
     };
     loadingText: {
-        default: string;
+        type: __PropType<string | undefined>;
         required: false;
-        type: StringConstructor;
+        default: string;
     };
     size: {
-        default: string;
+        type: __PropType<string | number | undefined>;
         required: false;
-        type: StringConstructor;
+        default: string;
+    };
+    skeltonType: {
+        type: __PropType<string | undefined>;
+        required: true;
     };
     textLoader: {
-        default: boolean;
+        type: __PropType<boolean | undefined>;
         required: false;
-        type: BooleanConstructor;
+        default: boolean;
     };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    height: {
-        default: string;
-        required: false;
-        type: StringConstructor;
-    };
-    loadedDrilldown: {
+    colors: {
+        type: __PropType<import('../../types').ColorsObject | null | undefined>;
         required: true;
-        type: globalThis.PropType<DrilldownTypes.LoadedDrilldown>;
+    };
+    colspan: {
+        type: __PropType<number>;
+        required: true;
+    };
+    height: {
+        type: __PropType<string | number | undefined>;
+        required: false;
+        default: number;
+    };
+    level: {
+        type: __PropType<number>;
+        required: true;
+    };
+    loaderType: {
+        type: __PropType<string | string[] | undefined>;
+        required: true;
+        default: string;
     };
     loading: {
+        type: __PropType<string | boolean | undefined>;
         required: true;
-        type: BooleanConstructor;
     };
     loadingText: {
-        default: string;
+        type: __PropType<string | undefined>;
         required: false;
-        type: StringConstructor;
+        default: string;
     };
     size: {
-        default: string;
+        type: __PropType<string | number | undefined>;
         required: false;
-        type: StringConstructor;
+        default: string;
+    };
+    skeltonType: {
+        type: __PropType<string | undefined>;
+        required: true;
     };
     textLoader: {
-        default: boolean;
+        type: __PropType<boolean | undefined>;
         required: false;
-        type: BooleanConstructor;
+        default: boolean;
     };
 }>>, {
-    height: string;
-    loadingText: string;
-    size: string;
-    textLoader: boolean;
-}>;
+    height: string | number | undefined;
+    size: string | number | undefined;
+    loadingText: string | undefined;
+    loaderType: string | string[] | undefined;
+    textLoader: boolean | undefined;
+}, {}>;
 export default _sfc_main;
