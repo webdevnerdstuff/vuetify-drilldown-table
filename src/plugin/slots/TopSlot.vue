@@ -2,6 +2,7 @@
 	<slot
 		v-if="slots.top"
 		name="top"
+		v-bind="boundProps"
 	/>
 
 	<v-col
@@ -12,6 +13,7 @@
 			<slot
 				v-if="slots[`top.left`]"
 				name="top.left"
+				v-bind="boundProps"
 			/>
 
 			<v-col
@@ -35,6 +37,7 @@
 			<slot
 				v-if="slots[`top.right`]"
 				name="top.right"
+				v-bind="boundProps"
 			/>
 		</v-row>
 	</v-col>
@@ -52,8 +55,10 @@ import { watchDebounced } from '@vueuse/core';
 
 const slots = useSlots();
 const emit = defineEmits([
+	'click:selectAll',
 	'update:search',
 ]);
+
 
 const props = withDefaults(defineProps<TopSlotProps>(), {
 	searchProps: () => ({
@@ -72,6 +77,42 @@ const props = withDefaults(defineProps<TopSlotProps>(), {
 
 const levelSearch = ref<string>('');
 
+const tableItems = computed(() => {
+	return props.items;
+});
+
+const boundProps = computed(() => {
+	return {
+		allSelected: props.slotProps.allSelected,
+		columns: props.slotProps.columns,
+		headers: props.slotProps.headers,
+		items: tableItems,
+		itemsPerPage: props.slotProps.itemsPerPage,
+		level: props.level,
+		loading: props.loading,
+		page: props.slotProps.page,
+		pageCount: props.slotProps.pageCount,
+		search: unref(levelSearch),
+		selectAll: selectAllCallback,
+		setItemsPerPage: props.slotProps.setItemsPerPage,
+		toggleSelectAll: toggleSelectAllCallback,
+	};
+});
+
+
+// -------------------------------------------------- Callbacks //
+function selectAllCallback(val: boolean) {
+	props.slotProps.selectAll(val);
+	emit('click:selectAll', val);
+}
+
+function toggleSelectAllCallback() {
+	props.slotProps.selectAll(!props.slotProps.allSelected);
+	emit('click:selectAll', !props.slotProps.allSelected);
+}
+
+
+// -------------------------------------------------- Search Field //
 watchDebounced(
 	levelSearch,
 	() => {
