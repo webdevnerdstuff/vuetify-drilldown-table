@@ -40,6 +40,7 @@ export default {
 	footers: [],																							// * Works - May or may not keep
 	headers: [],																							// * Works
 	height: 'auto',																						// * Works
+	hideDrilldownWhenLoading: true,
 	itemChildrenKey: 'child',																	// * Works - Custom Prop
 	itemProps: ['foo'],																				// ? Not sure what this does. Needs Testing
 	itemTitle: 'title',																				// * Works, but is weird
@@ -76,8 +77,9 @@ export default {
 	itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText', // * Works
 	lastIcon: 'mdi mdi-page-last',														// * Works
 	lastPageLabel: '$vuetify.dataFooter.lastPage',						// ? Not sure what this does. Needs Testing
+	level: 1,
 	levels: 3,																								// * Works - Custom Prop
-	loaderHeight: '',																					// * Works - Custom Prop
+	loaderHeight: 2,																					// * Works - Custom Prop
 	loaderType: [																							// * Works - Custom Prop
 		'linear',
 		// 'circular',
@@ -99,6 +101,8 @@ export default {
 	returnObject: false,																			// ? Not sure what this does. Needs Testing
 	rowHeight: undefined,																			// ? Not sure what this does. Needs Testing
 	search: '',
+	searchDebounce: 750,
+	searchMaxWait: 1000,
 	searchProps: { 																						// ? VDrilldownTable Custom Prop
 		cols: {
 			lg: 3,
@@ -111,9 +115,10 @@ export default {
 		density: 'compact',
 		variant: 'underlined',
 	},
+	server: true,
 	showCurrentPage: false,																		// * Works
 	showExpand: false,																				// * Works
-	showFooterRow: true,
+	showFooterRow: false,																			// * Works
 	showSearch: true,																				// * Works - May or may not keep
 	showSelect: false,																				// * Works
 	skeltonType: 'heading@1',																	// * Works - Custom Prop
