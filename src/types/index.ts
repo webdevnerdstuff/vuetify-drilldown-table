@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
-import { CSSProperties, JSXComponent, StyleValue } from 'vue';
+import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
 import type { VTextField, VProgressCircular, VProgressLinear } from 'vuetify/components';
@@ -295,9 +295,7 @@ export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortB
 }
 
 
-
-
-// -------------------------------------------------- Components //
+// -------------------------------------------------- Table Loader //
 export type TableLoader = {
 	colors: Props['colors'];
 	colspan: number;
@@ -310,6 +308,15 @@ export type TableLoader = {
 	skeltonType: Props['skeltonType'];
 	textLoader?: boolean;
 };
+
+export interface UseLoaderStyles {
+	(
+		options: {
+			isLinearOnly: MaybeRef<boolean>,
+			loaderHeight: MaybeRef<Props['loaderHeight']>,
+		}
+	): CSSProperties;
+}
 
 
 // -------------------------------------------------- Composables //

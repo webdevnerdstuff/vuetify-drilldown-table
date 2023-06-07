@@ -1,13 +1,16 @@
 <template>
-	<tr class="v-drilldown-table--loader-tr text-center ma-0 pa-0">
+	<tr
+		:class="loaderContainerClasses"
+		:style="loaderTrStyles"
+	>
 		<td
 			class="px-0 ma-0"
 			:colspan="colspan"
-			:style="loaderTrStyles"
+			:style="loaderTdStyles"
 		>
 			<v-row
 				v-if="loading"
-				:class="loaderContainerClasses"
+				:class="loaderVRowClasses"
 				no-gutters
 			>
 				<v-col
@@ -61,10 +64,16 @@
 </template>
 
 <script setup lang="ts">
-import { componentName } from '@/plugin/utils/globals';
-import { useGetLevelColors } from '@/plugin/composables/levelColors';
 import { TableLoader } from '@/types';
-import { useIsOnlyLinearLoader, useLoaderHeight } from '@/plugin/composables/helpers';
+import {
+	useIsOnlyLinearLoader,
+	useLoaderContainerClasses,
+	useLoaderHeight,
+	useLoaderTdStyles,
+	useLoaderTrStyles,
+	useLoaderVRowClasses,
+} from '@/plugin/composables/loader';
+import { useGetLevelColors } from '@/plugin/composables/levelColors';
 
 
 const theme = useTheme();
@@ -90,30 +99,18 @@ const baseColors = computed(() => {
 	return;
 });
 
-const loaderTrStyles = computed<StyleValue>(() => {
-	if (isLinearOnly.value) {
-		return {
-			height: loaderHeight.value,
-			position: 'absolute',
-			top: 0,
-			width: '100%',
-		};
-	}
+const loaderTrStyles = computed<StyleValue>(() => useLoaderTrStyles({
+	isLinearOnly,
+	loaderHeight,
+}));
 
-	return {};
-});
+const loaderTdStyles = computed<StyleValue>(() => useLoaderTdStyles({
+	isLinearOnly,
+	loaderHeight,
+}));
 
-const loaderContainerClasses = computed(() => {
-	return {
-		[`${componentName}--table-loader`]: true,
-		'align-center': false,
-		'd-grid': false,
-		'flex-column': true,
-		'ma-0': true,
-		'pa-0': true,
-		'text-center': true,
-	};
-});
+const loaderContainerClasses = computed(() => useLoaderContainerClasses());
+const loaderVRowClasses = computed(() => useLoaderVRowClasses());
 
 
 // v-progress-linear //
@@ -205,7 +202,7 @@ const checkLoaderType = (type: string): boolean => {
 		z-index: 99999;
 	}
 
-	&--table-loader {
+	&--loader-tr-vrow {
 		background: rgb(var(--v-theme-surface));
 	}
 }
