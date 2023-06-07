@@ -37,6 +37,8 @@
 					:page-text="tableSettings.pageText"
 					:prev-icon="tableSettings.prevIcon"
 					:prev-page-label="tableSettings.prevPageLabel"
+					:search-debounce="tableSettings.searchDebounce"
+					:search-max-wait="tableSettings.searchMaxWait"
 					:server="tableSettings.server"
 					:show-current-page="tableSettings.showCurrentPage"
 					:show-expand="tableSettings.showExpand"
@@ -54,6 +56,29 @@
 					@update:options="updateOptions"
 					@update:search="updatedSearch"
 				>
+					<template #[`top.right`]="props">
+						<v-col
+							v-if="props.level === 1"
+							class="d-flex align-center justify-end"
+						>
+							{{ props.search }}
+							<v-btn
+								class="ms-2"
+								color="primary"
+								@click="props.toggleSelectAll()"
+							>Toggle Select</v-btn>
+							<v-btn
+								class="ms-2"
+								color="primary"
+								@click="props.selectAll(true)"
+							>Select All</v-btn>
+							<v-btn
+								class="ms-2"
+								color="primary"
+								@click="props.selectAll(false)"
+							>De-Select All</v-btn>
+						</v-col>
+					</template>
 				</VDrilldownTable>
 			</v-col>
 		</v-row>
@@ -67,7 +92,7 @@ import { inject, onMounted, ref } from 'vue';
 import tableDefaults from './tableDefaults';
 
 // Use this to switch between Client and Server Side Tables //
-const isServerSide = ref(false);
+const isServerSide = ref(true);
 
 // Set the table setings //
 const tableSettings = ref({ ...tableDefaults, ...{ server: isServerSide } });
@@ -157,10 +182,10 @@ const headers = {
 		},
 	],
 	users: [
-		// {
-		// 	key: 'data-table-select',
-		// 	title: '',
-		// },
+		{
+			key: 'data-table-select',
+			title: '',
+		},
 		{
 			align: 'start',
 			key: 'id',
@@ -307,7 +332,7 @@ function getUsers(drilldown = null) {
 	serverFetch(url, body).then((data) => {
 		const { users, pagination } = data;
 
-		tableSettings.value = {
+		tableSettings.value = Object.assign({}, {
 			...drilldown,
 			...{
 				items: users,
@@ -315,7 +340,7 @@ function getUsers(drilldown = null) {
 				loading: false,
 				page: pagination.page,
 			},
-		};
+		});
 
 		tableSettings.value.loading = false;
 		return data;
@@ -323,49 +348,46 @@ function getUsers(drilldown = null) {
 }
 
 function getUserPosts(drilldown = null, updateCurrentLevel = false) {
+	const item = drilldown?.item?.raw ?? null;
+
 	$unicornLog({
 		logPrefix: '[PlaygroundPage]:',
-		objects: drilldown,
+		objects: { drilldown, item, updateCurrentLevel },
 		styles: unicornStyles,
 		text: 'getUserPosts',
 	});
 
-	const item = drilldown?.item?.raw ?? null;
 	const userId = item.id;
 	const user = tableSettings.value.items.find(
 		(a) => parseInt(a.id) === parseInt(userId),
 	);
 	const url = 'api/users/posts';
 
-	user.child = {};
-	user.child = {
-		...tableDefaults,
-		drilldownKey: 'id',
-		footers: footers.posts,
-		headers: headers.posts,
-		itemsLength: drilldown?.itemsLength ?? 0,
-		itemsPerPage: drilldown?.itemsPerPage ?? 0,
-		level: 2,
-		loading: true,
-		// server: false,
-	};
+	user.child = drilldown?.drilldown ?? tableDefaults;
+	user.child = Object.assign({}, {
+		...user.child,
+		...{
+			drilldownKey: 'id',
+			footers: footers.posts,
+			headers: headers.posts,
+			itemsLength: drilldown?.itemsLength ?? 0,
+			itemsPerPage: drilldown?.itemsPerPage ?? 0,
+			level: 2,
+			loading: true,
+			sortBy: [],
+		},
+	});
 
 	if (updateCurrentLevel) {
 		user.child.items = drilldown.items;
-	}
-
-	let sortBy = user.child.sortBy.length ? user.child.sortBy : defaultSortBy;
-
-	if (updateCurrentLevel && drilldown.sortBy.length) {
-		sortBy = drilldown.sortBy;
-		user.child.sortBy = sortBy;
+		user.child.sortBy = drilldown.sortBy;
 	}
 
 	const body = {
-		limit: user.child.server ? drilldown?.itemsPerPage ?? 10 : 10,
+		limit: drilldown.itemsPerPage,
 		page: drilldown.page,
 		query: drilldown.search,
-		sortBy: drilldown.sortBy.length ? drilldown.sortBy : defaultSortBy,
+		sortBy: user.child.sortBy,
 		userId,
 	};
 
@@ -377,7 +399,7 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 			...{
 				items: posts,
 				itemsLength: pagination.itemsLength,
-				itemsPerPage: user.child.server ? pagination.itemsPerPage : 5,
+				itemsPerPage: user.child.server ? pagination.limit : tableDefaults.itemsPerPage,
 				loading: false,
 				page: pagination.page,
 			},
@@ -406,37 +428,32 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	);
 	const url = 'api/users/posts/comments';
 
-	post.child = {};
-	post.child = {
-		...tableDefaults,
-		drilldownKey: 'id',
-		footers: footers.comments,
-		headers: headers.comments,
-		itemsLength: drilldown?.itemsLength ?? 0,
-		itemsPerPage: drilldown?.itemsPerPage ?? 0,
-		level: 3,
-		loading: true,
-		// server: false,
-	};
+	post.child = drilldown?.drilldown ?? tableDefaults;
+	post.child = Object.assign({}, {
+		...post.child,
+		...{
+			drilldownKey: 'id',
+			footers: footers.comments,
+			headers: headers.comments,
+			itemsLength: drilldown?.itemsLength ?? 0,
+			itemsPerPage: drilldown?.itemsPerPage ?? 0,
+			level: 3,
+			loading: true,
+			sortBy: [],
+		},
+	});
 
 	if (updateCurrentLevel) {
 		post.child.items = drilldown.items;
-	}
-
-	let sortBy = post.child.sortBy.length ? post.child.sortBy : defaultSortBy;
-
-	if (updateCurrentLevel && drilldown.sortBy.length) {
-		sortBy = drilldown.sortBy;
-		user.child.sortBy = sortBy;
-		post.child.sortBy = sortBy;
+		post.child.sortBy = drilldown.sortBy;
 	}
 
 	const body = {
-		limit: post.child.server ? drilldown?.itemsPerPage ?? 10 : 10,
+		limit: drilldown.itemsPerPage,
 		page: drilldown.page,
 		postId,
 		query: drilldown.search,
-		sortBy: drilldown.sortBy.length ? drilldown.sortBy : defaultSortBy,
+		sortBy: post.child.sortBy,
 		userId,
 	};
 
@@ -448,10 +465,9 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 			...{
 				items: comments,
 				itemsLength: pagination.itemsLength,
-				limit: post.child.server ? drilldown.itemsPerPage : 10,
+				limit: post.child.server ? drilldown.limit : tableDefaults.itemsPerPage,
 				loading: false,
 				page: pagination.page,
-				// server: false,
 			},
 		};
 	});
@@ -505,7 +521,7 @@ function fetchClientData(drilldown = null) {
 			headers: headers.posts,
 			level: 2,
 			loading: true,
-			// server: false,
+			sortBy: [],
 		};
 	}
 
@@ -532,7 +548,7 @@ function fetchClientData(drilldown = null) {
 			itemsPerPage: 2,
 			level: 3,
 			loading: true,
-			// server: false,
+			sortBy: [],
 		};
 
 		url = `api/posts/${postId}/comments`;
@@ -595,7 +611,6 @@ function updatedModelValue() {
 }
 
 function updatedSearch(event) {
-	// console.log('updatedSearch', event);
 	tableSettings.value.search = event.query;
 
 	if (isServerSide.value) {
@@ -604,22 +619,7 @@ function updatedSearch(event) {
 }
 
 function updateOptions(data) {
-	console.log(
-		'%c%s',
-		[
-			'background-color: black',
-			'border: 2px dotted red',
-			'border-radius: 5px',
-			'color: lime',
-			'font-weight: normal',
-			'padding: 5px 10px',
-		].join(';'),
-		'updateOptions',
-		data,
-	);
-
 	if (isServerSide.value) {
-		// console.log('data.drilldown', data.drilldown);
 		fetchServerData(data.drilldown, true);
 		return;
 	}
