@@ -21,32 +21,6 @@ export function useGetSortDirection(sortBy: Props['sortBy'], id: string): string
 
 
 /**
-* Checks if the loader is only linear
-*/
-export function useIsOnlyLinearLoader(loaderType: string | string[]): boolean {
-	let linearOnly = false;
-
-	if (loaderType === 'linear') {
-		linearOnly = true;
-	}
-
-	if (Array.isArray(loaderType)) {
-		linearOnly = loaderType.length === 1 && loaderType[0] === 'linear';
-	}
-
-	return linearOnly;
-};
-
-
-/**
-* Get's the loader height
-*/
-export function useLoaderHeight(loaderHeight: string | number): string | undefined {
-	return useConvertToUnit(loaderHeight) || '2px';
-};
-
-
-/**
 * Converts a string to a number with a unit.
 */
 export function useConvertToUnit(str: string | number, unit = 'px'): string | void {
