@@ -1,104 +1,103 @@
-import * as DrilldownTypes from '../../types';
+import type { PropType as __PropType } from 'vue';
+import { ColorsObject, Column, InternalDataTableHeader } from '../../types';
 declare const _sfc_main: import("vue").DefineComponent<{
     isTheadSlot: {
+        type: __PropType<boolean | undefined>;
+        required: false;
         default: boolean;
-        required: false;
-        type: BooleanConstructor;
     };
-    loadedDrilldown: {
-        required: true;
-        type: globalThis.PropType<DrilldownTypes.LoadedDrilldown>;
-    };
-    /**
-     * @name slotProps
-     *
-     * @param { Boolean } allSelected
-     * @param { object[] } columns
-     * 		@returns { DrilldownTypes.Column[] }
-     * @param { Function } getFixedStyles
-     * 		@param { InternalDataTableHeader } column
-     * 		@param { Number } y
-     * 		@returns { object }
-     * 			{
-     *				left:				@type { String | Number | undefined },
-     *				position:		@type { String },
-     *				top:				@type { String | Number | undefined },
-     *				zIndex:			@type { Number | undefined },
-     *			}
-     * @param { Function } getSortIcon
-     *		@returns { IconValue }
-     *			@type { String } $sortAsc | $sortDesc
-     * @param {( DataTableHeader[] | DataTableHeader[][] )} headers.
-     * @param { Function } selectAll
-     * 		@param { Boolean } value
-     * 		@returns { void }
-     * @param { Boolean } someSelected
-     * @param { Object } sortBy
-     * 		@returns { SortItem[] }
-     * 			[{
-     * 				key: 		@type { String },
-     * 				order?:	@type { boolean | 'asc' | 'desc' },
-     * 			}]
-     * @param { Function } toggleSort
-     * 		@param { String } key
-     * 		@returns { void }
-    */
     slotProps: {
-        required: false;
-        type: ObjectConstructor;
+        type: __PropType<{
+            allRowsSelected: boolean;
+            columns: Column[];
+            getSortIcon?: ((column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
+            index?: number | undefined;
+            item?: any;
+            selectAll: (value: boolean) => void;
+            someSelected: boolean;
+            sortBy: readonly {
+                key: string;
+                order?: boolean | "asc" | "desc" | undefined;
+            }[] | undefined;
+            toggleSort: (column: InternalDataTableHeader) => void;
+        }>;
+        required: true;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:sortBy" | "click:selectAll")[], "update:sortBy" | "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    colors: {
+        type: __PropType<ColorsObject | null | undefined>;
+        required: true;
+    };
+    density: {
+        type: __PropType<any>;
+        required: true;
+    };
+    level: {
+        type: __PropType<number>;
+        required: true;
+    };
+    showSelect: {
+        type: __PropType<boolean | undefined>;
+        required: false;
+        default: boolean;
+    };
+    sortBy: {
+        type: __PropType<readonly {
+            key: string;
+            order?: boolean | "asc" | "desc" | undefined;
+        }[] | undefined>;
+        required: true;
+    };
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "click:selectAll"[], "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     isTheadSlot: {
+        type: __PropType<boolean | undefined>;
+        required: false;
         default: boolean;
-        required: false;
-        type: BooleanConstructor;
     };
-    loadedDrilldown: {
-        required: true;
-        type: globalThis.PropType<DrilldownTypes.LoadedDrilldown>;
-    };
-    /**
-     * @name slotProps
-     *
-     * @param { Boolean } allSelected
-     * @param { object[] } columns
-     * 		@returns { DrilldownTypes.Column[] }
-     * @param { Function } getFixedStyles
-     * 		@param { InternalDataTableHeader } column
-     * 		@param { Number } y
-     * 		@returns { object }
-     * 			{
-     *				left:				@type { String | Number | undefined },
-     *				position:		@type { String },
-     *				top:				@type { String | Number | undefined },
-     *				zIndex:			@type { Number | undefined },
-     *			}
-     * @param { Function } getSortIcon
-     *		@returns { IconValue }
-     *			@type { String } $sortAsc | $sortDesc
-     * @param {( DataTableHeader[] | DataTableHeader[][] )} headers.
-     * @param { Function } selectAll
-     * 		@param { Boolean } value
-     * 		@returns { void }
-     * @param { Boolean } someSelected
-     * @param { Object } sortBy
-     * 		@returns { SortItem[] }
-     * 			[{
-     * 				key: 		@type { String },
-     * 				order?:	@type { boolean | 'asc' | 'desc' },
-     * 			}]
-     * @param { Function } toggleSort
-     * 		@param { String } key
-     * 		@returns { void }
-    */
     slotProps: {
+        type: __PropType<{
+            allRowsSelected: boolean;
+            columns: Column[];
+            getSortIcon?: ((column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
+            index?: number | undefined;
+            item?: any;
+            selectAll: (value: boolean) => void;
+            someSelected: boolean;
+            sortBy: readonly {
+                key: string;
+                order?: boolean | "asc" | "desc" | undefined;
+            }[] | undefined;
+            toggleSort: (column: InternalDataTableHeader) => void;
+        }>;
+        required: true;
+    };
+    colors: {
+        type: __PropType<ColorsObject | null | undefined>;
+        required: true;
+    };
+    density: {
+        type: __PropType<any>;
+        required: true;
+    };
+    level: {
+        type: __PropType<number>;
+        required: true;
+    };
+    showSelect: {
+        type: __PropType<boolean | undefined>;
         required: false;
-        type: ObjectConstructor;
+        default: boolean;
+    };
+    sortBy: {
+        type: __PropType<readonly {
+            key: string;
+            order?: boolean | "asc" | "desc" | undefined;
+        }[] | undefined>;
+        required: true;
     };
 }>> & {
-    "onUpdate:sortBy"?: ((...args: any[]) => any) | undefined;
     "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
 }, {
-    isTheadSlot: boolean;
-}>;
+    showSelect: boolean | undefined;
+    isTheadSlot: boolean | undefined;
+}, {}>;
 export default _sfc_main;

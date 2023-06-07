@@ -1,0 +1,13 @@
+import { UseBodyCellClasses, UseBodyRowClasses, UseCellAlignClasses, UseCellClasses, UseCheckBoxClasses, UseHeaderCellClasses, UseHeaderRowClasses, UseSortIconClasses, UseTFootCellClasses, UseTableClasses, UseTFootClasses, UseTFootRowClasses } from '../../types';
+export declare const useTableClasses: UseTableClasses;
+export declare const useCellAlignClasses: UseCellAlignClasses;
+export declare const useCheckBoxClasses: UseCheckBoxClasses;
+export declare const useCellClasses: UseCellClasses;
+export declare const useHeaderRowClasses: UseHeaderRowClasses;
+export declare const useHeaderCellClasses: UseHeaderCellClasses;
+export declare const useSortIconClasses: UseSortIconClasses;
+export declare const useBodyCellClasses: UseBodyCellClasses;
+export declare const useBodyRowClasses: UseBodyRowClasses;
+export declare const useTFootClasses: UseTFootClasses;
+export declare const useTFootRowClasses: UseTFootRowClasses;
+export declare const useTFootCellClasses: UseTFootCellClasses;

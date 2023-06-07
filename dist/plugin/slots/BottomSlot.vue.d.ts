@@ -1,13 +1,55 @@
-import * as DrilldownTypes from '../../types';
+import type { PropType as __PropType } from 'vue';
 declare const _sfc_main: import("vue").DefineComponent<{
-    loadedDrilldown: {
+    slotProps: {
+        type: __PropType<{
+            allSelected: boolean;
+            columns: import('../../types').InternalDataTableHeader[];
+            headers: import('../../types').InternalDataTableHeader[][];
+            isExpanded: (item: import('../../types').DataTableItem<any>) => boolean;
+            isSelected: (items: import('../../types').DataTableItem<any> | import('../../types').DataTableItem<any>[]) => boolean;
+            items: readonly import('../../types').DataTableItem<any>[];
+            itemsPerPage: string | number | undefined;
+            page: string | number | undefined;
+            pageCount: number;
+            select: (items: import('../../types').DataTableItem<any>[], value: boolean) => void;
+            selectAll: (value: boolean) => void;
+            setItemsPerPage: (itemsPerPage: number) => void;
+            someSelected: boolean;
+            sortBy: readonly {
+                key: string;
+                order?: boolean | "asc" | "desc" | undefined;
+            }[] | undefined;
+            toggleExpand: (item: import('../../types').DataTableItem<any>) => void;
+            toggleSelect: (item: import('../../types').DataTableItem<any>) => void;
+            toggleSort: (column: import('../../types').InternalDataTableHeader) => void;
+        }>;
         required: true;
-        type: globalThis.PropType<DrilldownTypes.LoadedDrilldown>;
     };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    loadedDrilldown: {
+    slotProps: {
+        type: __PropType<{
+            allSelected: boolean;
+            columns: import('../../types').InternalDataTableHeader[];
+            headers: import('../../types').InternalDataTableHeader[][];
+            isExpanded: (item: import('../../types').DataTableItem<any>) => boolean;
+            isSelected: (items: import('../../types').DataTableItem<any> | import('../../types').DataTableItem<any>[]) => boolean;
+            items: readonly import('../../types').DataTableItem<any>[];
+            itemsPerPage: string | number | undefined;
+            page: string | number | undefined;
+            pageCount: number;
+            select: (items: import('../../types').DataTableItem<any>[], value: boolean) => void;
+            selectAll: (value: boolean) => void;
+            setItemsPerPage: (itemsPerPage: number) => void;
+            someSelected: boolean;
+            sortBy: readonly {
+                key: string;
+                order?: boolean | "asc" | "desc" | undefined;
+            }[] | undefined;
+            toggleExpand: (item: import('../../types').DataTableItem<any>) => void;
+            toggleSelect: (item: import('../../types').DataTableItem<any>) => void;
+            toggleSort: (column: import('../../types').InternalDataTableHeader) => void;
+        }>;
         required: true;
-        type: globalThis.PropType<DrilldownTypes.LoadedDrilldown>;
     };
-}>>, {}>;
+}>>, {}, {}>;
 export default _sfc_main;

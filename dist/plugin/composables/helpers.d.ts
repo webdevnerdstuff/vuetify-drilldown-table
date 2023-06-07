@@ -1,8 +1,8 @@
-import { Column, DrilldownDebounce, LoadedDrilldown } from '../../types';
+import { Column, Props } from '../../types';
 /**
-* Debounce the drilldown
+* Get's the sort direction for a column
 */
-export declare function useDrilldownDebounce<T extends DrilldownDebounce>(func: T, wait: number, immediate: boolean): () => void;
+export declare function useGetSortDirection(sortBy: Props['sortBy'], id: string): string | boolean | void;
 /**
 * Converts a string to a number with a unit.
 */
@@ -10,12 +10,12 @@ export declare function useConvertToUnit(str: string | number, unit?: string): s
 /**
  * Render the cell item
  */
-export declare function useRenderCellItem(item: object, column: Column, index: number): unknown;
+export declare function useRenderCellItem(item: object, column: Column): unknown;
 /**
 * Render the cell
 * Used for both header and footer
 */
-export declare function useRenderCell(loadedDrilldown: LoadedDrilldown, column: Column, index: number): unknown;
+export declare function useRenderCell(column: Column): unknown;
 /**
  * Deep merge objects.
  */

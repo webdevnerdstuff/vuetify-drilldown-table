@@ -1,6 +1,6 @@
 {
 	"name": "vuetify-drilldown-table",
-	"version": "0.0.3-alpha",
+	"version": "1.0.0-beta",
 	"description": "The vuetify-drilldown-table",
 	"private": false,
 	"main": "dist/vuetify-drilldown-table.cjs.js",
@@ -11,7 +11,7 @@
 		"watch": "pnpm dev",
 		"play": "sh src/playground/configs/build.sh && NODE_ENV=playground vite",
 		"bundle": "rollup -c --bundleConfigAsCjs",
-		"build": "vue-tsc && vite build --config vite.build.config.ts",
+		"build": "vite build --config vite.build.config.ts",
 		"build:docs": "vite build",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d docs",
