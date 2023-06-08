@@ -96,7 +96,7 @@
 		</template>
 
 
-		<!-- ================================================== Loader Slot -->
+		<!-- ================================================== Loading Slot -->
 		<template
 			v-if="slots.loading"
 			#loading
@@ -349,13 +349,11 @@ const emit = defineEmits([
 	'click:row:checkbox',
 	'update:expanded',
 	'update:drilldown',
-	'update:drilldown:sortby',
 	'update:options',
 	'update:itemsPerPage',
 	'update:page',
 	'update:search',
 	'update:sortBy',
-	'update:sortByCustom',
 ]);
 
 
@@ -498,6 +496,7 @@ function emitClickRow(event: MouseEvent): void {
 }
 
 function emitClickRowCheckbox(item: DataTableItem): void {
+	console.log('emitClickRowCheckbox');
 	emit('click:row:checkbox', item);
 }
 
@@ -560,6 +559,7 @@ function updateItemsPerPage(val: Props['itemsPerPage']) {
 	const data = { drilldown, itemsPerPage: val, name: 'update:itemsPerPage' };
 
 	optionsBus.emit(data);
+	emit('update:itemsPerPage', val);
 }
 
 // ------------ Paging //
@@ -571,6 +571,7 @@ function updatePage(val: Props['page']) {
 	const data = { drilldown, name: 'update:page', page: val };
 
 	optionsBus.emit(data);
+	emit('update:page', val);
 }
 
 // ------------ Search //
@@ -581,9 +582,10 @@ watchDebounced(
 
 		const options = updatedOptions(loadedDrilldown);
 		const drilldown = { ...props, ...options, ...{ search: levelSearch.value } };
-		const data = { drilldown, name: 'update:search', search: levelSearch.value };
+		const data = { drilldown, search: levelSearch.value };
 
 		optionsBus.emit(data);
+		emit('update:search', data);
 	},
 	{
 		debounce: loadedDrilldown.searchDebounce as number,
