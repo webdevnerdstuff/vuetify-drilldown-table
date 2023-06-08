@@ -15,7 +15,11 @@
 
 			<v-row>
 				<v-col cols="12">
-					<p>TBD</p>
+					<CodeBlock
+						:code="usageCode"
+						highlightjs
+						lang="javascript"
+					/>
 				</v-col>
 			</v-row>
 		</v-col>
@@ -26,5 +30,12 @@
 import { inject } from 'vue';
 
 const classes = inject('classes');
-const links = inject('links');
+
+const usageCode = `import App from './App.vue';
+import VDrilldownTable from 'vuetify-drilldown-table';
+import { createApp } from 'vue';
+
+const app = createApp(App);
+app.use(VDrilldownTable);
+app.mount('#app');`;
 </script>

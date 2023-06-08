@@ -67,34 +67,31 @@
 		</v-row>
 
 		<!-- Description -->
-		<DescriptionComponent />
+		<DescriptionSection />
 
 		<!-- Usage -->
-		<UsageComponent />
+		<UsageSection />
 
 		<!-- Props -->
-		<PropsComponent />
+		<PropsSection />
 
 		<!-- Events -->
-		<EventsComponent />
+		<EventsSection />
 
 		<!-- Slots -->
-		<SlotsComponent />
-
-		<!-- SASS Variables -->
-		<SassVariables />
+		<SlotsSection />
 
 		<!-- Example -->
-		<ExampleComponent />
+		<ExampleSection />
 
 		<!-- Dependencies -->
-		<DependenciesComponent />
+		<DependenciesSection />
 
 		<!-- License -->
-		<LicenseComponent />
+		<LicenseSection />
 
 		<!-- Legal -->
-		<LegalComponent />
+		<LegalSection />
 	</v-container>
 </template>
 
@@ -102,17 +99,16 @@
 import { inject, provide, reactive, ref } from 'vue';
 import packageInfo from '../../package.json';
 import {
-	DependenciesComponent,
-	DescriptionComponent,
-	EventsComponent,
-	ExampleComponent,
-	LegalComponent,
-	LicenseComponent,
-	PropsComponent,
-	SassVariables,
-	SlotsComponent,
-	UsageComponent,
-} from '@/components/docs';
+	DependenciesSection,
+	DescriptionSection,
+	EventsSection,
+	ExampleSection,
+	LegalSection,
+	LicenseSection,
+	PropsSection,
+	SlotsSection,
+	UsageSection,
+} from '@/documentation/sections';
 
 const links = inject('links');
 
@@ -127,5 +123,24 @@ const componentVersion = ref(packageInfo.version);
 provide('classes', classes);
 </script>
 
+<style lang="scss" scoped>
+:deep(code) {
+	&.inline-code {
+		background-color: rgba(255, 255, 255, 0.1) !important;
+		border-radius: 3px;
+		font-size: 85%;
+		font-weight: normal;
+		padding: 0.2em 0.4em;
+	}
+}
+</style>
+
 <style lang="scss">
+.v-theme--light {
+	code {
+		&.inline-code {
+			background-color: rgba(0, 0, 0, 0.1) !important;
+		}
+	}
+}
 </style>
