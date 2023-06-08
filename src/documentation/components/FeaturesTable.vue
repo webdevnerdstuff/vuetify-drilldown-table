@@ -41,36 +41,34 @@
 					:sort-by="[{ key: 'name', order: 'asc' }]"
 				>
 					<template #[`item.name`]="{ item }">
-						<span>
-							<span
-								:id="`props-${sectionId ? `${sectionId}-${item.raw.name}` : item.raw.name}`"
-								class="name-item text-mono ml-n2"
-							>
-								<span class="text-primary">#</span>
-								<a
-									class="text-primary"
-									:class="classes.appLink"
-									:href="`#props-${sectionId ? `${sectionId}-${item.raw.name}` : item.raw.name}`"
-								>{{ item.raw.name }}</a>
-							</span>
-						</span>
+						<div
+							:id="slugifyString(sectionId, item.raw.name)"
+							class="name-item text-mono ml-n2"
+						>
+							<span class="text-primary">#</span>
+							<a
+								class="text-primary"
+								:class="classes.appLink"
+								:href="`#${slugifyString(sectionId, item.raw.name)}`"
+							>{{ item.raw.name }}</a>
+						</div>
 					</template>
 
 					<template #[`item.type`]="{ item }">
-						<span class="text-success">
+						<div class="text-success">
 							{{ item.raw.type }}
-						</span>
+						</div>
 					</template>
 
 					<template #[`item.default`]="{ item }">
-						<span
+						<div
 							class="text-accent"
 							v-html="item.raw.default"
-						></span>
+						></div>
 					</template>
 
 					<template #[`item.desc`]="{ item }">
-						<span v-html="item.raw.desc"></span>
+						<div v-html="item.raw.desc"></div>
 					</template>
 				</v-data-table>
 			</v-card>
@@ -80,6 +78,7 @@
 
 <script setup>
 import { inject } from 'vue';
+import { useSlugifyString } from '@/documentation/composables/slugifyStringHelper';
 
 
 const classes = inject('classes');
@@ -112,13 +111,22 @@ defineProps({
 });
 
 const search = ref('');
+
+function slugifyString(sectionId, name) {
+	const id = sectionId ? `${sectionId}-${name}` : name;
+
+	return useSlugifyString(id);
+}
 </script>
 
 <style lang="scss">
 .features-table {
 	td {
 		line-height: 2rem !important;
-		padding: 0.5rem 16px !important;
+
+		> div {
+			padding: 0.5rem 0 !important;
+		}
 	}
 }
 </style>

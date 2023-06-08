@@ -22,566 +22,14 @@
 		</v-col>
 
 		<v-col cols="12">
-			<FeaturesTable
-				:headers="store.tableHeaders"
-				:items="slotsCustom"
-				section-id="slots-custom"
-				section-title="Custom"
-				subtitle="These all of the slots that are custom to this component"
-			/>
-		</v-col>
-
-		<v-col cols="12">
-			<FeaturesTable
-				:headers="tableHeaders"
-				:items="slotsSupported"
-				section-id="slots-supported"
-				section-title="Supported"
-				subtitle="These all of the slots that are supported"
-			/>
-		</v-col>
-
-		<v-col cols="12">
-			<FeaturesTable
-				:headers="tableHeaders"
-				:items="slotsNotSupported"
-				section-id="slots-not-supported"
-				section-title="Not Supported"
-				subtitle="These all of the slots that are not supported"
-			/>
-		</v-col>
-
-		<v-col cols="12">
 			<v-row>
 				<v-col cols="12">
 					<v-card>
 						<v-table
 							class="features-table"
-							:headers="tableHeaders"
 							hide-default-footer
-							:items="slots"
-							:items-per-page="-1"
-							:search="search"
-							:sort-by="[{ key: 'name', order: 'asc' }]"
 						>
 							<tbody>
-								<!-- [`column.${string}`] slot -->
-								<tr
-									id="slots-column-string"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-column-string"
-											>[`column.${string}`]</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">[`column.${string}`]</code> slot is available for each column.
-									</td>
-								</tr>
-
-								<!-- [`item.${string}`] slot -->
-								<tr
-									id="slots-item-string"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-item-string"
-											>[`item.${string}`]</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">[`item.${string}`]</code> slot is available for each item.
-									</td>
-								</tr>
-
-								<!-- body slot -->
-								<tr
-									id="slots-body"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-body"
-											>body</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">body</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- colgroup slot -->
-								<!-- <tr
-									id="slots-colgroup"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-colgroup"
-											>colgroup</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">colgroup</code> slot is not available at this time.
-									</td>
-								</tr> -->
-
-								<!-- column.data-table-expand slot -->
-								<tr
-									id="slots-column-data-table-expand"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-column-data-table-expand"
-											>column.data-table-expand</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">column.data-table-expand</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- column.data-table-select slot -->
-								<tr
-									id="slots-column-data-table-select"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-column-data-table-select"
-											>column.data-table-select</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">column.data-table-select</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- data-table-group slot -->
-								<!-- <tr
-									id="slots-data-table-group"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-data-table-group"
-											>data-table-group</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">data-table-group</code> slot is not available as the <code
-											class="inline-code"
-										>group-by</code> prop and grouping is not available.
-									</td>
-								</tr> -->
-
-								<!-- data-table-select slot -->
-								<!-- <tr
-									id="slots-data-table-select"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-data-table-select"
-											>data-table-select</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">data-table-select</code> slot is not available as the <code
-											class="inline-code"
-										>group-by</code> prop and grouping is not available.
-									</td>
-								</tr> -->
-
-								<!-- default slot -->
-								<!-- <tr
-									id="slots-default"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-default"
-											>default</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">default</code> slot is not available.
-									</td>
-								</tr> -->
-
-								<!-- expanded-row slot -->
-								<!-- <tr
-									id="slots-expanded-row"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-expanded-row"
-											>expanded-row</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">expanded-row</code> slot is not available as the drilldown table is
-										using it.
-									</td>
-								</tr> -->
-
-								<!-- footer.prepend slot -->
-								<tr
-									id="slots-footer-prepend"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-footer-prepend"
-											>footer.prepend</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">footer.prepend</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- group-header slot -->
-								<!-- <tr
-									id="slots-group-header"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-group-header"
-											>group-header</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">group-header</code> slot is not available as the <code
-											class="inline-code"
-										>group-by</code> prop and grouping is not available.
-									</td>
-								</tr> -->
-
-								<!-- headers slot -->
-								<!-- <tr
-									id="slots-headers"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-headers"
-											>headers</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">headers</code> slot is not available as the drilldown table is using it.
-									</td>
-								</tr> -->
-
-								<!-- item slot -->
-								<!-- <tr
-									id="slots-item"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-item"
-											>item</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">item</code> slot is not available.
-									</td>
-								</tr> -->
-
-								<!-- item.data-table-expand slot -->
-								<tr
-									id="slots-item-data-table-expand"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-item-data-table-expand"
-											>item.data-table-expand</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">item.data-table-expand</code> is available even though the <code
-											class="inline-code"
-										>item</code> slot is not.
-									</td>
-								</tr>
-
-								<!-- item.data-table-select slot -->
-								<!-- <tr
-									id="slots-item-data-table-select"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-item-data-table-select"
-											>item.data-table-select</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">item.data-table-select</code> is available even though the <code
-											class="inline-code"
-										>item</code> slot is not.
-									</td>
-								</tr> -->
-
-								<!-- loader slot -->
-								<!-- <tr
-									id="slots-loader"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-loader"
-											>loader</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">loader</code> slot is not available.
-									</td>
-								</tr> -->
-
-								<!-- loading slot -->
-								<tr
-									id="slots-loading"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-loading"
-											>loading</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">loading</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- no-data slot -->
-								<tr
-									id="slots-no-data"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-no-data"
-											>no-data</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">no-data</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- tbody slot -->
-								<tr
-									id="slots-tbody"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-tbody"
-											>tbody</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">tbody</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- tfoot slot -->
-								<tr
-									id="slots-tfoot"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-tfoot"
-											>tfoot</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">tfoot</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- thead slot -->
-								<tr
-									id="slots-thead"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-thead"
-											>thead</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">thead</code> slot is available.
-									</td>
-								</tr>
-
-								<!-- top slot -->
-								<tr
-									id="slots-top"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-top"
-											>thead</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										The <code class="inline-code">top</code> slot is available.
-									</td>
-								</tr>
-
 								<!-- top.left slot -->
 								<tr
 									id="slots-top-left"
@@ -639,6 +87,26 @@
 				</v-col>
 			</v-row>
 		</v-col>
+
+		<v-col cols="12">
+			<FeaturesTable
+				:headers="tableHeaders"
+				:items="slotsSupported"
+				section-id="slots-supported"
+				section-title="Supported"
+				subtitle="These all of the Vuetify slots that are supported"
+			/>
+		</v-col>
+
+		<v-col cols="12">
+			<FeaturesTable
+				:headers="tableHeaders"
+				:items="slotsNotSupported"
+				section-id="slots-not-supported"
+				section-title="Not Supported"
+				subtitle="These all of the Vuetify slots that are not supported"
+			/>
+		</v-col>
 	</v-row>
 </template>
 
@@ -652,8 +120,6 @@ import { FeaturesTable } from '@/documentation/components';
 
 const classes = inject('classes');
 const store = useCoreStore();
-const search = ref('');
-
 const theme = useTheme();
 const isDark = ref(true);
 
@@ -678,7 +144,7 @@ const tableHeaders = [
 	{
 		align: 'start',
 		filterable: false,
-		key: 'info',
+		key: 'desc',
 		sortable: false,
 		title: 'Information',
 	},
@@ -700,162 +166,101 @@ const topLeftRightSlotCode = `{
   toggleSelectAll: () => void,
 }`;
 
-const slotsCustom = [
-	{
-		default: '',
-		desc: 'tbd',
-		name: 'top.left',
-		type: '',
-	},
-	{
-		default: '',
-		desc: 'tbd',
-		name: 'top.right',
-		type: '',
-	},
-];
-
 const slotsSupported = [
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">[`column.${string}`]</code> slot is available for each column',
 		name: '[`column.${string}`]',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">[`item.${string}`]</code> slot is available for each item',
 		name: '[`item.${string}`]',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">body</code> slot is available',
 		name: 'body',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">column.data-table-expand</code> slot is available',
 		name: 'column.data-table-expand',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">column.data-table-select</code> slot is available',
 		name: 'column.data-table-select',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">footer.prepend</code> slot is available',
 		name: 'footer.prepend',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">item.data-table-expand</code> is available',
 		name: 'item.data-table-expand',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">item.data-table-select</code> is available',
 		name: 'item.data-table-select',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">loader</code> slot is available for customizing the loading state of the data table. If you choose to use this slot you need to set the <a href="#props-all-loadertype"><code class="inline-code">loaderType</code></a> prop to <code class="inline-code">null</code> or <code class="inline-code">false</code> to disable the drilldown loader.',
+		name: 'loader',
+	},
+	{
+		desc: 'The <code class="inline-code">loading</code> slot is available',
 		name: 'loading',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">no-data</code> slot is available',
 		name: 'no-data',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">tbody</code> slot is available',
 		name: 'tbody',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">tfoot</code> slot is available',
 		name: 'tfoot',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">thead</code> slot is available',
 		name: 'thead',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">top</code> slot is available',
 		name: 'top',
-		type: '',
 	},
 ];
 
 const slotsNotSupported = [
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'Currently not supported. Needs testing.',
 		name: 'colgroup',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">data-table-group</code> slot is not available as the <code class="inline-code" >group-by</code> prop and grouping is not available',
 		name: 'data-table-group',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: '<code class="inline-code">MISSING DESCRIPTION</code> in the Vuetify docs',
 		name: 'data-table-select',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">default</code> slot is not available',
 		name: 'default',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">expanded-row</code> slot is not available as the drilldown table is using it',
 		name: 'expanded-row',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">group-header</code> slot is not available as the <code class="inline-code" >group-by</code> prop and grouping is not available',
 		name: 'group-header',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">headers</code> slot is not available as the drilldown table is using it',
 		name: 'headers',
-		type: '',
 	},
 	{
-		default: '',
-		desc: 'tbd',
+		desc: 'The <code class="inline-code">item</code> slot is not available. There are [render functions](link this) available via the <code class="inline-code">headers</code> prop. You can also use the <a href="#slots-supported-columnstring"><code class="inline-code">[`item.${string}`]</code></a> slot for each item.',
 		name: 'item',
-		type: '',
-	},
-	{
-		default: '',
-		desc: 'tbd',
-		name: 'loader',
-		type: '',
 	},
 ]
 

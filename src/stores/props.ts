@@ -12,9 +12,9 @@ export const usePropsStore = defineStore('props', () => {
 	const tableLoaderProps = [
 		{
 			default: 'linear',
-			desc: 'Sets the type of loader. Available types are <code class="inline-code">linear</code>, <code class="inline-code">circular</code>, <code class="inline-code">text</code> and <code class="inline-code">skelton</code>. You can also use multiple loaders by passing an array of types. The order of the array determines the order of the loaders.',
+			desc: 'Sets the type of loader. Available types are <code class="inline-code">linear</code>, <code class="inline-code">circular</code>, <code class="inline-code">text</code> and <code class="inline-code">skelton</code>. You can also use multiple loaders by passing an array of types. The order of the array determines the order of the loaders. To use the <a href="#slots-supported-loader"><code class="inline-code">loader</code></a> slot, set this prop to <code class="inline-code">null</code> or <code class="inline-code">false</code>.',
 			name: 'loaderType',
-			type: 'string | string[]',
+			type: 'string | string[] | false | null',
 		},
 		{
 			default: 'heading@1',
@@ -112,7 +112,7 @@ export const usePropsStore = defineStore('props', () => {
 		},
 		{
 			default: 0,
-			desc: `VDataTableServer specific prop. See <a href="${links.vuetify}/en/api/v-data-table-server/#props-items-length" target="_blank">items-length</a> prop for more information.`,
+			desc: `<code class="inline-code">VDataTableServer</code> specific prop. See <a href="${links.vuetify}/en/api/v-data-table-server/#props-items-length" target="_blank">items-length</a> prop for more information.`,
 			name: 'itemsLength',
 			type: 'number',
 		},
@@ -130,7 +130,7 @@ export const usePropsStore = defineStore('props', () => {
 		},
 		{
 			default: '1px',
-			desc: `Sets the height for the linear progress loader. See <a href="${links.vuetify}/en/api/v-progress-linear/#props-height" target="_blank">VProgressLinear</a> for more information.`,
+			desc: `Sets the height for the linear progress loader. See <a href="${links.vuetify}/en/api/v-progress-linear/#props-height" target="_blank"><code class="inline-code">VProgressLinear</code></a> for more information.`,
 			name: 'loaderHeight',
 			type: 'VProgressLinear["$props"]["height"]',
 		},

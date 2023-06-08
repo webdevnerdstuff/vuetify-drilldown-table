@@ -14,8 +14,9 @@
 			</h2>
 
 			<div>
-				Most of the Vuetify props for both <code>VDataTable</code> and <code>VDataTableServer</code> components work as
-				intended. Any specified props below may have different default values. Please refer to the <a
+				Most of the Vuetify props for both <code class="inline-code">VDataTable</code> and <code
+					class="inline-code">VDataTableServer</code> components work as intended. Any specified props below may have
+				different default values. Please refer to the <a
 					:href="store.links.vuetify"
 					target="_blank"
 				>Vuetify</a> documentation for specific props not shown here.
