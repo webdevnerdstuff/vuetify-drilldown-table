@@ -150,7 +150,7 @@ export interface Props {
 	level: number; 																											// * Custom Property
 	levels: number; 																										// * Custom Property
 	loaderHeight?: VProgressLinear['$props']['height'];									// * Custom Property
-	loaderType?: string | string[];																			// * Custom Property
+	loaderType?: string | string[] | false | null;											// * Custom Property
 	loading?: VDataTable['$props']['loading'];
 	loadingText?: VDataTable['$props']['loadingText'];									// ! Not working properly //
 	modelValue?: unknown[];
