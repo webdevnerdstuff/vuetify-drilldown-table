@@ -142,7 +142,6 @@ export interface Props {
 	item?: VDataTableRow['$props']['item'];															// * Custom Property
 	// itemChildren?: VDataTable['$props']['itemChildren'];							// ? Type missing in v3.3.0
 	itemChildrenKey?: string;																						// * Custom Property
-	// itemProps?: VDataTable['$props']['itemProps'];										// ? Type missing in v3.3.0
 	itemValue?: VDataTable['$props']['itemValue'];
 	items?: VDataTable['$props']['items'];
 	itemsLength?: number;
