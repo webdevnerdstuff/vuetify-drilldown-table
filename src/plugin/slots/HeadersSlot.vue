@@ -6,14 +6,14 @@
 		>
 			<!-- Column Dynamic Name Header Slot -->
 			<th
-				v-if="slots[`header.${column.key}`]"
+				v-if="slots[`column.${column.key}`]"
 				:class="cellClasses(column, column.key)"
 				:colspan="column.colspan || 1"
 				:style="cellStyles(column, true)"
 			>
 				<slot
 					:column="column"
-					:name="`header.${column.key}`"
+					:name="`column.${column.key}`"
 				/>
 			</th>
 			<!-- Column Render `data-table-select` -->
