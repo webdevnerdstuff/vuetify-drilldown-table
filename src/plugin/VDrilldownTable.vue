@@ -96,7 +96,14 @@
 		</template>
 
 
-		<!-- ================================================== Loading Slot -->
+		<!-- ================================================== Loader & Loading Slot -->
+		<template
+			v-if="slots.loader"
+			#loader
+		>
+			<slot name="loader" />
+		</template>
+
 		<template
 			v-if="slots.loading"
 			#loading
