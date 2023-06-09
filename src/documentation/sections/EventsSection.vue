@@ -2,7 +2,6 @@
 	<v-row>
 		<v-col
 			id="events"
-			class="mb-5"
 			cols="12"
 		>
 			<h2 :class="classes.h2">
@@ -12,19 +11,18 @@
 				>#</a>
 				Events
 			</h2>
+		</v-col>
 
-			<div>
-				Not all of the default Vuetify events for both <code class="inline-code">VDataTable</code> and <code
-					class="inline-code"
-				>VDataTableServer</code> components work as intended. In most cases the <code
-					class="inline-code">update:drilldown</code> and <code class="inline-code">update:options</code> will be the
-				events you need. Any specified events below may have different default
-				functionality. Please refer to
-				the <a
-					:href="store.links.vuetify"
-					target="_blank"
-				>Vuetify</a> documentation for specific events not shown here.
-			</div>
+		<v-col cols="12">
+			Not all of the default Vuetify events for both <code class="inline-code">VDataTable</code> and <code
+				class="inline-code"
+			>VDataTableServer</code> components work as intended. In most cases the <code
+				class="inline-code">update:drilldown</code> and <code class="inline-code">update:options</code> will be the
+			events you need. Any specified events below may have different default
+			functionality. Please refer to the <a
+				:href="store.links.vuetify"
+				target="_blank"
+			>Vuetify</a> documentation for specific events not shown here.
 		</v-col>
 
 		<v-col cols="12">

@@ -2,7 +2,6 @@
 	<v-row>
 		<v-col
 			id="cell-rendering"
-			class="mb-5"
 			cols="12"
 		>
 			<h2 :class="classes.h2">
@@ -12,16 +11,14 @@
 				>#</a>
 				Cell Rendering
 			</h2>
-
-			<div>
-				The VDrilldownTable <a href="#props-all-headers"><code class="inline-code">headers</code></a> props come with
-				some additional functionality. While the main functionality of the <code class="inline-code">headers</code> prop
-				remains the same, some additional rendering functions have been added. Additionally the <a
-					href="#props-all-footers"
-				><code class="inline-code">footers</code></a> prop has rendering functionality as well.
-			</div>
 		</v-col>
 
+		<v-col cols="12">
+			The VDrilldownTable <a href="#props-all-headers"><code class="inline-code">headers</code></a> props come with
+			some additional functionality. While the main functionality of the <code class="inline-code">headers</code> prop
+			remains the same, some additional rendering functions have been added. Additionally the <a
+				href="#props-all-footers"><code class="inline-code">footers</code></a> prop has rendering functionality as well.
+		</v-col>
 
 		<v-col cols="12">
 			<v-card>
@@ -222,7 +219,6 @@
 				</v-table>
 			</v-card>
 		</v-col>
-
 	</v-row>
 </template>
 

@@ -5,16 +5,18 @@ export const usePropsStore = defineStore('props', () => {
 	const coreStore = useCoreStore();
 	const links = coreStore.links;
 
-	// const colorDesc = 'Applies specified color to the';
-	// const densityDesc = 'Adjusts the vertical height used by the component';
-	// const variantDesc = 'Applies a distinct style to the';
-
 	const tableLoaderProps = [
 		{
 			default: '1px',
 			desc: `Sets the height for the linear progress loader. See <a href="${links.vuetify}/en/api/v-progress-linear/#props-height" target="_blank"><code class="inline-code">VProgressLinear</code></a> for more information.`,
 			name: 'loaderHeight',
 			type: 'VProgressLinear["$props"]["height"]',
+		},
+		{
+			default: 'default',
+			desc: `Sets the diameter of the circular progress loader circle in pixels. See <a href="${links.vuetify}/en/api/v-progress-circular/#props-size" target="_blank"><code class="inline-code">VProgressCircular</code></a> for more information.`,
+			name: 'loaderSize',
+			type: 'VProgressCircular["$props"]["size"]',
 		},
 		{
 			default: 'linear',
@@ -34,7 +36,7 @@ export const usePropsStore = defineStore('props', () => {
 		...tableLoaderProps,
 		{
 			default: 'null',
-			desc: 'Applies specified colors to the table',
+			desc: 'Applies specified colors to the table. See the <a href="#props-colors">Colors Prop</a> section for more information.',
 			name: 'colors',
 			type: 'ColorsObject | null',
 		},
@@ -70,7 +72,7 @@ export const usePropsStore = defineStore('props', () => {
 		// },
 		{
 			default: undefined,
-			desc: 'An array of objects that each describe a footer column. The formatting of the objects are the same as the <a href="#props-all-headers"><code class="inline-code">headers</code></a> prop and should be the same (mostly) to create the same columns. See <a href="#cell-rendering">Cell Rendering</a> for more information about rendering.',
+			desc: 'An array of objects that each describe a footer column. The formatting of the objects are the same as the <a href="#props-all-headers"><code class="inline-code">headers</code></a> prop and should be the same (mostly) to create the same columns. To enabled the <code class="inline-code">footers</code> row you will need to set the <a href="#props-all-showfooterrow"><code class="inline-code">showFooterRow</code></a> prop to true. See <a href="#cell-rendering">Cell Rendering</a> for more information about rendering.',
 			name: 'footers',
 			type: 'Column[]',
 		},
@@ -188,12 +190,12 @@ export const usePropsStore = defineStore('props', () => {
 			name: 'showDrilldownWhenLoading',
 			type: 'boolean',
 		},
-		// {
-		// 	default: true,
-		// 	desc: 'tbd',
-		// 	name: 'showFooterRow',
-		// 	type: 'boolean',
-		// },
+		{
+			default: false,
+			desc: 'Determines if the table should show the footer row, which by default shows the same values as the header row. To customize the footer row, use the <a href="#props-all-footers"><code class="inline-code">footers</code></a> prop.',
+			name: 'showFooterRow',
+			type: 'boolean',
+		},
 		{
 			default: false,
 			desc: 'Determines if the table should show the <code class="inline-code">VTextField</code> in the <code class="inline-code">top</code> slot',

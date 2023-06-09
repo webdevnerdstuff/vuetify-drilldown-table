@@ -2,7 +2,6 @@
 	<v-row>
 		<v-col
 			id="slots"
-			class="mb-5"
 			cols="12"
 		>
 			<h2 :class="classes.h2">
@@ -12,13 +11,13 @@
 				>#</a>
 				Slots
 			</h2>
+		</v-col>
 
-			<div>
-				Most of the available table slots are available. Please refer to the <a
-					:href="store.links.vuetify"
-					target="_blank"
-				>Vuetify</a> documentation for specific slots information not shown here.
-			</div>
+		<v-col cols="12">
+			Most of the available table slots are available. Please refer to the <a
+				:href="store.links.vuetify"
+				target="_blank"
+			>Vuetify</a> documentation for specific slots information not shown here.
 		</v-col>
 
 		<v-col cols="12">

@@ -123,7 +123,11 @@ const loaderHeight = computed(() => {
 });
 
 const isLinearOnly = computed<boolean>(() => {
-	const response = useIsOnlyLinearLoader(props.loaderType);
+	let response = false;
+
+	if (props.loaderType !== null && props.loaderType !== false) {
+		response = useIsOnlyLinearLoader(props.loaderType);
+	}
 
 	return response;
 });

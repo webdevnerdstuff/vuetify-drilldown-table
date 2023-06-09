@@ -91,6 +91,7 @@
 				:loader-type="loadedDrilldown.loaderType"
 				:loading="loadedDrilldown.loading || false"
 				:loading-text="loadingText"
+				:size="loadedDrilldown.loaderSize"
 				:skelton-type="loadedDrilldown.skeltonType"
 			/>
 		</template>
@@ -198,6 +199,7 @@
 				:loader-type="item.raw[itemChildrenKey].loaderType"
 				:loading="item.raw[itemChildrenKey]?.loading"
 				:loading-text="loadingText"
+				:size="item.raw[itemChildrenKey].loaderSize"
 				:skelton-type="item.raw[itemChildrenKey].skeltonType"
 			/>
 

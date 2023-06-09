@@ -5,7 +5,7 @@ export const AllProps = {
 	colors: null,																			// * Works
 	// customFilter: undefined, 													// ? Needs Testing
 	// customKeyFilter: undefined,												// ? Needs Testing
-	density: 'comfortable',														// * Works
+	density: 'default',																// * Works
 	// drilldown: () => ({}),
 	drilldownKey: 'id',																// * Works
 	elevation: 0,																			// * Works
@@ -56,7 +56,8 @@ export const AllProps = {
 	// lastIcon: '', 																	// & Works - Is binding prop
 	level: 1,
 	levels: 1,
-	loaderHeight: '1px',
+	loaderHeight: '2px',
+	loaderSize: 'default',
 	loaderType: 'linear',
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
@@ -85,7 +86,7 @@ export const AllProps = {
 	server: false,
 	showDrilldownWhenLoading: true,
 	showExpand: false,																// ? Works but needs testing.- Not sure if needed in this object
-	showFooterRow: true,															// ? Not sure if I will use this. Depends on a possible footer slot
+	showFooterRow: false,															// ? Not sure if I will use this. Depends on a possible footer slot
 	showSearch: false,																// * Custom Prop
 	showSelect: false,																// * Works
 	skeltonType: 'heading@1',													// * Works

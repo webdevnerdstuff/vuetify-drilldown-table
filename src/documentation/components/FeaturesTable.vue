@@ -8,10 +8,13 @@
 				>#</a>
 				{{ sectionTitle }}
 			</h3>
-			<div
-				v-if="subtitle"
-				v-html="subtitle"
-			></div>
+		</v-col>
+
+		<v-col
+			v-if="subtitle"
+			cols="12"
+		>
+			<div v-html="subtitle"></div>
 		</v-col>
 	</v-row>
 

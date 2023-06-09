@@ -56,6 +56,8 @@ const sortArray = (array, key, order) => {
 	});
 };
 
+const namespace = 'vuetify-drilldown-table/api';
+
 
 export function makeServer({ environment = 'development' } = {}) {
 	const server = createServer({
@@ -99,7 +101,13 @@ export function makeServer({ environment = 'development' } = {}) {
 
 		// -------------------------------------------------- Routes //
 		routes() {
-			this.namespace = 'vuetify-drilldown-table/playground/api';
+			let namespace = 'vuetify-drilldown-table/api';
+
+			if (this.environment === 'playground') {
+				namespace = 'vuetify-drilldown-table/playground/api';
+			}
+
+			this.namespace = namespace;
 
 
 			// ------------------------- Client Side //
@@ -239,6 +247,8 @@ export function makeServer({ environment = 'development' } = {}) {
 					},
 				};
 			});
+
+			this.passthrough('https://cdn.jsdelivr.net/gh/PrismJS/prism@1.29.0/themes/prism-tomorrow.css');
 		},
 
 		// -------------------------------------------------- Seeds //
