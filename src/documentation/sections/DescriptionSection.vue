@@ -42,15 +42,6 @@
 
 			<v-row>
 				<v-col cols="12">
-					To utilize the Vuetify Drilldown Table effectively, a certain level of understanding of recursive structures
-					is required. Recursiveness refers to the ability of a function or component to call itself repeatedly,
-					creating a nested structure. In the context of the Drilldown Table, it means that the table can display data
-					with multiple levels of nesting, allowing users to explore hierarchical relationships.
-				</v-col>
-			</v-row>
-
-			<v-row>
-				<v-col cols="12">
 					By leveraging the recursive nature of the Drilldown Table, you can create expandable rows that reveal
 					additional nested data when clicked. This enables you to present complex information in a structured and
 					user-friendly manner. Users can navigate through the levels of data by expanding or collapsing rows, revealing
@@ -67,6 +58,20 @@
 					understanding of recursiveness to effectively utilize its capabilities and display hierarchical data in a nested
 					format. With the Drilldown Table, you can present complex datasets in a user-friendly manner, allowing users to
 					explore hierarchical relationships at multiple levels.
+				</v-col>
+			</v-row>
+
+			<v-row>
+				<v-col cols="12">
+					<v-alert
+						color="primary"
+						density="compact"
+						icon="$info"
+					>
+						To understand how to use the Drilldown Table effectively, it is important to have a grasp on recursive
+						structures. Recursiveness enables a function or component to call itself repeatedly, creating a nested
+						structure. In the case of the Drilldown Table, this feature makes it easier for users to navigate through
+						multiple levels of nested data, facilitating the exploration of hierarchical relationships.</v-alert>
 				</v-col>
 			</v-row>
 		</v-col>

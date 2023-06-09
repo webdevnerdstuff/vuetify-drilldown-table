@@ -74,6 +74,11 @@ export const useMenuStore = defineStore('menu', () => {
 			title: 'Props',
 		},
 		{
+			href: '#cell-rendering',
+			icon: 'mdi:mdi-table-cog',
+			title: 'Cell Rendering',
+		},
+		{
 			href: '#events',
 			icon: 'mdi:mdi-calendar-star',
 			title: 'Events',

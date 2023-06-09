@@ -42,8 +42,10 @@
 					<v-col cols="12">
 						<CodeBlock
 							code="pnpm add vuetify-drilldown-table"
-							highlightjs
+							:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 							lang="plain"
+							:prismjs="codeBlockSettings.plugin === 'prismjs'"
+							:theme="codeBlockSettings.theme"
 						>
 							<template #label>
 								Using <a
@@ -56,8 +58,10 @@
 					<v-col cols="12">
 						<CodeBlock
 							code="npm i vuetify-drilldown-table"
-							highlightjs
+							:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 							lang="plain"
+							:prismjs="codeBlockSettings.plugin === 'prismjs'"
+							:theme="codeBlockSettings.theme"
 						>
 							<template #label>Using npm:</template>
 						</CodeBlock>
@@ -70,16 +74,19 @@
 		<DescriptionSection />
 
 		<!-- Usage -->
-		<UsageSection />
+		<UsageSection :codeBlockOptions="codeBlockOptions" />
 
 		<!-- Props -->
 		<PropsSection />
+
+		<!-- Cell Rendering -->
+		<CellRenderingSection :codeBlockOptions="codeBlockOptions" />
 
 		<!-- Events -->
 		<EventsSection />
 
 		<!-- Slots -->
-		<SlotsSection />
+		<SlotsSection :codeBlockOptions="codeBlockOptions" />
 
 		<!-- Example -->
 		<ExampleSection />
@@ -99,6 +106,7 @@
 import { inject, provide, reactive, ref } from 'vue';
 import packageInfo from '../../package.json';
 import {
+	CellRenderingSection,
 	DependenciesSection,
 	DescriptionSection,
 	EventsSection,
@@ -110,6 +118,15 @@ import {
 	UsageSection,
 } from '@/documentation/sections';
 
+
+const props = defineProps({
+	codeBlockOptions: {
+		required: true,
+		type: Object,
+	},
+});
+
+const codeBlockSettings = computed(() => props.codeBlockOptions);
 const links = inject('links');
 
 const classes = reactive({

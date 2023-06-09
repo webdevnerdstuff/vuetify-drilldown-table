@@ -11,6 +11,12 @@ export const usePropsStore = defineStore('props', () => {
 
 	const tableLoaderProps = [
 		{
+			default: '1px',
+			desc: `Sets the height for the linear progress loader. See <a href="${links.vuetify}/en/api/v-progress-linear/#props-height" target="_blank"><code class="inline-code">VProgressLinear</code></a> for more information.`,
+			name: 'loaderHeight',
+			type: 'VProgressLinear["$props"]["height"]',
+		},
+		{
 			default: 'linear',
 			desc: 'Sets the type of loader. Available types are <code class="inline-code">linear</code>, <code class="inline-code">circular</code>, <code class="inline-code">text</code> and <code class="inline-code">skelton</code>. You can also use multiple loaders by passing an array of types. The order of the array determines the order of the loaders. To use the <a href="#slots-supported-loader"><code class="inline-code">loader</code></a> slot, set this prop to <code class="inline-code">null</code> or <code class="inline-code">false</code>.',
 			name: 'loaderType',
@@ -64,13 +70,13 @@ export const usePropsStore = defineStore('props', () => {
 		// },
 		{
 			default: undefined,
-			desc: 'Footer rows',
+			desc: 'An array of objects that each describe a footer column. The formatting of the objects are the same as the <a href="#props-all-headers"><code class="inline-code">headers</code></a> prop and should be the same (mostly) to create the same columns. See <a href="#cell-rendering">Cell Rendering</a> for more information about rendering.',
 			name: 'footers',
 			type: 'Column[]',
 		},
 		{
 			default: undefined,
-			desc: 'Header rows',
+			desc: 'An array of objects that each describe a header column. See <a href="#cell-rendering">Cell Rendering</a> for more information about rendering.',
 			name: 'headers',
 			type: 'VDataTable["$props"]["headers"]',
 		},
@@ -92,12 +98,12 @@ export const usePropsStore = defineStore('props', () => {
 		// 	name: 'hideDefaultHeader',
 		// 	type: 'boolean',
 		// },
-		// {
-		// 	default: false,
-		// 	desc: 'tbd',
-		// 	name: 'isDrilldown',
-		// 	type: 'boolean',
-		// },
+		{
+			default: false,
+			desc: 'Internal use only',
+			name: 'isDrilldown',
+			type: 'boolean',
+		},
 		{
 			default: undefined,
 			desc: 'Internal use only',
@@ -127,12 +133,6 @@ export const usePropsStore = defineStore('props', () => {
 			desc: 'The total number of drilldown levels',
 			name: 'levels',
 			type: 'number',
-		},
-		{
-			default: '1px',
-			desc: `Sets the height for the linear progress loader. See <a href="${links.vuetify}/en/api/v-progress-linear/#props-height" target="_blank"><code class="inline-code">VProgressLinear</code></a> for more information.`,
-			name: 'loaderHeight',
-			type: 'VProgressLinear["$props"]["height"]',
 		},
 		{
 			default: false,

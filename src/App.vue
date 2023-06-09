@@ -1,7 +1,10 @@
 <template>
 	<v-app id="home">
 		<!-- ====================================================== App Bar -->
-		<AppBar @updated-drawer="toggleDrawer" />
+		<AppBar
+			@changed-theme="updateCodeBlockTheme"
+			@updated-drawer="toggleDrawer"
+		/>
 
 		<!-- ====================================================== Navigation Drawer -->
 		<v-navigation-drawer
@@ -17,7 +20,7 @@
 		<v-main class="main-container pb-10">
 			<v-responsive>
 				<v-container class="px-10">
-					<DocsPage />
+					<DocsPage :codeBlockOptions="codeBlockSettings" />
 				</v-container>
 			</v-responsive>
 		</v-main>
@@ -30,6 +33,9 @@ import AppBar from './documentation/layout/AppBar.vue';
 import MenuComponent from './documentation/components/MenuComponent.vue';
 import DocsPage from './documentation/DocsPage.vue';
 import { useCoreStore } from './stores/index';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+import Prism from 'prismjs';
+import 'prismjs/components/prism-typescript.js';
 
 
 const store = useCoreStore();
@@ -39,6 +45,23 @@ const drawerOptions = ref({
 	color: '',
 	elevation: 10,
 });
+
+const codeBlockPlugin = 'prismjs';
+const codeBlockLightTheme = 'tomorrow';
+const codeBlockDarkTheme = 'tomorrow';
+
+const codeBlockSettings = ref({
+	plugin: codeBlockPlugin,
+	theme: codeBlockDarkTheme,
+});
+
+function updateCodeBlockTheme(val) {
+	codeBlockSettings.value.theme = codeBlockLightTheme;
+
+	if (val === 'dark') {
+		codeBlockSettings.value.theme = codeBlockDarkTheme;
+	}
+}
 
 provide('drawerOptions', drawerOptions);
 provide('links', store.links);

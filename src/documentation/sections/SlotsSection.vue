@@ -22,70 +22,80 @@
 		</v-col>
 
 		<v-col cols="12">
-			<v-row>
-				<v-col cols="12">
-					<v-card>
-						<v-table
-							class="features-table"
-							hide-default-footer
-						>
-							<tbody>
-								<!-- top.left slot -->
-								<tr
-									id="slots-top-left"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-top-left"
-											>top.left</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<CodeBlock
-											:code="topLeftRightSlotCode"
-											highlightjs
-											lang="javascript"
-										/>
-									</td>
-								</tr>
+			<h3 :class="classes.h3">
+				<a
+					:class="classes.headerA"
+					:href="`#slots-custom`"
+				>#</a>
+				Custom Slots
+			</h3>
+		</v-col>
 
-								<!-- top.right slot -->
-								<tr
-									id="slots-top-right"
-									:class="rowClass"
-								>
-									<td>
-										<span class="name-item text-mono ml-n2">
-											<span class="text-primary">#</span>
-											<a
-												class="text-primary"
-												:class="classes.appLink"
-												href="#slots-top-right"
-											>top.right</a>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<CodeBlock
-											:code="topLeftRightSlotCode"
-											highlightjs
-											lang="javascript"
-										/>
-									</td>
-								</tr>
-							</tbody>
-						</v-table>
-					</v-card>
-				</v-col>
-			</v-row>
+		<v-col cols="12">
+			<v-card>
+				<v-table
+					class="features-table"
+					hide-default-footer
+				>
+					<tbody>
+						<!-- top.left slot -->
+						<tr
+							id="slots-top-left"
+							:class="rowClass"
+						>
+							<td>
+								<span class="name-item text-mono ml-n2">
+									<span class="text-primary">#</span>
+									<a
+										class="text-primary"
+										:class="classes.appLink"
+										href="#slots-top-left"
+									>top.left</a>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<CodeBlock
+									:code="topLeftRightSlotCode"
+									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
+									lang="typescript"
+									:prismjs="codeBlockSettings.plugin === 'prismjs'"
+									:theme="codeBlockSettings.theme"
+								/>
+							</td>
+						</tr>
+
+						<!-- top.right slot -->
+						<tr
+							id="slots-top-right"
+							:class="rowClass"
+						>
+							<td>
+								<span class="name-item text-mono ml-n2">
+									<span class="text-primary">#</span>
+									<a
+										class="text-primary"
+										:class="classes.appLink"
+										href="#slots-top-right"
+									>top.right</a>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<CodeBlock
+									:code="topLeftRightSlotCode"
+									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
+									lang="typescript"
+									:prismjs="codeBlockSettings.plugin === 'prismjs'"
+									:theme="codeBlockSettings.theme"
+								/>
+							</td>
+						</tr>
+					</tbody>
+				</v-table>
+			</v-card>
 		</v-col>
 
 		<v-col cols="12">
@@ -112,14 +122,22 @@
 
 
 <script setup>
-import { inject, watch } from 'vue';
+import { computed, inject, watch } from 'vue';
 import { useTheme } from 'vuetify';
 import { useCoreStore } from '@/stores/index';
 import { FeaturesTable } from '@/documentation/components';
 
 
-const classes = inject('classes');
+const props = defineProps({
+	codeBlockOptions: {
+		required: true,
+		type: Object,
+	},
+});
+
+const codeBlockSettings = computed(() => props.codeBlockOptions);
 const store = useCoreStore();
+const classes = inject('classes');
 const theme = useTheme();
 const isDark = ref(true);
 

@@ -17,8 +17,10 @@
 				<v-col cols="12">
 					<CodeBlock
 						:code="usageCode"
-						highlightjs
+						:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 						lang="javascript"
+						:prismjs="codeBlockSettings.plugin === 'prismjs'"
+						:theme="codeBlockSettings.theme"
 					/>
 				</v-col>
 			</v-row>
@@ -27,8 +29,16 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { computed, inject } from 'vue';
 
+const props = defineProps({
+	codeBlockOptions: {
+		required: true,
+		type: Object,
+	},
+});
+
+const codeBlockSettings = computed(() => props.codeBlockOptions);
 const classes = inject('classes');
 
 const usageCode = `import App from './App.vue';
