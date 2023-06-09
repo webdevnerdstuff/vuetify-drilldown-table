@@ -55,6 +55,21 @@ export const useMenuStore = defineStore('menu', () => {
 			title: 'Description',
 		},
 		{
+			href: '#usage',
+			icon: 'mdi:mdi-power-plug',
+			title: 'Usage',
+		},
+		{
+			href: '#examples',
+			icon: 'mdi:mdi-code-json',
+			title: 'Examples',
+		},
+		{
+			href: '#playground',
+			icon: 'mdi:mdi-seesaw',
+			title: 'Playground',
+		},
+		{
 			href: '#props',
 			icon: 'mdi:mdi-cog',
 			items: [
@@ -69,6 +84,12 @@ export const useMenuStore = defineStore('menu', () => {
 					icon: 'mdi:mdi-circle-outline',
 					key: 'props-table-loader',
 					title: 'Table Loader',
+				},
+				{
+					href: '#props-colors',
+					icon: 'mdi:mdi-palette',
+					key: 'props-colors',
+					title: 'Colors',
 				},
 			],
 			title: 'Props',
@@ -87,11 +108,6 @@ export const useMenuStore = defineStore('menu', () => {
 			href: '#slots',
 			icon: 'mdi:mdi-slot-machine',
 			title: 'Slots',
-		},
-		{
-			href: '#example',
-			icon: 'mdi:mdi-code-json',
-			title: 'Example',
 		},
 		{
 			href: '#dependencies',
