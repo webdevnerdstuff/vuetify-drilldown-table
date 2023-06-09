@@ -12,5 +12,5 @@ export const useEmitUpdatedExpanded: UseEmitUpdatedExpanded = (options) => {
 		emit('update:drilldown', drilldownData);
 	}
 
-	emit('update:expanded', data);
+	emit('update:expanded', data.item);
 };

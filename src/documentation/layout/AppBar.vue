@@ -12,8 +12,7 @@
 			:width="iconSize.width"
 			@click.stop="toggleDrawer"
 		>
-			<!-- @click.stop="toggleDrawer" -->
-			<v-icon>mdi-menu</v-icon>
+			<v-icon icon="mdi:mdi-menu"></v-icon>
 		</v-app-bar-nav-icon>
 		<v-app-bar-nav-icon
 			v-else
@@ -22,57 +21,37 @@
 			:href="`/${store.storageName}/`"
 			:width="iconSize.width"
 		>
-			<v-icon>mdi-home</v-icon>
+			<v-icon icon="mdi:mdi-home"></v-icon>
 		</v-app-bar-nav-icon>
 
 		<div class="site-title">Vuetify Drilldown Table</div>
 
 		<v-spacer></v-spacer>
 
-		<v-btn
-			v-if="isPlayground"
-			class="me-2 text-capitalize"
-			:href="links.vuetifyGithub"
-			target="_blank"
-			title="Vuetify Github"
-			variant="outlined"
+		<v-select
+			class="ma-0 pa-0 me-2"
+			density="compact"
+			hide-details
+			:items="menuItems"
+			multiple
+			placeholder="Vuetify Links"
+			prepend-inner-icon="mdi:mdi-vuetify"
+			style="height: inherit; max-width: 300px; width: 300px;"
+			title="name"
+			variant="underlined"
 		>
-			<v-icon class="me-1">mdi-vuetify</v-icon> Github
-		</v-btn>
-
-		<v-btn
-			v-if="isPlayground"
-			class="me-2 text-capitalize"
-			:href="`${links.vuetify}en/api/v-data-table/`"
-			target="_blank"
-			title="Vuetify v-data-table API"
-			variant="outlined"
-		>
-			<v-icon class="me-1">mdi-vuetify</v-icon> VDataTable
-		</v-btn>
-
-		<v-btn
-			v-if="isPlayground"
-			class="me-2 text-capitalize"
-			:href="`${links.vuetify}en/api/v-text-field/`"
-			target="_blank"
-			title="Vuetify v-text-field API"
-			variant="outlined"
-		>
-			<v-icon class="me-1">mdi-vuetify</v-icon> VTextField
-		</v-btn>
-
-		<v-btn
-			v-if="isPlayground"
-			class="me-2"
-			:height="iconSize.height"
-			:href="`${links.vuetify}en/components/all/`"
-			icon
-			target="_blank"
-			:width="iconSize.width"
-		>
-			<v-icon>mdi-vuetify</v-icon>
-		</v-btn>
+			<template #item="{ item }">
+				<v-list-item
+					:key="item.key"
+					density="compact"
+					:href="item.raw.link"
+					:prepend-icon="item.raw.icon ? item.raw.icon : 'mdi:mdi-vuetify'"
+					target="_blank"
+					:title="item.raw?.topTitle || item.title"
+				>
+				</v-list-item>
+			</template>
+		</v-select>
 
 		<v-btn
 			class="me-2"
@@ -82,7 +61,7 @@
 			target="_blank"
 			:width="iconSize.width"
 		>
-			<v-icon>mdi-github</v-icon>
+			<v-icon icon="mdi:mdi-github" />
 		</v-btn>
 
 		<v-btn
@@ -93,7 +72,7 @@
 			target="_blank"
 			:width="iconSize.width"
 		>
-			<v-icon>mdi-npm</v-icon>
+			<v-icon icon="mdi:mdi-npm" />
 		</v-btn>
 
 		<v-btn
@@ -103,15 +82,22 @@
 			:width="iconSize.width"
 			@click="setTheme"
 		>
-			<v-icon v-if="themeName === 'dark'">mdi-weather-night</v-icon>
-			<v-icon v-else>mdi-weather-sunny</v-icon>
+			<v-icon
+				v-if="themeName === 'dark'"
+				icon="mdi:mdi-weather-night"
+			/>
+			<v-icon
+				v-else
+				icon="mdi:mdi-weather-sunny"
+			/>
 		</v-btn>
 	</v-app-bar>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, provide } from 'vue';
 import { useCoreStore } from '@/stores/index';
+import { useMenuStore } from '@/stores/menu';
 import { useTheme } from 'vuetify';
 
 const emit = defineEmits(['changedTheme', 'updatedDrawer']);
@@ -123,6 +109,11 @@ defineProps({
 	},
 });
 
+onMounted(() => {
+	getTheme();
+});
+
+const menuStore = useMenuStore();
 const store = useCoreStore();
 const theme = useTheme();
 
@@ -130,13 +121,13 @@ const links = store.links;
 const themeName = ref('dark');
 const drawer = ref(true);
 
+provide('themeName', themeName);
+
+const menuItems = [...menuStore.vuetifyLinks];
+
 const iconSize = ref({
 	height: 32,
 	width: 32,
-});
-
-onMounted(() => {
-	getTheme();
 });
 
 function getTheme() {
@@ -153,6 +144,7 @@ function getTheme() {
 function setTheme() {
 	themeName.value = store.setTheme(themeName.value);
 	theme.global.name.value = themeName.value;
+	emit('changedTheme', themeName.value);
 }
 
 function toggleDrawer() {

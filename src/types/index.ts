@@ -142,7 +142,6 @@ export interface Props {
 	item?: VDataTableRow['$props']['item'];															// * Custom Property
 	// itemChildren?: VDataTable['$props']['itemChildren'];							// ? Type missing in v3.3.0
 	itemChildrenKey?: string;																						// * Custom Property
-	// itemProps?: VDataTable['$props']['itemProps'];										// ? Type missing in v3.3.0
 	itemValue?: VDataTable['$props']['itemValue'];
 	items?: VDataTable['$props']['items'];
 	itemsLength?: number;
@@ -151,7 +150,7 @@ export interface Props {
 	level: number; 																											// * Custom Property
 	levels: number; 																										// * Custom Property
 	loaderHeight?: VProgressLinear['$props']['height'];									// * Custom Property
-	loaderType?: string | string[];																			// * Custom Property
+	loaderType?: string | string[] | false | null;											// * Custom Property
 	loading?: VDataTable['$props']['loading'];
 	loadingText?: VDataTable['$props']['loadingText'];									// ! Not working properly //
 	modelValue?: unknown[];
@@ -383,6 +382,7 @@ export interface Column {
 	fixedOffset?: number;
 	key?: string;
 	renderCell?: CellRender;
+	renderFooter?: CellRender;
 	renderFooterCell?: CellRender;
 	renderHeader?: CellRender;
 	renderItem?: ItemCellRender;

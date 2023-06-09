@@ -36,8 +36,7 @@
 import { provide } from 'vue';
 import { useCoreStore } from '@/stores/index';
 import PlaygroundPage from '@/playground/PlaygroundPage.vue';
-// import PlaygroundTemplatePage from './PlaygroundPage.template.vue';
-import AppBar from '@/layout/AppBar.vue';
+import AppBar from '@/documentation/layout/AppBar.vue';
 
 const store = useCoreStore();
 provide('links', store.links);
