@@ -75,8 +75,14 @@
 	<!-- Usage -->
 	<UsageSection :codeBlockOptions="codeBlockOptions" />
 
+	<!-- Example -->
+	<ExampleSection />
+
+	<!-- Playground -->
+	<PlaygroundSection :codeBlockOptions="codeBlockOptions" />
+
 	<!-- Props -->
-	<PropsSection />
+	<PropsSection :codeBlockOptions="codeBlockOptions" />
 
 	<!-- Cell Rendering -->
 	<CellRenderingSection :codeBlockOptions="codeBlockOptions" />
@@ -86,9 +92,6 @@
 
 	<!-- Slots -->
 	<SlotsSection :codeBlockOptions="codeBlockOptions" />
-
-	<!-- Example -->
-	<ExampleSection />
 
 	<!-- Dependencies -->
 	<DependenciesSection />
@@ -111,6 +114,7 @@ import {
 	ExampleSection,
 	LegalSection,
 	LicenseSection,
+	PlaygroundSection,
 	PropsSection,
 	SlotsSection,
 	UsageSection,
@@ -129,8 +133,8 @@ const links = inject('links');
 
 const classes = reactive({
 	appLink: 'app-link text-decoration-none primary--text font-weight-medium d-inline-block font-weight-bold',
-	h2: 'v-heading text-h4 text-sm-h4 mb-3',
-	h3: 'v-heading text-h5 text-sm-h5 mb-1',
+	h2: 'v-heading text-h4 text-sm-h4 mb-2',
+	h3: 'v-heading text-h5 text-sm-h5 mb-0',
 	headerA: 'text-decoration-none text-right text-md-left d-none d-sm-flex',
 });
 const componentVersion = ref(packageInfo.version);

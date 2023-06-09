@@ -2,7 +2,6 @@
 	<v-row>
 		<v-col
 			id="usage"
-			class="mb-5"
 			cols="12"
 		>
 			<h2 :class="classes.h2">
@@ -13,6 +12,7 @@
 				Usage
 			</h2>
 		</v-col>
+
 		<v-col cols="12">
 			<CodeBlock
 				:code="usageCode"
