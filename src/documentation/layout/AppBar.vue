@@ -29,7 +29,7 @@
 		<v-spacer></v-spacer>
 
 		<v-select
-			class="ma-0 pa-0 me-2"
+			class="ma-0 pa-0 me-2 d-none d-sm-block"
 			density="compact"
 			hide-details
 			:items="menuItems"

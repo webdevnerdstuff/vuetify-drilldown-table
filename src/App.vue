@@ -17,8 +17,8 @@
 		</v-navigation-drawer>
 
 		<!-- ====================================================== Main Container -->
-		<v-main class="main-container pb-10">
-			<v-container class="px-10">
+		<v-main class="pb-10">
+			<v-container class="px-7">
 				<DocsPage :codeBlockOptions="codeBlockSettings" />
 			</v-container>
 		</v-main>
@@ -27,6 +27,7 @@
 
 <script setup>
 import { provide, ref } from 'vue';
+import { useDisplay } from 'vuetify';
 import AppBar from './documentation/layout/AppBar.vue';
 import MenuComponent from './documentation/components/MenuComponent.vue';
 import DocsPage from './documentation/DocsPage.vue';
@@ -36,8 +37,11 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-typescript.js';
 
 
+const { smAndUp } = useDisplay();
+
+const isSmAndUp = computed(() => smAndUp.value);
 const store = useCoreStore();
-const drawer = ref(false);
+const drawer = ref(isSmAndUp.value);
 const drawerOptions = ref({
 	absolute: false,
 	color: '',
