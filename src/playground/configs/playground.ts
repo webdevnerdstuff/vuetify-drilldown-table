@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { makeServer } from '../../server';
 import UnicornLog from 'vue3-unicorn-log';
 
-makeServer();
+makeServer({ environment: 'playground' });
 
 const app = createApp(PlaygroundApp);
 app.use(VDrilldownTable);

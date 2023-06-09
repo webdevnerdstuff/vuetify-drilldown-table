@@ -1,54 +1,27 @@
 export default {
-	color: 'primary',																					// ? Not sure what this does. Needs Testing
-	colors: {																									// * Works
-		body: {
-			base: '--v-theme-surface',
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
-		default: {
-			base: 'primary',
-			bg: 'primary',
-			border: 'primary',
-			text: 'on-primary',
-		},
-		footer: {
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
-		header: {
-			bg: 'primary',
-			text: 'on-primary',
-		},
-		loader: {
-			// bg: '',
-			circular: 'primary',
-			color: 'primary',
-			linear: 'surface-variant',
-			text: 'surface-variant',
-		},
-		percentageChange: 25,
-		percentageDirection: 'desc',
-	},
-	density: 'compact',																				// * Works
-	drilldownKey: 'id',																				// * Works
-	elevation: 5,																							// * Works
-	expandOnClick: false, 																		// * Works
-	firstIcon: 'mdi mdi-page-first',													// * Works
-	fixedFooter: true, 																				// ? Not sure what this does. Needs Testing
-	fixedHeader: true, 																				// ? Not sure what this does. Needs Testing
-	footers: [],																							// * Works - May or may not keep
-	headers: [],																							// * Works
-	height: 'auto',																						// * Works
+	color: 'primary',
+	colors: null,
+	density: 'default',
+	drilldownKey: 'id',
+	elevation: 0,
+	expandOnClick: false,
+	firstIcon: 'mdi mdi-page-first',
+	fixedFooter: true,
+	fixedHeader: true,
+	footers: [],
+	headers: [],
+	height: 'auto',
 	hideDrilldownWhenLoading: true,
-	itemChildrenKey: 'child',																	// * Works - Custom Prop
-	itemProps: ['foo'],																				// ? Not sure what this does. Needs Testing
-	itemTitle: 'title',																				// * Works, but is weird
-	itemValue: 'id',																					// * Works, but is weird
+	hideNoData: false,
+	hover: false,
+	itemChildrenKey: 'child',
+	// itemProps: ['foo'],
+	// itemTitle: 'title',
+	itemValue: 'id',
 	items: [],
-	itemsLength: 0,																						// ? Needs Testing
-	itemsPerPage: 5,																					// * Works
-	itemsPerPageOptions: [																		// * Works
+	itemsLength: 0,
+	itemsPerPage: 5,
+	itemsPerPageOptions: [
 		{
 			title: '5',
 			value: 5,
@@ -74,36 +47,36 @@ export default {
 			value: -1,
 		}
 	],
-	itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText', // * Works
-	lastIcon: 'mdi mdi-page-last',														// * Works
-	lastPageLabel: '$vuetify.dataFooter.lastPage',						// ? Not sure what this does. Needs Testing
+	itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText',
+	lastIcon: 'mdi mdi-page-last',
+	lastPageLabel: '$vuetify.dataFooter.lastPage',
 	level: 1,
-	levels: 3,																								// * Works - Custom Prop
-	loaderHeight: 2,																					// * Works - Custom Prop
-	loaderType: [																							// * Works - Custom Prop
+	levels: 3,
+	loaderHeight: '2px',
+	loaderSize: 'default',
+	loaderType: [
 		'linear',
 		// 'circular',
 		// 'text',
 		// 'skelton',
 	],
-	loading: false,																						// * Works
-	loadingText: '',																					// * Works
-	multiSort: false,																					// * Works
+	loading: false,
+	loadingText: '$vuetify.dataIterator.loadingText',
+	multiSort: false,
 	mustSort: false,
-	nextIcon: 'mdi mdi-chevron-right',												// * Works
-	nextPageLabel: '$vuetify.dataFooter.nextPage',						// ? Not sure what this does. Needs Testing
-	// noDataText: '$vuetify.noDataText',											// * Works
-	// noFilter: false,																					// ? Not sure what this does. Needs Testing
+	nextIcon: 'mdi mdi-chevron-right',
+	nextPageLabel: '$vuetify.dataFooter.nextPage',
+	noDataText: '$vuetify.noDataText',
+	// noFilter: false,
 	page: 1,
-	pageText: '$vuetify.dataFooter.pageText',									// * Works
-	prevIcon: 'mdi mdi-chevron-left',													// * Works
-	prevPageLabel: '$vuetify.dataFooter.prevPage',						// ? Not sure what this does. Needs Testing
-	returnObject: false,																			// ? Not sure what this does. Needs Testing
-	rowHeight: undefined,																			// ? Not sure what this does. Needs Testing
+	pageText: '$vuetify.dataFooter.pageText',
+	prevIcon: 'mdi mdi-chevron-left',
+	prevPageLabel: '$vuetify.dataFooter.prevPage',
+	returnObject: true,
 	search: '',
 	searchDebounce: 750,
 	searchMaxWait: 1000,
-	searchProps: { 																						// ? VDrilldownTable Custom Prop
+	searchProps: {
 		cols: {
 			lg: 3,
 			md: 6,
@@ -115,18 +88,17 @@ export default {
 		density: 'compact',
 		variant: 'underlined',
 	},
-	server: true,
-	showCurrentPage: false,																		// * Works
-	showExpand: false,																				// * Works
-	showFooterRow: false,																			// * Works
-	showSearch: true,																				// * Works - May or may not keep
-	showSelect: false,																				// * Works
-	skeltonType: 'heading@1',																	// * Works - Custom Prop
-	// sortAscIcon: '$sortAsc',																// ? Not sure if I will add this. Already made header.sort slot
-	// sortDescIcon: '$sortDesc',															// ? Not sure if I will add this. Already made header.sort slot
-	sortBy: [],																								// * Works
-	sticky: false,																						// ? Not sure what this does. Needs Testing
-	tag: 'div',																								// * Works
-	theme: undefined,																					// * Works
-	width: undefined,																					// ? Not sure what this does. Needs Testing
+	server: false,
+	showCurrentPage: false,
+	showDrilldownWhenLoading: true,
+	showExpand: false,
+	showFooterRow: false,
+	showSearch: false,
+	showSelect: false,
+	skeltonType: 'heading@1',
+	sortBy: [],
+	// sticky: false,
+	// tag: 'div',
+	// theme: undefined,
+	// width: undefined,
 };
