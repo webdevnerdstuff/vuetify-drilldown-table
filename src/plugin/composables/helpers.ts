@@ -70,8 +70,8 @@ export function useRenderCell(column: Column): unknown {
 		return column.renderHeader(...cellData);
 	}
 
-	if (column.renderFooterCell) {
-		return column.renderFooterCell(...cellData);
+	if (column.renderFooter) {
+		return column.renderFooter(...cellData);
 	}
 
 	if (columnTitle) {

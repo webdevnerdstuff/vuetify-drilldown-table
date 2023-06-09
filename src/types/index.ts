@@ -382,6 +382,7 @@ export interface Column {
 	fixedOffset?: number;
 	key?: string;
 	renderCell?: CellRender;
+	renderFooter?: CellRender;
 	renderFooterCell?: CellRender;
 	renderHeader?: CellRender;
 	renderItem?: ItemCellRender;
