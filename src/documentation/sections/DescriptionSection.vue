@@ -16,7 +16,7 @@
 			<v-row>
 				<v-col cols="12">
 					The Vuetify Drilldown Table is a powerful component that enhances the functionality of the Vuetify framework's
-					<code class="inline-code">v-data-table</code> and <code class="inline-code">v-data-table-server</code>. It
+					<code class="inline-code">VDataTable</code> and <code class="inline-code">VDataTableServer</code>. It
 					provides a recursive table structure,
 					allowing you to display hierarchical data in a nested format.
 				</v-col>
@@ -25,7 +25,7 @@
 			<v-row>
 				<v-col cols="12">
 					The Drilldown Table functionality is designed to handle large and complex datasets by utilizing client-side
-					processing. It leverages the <code class="inline-code">v-data-table</code> capabilities to efficiently display
+					processing. It leverages the <code class="inline-code">VDataTable</code> capabilities to efficiently display
 					data, while also
 					providing the ability to drill down into nested levels of data.
 				</v-col>
@@ -34,7 +34,7 @@
 			<v-row>
 				<v-col cols="12">
 					The Drilldown Table Server functionality is designed to handle large and complex datasets by utilizing
-					server-side processing. It leverages the <code class="inline-code">v-data-table-server</code> server's
+					server-side processing. It leverages the <code class="inline-code">VDataTableServer</code> server's
 					capabilities to efficiently
 					retrieve and display data, while also providing the ability to drill down into nested levels of data.
 				</v-col>
@@ -52,8 +52,8 @@
 			<v-row>
 				<v-col cols="12">
 					In summary, the Vuetify Drilldown Table extends the functionality of the <code
-						class="inline-code">v-data-table</code> and
-					<code class="inline-code">v-data-table-server</code> components by providing a recursive table structure. It
+						class="inline-code">VDataTable</code> and
+					<code class="inline-code">VDataTableServer</code> components by providing a recursive table structure. It
 					requires an
 					understanding of recursiveness to effectively utilize its capabilities and display hierarchical data in a nested
 					format. With the Drilldown Table, you can present complex datasets in a user-friendly manner, allowing users to

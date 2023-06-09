@@ -19,12 +19,12 @@
 
 ## Description
 
-The `vuetify-drilldown-table` component extends the functionality of the Vuetify 3 [v-data-table](https://vuetifyjs.com/en/components/data-tables/basics/) to recursively drilldown into child tables.
+The Vuetify Drilldown Table is a powerful component that enhances the functionality of the Vuetify framework's `VDataTable` and `VDataTableServer`. It provides a recursive table structure, allowing you to display hierarchical data in a nested format. For more information please visit the [Documentation & Demo](https://webdevnerdstuff.github.io/vuetify-drilldown-table/).
 
 
 ## Development Playground
 
-The `vuetify-drilldown-table` is still a work in progress as `v-data-table` is still in Vuetify Laps. If you would like to test the component out, you can clone the repo and run the following commands:
+The `vuetify-drilldown-table` is still a work in progress as `VDataTable` is still in Vuetify Laps. If you would like to test the component out, you can clone the repo and run the following commands:
 
 `pnpm i && pnpm play`  
   
