@@ -122,7 +122,7 @@ export interface Props {
     level: number;
     levels: number;
     loaderHeight?: VProgressLinear['$props']['height'];
-    loaderType?: string | string[];
+    loaderType?: string | string[] | false | null;
     loading?: VDataTable['$props']['loading'];
     loadingText?: VDataTable['$props']['loadingText'];
     modelValue?: unknown[];
@@ -311,6 +311,7 @@ export interface Column {
     fixedOffset?: number;
     key?: string;
     renderCell?: CellRender;
+    renderFooter?: CellRender;
     renderFooterCell?: CellRender;
     renderHeader?: CellRender;
     renderItem?: ItemCellRender;

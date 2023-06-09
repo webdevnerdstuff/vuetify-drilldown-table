@@ -18,7 +18,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
     loaderType: {
-        type: __PropType<string | string[] | undefined>;
+        type: __PropType<string | false | string[] | null | undefined>;
         required: true;
         default: string;
     };
@@ -64,7 +64,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
     loaderType: {
-        type: __PropType<string | string[] | undefined>;
+        type: __PropType<string | false | string[] | null | undefined>;
         required: true;
         default: string;
     };
@@ -95,7 +95,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     height: string | number | undefined;
     size: string | number | undefined;
     loadingText: string | undefined;
-    loaderType: string | string[] | undefined;
+    loaderType: string | false | string[] | null | undefined;
     textLoader: boolean | undefined;
 }, {}>;
 export default _sfc_main;
