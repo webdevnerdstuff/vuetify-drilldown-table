@@ -40,8 +40,8 @@ npm i vuetify-drilldown-table
 ## Dependencies
  
 [Vuetify v3](https://vuetifyjs.com/)  
-[Vue 3](https://vuejs.org/)
-
+[Vue 3](https://vuejs.org/)  
+[VueUse](https://vueuse.org/)  
 
 ## Change Log
  
