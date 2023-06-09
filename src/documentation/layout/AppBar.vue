@@ -56,6 +56,17 @@
 		<v-btn
 			class="me-2"
 			:height="iconSize.height"
+			:href="links.discord"
+			icon
+			target="_blank"
+			:width="iconSize.width"
+		>
+			<fa-icon icon="fa-brands fa-discord" />
+		</v-btn>
+
+		<v-btn
+			class="me-2"
+			:height="iconSize.height"
 			:href="links.github"
 			icon
 			target="_blank"
