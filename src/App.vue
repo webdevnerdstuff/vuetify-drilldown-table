@@ -18,11 +18,9 @@
 
 		<!-- ====================================================== Main Container -->
 		<v-main class="main-container pb-10">
-			<v-responsive>
-				<v-container class="px-10">
-					<DocsPage :codeBlockOptions="codeBlockSettings" />
-				</v-container>
-			</v-responsive>
+			<v-container class="px-10">
+				<DocsPage :codeBlockOptions="codeBlockSettings" />
+			</v-container>
 		</v-main>
 	</v-app>
 </template>
@@ -39,7 +37,7 @@ import 'prismjs/components/prism-typescript.js';
 
 
 const store = useCoreStore();
-const drawer = ref(true);
+const drawer = ref(false);
 const drawerOptions = ref({
 	absolute: false,
 	color: '',

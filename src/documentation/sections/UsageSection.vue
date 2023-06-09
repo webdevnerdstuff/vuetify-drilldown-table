@@ -12,18 +12,15 @@
 				>#</a>
 				Usage
 			</h2>
-
-			<v-row>
-				<v-col cols="12">
-					<CodeBlock
-						:code="usageCode"
-						:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
-						lang="javascript"
-						:prismjs="codeBlockSettings.plugin === 'prismjs'"
-						:theme="codeBlockSettings.theme"
-					/>
-				</v-col>
-			</v-row>
+		</v-col>
+		<v-col cols="12">
+			<CodeBlock
+				:code="usageCode"
+				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
+				lang="javascript"
+				:prismjs="codeBlockSettings.plugin === 'prismjs'"
+				:theme="codeBlockSettings.theme"
+			/>
 		</v-col>
 	</v-row>
 </template>
