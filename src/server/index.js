@@ -56,9 +56,6 @@ const sortArray = (array, key, order) => {
 	});
 };
 
-const namespace = 'vuetify-drilldown-table/api';
-
-
 export function makeServer({ environment = 'development' } = {}) {
 	const server = createServer({
 		environment,
