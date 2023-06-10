@@ -1,4 +1,4 @@
-import '@/Libraries/fontawesome';
+import '@/libraries/fontawesome';
 import PlaygroundApp from './PlaygroundApp.vue';
 import VDrilldownTable from '../../index';
 import { createApp } from 'vue';
