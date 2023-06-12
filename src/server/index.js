@@ -245,7 +245,8 @@ export function makeServer({ environment = 'development' } = {}) {
 				};
 			});
 
-			this.passthrough('https://cdn.jsdelivr.net/gh/PrismJS/prism@1.29.0/themes/prism-tomorrow.css');
+			this.passthrough('https://cdn.jsdelivr.net/gh/PrismJS/prism@1.29.0/*');
+			this.passthrough('https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/*');
 		},
 
 		// -------------------------------------------------- Seeds //
