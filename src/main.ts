@@ -12,7 +12,7 @@ makeServer({ environment: 'demo' });
 
 const app = createApp(App);
 app.use(VDrilldownTable);
-app.use(CodeBlock);
+app.component('CodeBlock', CodeBlock);
 app.use(createPinia());
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.component('FaIcon', FontAwesomeIcon);
