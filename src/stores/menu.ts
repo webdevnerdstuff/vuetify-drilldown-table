@@ -80,10 +80,10 @@ export const useMenuStore = defineStore('menu', () => {
 					title: 'Props',
 				},
 				{
-					href: '#props-table-loader',
-					icon: 'mdi:mdi-circle-outline',
-					key: 'props-table-loader',
-					title: 'Table Loader',
+					href: '#props-cell-rendering',
+					icon: 'mdi:mdi-table-cog',
+					key: 'props-cell-rendering',
+					title: 'Cell Rendering',
 				},
 				{
 					href: '#props-colors',
@@ -91,22 +91,57 @@ export const useMenuStore = defineStore('menu', () => {
 					key: 'props-colors',
 					title: 'Colors',
 				},
+				{
+					href: '#props-table-loader',
+					icon: 'mdi:mdi-circle-outline',
+					key: 'props-table-loader',
+					title: 'Table Loader',
+				},
 			],
 			title: 'Props',
 		},
 		{
-			href: '#cell-rendering',
-			icon: 'mdi:mdi-table-cog',
-			title: 'Cell Rendering',
-		},
-		{
 			href: '#events',
 			icon: 'mdi:mdi-calendar-star',
+			items: [
+				{
+					href: '#events',
+					icon: 'mdi:mdi-calendar-star',
+					key: 'events-all',
+					title: 'All Events',
+				},
+				{
+					href: '#events-drilldown',
+					icon: 'mdi:mdi-table-arrow-down',
+					key: 'events-drilldown',
+					title: 'Drilldown Event',
+				},
+			],
 			title: 'Events',
 		},
 		{
 			href: '#slots',
 			icon: 'mdi:mdi-slot-machine',
+			items: [
+				{
+					href: '#slots',
+					icon: 'mdi:mdi-plus',
+					key: 'custom-slots',
+					title: 'Custom Slots',
+				},
+				{
+					href: '#slots-supported',
+					icon: 'mdi:mdi-check',
+					key: 'slots-supported',
+					title: 'Supported',
+				},
+				{
+					href: '#slots-not-supported',
+					icon: 'mdi:mdi-close',
+					key: 'slots-not-supported',
+					title: 'Not Supported',
+				},
+			],
 			title: 'Slots',
 		},
 		{

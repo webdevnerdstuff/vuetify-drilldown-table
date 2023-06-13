@@ -6,7 +6,7 @@ export const dark = {
 		danger: colors.red.base,
 		error: colors.red.base,
 		info: colors.teal.base,
-		primary: colors.blue.darken2,
+		primary: colors.blue.darken1,
 		secondary: colors.purple.base,
 		success: colors.green.base,
 		warning: colors.orange.darken3,

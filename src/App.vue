@@ -48,6 +48,7 @@ const drawerOptions = ref({
 	elevation: 10,
 });
 
+
 const codeBlockPlugin = 'prismjs';
 const codeBlockLightTheme = 'tomorrow';
 const codeBlockDarkTheme = 'tomorrow';
