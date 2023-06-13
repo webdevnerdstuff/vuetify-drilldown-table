@@ -14,7 +14,7 @@ specifiers:
   '@rollup/plugin-json': ^6.0.0
   '@rollup/plugin-node-resolve': ^15.1.0
   '@rollup/plugin-terser': ^0.4.3
-  '@types/node': ^20.3.1
+  '@types/node': ^20.3.0
   '@typescript-eslint/eslint-plugin': ^5.59.11
   '@typescript-eslint/parser': ^5.59.11
   '@vitejs/plugin-vue': ^4.2.3
@@ -25,6 +25,7 @@ specifiers:
   '@vue/eslint-config-typescript': ^11.0.3
   '@vueuse/core': ^10.1.2
   autoprefixer: ^10.4.14
+  core-js: ^3.31.0
   eslint: ^8.42.0
   eslint-config-prettier: ^8.8.0
   eslint-plugin-import: ^2.27.5
@@ -90,13 +91,14 @@ devDependencies:
   '@typescript-eslint/eslint-plugin': 5.59.11_sqfi766b7p7jf53aqxvjxvblnq
   '@typescript-eslint/parser': 5.59.11_tizxnkcvjrb4cldxgwq5h3lj5u
   '@vitejs/plugin-vue': 4.2.3_vite@4.3.9+vue@3.3.4
-  '@vue/cli-plugin-babel': 5.0.8_txmybggnvwzjouxtymge3gtdly
+  '@vue/cli-plugin-babel': 5.0.8_iwwfabr5vd4c7tzejldffdqii4
   '@vue/cli-plugin-eslint': 5.0.8_r76nbw2bfis2jmdj3bjl4sccuu
   '@vue/cli-service': 5.0.8_cklkx77l4qd6z7m4kasokbygly
   '@vue/compiler-sfc': 3.3.4
   '@vue/eslint-config-typescript': 11.0.3_45r4kx6bpqacakqdugixdvhlzu
   '@vueuse/core': 10.1.2_vue@3.3.4
   autoprefixer: 10.4.14_postcss@8.4.24
+  core-js: 3.31.0
   eslint: 8.42.0
   eslint-config-prettier: 8.8.0_eslint@8.42.0
   eslint-plugin-import: 2.27.5_b34cytzsv57k5d564pxz54jodu
@@ -2494,10 +2496,11 @@ packages:
       svg-tags: 1.0.0
     dev: true
 
-  /@vue/babel-preset-app/5.0.8_abrytlkqkzt56qpcqtoulqojqe:
+  /@vue/babel-preset-app/5.0.8_ygbmnj4od5tvygoexxqttpxpyu:
     resolution: {integrity: sha512-yl+5qhpjd8e1G4cMXfORkkBlvtPCIgmRf3IYCWYDKIQ7m+PPa5iTm4feiNmCMD6yGqQWMhhK/7M3oWGL9boKwg==}
     peerDependencies:
       '@babel/core': '*'
+      core-js: ^3
       vue: ^2 || ^3.2.13
     peerDependenciesMeta:
       core-js:
@@ -2518,7 +2521,7 @@ packages:
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.22.5
       '@vue/babel-preset-jsx': 1.4.0_abrytlkqkzt56qpcqtoulqojqe
       babel-plugin-dynamic-import-node: 2.3.3
-      core-js: 3.30.1
+      core-js: 3.31.0
       core-js-compat: 3.30.1
       semver: 7.5.1
       vue: 3.3.4
@@ -2612,13 +2615,13 @@ packages:
     resolution: {integrity: sha512-KmtievE/B4kcXp6SuM2gzsnSd8WebkQpg3XaB6GmFh1BJGRqa1UiW9up7L/Q67uOdTigHxr5Ar2lZms4RcDjwQ==}
     dev: true
 
-  /@vue/cli-plugin-babel/5.0.8_txmybggnvwzjouxtymge3gtdly:
+  /@vue/cli-plugin-babel/5.0.8_iwwfabr5vd4c7tzejldffdqii4:
     resolution: {integrity: sha512-a4qqkml3FAJ3auqB2kN2EMPocb/iu0ykeELwed+9B1c1nQ1HKgslKMHMPavYx3Cd/QAx2mBD4hwKBqZXEI/CsQ==}
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0 || ^5.0.0-0
     dependencies:
       '@babel/core': 7.22.5
-      '@vue/babel-preset-app': 5.0.8_abrytlkqkzt56qpcqtoulqojqe
+      '@vue/babel-preset-app': 5.0.8_ygbmnj4od5tvygoexxqttpxpyu
       '@vue/cli-service': 5.0.8_cklkx77l4qd6z7m4kasokbygly
       '@vue/cli-shared-utils': 5.0.8
       babel-loader: 8.3.0_chu5oetu7bgcncgoyplbk7sbwa
@@ -2626,6 +2629,7 @@ packages:
       webpack: 5.80.0
     transitivePeerDependencies:
       - '@swc/core'
+      - core-js
       - encoding
       - esbuild
       - supports-color
@@ -4189,8 +4193,8 @@ packages:
       browserslist: 4.21.7
     dev: true
 
-  /core-js/3.30.1:
-    resolution: {integrity: sha512-ZNS5nbiSwDTq4hFosEDqm65izl2CWmLz0hARJMyNQBgkUZMIF51cQiMvIQKA6hvuaeWxQDP3hEedM1JZIgTldQ==}
+  /core-js/3.31.0:
+    resolution: {integrity: sha512-NIp2TQSGfR6ba5aalZD+ZQ1fSxGhDo/s1w0nx3RYzf2pnJxt7YynxFlFScP6eV7+GZsKO95NSjGxyJsU3DZgeQ==}
     requiresBuild: true
     dev: true
 
