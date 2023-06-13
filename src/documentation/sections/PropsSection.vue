@@ -30,14 +30,10 @@
 				section-title="All Props"
 				subtitle="These all of the available props"
 			/>
+		</v-col>
 
-			<FeaturesTable
-				:headers="store.tableHeaders"
-				:items="propsStore.tableLoaderProps"
-				section-id="props-table-loader"
-				section-title="Table Loader"
-				subtitle="These are all props intended for the table loader"
-			/>
+		<v-col cols="12">
+			<CellRenderingSection :codeBlockOptions="codeBlockOptions" />
 		</v-col>
 
 		<v-col
@@ -95,17 +91,26 @@
 			title="Table with Colors Example"
 		/>
 
-
+		<v-col cols="12">
+			<FeaturesTable
+				:headers="store.tableHeaders"
+				:items="propsStore.tableLoaderProps"
+				section-id="props-table-loader"
+				section-title="Table Loader Props"
+				subtitle="These are all props intended for the table loader"
+			/>
+		</v-col>
 	</v-row>
 </template>
 
 <script setup>
 import { computed, inject } from 'vue';
+import { CellRenderingSection } from '@/documentation/sections';
+import { ClientTable } from '@/documentation/components/examples';
+import { FeaturesTable } from '@/documentation/components';
 import { useCoreStore } from '@/stores/index';
 import { usePropsStore } from '@/stores/props';
-import { FeaturesTable } from '@/documentation/components';
 import tableDefaults from '@/playground/configs/tableDefaults.template';
-import { ClientTable } from '@/documentation/components/examples';
 
 
 const props = defineProps({

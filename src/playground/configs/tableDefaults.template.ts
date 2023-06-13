@@ -3,7 +3,7 @@ export default {
 	colors: null,
 	density: 'default',
 	drilldownKey: 'id',
-	elevation: 0,
+	elevation: 1,
 	expandOnClick: false,
 	firstIcon: 'mdi mdi-page-first',
 	fixedFooter: true,

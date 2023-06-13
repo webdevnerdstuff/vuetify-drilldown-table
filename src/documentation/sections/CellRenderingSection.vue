@@ -1,16 +1,16 @@
 <template>
 	<v-row>
 		<v-col
-			id="cell-rendering"
+			id="props-cell-rendering"
 			cols="12"
 		>
-			<h2 :class="classes.h2">
+			<h3 :class="classes.h3">
 				<a
 					:class="classes.headerA"
-					href="#cell-rendering"
+					href="#props-cell-rendering"
 				>#</a>
 				Cell Rendering
-			</h2>
+			</h3>
 		</v-col>
 
 		<v-col cols="12">
@@ -35,14 +35,14 @@
 					</thead>
 					<tbody>
 						<!-- ================================================== renderer -->
-						<tr id="cell-rendering-renderer">
+						<tr id="props-cell-rendering-renderer">
 							<td>
 								<span class="name-item text-mono ml-n2">
 									<span class="text-primary">#</span>
 									<a
 										class="text-primary"
 										:class="classes.appLink"
-										href="#cell-rendering-renderer"
+										href="#props-cell-rendering-renderer"
 									>renderer</a>
 								</span>
 							</td>
@@ -83,14 +83,14 @@
 						</tr>
 
 						<!-- ================================================== renderFooter -->
-						<tr id="cell-rendering-render-footer">
+						<tr id="props-cell-rendering-render-footer">
 							<td>
 								<span class="name-item text-mono ml-n2">
 									<span class="text-primary">#</span>
 									<a
 										class="text-primary"
 										:class="classes.appLink"
-										href="#cell-rendering-render-footer"
+										href="#props-cell-rendering-render-footer"
 									>renderFooter</a>
 								</span>
 							</td>
@@ -128,14 +128,14 @@
 						</tr>
 
 						<!-- ================================================== renderHeader -->
-						<tr id="cell-rendering-render-header">
+						<tr id="props-cell-rendering-render-header">
 							<td>
 								<span class="name-item text-mono ml-n2">
 									<span class="text-primary">#</span>
 									<a
 										class="text-primary"
 										:class="classes.appLink"
-										href="#cell-rendering-render-header"
+										href="#props-cell-rendering-render-header"
 									>renderHeader</a>
 								</span>
 							</td>
@@ -174,14 +174,14 @@
 						</tr>
 
 						<!-- ================================================== renderItem -->
-						<tr id="cell-rendering-render-item">
+						<tr id="props-cell-rendering-render-item">
 							<td>
 								<span class="name-item text-mono ml-n2">
 									<span class="text-primary">#</span>
 									<a
 										class="text-primary"
 										:class="classes.appLink"
-										href="#cell-rendering-render-item"
+										href="#props-cell-rendering-render-item"
 									>renderItem</a>
 								</span>
 							</td>

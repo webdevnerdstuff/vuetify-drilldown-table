@@ -49,9 +49,9 @@ const drawerOptions = ref({
 });
 
 
-const codeBlockPlugin = 'highlightjs';
-const codeBlockLightTheme = 'neon-bunny';
-const codeBlockDarkTheme = 'neon-bunny';
+const codeBlockPlugin = 'prismjs';
+const codeBlockLightTheme = 'tomorrow';
+const codeBlockDarkTheme = 'tomorrow';
 
 const codeBlockSettings = ref({
 	plugin: codeBlockPlugin,

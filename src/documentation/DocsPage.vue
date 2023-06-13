@@ -84,11 +84,9 @@
 	<!-- Props -->
 	<PropsSection :codeBlockOptions="codeBlockOptions" />
 
-	<!-- Cell Rendering -->
-	<CellRenderingSection :codeBlockOptions="codeBlockOptions" />
-
 	<!-- Events -->
 	<EventsSection />
+	<DrilldownEventSection :codeBlockOptions="codeBlockOptions" />
 
 	<!-- Slots -->
 	<SlotsSection :codeBlockOptions="codeBlockOptions" />
@@ -107,9 +105,9 @@
 import { inject, provide, reactive, ref } from 'vue';
 import packageInfo from '../../package.json';
 import {
-	CellRenderingSection,
 	DependenciesSection,
 	DescriptionSection,
+	DrilldownEventSection,
 	EventsSection,
 	ExampleSection,
 	LegalSection,
@@ -133,8 +131,8 @@ const links = inject('links');
 
 const classes = reactive({
 	appLink: 'app-link text-decoration-none primary--text font-weight-medium d-inline-block font-weight-bold',
-	h2: 'v-heading text-h4 text-sm-h4 mb-2',
-	h3: 'v-heading text-h5 text-sm-h5 mb-0',
+	h2: 'text-primary v-heading text-h4 text-sm-h4 mb-2',
+	h3: 'text-blue-darken-2 v-heading text-h5 text-sm-h5 mb-0',
 	headerA: 'text-decoration-none text-right text-md-left d-none d-sm-flex',
 });
 const componentVersion = ref(packageInfo.version);
