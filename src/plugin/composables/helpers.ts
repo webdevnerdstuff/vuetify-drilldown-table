@@ -2,6 +2,7 @@ import {
 	Column,
 	Props,
 } from '@/types';
+import { getPropertyFromItem } from 'vuetify/lib/util/helpers.mjs';
 
 
 /**
@@ -41,10 +42,14 @@ export function useConvertToUnit(str: string | number, unit = 'px'): string | vo
  * Render the cell item
  */
 export function useRenderCellItem(
-	item: object,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	item: any,
 	column: Column,
 ): unknown {
-	const itemValue = item[column.key as keyof object];
+	// const itemValue = item[column.key as keyof object];
+
+	// Credit: https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/util/helpers.ts
+	const itemValue = getPropertyFromItem(item, column.key);
 
 	if (column.renderItem) {
 		return column.renderItem(itemValue, item, column);
