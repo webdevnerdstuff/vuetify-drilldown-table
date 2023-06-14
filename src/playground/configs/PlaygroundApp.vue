@@ -21,8 +21,6 @@
 					<v-row>
 						<v-col class="v-col-12">
 							<PlaygroundPage />
-
-							<!-- <PlaygroundTemplatePage /> -->
 						</v-col>
 					</v-row>
 				</v-container>
@@ -39,6 +37,14 @@ import PlaygroundPage from '@/playground/PlaygroundPage.vue';
 import AppBar from '@/documentation/layout/AppBar.vue';
 
 const store = useCoreStore();
+const classes = reactive({
+	appLink: 'app-link text-decoration-none primary--text font-weight-medium d-inline-block font-weight-bold',
+	h2: 'text-primary v-heading text-h4 text-sm-h4 mb-2',
+	h3: 'text-blue-darken-2 v-heading text-h5 text-sm-h5 mb-0',
+	headerA: 'text-decoration-none text-right text-md-left d-none d-sm-flex',
+});
+
+provide('classes', classes);
 provide('links', store.links);
 </script>
 
