@@ -1,5 +1,5 @@
 import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
-import { ThemeInstance } from 'vuetify';
+import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
 import type { VTextField, VProgressCircular, VProgressLinear } from 'vuetify/components';
 import type { VDataTable, VDataTableServer, VDataTableRow } from 'vuetify/labs/components';
@@ -122,6 +122,7 @@ export interface Props {
     level: number;
     levels: number;
     loaderHeight?: VProgressLinear['$props']['height'];
+    loaderSize?: VProgressCircular['$props']['size'];
     loaderType?: string | string[] | false | null;
     loading?: VDataTable['$props']['loading'];
     loadingText?: VDataTable['$props']['loadingText'];
@@ -194,7 +195,7 @@ export interface HeaderSlotProps extends AllSlotProps {
     slotProps: {
         allRowsSelected: boolean;
         columns: Column[];
-        getSortIcon?: GetSortIcon;
+        getSortIcon: GetSortIcon;
         index?: number;
         item?: Props['item'] | any;
         selectAll: SelectAll;
@@ -367,6 +368,7 @@ export interface UseHeaderRowClasses {
 }
 export interface UseSortIconClasses {
     (options: {
+        iconOptions: IconOptions | undefined;
         key: string;
         level: number;
         sortBy: Props['sortBy'];

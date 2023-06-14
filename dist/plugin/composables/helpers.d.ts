@@ -10,7 +10,7 @@ export declare function useConvertToUnit(str: string | number, unit?: string): s
 /**
  * Render the cell item
  */
-export declare function useRenderCellItem(item: object, column: Column): unknown;
+export declare function useRenderCellItem(item: any, column: Column): unknown;
 /**
 * Render the cell
 * Used for both header and footer

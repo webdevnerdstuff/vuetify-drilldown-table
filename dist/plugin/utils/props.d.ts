@@ -1,6 +1,34 @@
 import { Column } from '../../types';
 export declare const AllProps: {
-    colors: null;
+    colors: {
+        body: {
+            base: string;
+            bg: string;
+            text: string;
+        };
+        default: {
+            base: string;
+            bg: string;
+            border: string;
+            text: string;
+        };
+        footer: {
+            bg: string;
+            text: string;
+        };
+        header: {
+            bg: string;
+            text: string;
+        };
+        loader: {
+            circular: string;
+            color: string;
+            linear: string;
+            text: string;
+        };
+        percentageChange: number;
+        percentageDirection: string;
+    };
     density: string;
     drilldownKey: string;
     elevation: number;
@@ -20,6 +48,7 @@ export declare const AllProps: {
     level: number;
     levels: number;
     loaderHeight: string;
+    loaderSize: string;
     loaderType: string;
     loading: boolean;
     loadingText: string;
