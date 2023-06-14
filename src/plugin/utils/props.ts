@@ -2,7 +2,36 @@ import { Column } from '@/types';
 
 export const AllProps = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
-	colors: null,																			// * Works
+	colors: {															// * Passed
+		body: {
+			base: '--v-theme-surface',
+			bg: '--v-theme-surface',
+			text: '--v-theme-on-surface',
+		},
+		default: {
+			base: 'primary',
+			bg: 'primary',
+			border: 'primary',
+			text: 'on-primary',
+		},
+		footer: {
+			bg: '--v-theme-surface',
+			text: '--v-theme-on-surface',
+		},
+		header: {
+			bg: 'primary',
+			text: 'on-primary',
+		},
+		loader: {
+			// bg: '',
+			circular: 'primary',
+			color: 'primary',
+			linear: 'surface-variant',
+			text: 'surface-variant',
+		},
+		percentageChange: 25,
+		percentageDirection: 'desc',
+	},
 	// customFilter: undefined, 													// ? Needs Testing
 	// customKeyFilter: undefined,												// ? Needs Testing
 	density: 'default',																// * Works

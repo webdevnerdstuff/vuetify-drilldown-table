@@ -58,8 +58,9 @@
 					<v-icon
 						v-else-if="column.sortable"
 						:class="sortIconClasses(column.key as keyof Column)"
+						:icon="sortAscIcon"
+						:size="iconSize"
 					>
-						mdi mdi-arrow-up
 					</v-icon>
 				</div>
 			</th>
@@ -74,6 +75,7 @@ import {
 	HeaderSlotProps,
 	InternalDataTableHeader,
 } from '@/types';
+import type { IconOptions } from 'vuetify';
 import {
 	useCellAlignClasses,
 	useHeaderCellClasses,
@@ -95,6 +97,7 @@ const props = withDefaults(defineProps<HeaderSlotProps>(), {
 	showSelect: false,
 });
 
+const iconOptions = inject<IconOptions>(Symbol.for('vuetify:icons'));
 const theme = useTheme();
 const isAllSelected = ref<boolean>(props.slotProps.allRowsSelected);
 
@@ -102,6 +105,10 @@ const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelec
 const columns = computed<Column[]>(() => props.slotProps.columns);
 const someSelected = computed(() => props.slotProps.someSelected);
 const isIndeterminate = computed(() => someSelected.value && !props.slotProps.allRowsSelected);
+
+// TODO: This may change if pull request is accepted //
+// ? https://github.com/vuetifyjs/vuetify/pull/17598 //
+const sortAscIcon = ref('$sortAsc');
 
 
 // -------------------------------------------------- Header Row //
@@ -159,6 +166,7 @@ const checkBoxClasses = computed<object>(() => {
 // -------------------------------------------------- Sorting //
 const sortIconClasses = (key: string): object => {
 	return useSortIconClasses({
+		iconOptions,
 		key,
 		level: props.level,
 		sortBy: props.sortBy,
@@ -170,6 +178,18 @@ function sortColumn(column: InternalDataTableHeader): void {
 		props.slotProps.toggleSort(column);
 	}
 }
+
+
+// -------------------------------------------------- Icons //
+const iconSize = computed(() => {
+	if (iconOptions?.defaultSet === 'fa') {
+		sortAscIcon.value = 'fas fa-arrow-up';
+		return 'small';
+	}
+
+	sortAscIcon.value = '$sortAsc';
+	return 'default';
+});
 
 
 // -------------------------------------------------- Render //
@@ -214,6 +234,10 @@ $hover: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
 						&-desc {
 							transform: rotate(180deg);
 						}
+
+						// &-fa {
+						// 	font-size: 1rem;
+						// }
 					}
 
 					&:hover {

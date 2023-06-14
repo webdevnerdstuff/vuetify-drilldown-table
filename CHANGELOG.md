@@ -1,6 +1,21 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
-## v1.0.0-beta
-TBD
+## v1.0.0-beta-2
+06-13-23
+[main] (@webdevnerdstuff)
+* Adjust entry point
+* Update to check for fontawesome to adjust icon size
+* Update default `colors` prop to use `primary` color scheme
+  * It is easier to change the `colors` to `null` to remove the `colors` than it is to add them in
+  * Still undetermined if this will be the default or not
+* Add helper for getting item values from a nested object
+  * Credits:
+    * https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/util/helpers.ts
+    * http://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key#comment55278413_6491621
+* Update documentation usage
+
+
+## v1.0.0-beta-1
+Initial beta release.
 [main] (@webdevnerdstuff)

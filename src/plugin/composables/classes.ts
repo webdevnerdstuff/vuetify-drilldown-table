@@ -105,10 +105,11 @@ export const useHeaderCellClasses: UseHeaderCellClasses = (options) => {
 
 // ------------------------- Header Sort Icon //
 export const useSortIconClasses: UseSortIconClasses = (options) => {
-	const { key, level, sortBy } = options;
+	const { iconOptions, key, level, sortBy } = options;
 
 	return {
-		'px-1': true,
+		'fa-fw': iconOptions?.defaultSet === 'fa',
+		'mx-1': true,
 		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-${level}`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: useGetSortDirection(sortBy, key) === 'desc',

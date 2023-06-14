@@ -10,7 +10,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<{
             allRowsSelected: boolean;
             columns: Column[];
-            getSortIcon?: ((column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
+            getSortIcon: (column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
             index?: number | undefined;
             item?: any;
             selectAll: (value: boolean) => void;
@@ -57,7 +57,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<{
             allRowsSelected: boolean;
             columns: Column[];
-            getSortIcon?: ((column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
+            getSortIcon: (column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
             index?: number | undefined;
             item?: any;
             selectAll: (value: boolean) => void;

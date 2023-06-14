@@ -75,9 +75,11 @@
 						v-if="$slots[`item.data-table-expand`]"
 						name="item.data-table-expand"
 					/>
-					<v-icon v-else>
-						mdi-chevron-down
-					</v-icon>
+					<v-icon
+						v-else
+						icon="$expand"
+						:size="expandIconSize"
+					/>
 				</div>
 			</td>
 			<!-- Render Cell Item -->
@@ -106,6 +108,7 @@ import {
 	useBodyRowClasses,
 	useCellClasses,
 } from '@/plugin/composables/classes';
+import type { IconOptions } from 'vuetify';
 
 
 const slots = defineSlots();
@@ -116,6 +119,8 @@ const emit = defineEmits([
 ]);
 
 const props = withDefaults(defineProps<ItemSlotProps>(), {});
+
+const vuetifyIcons = inject<IconOptions>(Symbol.for('vuetify:icons'));
 
 const columns = computed<Column[]>(() => props.slotProps.columns);
 const index = computed(() => props.slotProps.index);
@@ -186,6 +191,16 @@ function emitClickRowCheckbox(data: ClickRowCheckboxEvent): void {
 
 	emit('click:row:checkbox', item);
 }
+
+
+// -------------------------------------------------- Icons //
+const expandIconSize = computed(() => {
+	if (vuetifyIcons?.defaultSet === 'fa') {
+		return 'x-small';
+	}
+
+	return 'default';
+});
 
 
 // -------------------------------------------------- Render //
