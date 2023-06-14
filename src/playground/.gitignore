@@ -1,3 +1,6 @@
-tableDefaults.ts
-PlaygroundPage.*
-*.bk.*
+*
+
+!.gitignore
+
+!configs/
+!configs/**/*
