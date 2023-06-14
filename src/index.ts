@@ -1,13 +1,10 @@
 import { App, Plugin } from 'vue';
-import VDrilldownTableComponent from './plugin';
+import { VDrilldownTable } from './plugin';
 
 const install = (app: App) => {
-	app.component('VDrilldownTable', VDrilldownTableComponent);
+	app.component('VDrilldownTable', VDrilldownTable);
 };
 
-VDrilldownTableComponent.install = install;
+VDrilldownTable.install = install;
 
-
-export const VDrilldownTable = VDrilldownTableComponent;
-
-export default VDrilldownTableComponent as unknown as Plugin;
+export default VDrilldownTable as unknown as Plugin;
