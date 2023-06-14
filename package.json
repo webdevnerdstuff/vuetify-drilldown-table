@@ -67,7 +67,7 @@
 	],
 	"dependencies": {
 		"vue": "^3.3.4",
-		"vuetify": "3.3.3"
+		"vuetify": "3.3.4"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.22.5",
