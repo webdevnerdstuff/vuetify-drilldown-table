@@ -2,7 +2,7 @@ import { Column } from '@/types';
 
 export const AllProps = {
 	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
-	colors: {															// * Passed
+	colors: () => ({																	// * Passed
 		body: {
 			base: '--v-theme-surface',
 			bg: '--v-theme-surface',
@@ -31,7 +31,7 @@ export const AllProps = {
 		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
-	},
+	}) as const,
 	// customFilter: undefined, 													// ? Needs Testing
 	// customKeyFilter: undefined,												// ? Needs Testing
 	density: 'default',																// * Works
