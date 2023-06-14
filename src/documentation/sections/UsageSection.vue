@@ -43,6 +43,6 @@ import VDrilldownTable from 'vuetify-drilldown-table';
 import { createApp } from 'vue';
 
 const app = createApp(App);
-app.use(VDrilldownTable);
+app.component('VDrilldownTable', VDrilldownTable);
 app.mount('#app');`;
 </script>
