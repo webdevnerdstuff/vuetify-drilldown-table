@@ -110,7 +110,7 @@ import { ClientTable } from '@/documentation/components/examples';
 import { FeaturesTable } from '@/documentation/components';
 import { useCoreStore } from '@/stores/index';
 import { usePropsStore } from '@/stores/props';
-import tableDefaults from '@/playground/configs/tableDefaults.template';
+import tableDefaults from '@/playground/configs/templates/tableDefaults';
 
 
 const props = defineProps({

@@ -68,7 +68,7 @@
 
 <script setup>
 import { inject } from 'vue';
-import tableDefaults from '@/playground/configs/tableDefaults.template';
+import tableDefaults from '@/playground/configs/templates/tableDefaults';
 
 
 const props = defineProps({
