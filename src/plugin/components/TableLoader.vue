@@ -109,7 +109,7 @@ const loaderTdStyles = computed<StyleValue>(() => useLoaderTdStyles({
 	loaderHeight,
 }));
 
-const loaderContainerClasses = computed(() => useLoaderContainerClasses());
+const loaderContainerClasses = computed(() => useLoaderContainerClasses({ isLinearOnly }));
 const loaderVRowClasses = computed(() => useLoaderVRowClasses());
 
 
@@ -204,6 +204,16 @@ const checkLoaderType = (type: string): boolean => {
 		top: 0;
 		width: 100%;
 		z-index: 99999;
+
+		&-not-linear {
+			td {
+				height: 0 !important;
+			}
+		}
+
+		> td {
+			border: 0 !important;
+		}
 	}
 
 	&--loader-tr-vrow {

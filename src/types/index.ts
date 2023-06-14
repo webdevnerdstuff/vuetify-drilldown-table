@@ -229,6 +229,16 @@ export interface TopSlotProps extends VDataTableSlotProps {
 
 export interface HeaderSlotProps extends AllSlotProps {
 	isTheadSlot?: boolean;
+	loaderSettings: {
+		colspan: number;
+		height?: VProgressLinear['$props']['height'];
+		loaderType: Props['loaderType'];
+		loading: VDataTable['$props']['loading'];
+		loadingText?: VDataTable['$props']['loadingText'];
+		size?: VProgressCircular['$props']['size'];
+		skeltonType: Props['skeltonType'];
+		textLoader?: boolean;
+	};
 	slotProps: {
 		allRowsSelected: boolean;
 		columns: Column[];
@@ -316,6 +326,14 @@ export interface UseLoaderStyles {
 			loaderHeight: MaybeRef<Props['loaderHeight']>,
 		}
 	): CSSProperties;
+}
+
+export interface UseLoaderContainerClasses {
+	(
+		options: {
+			isLinearOnly: MaybeRef<boolean>,
+		}
+	): object;
 }
 
 

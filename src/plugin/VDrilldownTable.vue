@@ -66,6 +66,15 @@
 				:colors="loadedDrilldown.colors"
 				:density="loadedDrilldown.density"
 				:level="level"
+				:loader-settings="{
+					colspan: props.columns.length,
+					height: loadedDrilldown.loaderHeight,
+					loaderType: loadedDrilldown.loaderType,
+					loading: loadedDrilldown.loading,
+					loadingText: loadingText,
+					size: loadedDrilldown.loaderSize,
+					skeltonType: loadedDrilldown.skeltonType,
+				}"
 				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ allRowsSelected, ...props }"
 				:sort-by="loadedDrilldown.sortBy"
@@ -82,18 +91,6 @@
 					/>
 				</template>
 			</HeadersSlot>
-			<TableLoader
-				v-if="loadedDrilldown.loading && loadedDrilldown.loaderType && !slots.loading && level === 1"
-				:colors="loadedDrilldown.colors || null"
-				:colspan="props.columns.length"
-				:height="loadedDrilldown.loaderHeight"
-				:level="loadedDrilldown.level"
-				:loader-type="loadedDrilldown.loaderType"
-				:loading="loadedDrilldown.loading || false"
-				:loading-text="loadingText"
-				:size="loadedDrilldown.loaderSize"
-				:skelton-type="loadedDrilldown.skeltonType"
-			/>
 		</template>
 
 
@@ -189,20 +186,6 @@
 
 		<!-- ================================================== Expanded Row Slot -->
 		<template #expanded-row="{ columns, item }">
-			<TableLoader
-				v-if="item.raw[itemChildrenKey]?.loading && loadedDrilldown.loaderType && !slots.loading"
-				class="pa-0 ma-0"
-				:colors="item.raw[itemChildrenKey]?.colors ?? null"
-				:colspan="columns.length"
-				:height="item.raw[itemChildrenKey].loaderHeight"
-				:level="level + 1"
-				:loader-type="item.raw[itemChildrenKey].loaderType"
-				:loading="item.raw[itemChildrenKey]?.loading"
-				:loading-text="loadingText"
-				:size="item.raw[itemChildrenKey].loaderSize"
-				:skelton-type="item.raw[itemChildrenKey].skeltonType"
-			/>
-
 			<tr :class="showLoadingDrilldownTable(item.raw[itemChildrenKey]?.loading) ? '' : 'd-none'">
 				<td
 					class="px-0 ma-0"
@@ -221,11 +204,16 @@
 						:items-per-page="item.raw[itemChildrenKey]?.itemsPerPage"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
+						:loaderHeight="item.raw[itemChildrenKey]?.loaderHeight"
+						:loaderSize="item.raw[itemChildrenKey]?.loaderSize"
+						:loaderType="item.raw[itemChildrenKey]?.loaderType"
 						:loading="item.raw[itemChildrenKey]?.loading"
+						:loadingText="loadingText"
 						:multi-sort="item.raw[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
 						:server="item.raw[itemChildrenKey]?.server"
+						:skeltonType="item.raw[itemChildrenKey]?.skeltonType"
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
@@ -325,7 +313,6 @@
 <script setup lang="ts">
 import { VDataTableServer, VDataTable } from 'vuetify/labs/components';
 import { AllProps } from './utils/props';
-import { TableLoader } from './components';
 import {
 	BottomSlot,
 	HeadersSlot,
@@ -506,7 +493,6 @@ function emitClickRow(event: MouseEvent): void {
 }
 
 function emitClickRowCheckbox(item: DataTableItem): void {
-	console.log('emitClickRowCheckbox');
 	emit('click:row:checkbox', item);
 }
 

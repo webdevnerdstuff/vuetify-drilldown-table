@@ -66,6 +66,19 @@
 			</th>
 		</template>
 	</tr>
+
+	<TableLoader
+		v-if="loaderSettings.loaderType && !slots.loading"
+		:colors="colors || null"
+		:colspan="loaderSettings.colspan"
+		:height="loaderSettings.height"
+		:level="level"
+		:loader-type="loaderSettings.loaderType"
+		:loading="loaderSettings.loading || false"
+		:loading-text="loaderSettings.loadingText"
+		:size="loaderSettings.size"
+		:skelton-type="loaderSettings.skeltonType"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -85,6 +98,7 @@ import {
 } from '@/plugin/composables/classes';
 import { useHeaderCellStyles } from '@/plugin/composables/styles';
 import { useRenderCell } from '@/plugin/composables/helpers';
+import { TableLoader } from '@/plugin/components';
 
 
 const slots = useSlots();
@@ -105,6 +119,7 @@ const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelec
 const columns = computed<Column[]>(() => props.slotProps.columns);
 const someSelected = computed(() => props.slotProps.someSelected);
 const isIndeterminate = computed(() => someSelected.value && !props.slotProps.allRowsSelected);
+
 
 // TODO: This may change if pull request is accepted //
 // ? https://github.com/vuetifyjs/vuetify/pull/17598 //

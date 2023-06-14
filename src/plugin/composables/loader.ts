@@ -3,6 +3,7 @@ import {
 	useConvertToUnit,
 } from './helpers';
 import {
+	UseLoaderContainerClasses,
 	UseLoaderStyles
 } from '@/types';
 
@@ -36,7 +37,14 @@ export function useLoaderHeight(loaderHeight: string | number): string | undefin
 // -------------------------------------------------- Styles //
 export const useLoaderTrStyles: UseLoaderStyles = (options) => {
 	const { isLinearOnly, loaderHeight } = options;
-	let styles = {};
+
+	let styles: {
+		height: string | number | undefined;
+		minHeight: string | number | undefined;
+	} = {
+		height: 0,
+		minHeight: 0,
+	};
 
 	if (unref(isLinearOnly)) {
 		styles = {
@@ -65,13 +73,18 @@ export const useLoaderTdStyles: UseLoaderStyles = (options) => {
 
 
 // -------------------------------------------------- Classes //
-export const useLoaderContainerClasses = () => {
-	return {
+export const useLoaderContainerClasses: UseLoaderContainerClasses = (options) => {
+	const { isLinearOnly } = options;
+
+	const classes = {
 		[`${componentName}--loader-tr`]: true,
+		[`${componentName}--loader-tr-not-linear`]: !unref(isLinearOnly),
 		'ma-0': true,
 		'pa-0': true,
 		'text-center': true,
 	};
+
+	return classes;
 };
 
 export const useLoaderVRowClasses = () => {
