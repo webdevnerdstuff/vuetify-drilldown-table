@@ -14,16 +14,16 @@
 			</h2>
 
 			<div>
-				* Work in progress
-				<br />
-				<br />
-				To full understand how to use this component, it is encouraged to use the developer Playground. The Playground
-				example is a full example of how to use this component and is setup with all of the available props. It is a fully
-				functional example that can be used as a starting point for your own project. You can adjust the settings and see
-				how they affect the table.
-				<br />
-				<br />
-				After you have forked and/or cloned the repository, run the following commands to start the Playground example:
+				<p class="mb-3">
+					In order to gain a comprehensive understanding of utilizing this component, we highly recommend utilizing the
+					developer Playground. The Playground serves as a complete exemplification of how to effectively employ this
+					component, equipped with most of the available properties. It serves as a comprehensive model that can serve as
+					an ideal launching pad for your own project. You have the flexibility to customize the settings and observe
+					their direct impact on the table.
+				</p>
+				<p>
+					After you have forked and/or cloned the repository, run the following commands to start the Playground example:
+				</p>
 			</div>
 		</v-col>
 
@@ -35,6 +35,57 @@
 				:prismjs="codeBlockSettings.plugin === 'prismjs'"
 				:theme="codeBlockSettings.theme"
 			/>
+		</v-col>
+
+		<v-col cols="12">
+			This will create the 4 files for you to adjust and play with.
+			<br />
+			<code class="inline-code">PlaygroundPage.vue</code> <code class="inline-code">tableDefaults.ts</code> <code
+				class="inline-code"
+			>ClientTable.vue</code> <code class="inline-code">ServerTable.vue</code>
+		</v-col>
+
+		<v-col cols="12">
+			<h3 class="mb-1">PlaygroundPage.vue</h3>
+
+			<p>
+				This file includes the import of two table components. Feel free to add and customize them as needed, but the
+				primary areas of interest should be the <code class="inline-code">ClientTable.vue</code> and
+				<code class="inline-code">ServerTable.vue</code> files.
+			</p>
+		</v-col>
+
+		<v-col cols="12">
+			<h3 class="mb-1">tableDefaults.ts</h3>
+
+			<p class="mb-3">
+				This file imports two table components, which you can freely modify and customize according to your needs.
+				However, the key areas of focus are the ClientTable.vue and ServerTable.vue files.
+			</p>
+			<p>
+				Note that the <code class="inline-code">server</code> setting is false in this file, which the
+				<code class="inline-code">ClientTable.vue</code> file uses. The <code class="inline-code">server</code> setting is
+				changed in the PlaygroundPage.vue file to true for use in the <code class="inline-code">ServerTable.vue</code>
+				file.
+			</p>
+		</v-col>
+
+		<v-col cols="12">
+			<h3 class="mb-1">ClientTable.vue</h3>
+
+			<p>
+				This file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use it
+				as a client side table.
+			</p>
+		</v-col>
+
+		<v-col cols="12">
+			<h3 class="mb-1">ServerTable.vue</h3>
+
+			<p>
+				his file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use it
+				as a server side table.
+			</p>
 		</v-col>
 	</v-row>
 </template>
