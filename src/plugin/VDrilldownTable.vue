@@ -212,6 +212,7 @@
 					<VDrilldownTable
 						:key="item.raw"
 						:colors="colors"
+						:density="loadedDrilldown.density"
 						:drilldown="loadedDrilldown"
 						:headers="item.raw[itemChildrenKey]?.headers"
 						:is-drilldown="true"
