@@ -119,11 +119,7 @@ const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelec
 const columns = computed<Column[]>(() => props.slotProps.columns);
 const someSelected = computed(() => props.slotProps.someSelected);
 const isIndeterminate = computed(() => someSelected.value && !props.slotProps.allRowsSelected);
-
-
-// TODO: This may change if pull request is accepted //
-// ? https://github.com/vuetifyjs/vuetify/pull/17598 //
-const sortAscIcon = ref('$sortAsc');
+const sortAscIcon = ref(props.sortAscIcon);
 
 
 // -------------------------------------------------- Header Row //
@@ -198,11 +194,14 @@ function sortColumn(column: InternalDataTableHeader): void {
 // -------------------------------------------------- Icons //
 const iconSize = computed(() => {
 	if (iconOptions?.defaultSet === 'fa') {
-		sortAscIcon.value = 'fas fa-arrow-up';
+
+		// TODO: This may change if pull request is accepted //
+		// ? https://github.com/vuetifyjs/vuetify/pull/17598 //
+		sortAscIcon.value = props?.sortAscIcon ?? 'fas fa-arrow-up';
 		return 'small';
 	}
 
-	sortAscIcon.value = '$sortAsc';
+	sortAscIcon.value = props?.sortAscIcon ?? '$sortAsc';
 	return 'default';
 });
 
