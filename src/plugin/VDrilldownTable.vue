@@ -366,7 +366,7 @@ const tableType = shallowRef<TableType>(null);
 
 // -------------------------------------------------- Mounted Hooks //
 /**
- * ? This is needs to make sure the drilldown is remounted on sortBy change
+ * ? This is needed to make sure the drilldown is remounted on sortBy change
  * ? Client Side Table Only
  */
 onMounted(() => {
