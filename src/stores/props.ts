@@ -35,8 +35,8 @@ export const usePropsStore = defineStore('props', () => {
 	const allProps = [
 		...tableLoaderProps,
 		{
-			default: 'null',
-			desc: 'Applies specified colors to the table. See the <a href="#props-colors">Colors Prop</a> section for more information.',
+			default: '',
+			desc: 'Applies specified colors to the table. See the <a href="#props-colors">Colors Prop</a> section for more information and default settings.',
 			name: 'colors',
 			type: 'ColorsObject | null',
 		},

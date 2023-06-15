@@ -119,6 +119,7 @@ export const AllProps = {
 	showSearch: false,																// * Custom Prop
 	showSelect: false,																// * Works
 	skeltonType: 'heading@1',													// * Works
+	sortAscIcon: '$sortAsc',													// * Works
 	sortBy: () => [],																	// * Works
 	tableType: () => ({}),
 	width: '100%',																		// ! Not working properly //

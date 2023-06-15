@@ -174,6 +174,7 @@ export interface Props {
 	showSearch?: boolean; 																							// * Custom Property
 	showSelect?: VDataTable['$props']['showSelect'];
 	skeltonType?: string;																								// * Custom Property
+	sortAscIcon?: VDataTable['$props']['sortAscIcon'];
 	sortBy?: VDataTable['$props']['sortBy'];
 	tableType?: TableType;																							// * Custom Property
 	width?: string | number | undefined;																// ! Not working properly //
@@ -250,6 +251,7 @@ export interface HeaderSlotProps extends AllSlotProps {
 		sortBy: Props['sortBy'];
 		toggleSort: ToggleSort;
 	},
+	sortAscIcon?: Props['sortAscIcon'];
 }
 
 export interface THeadSlotProps extends AllSlotProps {
