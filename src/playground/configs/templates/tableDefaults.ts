@@ -1,6 +1,35 @@
 export default {
 	color: 'primary',																					// ? Not sure what this does. Needs Testing
-	colors: null,																							// * Works
+	colors: {																									// * Works
+		body: {
+			base: '--v-theme-surface',
+			bg: '--v-theme-surface',
+			text: '--v-theme-on-surface',
+		},
+		default: {
+			base: 'primary',
+			bg: 'primary',
+			border: 'primary',
+			text: 'on-primary',
+		},
+		footer: {
+			bg: '--v-theme-surface',
+			text: '--v-theme-on-surface',
+		},
+		header: {
+			bg: 'primary',
+			text: 'on-primary',
+		},
+		loader: {
+			// bg: '',
+			circular: 'primary',
+			color: 'primary',
+			linear: 'surface-variant',
+			text: 'surface-variant',
+		},
+		percentageChange: 25,
+		percentageDirection: 'desc',
+	},
 	density: 'compact',																				// * Works
 	drilldownKey: 'id',																				// * Works
 	elevation: 5,																							// * Works
@@ -8,18 +37,18 @@ export default {
 	firstIcon: '$first',																			// * Works
 	fixedFooter: true, 																				// ? Not sure what this does. Needs Testing
 	fixedHeader: true, 																				// ? Not sure what this does. Needs Testing
-	footers: [],																							// * Works - May or may not keep
+	footers: [],																							// * Works
 	headers: [],																							// * Works
 	height: 'auto',																						// * Works
-	hideDrilldownWhenLoading: true,
+	hideDrilldownWhenLoading: true,														// * Works
 	hideNoData: false,
-	hover: false,
-	itemChildrenKey: 'child',																	// * Works - Custom Prop
+	hover: false,																							// * Works
+	itemChildrenKey: 'child',																	// * Works
 	itemProps: [],																						// ? Not sure what this does. Needs Testing
 	itemTitle: 'title',																				// * Works, but is weird
 	itemValue: 'id',																					// * Works, but is weird
-	items: [],
-	itemsLength: 0,																						// ? Needs Testing
+	items: [],																								// * Works
+	itemsLength: 0,																						// * Works
 	itemsPerPage: 5,																					// * Works
 	itemsPerPageOptions: [																		// * Works
 		{
@@ -50,11 +79,11 @@ export default {
 	itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText', // * Works
 	lastIcon: '$last',																				// * Works
 	lastPageLabel: '$vuetify.dataFooter.lastPage',						// ? Not sure what this does. Needs Testing
-	level: 1,
-	levels: 3,																								// * Works - Custom Prop
-	loaderHeight: '2px',																			// * Works - Custom Prop
-	loaderSize: 'default',
-	loaderType: [																							// * Works - Custom Prop
+	level: 1,																									// * Works
+	levels: 3,																								// * Works
+	loaderHeight: '2px',																			// * Works
+	loaderSize: 'default',																		// * Works
+	loaderType: [																							// * Works
 		'linear',
 		// 'circular',
 		// 'text',
@@ -68,15 +97,15 @@ export default {
 	nextPageLabel: '$vuetify.dataFooter.nextPage',						// ? Not sure what this does. Needs Testing
 	noDataText: '$vuetify.noDataText',												// * Works
 	// noFilter: false,																				// ? Not sure what this does. Needs Testing
-	page: 1,
+	page: 1,																									// * Works
 	pageText: '$vuetify.dataFooter.pageText',									// * Works
 	prevIcon: '$prev',																				// * Works
 	prevPageLabel: '$vuetify.dataFooter.prevPage',						// ? Not sure what this does. Needs Testing
 	returnObject: false,																			// ? Not sure what this does. Needs Testing
 	rowHeight: undefined,																			// ? Not sure what this does. Needs Testing
-	search: '',
-	searchDebounce: 750,
-	searchMaxWait: 1000,
+	search: '',																								// * Works
+	searchDebounce: 750,																			// * Works
+	searchMaxWait: 1000, 																			// * Works
 	searchProps: { 																						// ? VDrilldownTable Custom Prop
 		cols: {
 			lg: 3,
@@ -89,16 +118,15 @@ export default {
 		density: 'compact',
 		variant: 'underlined',
 	},
-	server: false,
+	server: false,																						// * Works
 	showCurrentPage: false,																		// * Works
-	showDrilldownWhenLoading: true,
+	showDrilldownWhenLoading: true,														// * Works
 	showExpand: false,																				// * Works
-	showFooterRow: false,																			// * Works
+	showFooterRow: true,																			// * Works
 	showSearch: false,																				// * Works - May or may not keep
 	showSelect: false,																				// * Works
-	skeltonType: 'heading@1',																	// * Works - Custom Prop
-	// sortAscIcon: '$sortAsc',																// ? Not sure if I will add this. Already made header.sort slot
-	// sortDescIcon: '$sortDesc',															// ? Not sure if I will add this. Already made header.sort slot
+	skeltonType: 'heading@1',																	// * Works
+	sortAscIcon: '$sortAsc',																	// * Works
 	sortBy: [],																								// * Works
 	sticky: false,																						// ? Not sure what this does. Needs Testing
 	tag: 'div',																								// * Works

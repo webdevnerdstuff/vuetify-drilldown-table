@@ -51,6 +51,7 @@
 			:show-select="tableSettings.showSelect"
 			:skelton-type="tableSettings.skeltonType"
 			:sort-by="tableSettings.sortBy"
+			:sort-icon-asc="tableSettings.sortAscIcon"
 			:tag="tableSettings.tag"
 			:theme="tableSettings.theme"
 			@update:drilldown="fetchClientData($event)"
@@ -143,10 +144,6 @@ const headers = {
 		},
 	],
 	users: [
-		// {
-		// 	key: 'data-table-select',
-		// 	title: '',
-		// },
 		{
 			align: 'start',
 			key: 'id',
@@ -224,10 +221,6 @@ const footers = {
 		},
 	],
 	users: [
-		// {
-		// 	key: 'data-table-select',
-		// 	title: '',
-		// },
 		{
 			align: 'start',
 			key: 'id',
@@ -237,9 +230,6 @@ const footers = {
 		{
 			align: 'start',
 			key: 'name',
-			renderer() {
-				return 'Total';
-			},
 			title: 'Name',
 		},
 		{

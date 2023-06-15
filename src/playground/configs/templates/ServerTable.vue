@@ -50,6 +50,7 @@
 			:show-search="tableSettings.showSearch"
 			:show-select="tableSettings.showSelect"
 			:skelton-type="tableSettings.skeltonType"
+			:sort-asc-icon="tableSettings.sortAscIcon"
 			:sort-by="tableSettings.sortBy"
 			:tag="tableSettings.tag"
 			:theme="tableSettings.theme"
@@ -155,6 +156,9 @@ const headers = {
 		{
 			align: 'start',
 			key: 'email',
+			renderItem(value) {
+				return `<a href="mailto:${value}">${value}</a>`;
+			},
 			title: 'Email',
 		},
 		{
@@ -225,15 +229,15 @@ const footers = {
 		{
 			align: 'start',
 			key: 'id',
+			renderFooter() {
+				return '&nbsp;';
+			},
 			title: 'User ID',
 			width: 350,
 		},
 		{
 			align: 'start',
 			key: 'name',
-			renderer() {
-				return 'Total';
-			},
 			title: 'Name',
 		},
 		{
