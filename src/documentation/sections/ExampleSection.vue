@@ -42,7 +42,7 @@ import {
 
 
 const classes = inject('classes');
-const tableSettings = ref({ ...tableDefaults });
-const tableSettingsServer = ref({ ...tableDefaults, ...{ server: true } });
+const tableSettings = ref({ ...tableDefaults, ...{ colors: null } });
+const tableSettingsServer = ref({ ...tableDefaults, ...{ colors: null, server: true } });
 
 </script>

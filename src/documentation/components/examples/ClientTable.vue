@@ -21,7 +21,6 @@
 			:elevation="tableSettings.elevation"
 			:expand-on-click="tableSettings.expandOnClick"
 			:first-icon="tableSettings.firstIcon"
-			:footers="footers.users"
 			:headers="headers.users"
 			:hover="tableSettings.hover"
 			:item-children-key="tableSettings.itemChildrenKey"
@@ -53,7 +52,6 @@
 			:server="tableSettings.server"
 			:show-current-page="tableSettings.showCurrentPage"
 			:show-expand="tableSettings.showExpand"
-			:show-footer-row="tableSettings.showFooterRow"
 			:show-search="tableSettings.showSearch"
 			:show-select="tableSettings.showSelect"
 			:skelton-type="tableSettings.skeltonType"
@@ -150,10 +148,6 @@ const headers = {
 		},
 	],
 	users: [
-		// {
-		// 	key: 'data-table-select',
-		// 	title: '',
-		// },
 		{
 			align: 'start',
 			key: 'id',
@@ -231,10 +225,6 @@ const footers = {
 		},
 	],
 	users: [
-		// {
-		// 	key: 'data-table-select',
-		// 	title: '',
-		// },
 		{
 			align: 'start',
 			key: 'id',
