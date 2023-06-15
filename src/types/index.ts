@@ -38,6 +38,7 @@ export interface DataTableItem<T = any> {
 	value: any;
 	type: 'item';
 	raw: T;
+	selected: boolean;
 	columns: {
 		[key: string]: any;
 	};
