@@ -10,6 +10,7 @@
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
 		:hide-no-data="hidingNoData"
+		:hover="loadedDrilldown.hover"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
 		:items-length="loadedDrilldown.itemsLength"
@@ -77,6 +78,7 @@
 				}"
 				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ allRowsSelected, ...props }"
+				:sort-asc-icon="loadedDrilldown.sortAscIcon"
 				:sort-by="loadedDrilldown.sortBy"
 				@click:selectAll="emitAllSelectedEvent($event)"
 			>
