@@ -35,7 +35,7 @@
 	>
 
 		<!-- ================================================== Top Slot -->
-		<template #top="props">
+		<template #[`top`]="props">
 			<TopSlot
 				:key="level"
 				:items="loadedDrilldown.items"
@@ -62,7 +62,7 @@
 
 
 		<!-- ================================================== Headers Slot -->
-		<template #headers="props">
+		<template #[`headers`]="props">
 			<HeadersSlot
 				:key="level"
 				:colors="loadedDrilldown.colors"
@@ -100,14 +100,14 @@
 		<!-- ================================================== Loader & Loading Slot -->
 		<template
 			v-if="slots.loader"
-			#loader
+			#[`loader`]
 		>
 			<slot name="loader" />
 		</template>
 
 		<template
 			v-if="slots.loading"
-			#loading
+			#[`loading`]
 		>
 			<slot name="loading" />
 		</template>
@@ -116,7 +116,7 @@
 		<!-- ================================================== Thead Slot -->
 		<template
 			v-if="slots.thead"
-			#thead="props"
+			#[`thead`]="props"
 		>
 			<slot
 				name="thead"
@@ -128,7 +128,7 @@
 		<!-- ================================================== Body Slot -->
 		<template
 			v-if="slots.body"
-			#body="props"
+			#[`body`]="props"
 		>
 			<slot
 				name="body"
@@ -140,7 +140,7 @@
 		<!-- ================================================== tbody Slot -->
 		<template
 			v-if="slots.tbody"
-			#tbody="props"
+			#[`tbody`]="props"
 		>
 			<slot
 				name="tbody"
@@ -158,7 +158,7 @@
 
 
 		<!-- ================================================== Row Item Slot -->
-		<template #item="props">
+		<template #[`item`]="props">
 			<ItemSlot
 				:key="level"
 				:density="loadedDrilldown.density"
@@ -247,7 +247,7 @@
 		<!-- ================================================== Tfoot Slot -->
 		<template
 			v-if="slots.tfoot || showFooterRow"
-			#tfoot="props"
+			#[`tfoot`]="props"
 		>
 			<slot
 				v-if="slots.tfoot"
@@ -291,7 +291,7 @@
 		<!-- ================================================== Bottom Slot -->
 		<template
 			v-if="slots.bottom"
-			#bottom="props"
+			#[`bottom`]="props"
 		>
 			<BottomSlot
 				:key="level"
