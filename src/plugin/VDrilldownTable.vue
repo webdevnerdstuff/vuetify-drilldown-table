@@ -24,6 +24,7 @@
 		:page="loadedDrilldown.page"
 		:return-object="loadedDrilldown.returnObject"
 		:search="levelSearch"
+		:select-strategy="loadedDrilldown.selectStrategy"
 		:show-expand="loadedDrilldown.showExpand"
 		:sort-by="currentSortBy"
 		:style="tableStyles"

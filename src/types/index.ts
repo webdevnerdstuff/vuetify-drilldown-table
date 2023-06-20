@@ -169,6 +169,7 @@ export interface Props {
 	searchProps?: SearchProps; 																					// * Custom Property
 	separator?: string;																									// TODO: Maybe add this //
 	server?: boolean;																										// * Custom Property
+	selectStrategy?: VDataTable['$props']['selectStrategy'];
 	showDrilldownWhenLoading?: boolean;																	// * Custom Property
 	showExpand?: VDataTable['$props']['showExpand'];
 	showFooterRow?: boolean; 																						// * Custom Property

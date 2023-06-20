@@ -111,9 +111,10 @@ export const AllProps = {
 		density: 'comfortable',
 		variant: 'underlined',
 	}) as const,
+	selectStrategy: 'page' as const,									// ! Not working properly //
 	// separator: '', 																// TODO: Maybe add this //
-	server: false,
-	showDrilldownWhenLoading: true,
+	server: false,																		// * Works
+	showDrilldownWhenLoading: true, 									// * Works
 	showExpand: false,																// ? Works but needs testing.- Not sure if needed in this object
 	showFooterRow: false,															// ? Not sure if I will use this. Depends on a possible footer slot
 	showSearch: false,																// * Custom Prop
@@ -121,6 +122,6 @@ export const AllProps = {
 	skeltonType: 'heading@1',													// * Works
 	sortAscIcon: '$sortAsc',													// * Works
 	sortBy: () => [],																	// * Works
-	tableType: () => ({}),
+	tableType: () => ({}),														// * Works
 	width: '100%',																		// ! Not working properly //
 };
