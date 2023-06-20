@@ -118,7 +118,7 @@ export type TableType = VDataTable | VDataTableServer | unknown;
 
 // -------------------------------------------------- Props //
 export interface Props {
-	colors?: ColorsObject | null;																				// * Custom Property
+	colors?: ColorsObject | null;
 	customFilter?: VDataTable['$props']['customFilter'];
 	customKeyFilter?: VDataTable['$props']['customKeyFilter'];
 	density?: VDataTable['$options']['density'];
@@ -127,32 +127,31 @@ export interface Props {
 	elevation?: string | number | undefined;
 	expandOnClick?: VDataTable['$props']['expandOnClick'];
 	expanded?: readonly string[] | undefined;
-	filterKeys?: VDataTable['$props']['filterKeys'];										// ! Need more info/testing
+	filterKeys?: VDataTable['$props']['filterKeys'];										// ? Need more info/testing
 	filterMode?: VDataTable['$props']['filterMode'];
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
-	footers?: Column[]; 																								// * Custom Property - This might change //
+	footers?: Column[];
 	headers?: VDataTable['$props']['headers'];
-	// groupBy?: string[];																							// ? Most likely this will not be used
 	height?: string | number | undefined;
 	// hideDefaultFooter?: boolean;																			// ? Custom Property - Need to add/test
 	// hideDefaultHeader?: boolean;																			// ? Custom Property - Need to add/test
 	hideNoData?: VDataTable['$props']['hideNoData'];
 	hover?: VDataTable['$props']['hover'];
-	isDrilldown?: boolean;																							// * Custom Property
-	item?: VDataTableRow['$props']['item'];															// * Custom Property
+	isDrilldown?: boolean;
+	item?: VDataTableRow['$props']['item'];
 	// itemChildren?: VDataTable['$props']['itemChildren'];							// ? Type missing in v3.3.0
-	itemChildrenKey?: string;																						// * Custom Property
+	itemChildrenKey?: string;
 	itemValue?: VDataTable['$props']['itemValue'];
 	items?: VDataTable['$props']['items'];
 	itemsLength?: number;
 	itemsPerPage?: VDataTable['$props']['itemsPerPage'];
 	itemsPerPageOptions?: VDataTable['$props']['itemsPerPageOptions'];
-	level: number; 																											// * Custom Property
-	levels: number; 																										// * Custom Property
-	loaderHeight?: VProgressLinear['$props']['height'];									// * Custom Property
-	loaderSize?: VProgressCircular['$props']['size'];										// * Custom Property
-	loaderType?: string | string[] | false | null;											// * Custom Property
+	level: number;
+	levels: number;
+	loaderHeight?: VProgressLinear['$props']['height'];
+	loaderSize?: VProgressCircular['$props']['size'];
+	loaderType?: string | string[] | false | null;
 	loading?: VDataTable['$props']['loading'];
 	loadingText?: VDataTable['$props']['loadingText'];									// ! Not working properly //
 	modelValue?: unknown[];
@@ -161,24 +160,23 @@ export interface Props {
 	noDataText?: VDataTable['$props']['noDataText'];
 	noFilter?: VDataTable['$props']['noFilter'];
 	page?: VDataTable['$props']['page'];
-	// pageCount?: number;																							// ? Need to test (maybe v2 only?)
 	returnObject?: VDataTable['$props']['returnObject'];
 	search?: string | undefined;
-	searchDebounce?: number | undefined | null; 												// * Custom Property
-	searchMaxWait?: number | undefined | null; 													// * Custom Property
-	searchProps?: SearchProps; 																					// * Custom Property
+	searchDebounce?: number | undefined | null;
+	searchMaxWait?: number | undefined | null;
+	searchProps?: SearchProps;
 	separator?: string;																									// TODO: Maybe add this //
-	server?: boolean;																										// * Custom Property
-	selectStrategy?: VDataTable['$props']['selectStrategy'];
-	showDrilldownWhenLoading?: boolean;																	// * Custom Property
+	server?: boolean;
+	selectStrategy?: VDataTable['$props']['selectStrategy'];						// ! Testing
+	showDrilldownWhenLoading?: boolean;
 	showExpand?: VDataTable['$props']['showExpand'];
-	showFooterRow?: boolean; 																						// * Custom Property
-	showSearch?: boolean; 																							// * Custom Property
+	showFooterRow?: boolean;
+	showSearch?: boolean;
 	showSelect?: VDataTable['$props']['showSelect'];
-	skeltonType?: string;																								// * Custom Property
+	skeltonType?: string;
 	sortAscIcon?: VDataTable['$props']['sortAscIcon'];
 	sortBy?: VDataTable['$props']['sortBy'];
-	tableType?: TableType;																							// * Custom Property
+	tableType?: TableType;
 	width?: string | number | undefined;																// ! Not working properly //
 }
 
