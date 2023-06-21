@@ -203,7 +203,7 @@ const checkLoaderType = (type: string): boolean => {
 		position: relative;
 		top: 0;
 		width: 100%;
-		z-index: 99999;
+		z-index: 100;
 
 		&-not-linear {
 			td {
