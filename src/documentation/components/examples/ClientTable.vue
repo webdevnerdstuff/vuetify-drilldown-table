@@ -287,7 +287,7 @@ function fetchClientData(drilldown = null) {
 		user.child = {};
 		user.child = {
 			...tableDefaults,
-			...props.colors,
+			colors: null,
 			drilldownKey: 'id',
 			footers: footers.posts,
 			headers: headers.posts,
@@ -314,7 +314,7 @@ function fetchClientData(drilldown = null) {
 		post.child = {};
 		post.child = {
 			...tableDefaults,
-			...props.colors,
+			colors: null,
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,
