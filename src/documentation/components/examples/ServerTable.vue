@@ -110,8 +110,9 @@ const headers = {
 		{
 			align: 'start',
 			key: 'id',
+			sortable: false,
 			title: 'Comment ID',
-			width: 150,
+			width: 130,
 		},
 		{
 			align: 'start',
@@ -135,7 +136,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			width: 260,
+			width: 240,
 		},
 		{
 			align: 'start',
@@ -156,16 +157,22 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'User ID',
-			width: 370,
+			width: 350,
 		},
 		{
 			align: 'start',
 			key: 'name',
+			renderer(value) {
+				return value;
+			},
 			title: 'Name',
 		},
 		{
 			align: 'start',
 			key: 'email',
+			renderItem(value) {
+				return `<a href="mailto:${value}">${value}</a>`;
+			},
 			title: 'Email',
 		},
 		{
@@ -236,15 +243,15 @@ const footers = {
 		{
 			align: 'start',
 			key: 'id',
+			renderFooter() {
+				return '&nbsp;';
+			},
 			title: 'User ID',
 			width: 350,
 		},
 		{
 			align: 'start',
 			key: 'name',
-			renderer() {
-				return 'Total';
-			},
 			title: 'Name',
 		},
 		{
@@ -338,6 +345,7 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 			itemsPerPage: drilldown?.itemsPerPage ?? 0,
 			level: 2,
 			loading: true,
+			server: true,
 			sortBy: [],
 		},
 	});
@@ -397,6 +405,7 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 			itemsPerPage: drilldown?.itemsPerPage ?? 0,
 			level: 3,
 			loading: true,
+			server: true,
 			sortBy: [],
 		},
 	});

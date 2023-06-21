@@ -58,18 +58,6 @@ export const usePropsStore = defineStore('props', () => {
 			name: 'elevation',
 			type: 'string | number | undefined',
 		},
-		// {
-		// 	default: false,
-		// 	desc: 'Fixed footer',
-		// 	name: 'fixedFooter',
-		// 	type: 'boolean',
-		// },
-		// {
-		// 	default: false,
-		// 	desc: 'Fixed header',
-		// 	name: 'fixedHeader',
-		// 	type: 'boolean',
-		// },
 		{
 			default: undefined,
 			desc: 'An array of objects that each describe a footer column. The formatting of the objects are the same as the <a href="#props-all-headers"><code class="inline-code">headers</code></a> prop and should be the same (mostly) to create the same columns. To enabled the <code class="inline-code">footers</code> row you will need to set the <a href="#props-all-showfooterrow"><code class="inline-code">showFooterRow</code></a> prop to true. See <a href="#cell-rendering">Cell Rendering</a> for more information about rendering.',
@@ -88,18 +76,6 @@ export const usePropsStore = defineStore('props', () => {
 			name: 'groupBy',
 			type: 'VDataTable["$props"]["groupBy"]',
 		},
-		// {
-		// 	default: undefined,
-		// 	desc: 'Hide default footer',
-		// 	name: 'hideDefaultFooter',
-		// 	type: 'boolean',
-		// },
-		// {
-		// 	default: undefined,
-		// 	desc: 'Hide default header',
-		// 	name: 'hideDefaultHeader',
-		// 	type: 'boolean',
-		// },
 		{
 			default: false,
 			desc: 'Internal use only',
@@ -142,12 +118,12 @@ export const usePropsStore = defineStore('props', () => {
 			name: 'loading',
 			type: 'VDataTable["$props"]["loading"]',
 		},
-		// {
-		// 	default: undefined,
-		// 	desc: 'tbd',
-		// 	name: 'modelValue',
-		// 	type: 'unknown[]',
-		// },
+		{
+			default: true,
+			desc: 'Missing description in Vuetify docs. This prop <u>needs</u> to be set to <code class="inline-code">true</code> for the server table to function properly. Do not set this to <code class="inline-code">false</code>.',
+			name: 'returnObject',
+			type: 'boolean | undefined',
+		},
 		{
 			default: undefined,
 			desc: 'Text input used to filter items',
@@ -172,12 +148,12 @@ export const usePropsStore = defineStore('props', () => {
 			name: 'searchProps',
 			type: 'SearchProps',
 		},
-		// {
-		// 	default: undefined,
-		// 	desc: 'tbd',
-		// 	name: 'separator',
-		// 	type: 'string',
-		// },
+		{
+			default: 'default',
+			desc: 'Enhance the appearance of the table by modifying the borders of the cells',
+			name: 'separator',
+			type: '\'default\' | \'horizontal\' | \'vertical\' | \'cell\' | undefined',
+		},
 		{
 			default: false,
 			desc: 'Sets the table component to <code class="inline-code">VDataTableServer</code>',

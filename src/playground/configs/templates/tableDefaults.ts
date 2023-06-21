@@ -1,5 +1,6 @@
 export default {
 	// color: 'primary',																			// ? Doesn't seem to work
+	// colors: null,
 	colors: {
 		body: {
 			base: '--v-theme-surface',
@@ -123,13 +124,14 @@ export default {
 		variant: 'underlined',
 	},
 	selectStrategy: 'page',
+	separator: 'default',
 	server: false,
 	showCurrentPage: false,
 	showDrilldownWhenLoading: true,
 	showExpand: false,
-	showFooterRow: true,
+	showFooterRow: false,
 	showSearch: false,
-	showSelect: false,
+	showSelect: true,
 	skeltonType: 'heading@1',
 	sortAscIcon: '$sortAsc',
 	sortBy: [],

@@ -18,14 +18,14 @@ import {
 
 // -------------------------------------------------- VDrilldownTable //
 export const useTableClasses: UseTableClasses = (options) => {
-	const { elevation, isDrilldown, isHover, isServerSide, level } = options;
+	const { elevation, isDrilldown, isHover, isServerSide, level, separator } = options;
 
 	const classes = {
-		'pb-2': true,
 		[`${componentName}--child`]: isDrilldown,
 		[`${componentName}--hover`]: isHover,
 		[`${componentName}--level-${level}`]: true,
 		[`${componentName}--server`]: isServerSide,
+		[`${componentName}--separator-${separator}`]: separator,
 		[`${componentName}`]: true,
 		[`elevation-${elevation}`]: parseInt(elevation as string) > 0,
 	};
@@ -112,8 +112,8 @@ export const useSortIconClasses: UseSortIconClasses = (options) => {
 		'mx-1': true,
 		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-${level}`]: true,
-		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: useGetSortDirection(sortBy, key) === 'desc',
-		[`${componentName}--header-row-th-sortable-sort-icon-asc`]: useGetSortDirection(sortBy, key) === 'asc',
+		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: useGetSortDirection({ id: key, sortBy }) === 'desc',
+		[`${componentName}--header-row-th-sortable-sort-icon-asc`]: useGetSortDirection({ id: key, sortBy }) === 'asc',
 	};
 };
 

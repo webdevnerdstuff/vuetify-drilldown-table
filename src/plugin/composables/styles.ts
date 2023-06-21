@@ -43,13 +43,13 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 		minWidth?: string | number | unknown;
 		width?: string | number | unknown;
 	} = {
-		minWidth: column.width ? useConvertToUnit(column.width) : 'auto',
-		width: column.width ? useConvertToUnit(column.width) : 'auto',
+		minWidth: column.width ? useConvertToUnit({ str: column.width }) : 'auto',
+		width: column.width ? useConvertToUnit({ str: column.width }) : 'auto',
 	};
 
 	if (dataTableExpand && !column.width) {
-		styles.width = '48px';
-		styles.minWidth = '48px';
+		styles.width = column.width ? useConvertToUnit({ str: column.width }) : '56px';
+		styles.minWidth = column.width ? useConvertToUnit({ str: column.width }) : '56px';
 	}
 
 	if (colors === false || colors === null) {

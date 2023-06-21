@@ -90,6 +90,7 @@ const props = defineProps({
 
 
 const classes = inject('classes');
+const colorsProp = ref(props.colors);
 const tableSettings = ref({ ...props.settings, ...props.colors });
 
 const headers = {
@@ -110,8 +111,9 @@ const headers = {
 		{
 			align: 'start',
 			key: 'id',
+			sortable: false,
 			title: 'Comment ID',
-			width: 150,
+			width: 130,
 		},
 		{
 			align: 'start',
@@ -135,7 +137,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			width: 260,
+			width: 240,
 		},
 		{
 			align: 'start',
@@ -148,20 +150,30 @@ const headers = {
 		},
 	],
 	users: [
+		// {
+		// 	key: 'data-table-select',
+		// 	title: '',
+		// },
 		{
 			align: 'start',
 			key: 'id',
 			title: 'User ID',
-			width: 370,
+			width: 350,
 		},
 		{
 			align: 'start',
 			key: 'name',
+			renderer(value) {
+				return value;
+			},
 			title: 'Name',
 		},
 		{
 			align: 'start',
 			key: 'email',
+			renderItem(value) {
+				return `<a href="mailto:${value}">${value}</a>`;
+			},
 			title: 'Email',
 		},
 		{
@@ -225,18 +237,22 @@ const footers = {
 		},
 	],
 	users: [
+		// {
+		// 	key: 'data-table-select',
+		// 	title: '',
+		// },
 		{
 			align: 'start',
 			key: 'id',
+			renderFooter() {
+				return '&nbsp;';
+			},
 			title: 'User ID',
 			width: 350,
 		},
 		{
 			align: 'start',
 			key: 'name',
-			renderer() {
-				return 'Total';
-			},
 			title: 'Name',
 		},
 		{
@@ -287,7 +303,7 @@ function fetchClientData(drilldown = null) {
 		user.child = {};
 		user.child = {
 			...tableDefaults,
-			colors: null,
+			...colorsProp.value,
 			drilldownKey: 'id',
 			footers: footers.posts,
 			headers: headers.posts,
@@ -296,6 +312,7 @@ function fetchClientData(drilldown = null) {
 			sortBy: [],
 		};
 	}
+
 
 	// Comments Level 3 //
 	if (drilldown?.level === 2) {
@@ -314,11 +331,11 @@ function fetchClientData(drilldown = null) {
 		post.child = {};
 		post.child = {
 			...tableDefaults,
-			colors: null,
+			...colorsProp.value,
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,
-			itemsPerPage: 2,
+			itemsPerPage: tableSettings.value.itemsPerPage,
 			level: 3,
 			loading: true,
 			sortBy: [],

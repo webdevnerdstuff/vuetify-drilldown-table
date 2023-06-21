@@ -23,6 +23,7 @@
 		:must-sort="loadedDrilldown.mustSort"
 		:no-data-text="loadedDrilldown.noDataText"
 		:page="loadedDrilldown.page"
+		:return-object="loadedDrilldown.returnObject"
 		:search="levelSearch"
 		:select-strategy="loadedDrilldown.selectStrategy"
 		:show-expand="loadedDrilldown.showExpand"
@@ -462,6 +463,7 @@ const tableClasses = computed<object>(() => {
 		isHover: loadedDrilldown.hover,
 		isServerSide,
 		level: loadedDrilldown.level,
+		separator: loadedDrilldown.separator,
 	});
 });
 

@@ -1,14 +1,18 @@
+/* eslint-disable no-param-reassign */
 import {
 	Column,
-	Props,
+	UseGetSortDirection,
+	UseConvertToUnit,
 } from '@/types';
-import { getPropertyFromItem } from 'vuetify/lib/util/helpers.mjs';
+import { useGetPropertyFromItem } from './vuetifyHelpers';
 
 
 /**
 * Get's the sort direction for a column
 */
-export function useGetSortDirection(sortBy: Props['sortBy'], id: string): string | boolean | void {
+export const useGetSortDirection: UseGetSortDirection = (options) => {
+	const { id, sortBy } = options;
+
 	if (sortBy) {
 		const item = sortBy.find(item => item.key === id);
 
@@ -18,13 +22,14 @@ export function useGetSortDirection(sortBy: Props['sortBy'], id: string): string
 	}
 
 	return;
-}
-
+};
 
 /**
 * Converts a string to a number with a unit.
 */
-export function useConvertToUnit(str: string | number, unit = 'px'): string | void {
+export const useConvertToUnit: UseConvertToUnit = (options) => {
+	const { str, unit = 'px' } = options;
+
 	if (str == null || str === '') {
 		return undefined;
 	}
@@ -34,7 +39,7 @@ export function useConvertToUnit(str: string | number, unit = 'px'): string | vo
 	}
 
 	return `${Number(str)}${unit}`;
-}
+};
 
 
 // -------------------------------------------------- Render Cells #
@@ -46,10 +51,11 @@ export function useRenderCellItem(
 	item: any,
 	column: Column,
 ): unknown {
-	// const itemValue = item[column.key as keyof object];
+	if (!column.key) {
+		return '';
+	}
 
-	// Credit: https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/util/helpers.ts
-	const itemValue = getPropertyFromItem(item, column.key);
+	const itemValue = useGetPropertyFromItem(item, column.key);
 
 	if (column.renderItem) {
 		return column.renderItem(itemValue, item, column);
@@ -57,7 +63,6 @@ export function useRenderCellItem(
 
 	return itemValue;
 }
-
 
 /**
 * Render the cell
@@ -95,7 +100,6 @@ function isObject(item: object): boolean {
 	return (item && typeof item === 'object' && !Array.isArray(item));
 }
 
-
 /**
  * Deep merge objects.
  */
@@ -125,51 +129,3 @@ export function useMergeDeep(target: object | object[], ...sources: object[]): o
 
 	return useMergeDeep(target, ...sources);
 }
-
-
-/**
- * Debugging Log Helper
- */
-export function useLogHelper(options) {
-	const { borderColor, filename, method, values } = options;
-
-	const logColors = [
-		'background: black',
-		`border: 3px dashed ${borderColor}`,
-		`border-radius: 5px`,
-		`color: white`,
-		'font-family: monospace',
-		'font-size: 1.2em',
-		'padding: 10px',
-		'margin: 5px 0'
-	];
-
-	// File name + method //
-	const output = [
-		'%c%s',
-		logColors.join(';'),
-		`${filename} - ${method}:`,
-	];
-
-
-	// Values to log //
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	Object.values(values).forEach((obj: any) => {
-		const { key, val } = obj;
-
-		const value = unref(val);
-		const booleanValue = value || value === true ? true : false;
-		const valueColor = booleanValue ? 'lime' : 'red';
-
-		output[0] = output[0] + `%c%s%c%s`;
-
-		output.push(
-			`color: white`,
-			`\t${key} = `,
-			`color: ${valueColor}`,
-			`${value}`,
-		);
-	});
-
-	console.log(...output);
-};

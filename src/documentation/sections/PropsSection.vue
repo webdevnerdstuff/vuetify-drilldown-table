@@ -124,7 +124,7 @@ const classes = inject('classes');
 const codeBlockSettings = computed(() => props.codeBlockOptions);
 const propsStore = usePropsStore();
 const store = useCoreStore();
-const tableSettings = ref({ ...tableDefaults });
+
 
 const colorsProp = {
 	colors: {
@@ -157,6 +157,8 @@ const colorsProp = {
 		percentageDirection: 'desc',
 	}
 };
+
+const tableSettings = ref({ ...tableDefaults, ...{ colors: colorsProp } });
 
 const colorsPropCode = `colors: {
   body: {
