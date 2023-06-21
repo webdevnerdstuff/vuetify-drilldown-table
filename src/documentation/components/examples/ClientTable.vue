@@ -110,8 +110,9 @@ const headers = {
 		{
 			align: 'start',
 			key: 'id',
+			sortable: false,
 			title: 'Comment ID',
-			width: 150,
+			width: 130,
 		},
 		{
 			align: 'start',
@@ -135,7 +136,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			width: 260,
+			width: 235,
 		},
 		{
 			align: 'start',
@@ -148,20 +149,30 @@ const headers = {
 		},
 	],
 	users: [
+		// {
+		// 	key: 'data-table-select',
+		// 	title: '',
+		// },
 		{
 			align: 'start',
 			key: 'id',
 			title: 'User ID',
-			width: 370,
+			width: 345,
 		},
 		{
 			align: 'start',
 			key: 'name',
+			renderer(value) {
+				return value;
+			},
 			title: 'Name',
 		},
 		{
 			align: 'start',
 			key: 'email',
+			renderItem(value) {
+				return `<a href="mailto:${value}">${value}</a>`;
+			},
 			title: 'Email',
 		},
 		{
@@ -225,18 +236,22 @@ const footers = {
 		},
 	],
 	users: [
+		// {
+		// 	key: 'data-table-select',
+		// 	title: '',
+		// },
 		{
 			align: 'start',
 			key: 'id',
+			renderFooter() {
+				return '&nbsp;';
+			},
 			title: 'User ID',
 			width: 350,
 		},
 		{
 			align: 'start',
 			key: 'name',
-			renderer() {
-				return 'Total';
-			},
 			title: 'Name',
 		},
 		{
@@ -318,7 +333,7 @@ function fetchClientData(drilldown = null) {
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,
-			itemsPerPage: 2,
+			itemsPerPage: tableSettings.value.itemsPerPage,
 			level: 3,
 			loading: true,
 			sortBy: [],
