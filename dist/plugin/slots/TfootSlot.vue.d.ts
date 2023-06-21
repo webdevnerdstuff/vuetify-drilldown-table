@@ -5,9 +5,17 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<Column[]>;
         required: true;
     };
+    items: {
+        type: __PropType<any[] | undefined>;
+        required: true;
+    };
+    selectStrategy: {
+        type: __PropType<"page" | "all" | "single" | undefined>;
+        required: true;
+    };
     slotProps: {
         type: __PropType<{
-            allRowsSelected: boolean;
+            allSelected?: boolean | undefined;
             columns: Column[];
             getFixedStyles?: ((column: import('../../types').InternalDataTableHeader, y: number) => globalThis.CSSProperties | undefined) | undefined;
             getSortIcon?: ((column: import('../../types').InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
@@ -52,6 +60,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
             toggleSort?: ((column: import('../../types').InternalDataTableHeader) => void) | undefined;
         }>;
         required: true;
+    };
+    tableModelValue: {
+        type: __PropType<unknown[] | undefined>;
+        required: false;
     };
     colors: {
         type: __PropType<ColorsObject | null | undefined>;
@@ -70,9 +82,17 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<Column[]>;
         required: true;
     };
+    items: {
+        type: __PropType<any[] | undefined>;
+        required: true;
+    };
+    selectStrategy: {
+        type: __PropType<"page" | "all" | "single" | undefined>;
+        required: true;
+    };
     slotProps: {
         type: __PropType<{
-            allRowsSelected: boolean;
+            allSelected?: boolean | undefined;
             columns: Column[];
             getFixedStyles?: ((column: import('../../types').InternalDataTableHeader, y: number) => globalThis.CSSProperties | undefined) | undefined;
             getSortIcon?: ((column: import('../../types').InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
@@ -117,6 +137,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
             toggleSort?: ((column: import('../../types').InternalDataTableHeader) => void) | undefined;
         }>;
         required: true;
+    };
+    tableModelValue: {
+        type: __PropType<unknown[] | undefined>;
+        required: false;
     };
     colors: {
         type: __PropType<ColorsObject | null | undefined>;

@@ -5,6 +5,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<boolean | undefined>;
         required: true;
     };
+    itemSelectable: {
+        type: __PropType<(string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any)) | undefined>;
+        required: true;
+    };
     items: {
         type: __PropType<any[] | undefined>;
         required: true;
@@ -19,7 +23,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
     slotProps: {
         type: __PropType<{
-            allRowsSelected: boolean;
             columns: Column[];
             index?: number | undefined;
             isExpanded: (item: DataTableItem<any>) => boolean;
@@ -48,6 +51,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<boolean | undefined>;
         required: true;
     };
+    itemSelectable: {
+        type: __PropType<(string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any)) | undefined>;
+        required: true;
+    };
     items: {
         type: __PropType<any[] | undefined>;
         required: true;
@@ -62,7 +69,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
     slotProps: {
         type: __PropType<{
-            allRowsSelected: boolean;
             columns: Column[];
             index?: number | undefined;
             isExpanded: (item: DataTableItem<any>) => boolean;

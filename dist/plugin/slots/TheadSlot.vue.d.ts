@@ -3,7 +3,6 @@ import { Column } from '../../types';
 declare const _sfc_main: import("vue").DefineComponent<{
     slotProps: {
         type: __PropType<{
-            allRowsSelected: boolean;
             columns: Column[];
             getSortIcon?: ((column: import('../../types').InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
             index?: number | undefined;
@@ -45,7 +44,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:sortBy" | "click:selectAll")[], "update:sortBy" | "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     slotProps: {
         type: __PropType<{
-            allRowsSelected: boolean;
             columns: Column[];
             getSortIcon?: ((column: import('../../types').InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
             index?: number | undefined;

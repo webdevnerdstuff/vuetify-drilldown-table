@@ -1,48 +1,48 @@
 import { Column } from '../../types';
 export declare const AllProps: {
-    colors: {
-        body: {
-            base: string;
-            bg: string;
-            text: string;
+    colors: () => {
+        readonly body: {
+            readonly base: "--v-theme-surface";
+            readonly bg: "--v-theme-surface";
+            readonly text: "--v-theme-on-surface";
         };
-        default: {
-            base: string;
-            bg: string;
-            border: string;
-            text: string;
+        readonly default: {
+            readonly base: "primary";
+            readonly bg: "primary";
+            readonly border: "primary";
+            readonly text: "on-primary";
         };
-        footer: {
-            bg: string;
-            text: string;
+        readonly footer: {
+            readonly bg: "--v-theme-surface";
+            readonly text: "--v-theme-on-surface";
         };
-        header: {
-            bg: string;
-            text: string;
+        readonly header: {
+            readonly bg: "primary";
+            readonly text: "on-primary";
         };
-        loader: {
-            circular: string;
-            color: string;
-            linear: string;
-            text: string;
+        readonly loader: {
+            readonly circular: "primary";
+            readonly color: "primary";
+            readonly linear: "surface-variant";
+            readonly text: "surface-variant";
         };
-        percentageChange: number;
-        percentageDirection: string;
+        readonly percentageChange: 25;
+        readonly percentageDirection: "desc";
     };
     density: string;
     drilldownKey: string;
     elevation: number;
     expandOnClick: boolean;
     filterKeys: undefined;
-    fixedFooter: boolean;
-    fixedHeader: boolean;
     footers: () => Column[];
     height: string;
     hideNoData: boolean;
     hover: boolean;
     isDrilldown: boolean;
     itemChildrenKey: string;
+    itemSelectable: undefined;
     itemValue: string;
+    items: () => never[];
     itemsLength: number;
     itemsPerPage: number;
     level: number;
@@ -56,7 +56,6 @@ export declare const AllProps: {
     noDataText: string;
     noFilter: boolean;
     page: number;
-    returnObject: boolean;
     search: string;
     searchDebounce: number;
     searchMaxWait: number;
@@ -72,6 +71,7 @@ export declare const AllProps: {
         readonly density: "comfortable";
         readonly variant: "underlined";
     };
+    selectStrategy: "page";
     server: boolean;
     showDrilldownWhenLoading: boolean;
     showExpand: boolean;
@@ -79,7 +79,7 @@ export declare const AllProps: {
     showSearch: boolean;
     showSelect: boolean;
     skeltonType: string;
+    sortAscIcon: string;
     sortBy: () => never[];
     tableType: () => {};
-    width: string;
 };
