@@ -230,7 +230,6 @@ export interface TopSlotProps extends VDataTableSlotProps {
 };
 
 export interface HeaderSlotProps extends AllSlotProps {
-	allSelected?: boolean;
 	isTheadSlot?: boolean;
 	items: Props['items'];
 	loaderSettings: {
@@ -245,7 +244,6 @@ export interface HeaderSlotProps extends AllSlotProps {
 	};
 	selectStrategy: Props['selectStrategy'];
 	slotProps: {
-		allRowsSelected: boolean;
 		allSelected?: boolean;
 		columns: Column[];
 		getSortIcon: GetSortIcon;
@@ -262,7 +260,6 @@ export interface HeaderSlotProps extends AllSlotProps {
 
 export interface THeadSlotProps extends AllSlotProps {
 	slotProps: {
-		allRowsSelected: boolean;
 		columns: Column[];
 		getSortIcon?: GetSortIcon;
 		index?: number;
@@ -281,7 +278,6 @@ export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
 	levels: Props['levels'];
 	showExpand: Props['showExpand'];
 	slotProps: {
-		allRowsSelected: boolean;
 		columns: Column[];
 		index?: number;
 		isExpanded: IsExpanded;
@@ -295,8 +291,10 @@ export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
 
 export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortBy'> {
 	footers: Column[];
+	items: Props['items'];
+	selectStrategy: Props['selectStrategy'];
 	slotProps: {
-		allRowsSelected: boolean;
+		allSelected?: boolean;
 		columns: Column[];
 		getFixedStyles?: (column: InternalDataTableHeader, y: number) => CSSProperties | undefined;
 		getSortIcon?: GetSortIcon;
@@ -311,6 +309,7 @@ export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortB
 		toggleSelect: ToggleExpandSelect;
 		toggleSort?: ToggleSort;
 	};
+	tableModelValue?: Props['modelValue'];
 }
 
 
