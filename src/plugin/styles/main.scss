@@ -106,6 +106,10 @@
             &:not(:last-child) {
               border-right: var(--vdt-border) !important;
             }
+
+            &:nth-last-child(2) {
+              border-right: 0 !important;
+            }
           }
         }
       }
@@ -135,13 +139,17 @@
       }
 
       tfoot {
-        > tr {
+        tr {
           th {
             border-top: 0 !important;
             border-bottom: var(--vdt-border) !important;
 
             &:not(:last-child) {
               border-right: var(--vdt-border) !important;
+            }
+
+            &:nth-last-child(2) {
+              border-right: 0 !important;
             }
           }
         }
@@ -206,11 +214,6 @@
     min-height: 2px;
     position: relative;
   }
-
-  // tfoot tr th,
-  // tfoot tr td {
-  //   border-bottom: var(--vdt-border);
-  // }
 
   .v-data-table-footer {
     border-bottom: var(--vdt-border);
