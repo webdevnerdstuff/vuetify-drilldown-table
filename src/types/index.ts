@@ -205,7 +205,7 @@ export interface Props {
 	searchDebounce?: number | undefined | null;
 	searchMaxWait?: number | undefined | null;
 	searchProps?: SearchProps;
-	separator?: string;																									// TODO: Maybe add this //
+	separator?: 'default' | 'horizontal' | 'vertical' | 'cell' | undefined;
 	server?: boolean;
 	selectStrategy?: VDataTable['$props']['selectStrategy'];
 	showDrilldownWhenLoading?: boolean;
@@ -553,6 +553,7 @@ export interface UseTableClasses {
 			isHover: boolean | undefined,
 			isServerSide: boolean,
 			level: Props['level'],
+			separator: Props['separator'],
 		}
 	): object;
 }

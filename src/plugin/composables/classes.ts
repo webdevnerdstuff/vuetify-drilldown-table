@@ -18,14 +18,14 @@ import {
 
 // -------------------------------------------------- VDrilldownTable //
 export const useTableClasses: UseTableClasses = (options) => {
-	const { elevation, isDrilldown, isHover, isServerSide, level } = options;
+	const { elevation, isDrilldown, isHover, isServerSide, level, separator } = options;
 
 	const classes = {
-		'pb-2': true,
 		[`${componentName}--child`]: isDrilldown,
 		[`${componentName}--hover`]: isHover,
 		[`${componentName}--level-${level}`]: true,
 		[`${componentName}--server`]: isServerSide,
+		[`${componentName}--separator-${separator}`]: separator,
 		[`${componentName}`]: true,
 		[`elevation-${elevation}`]: parseInt(elevation as string) > 0,
 	};

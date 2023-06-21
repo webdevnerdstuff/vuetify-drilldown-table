@@ -148,12 +148,12 @@ export const usePropsStore = defineStore('props', () => {
 			name: 'searchProps',
 			type: 'SearchProps',
 		},
-		// {
-		// 	default: undefined,
-		// 	desc: 'tbd',
-		// 	name: 'separator',
-		// 	type: 'string',
-		// },
+		{
+			default: 'default',
+			desc: 'Enhance the appearance of the table by modifying the borders of the cells',
+			name: 'separator',
+			type: '\'default\' | \'horizontal\' | \'vertical\' | \'cell\' | undefined',
+		},
 		{
 			default: false,
 			desc: 'Sets the table component to <code class="inline-code">VDataTableServer</code>',

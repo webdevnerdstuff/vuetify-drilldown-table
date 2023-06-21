@@ -48,8 +48,8 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 	};
 
 	if (dataTableExpand && !column.width) {
-		styles.width = '48px';
-		styles.minWidth = '48px';
+		styles.width = column.width ? useConvertToUnit({ str: column.width }) : '56px';
+		styles.minWidth = column.width ? useConvertToUnit({ str: column.width }) : '56px';
 	}
 
 	if (colors === false || colors === null) {

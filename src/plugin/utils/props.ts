@@ -114,7 +114,7 @@ export const AllProps = {
 		variant: 'underlined',
 	}) as const,
 	selectStrategy: 'page' as const,
-	// separator: '', 																// TODO: Maybe add this //
+	separator: 'default' as const,
 	server: false,
 	showDrilldownWhenLoading: true,
 	showExpand: false,

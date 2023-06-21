@@ -463,6 +463,7 @@ const tableClasses = computed<object>(() => {
 		isHover: loadedDrilldown.hover,
 		isServerSide,
 		level: loadedDrilldown.level,
+		separator: loadedDrilldown.separator,
 	});
 });
 
