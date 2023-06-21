@@ -28,11 +28,13 @@
 					:style="cellStyles"
 				>
 					<v-checkbox
-						v-model="isAllSelected"
+						v-if="selectStrategy !== 'single'"
 						:class="checkBoxClasses"
 						:density="density"
 						:focused="false"
 						:indeterminate="isIndeterminate"
+						:model-value="isAllSelected"
+						@update:modelValue="selectAllBoxes"
 					></v-checkbox>
 				</th>
 				<!-- Column Render `data-table-expand` -->
@@ -92,10 +94,12 @@ const emit = defineEmits([
 
 const props = withDefaults(defineProps<TFootSlotProps>(), {});
 
+const allSelectable = ref();
 const theme = useTheme();
 const isAllSelected = ref<boolean>(props.slotProps.allRowsSelected);
+const items = ref(props.items);
+const tableModelValue = computed(() => props.tableModelValue);
 
-const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelected.value);
 const columns = computed<Column[] | Props['footers']>(() => {
 	if (props.footers.length) {
 		return props.footers;
@@ -103,8 +107,17 @@ const columns = computed<Column[] | Props['footers']>(() => {
 
 	return props.slotProps.columns;
 });
-const someSelected = computed(() => props.slotProps.someSelected);
-const isIndeterminate = computed(() => someSelected.value && !props.slotProps.allRowsSelected);
+
+
+watch(() => props.items, (newItems) => {
+	items.value = newItems;
+
+	allSelectable.value = newItems?.filter(item => item.selectable) ?? [];
+
+	allSelectable.value = newItems?.filter(item => {
+		return item.selectable !== false;
+	});
+});
 
 
 // -------------------------------------------------- Tfoot //
@@ -143,20 +156,30 @@ const cellStyles = computed<CSSProperties>(() => {
 
 
 // -------------------------------------------------- Select //
-watch(isAllSelected, (newVal) => {
-	props.slotProps.selectAll(newVal);
-	emit('click:selectAll', isAllSelected.value);
+const isIndeterminate = computed(() => {
+	if (props.slotProps.allSelected || tableModelValue?.value?.length === 0) {
+		return false;
+	}
+
+	return true;
 });
 
-watch(allSelected, (newVal) => {
-	isAllSelected.value = newVal;
+watch(() => props.slotProps.allSelected, (newAllSelected) => {
+	isAllSelected.value = newAllSelected as boolean;
 });
 
-watch(someSelected, (newVal) => {
-	if (!newVal) {
-		isAllSelected.value = false;
+watch(() => props.slotProps.someSelected, () => {
+	if (props.slotProps.allSelected) {
+		return false;
 	}
 });
+
+function selectAllBoxes() {
+	isAllSelected.value = !isAllSelected.value;
+	props.slotProps.selectAll(isAllSelected.value);
+
+	emit('click:selectAll', isAllSelected.value);
+}
 
 const checkBoxClasses = computed<object>(() => {
 	return useCheckBoxClasses({ level: props.level });

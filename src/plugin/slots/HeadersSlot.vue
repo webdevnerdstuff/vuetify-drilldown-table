@@ -113,16 +113,14 @@ const props = withDefaults(defineProps<HeaderSlotProps>(), {
 	showSelect: false,
 });
 
+const allSelectable = ref();
 const columns = computed<Column[]>(() => props.slotProps.columns);
 const iconOptions = inject<IconOptions>(Symbol.for('vuetify:icons'));
 const isAllSelected = ref<boolean>(false);
+const items = ref(props.items);
 const sortAscIcon = ref(props.sortAscIcon);
 const tableModelValue = computed(() => props.tableModelValue);
 const theme = useTheme();
-
-
-const items = ref(props.items);
-const allSelectable = ref();
 
 
 watch(() => props.items, (newItems) => {
@@ -134,6 +132,7 @@ watch(() => props.items, (newItems) => {
 		return item.selectable !== false;
 	});
 });
+
 
 // -------------------------------------------------- Header Row //
 const headerRowClasses = computed<object>(() => {

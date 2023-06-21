@@ -64,7 +64,6 @@
 		<template #[`headers`]="props">
 			<HeadersSlot
 				:key="level"
-				:all-selected="props.allSelected"
 				:colors="loadedDrilldown.colors"
 				:density="loadedDrilldown.density"
 				:items="loadedDrilldown.items"
@@ -150,7 +149,6 @@
 				v-bind="{ ...props }"
 			/>
 		</template>
-
 
 		<template
 			v-if="slots['no-data']"
@@ -265,9 +263,12 @@
 				:colors="loadedDrilldown.colors || null"
 				:density="loadedDrilldown.density"
 				:footers="loadedDrilldown.footers || []"
+				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
+				:select-strategy="loadedDrilldown.selectStrategy"
 				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ ...props }"
+				:table-model-value="loadedDrilldown.modelValue"
 			>
 				<!-- Pass on all scoped slots -->
 				<template
