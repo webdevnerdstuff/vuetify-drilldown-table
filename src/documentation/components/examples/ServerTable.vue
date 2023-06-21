@@ -136,7 +136,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			width: 235,
+			width: 240,
 		},
 		{
 			align: 'start',
@@ -157,7 +157,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'User ID',
-			width: 345,
+			width: 350,
 		},
 		{
 			align: 'start',
@@ -345,6 +345,7 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 			itemsPerPage: drilldown?.itemsPerPage ?? 0,
 			level: 2,
 			loading: true,
+			server: true,
 			sortBy: [],
 		},
 	});
@@ -404,6 +405,7 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 			itemsPerPage: drilldown?.itemsPerPage ?? 0,
 			level: 3,
 			loading: true,
+			server: true,
 			sortBy: [],
 		},
 	});

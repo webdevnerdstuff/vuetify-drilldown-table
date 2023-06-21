@@ -90,6 +90,7 @@ const props = defineProps({
 
 
 const classes = inject('classes');
+const colorsProp = ref(props.colors);
 const tableSettings = ref({ ...props.settings, ...props.colors });
 
 const headers = {
@@ -136,7 +137,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			width: 235,
+			width: 240,
 		},
 		{
 			align: 'start',
@@ -157,7 +158,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'User ID',
-			width: 345,
+			width: 350,
 		},
 		{
 			align: 'start',
@@ -302,7 +303,7 @@ function fetchClientData(drilldown = null) {
 		user.child = {};
 		user.child = {
 			...tableDefaults,
-			colors: null,
+			...colorsProp.value,
 			drilldownKey: 'id',
 			footers: footers.posts,
 			headers: headers.posts,
@@ -311,6 +312,7 @@ function fetchClientData(drilldown = null) {
 			sortBy: [],
 		};
 	}
+
 
 	// Comments Level 3 //
 	if (drilldown?.level === 2) {
@@ -329,7 +331,7 @@ function fetchClientData(drilldown = null) {
 		post.child = {};
 		post.child = {
 			...tableDefaults,
-			colors: null,
+			...colorsProp.value,
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,

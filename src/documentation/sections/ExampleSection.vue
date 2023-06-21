@@ -24,6 +24,7 @@
 
 
 		<ClientTable
+			:colors="{ colors: null }"
 			:settings="tableSettings"
 			title="Client Side Data Table"
 		/>
