@@ -32,7 +32,7 @@ export default {
 	},
 	// customFilter: undefined, 															// ? Needs Testing
 	// customKeyFilter: undefined,														// ? Needs Testing
-	density: 'compact',
+	density: 'default',
 	drilldownKey: 'id',
 	elevation: 5,
 	// expanded: () => [], 																		// ? Needs Testing
