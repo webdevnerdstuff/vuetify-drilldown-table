@@ -16,6 +16,7 @@
 				}
 			},
 			"phone": "1-770-736-8031 x56442",
+			"selectable": false,
 			"website": "hildegard.org",
 			"company": {
 				"name": "Romaguera-Crona",
@@ -62,6 +63,7 @@
 				}
 			},
 			"phone": "1-463-123-4447",
+			"selectable": false,
 			"website": "ramiro.info",
 			"company": {
 				"name": "Romaguera-Jacobson",
@@ -131,6 +133,7 @@
 				}
 			},
 			"phone": "1-477-935-8478 x6430",
+			"selectable": false,
 			"website": "ola.org",
 			"company": {
 				"name": "Considine-Lockman",
@@ -177,6 +180,7 @@
 				}
 			},
 			"phone": "586.493.6943 x140",
+			"selectable": false,
 			"website": "jacynthe.com",
 			"company": {
 				"name": "Abernathy Group",

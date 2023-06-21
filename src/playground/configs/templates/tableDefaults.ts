@@ -1,5 +1,5 @@
 export default {
-	color: 'primary',																					// ? Not sure what this does. Needs Testing
+	// color: 'primary',																			// ? Doesn't seem to work
 	colors: {
 		body: {
 			base: '--v-theme-surface',
@@ -30,13 +30,19 @@ export default {
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
-	density: 'compact',
+	// customFilter: undefined, 															// ? Needs Testing
+	// customKeyFilter: undefined,														// ? Needs Testing
+	density: 'default',
 	drilldownKey: 'id',
 	elevation: 5,
+	// expanded: () => [], 																		// ? Needs Testing
 	expandOnClick: false,
+	// filterKeys: undefined, 																// ? Needs Testing
+	// filterMode: 'some',																		// ? Needs Testing
 	firstIcon: '$first',
-	fixedFooter: true, 																				// ? Not sure what this does. Needs Testing
-	fixedHeader: true, 																				// ? Not sure what this does. Needs Testing
+	// firstPageLabel: '',																		// ? Doesn't seem to work
+	// fixedFooter: true, 																		// ? Doesn't seem to work
+	// fixedHeader: true, 																		// ? Doesn't seem to work
 	footers: [],
 	headers: [],
 	height: 'auto',
@@ -44,8 +50,7 @@ export default {
 	hideNoData: false,
 	hover: false,
 	itemChildrenKey: 'child',
-	itemProps: [],																						// ? Not sure what this does. Needs Testing
-	itemTitle: 'title',																				// ? Not sure what this does. Needs Testing
+	itemSelectable: undefined,
 	itemValue: 'id',
 	items: [],
 	itemsLength: 0,
@@ -78,7 +83,7 @@ export default {
 	],
 	itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText',
 	lastIcon: '$last',
-	lastPageLabel: '$vuetify.dataFooter.lastPage',						// ? Not sure what this does. Needs Testing
+	// lastPageLabel: '$vuetify.dataFooter.lastPage',					// ? Doesn't seem to work
 	level: 1,
 	levels: 3,
 	loaderHeight: '2px',
@@ -94,19 +99,18 @@ export default {
 	multiSort: false,
 	mustSort: false,
 	nextIcon: '$next',
-	nextPageLabel: '$vuetify.dataFooter.nextPage',						// ? Not sure what this does. Needs Testing
+	nextPageLabel: '$vuetify.dataFooter.nextPage',						// ? Doesn't seem to work
 	noDataText: '$vuetify.noDataText',
-	// noFilter: false,																				// ? Not sure what this does. Needs Testing
 	page: 1,
 	pageText: '$vuetify.dataFooter.pageText',
 	prevIcon: '$prev',
-	prevPageLabel: '$vuetify.dataFooter.prevPage',						// ? Not sure what this does. Needs Testing
-	returnObject: false,																			// ? Not sure what this does. Needs Testing
-	rowHeight: undefined,																			// ? Not sure what this does. Needs Testing
+	// prevPageLabel: '$vuetify.dataFooter.prevPage',					// ? Doesn't seem to work
+	// returnObject: false,																		// ? Not sure what this does or if works.
+	// rowHeight: undefined,																	// ? Doesn't seem to work
 	search: '',
 	searchDebounce: 750,
 	searchMaxWait: 1000,
-	searchProps: { 																						// ? VDrilldownTable Custom Prop
+	searchProps: {																						// ? Needs Testing
 		cols: {
 			lg: 3,
 			md: 6,
@@ -118,19 +122,19 @@ export default {
 		density: 'compact',
 		variant: 'underlined',
 	},
-	selectStrategy: 'page',																		// ! Testing
+	selectStrategy: 'page',
 	server: false,
 	showCurrentPage: false,
 	showDrilldownWhenLoading: true,
 	showExpand: false,
 	showFooterRow: true,
-	showSearch: false,																				// * Works - May or may not keep
+	showSearch: false,
 	showSelect: false,
 	skeltonType: 'heading@1',
 	sortAscIcon: '$sortAsc',
 	sortBy: [],
-	sticky: false,																						// ? Not sure what this does. Needs Testing
+	// sticky: false,																					// ? Doesn't seem to work
 	tag: 'div',
 	theme: undefined,
-	width: undefined,																					// ? Not sure what this does. Needs Testing
+	// width: undefined,																			// ? Doesn't seem to work
 };

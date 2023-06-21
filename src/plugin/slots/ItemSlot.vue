@@ -39,10 +39,11 @@
 					name="item.data-table-select"
 				/>
 				<v-checkbox
-					v-model="allSelected"
 					class="d-flex v-simple-checkbox"
 					:density="density"
-					@click="emitClickRowCheckbox({
+					:disabled="item.raw.selectable === false && itemSelectable === 'selectable'"
+					:model-value="slotProps.isSelected([item])"
+					@click.stop="emitClickRowCheckbox({
 						columns,
 						index,
 						item,
@@ -54,7 +55,7 @@
 			<!-- Column Render `data-table-expand` -->
 			<td
 				v-else-if="column.key === 'data-table-expand' || (column.key === 'data-table-expand' && showExpand)
-				"
+					"
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 			>
@@ -129,6 +130,7 @@ const item = computed(() => props.slotProps.item);
 const currentLevel = computed(() => props.slotProps.level);
 const toggleExpand = computed(() => props.slotProps.toggleExpand);
 const toggleSelect = computed(() => props.slotProps.toggleSelect);
+const itemSelectable = computed(() => props.itemSelectable);
 
 
 // -------------------------------------------------- Row //
@@ -176,18 +178,10 @@ function drilldownEvent(data: DrilldownEvent): void {
 
 
 // -------------------------------------------------- Select //
-const allSelected = ref<boolean>(false);
-
-watch(() => props.slotProps.allRowsSelected, () => {
-	allSelected.value = props.slotProps.allRowsSelected;
-});
-
 function emitClickRowCheckbox(data: ClickRowCheckboxEvent): void {
-	const { item, level, toggleSelect } = data as ClickRowCheckboxEvent;
+	const { item, toggleSelect } = data as ClickRowCheckboxEvent;
 
-	if (level === props.level) {
-		toggleSelect(item);
-	}
+	toggleSelect(item);
 
 	emit('click:row:checkbox', item);
 }

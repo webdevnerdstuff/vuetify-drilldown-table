@@ -7,7 +7,7 @@
 
 	<v-col cols="12">
 		<VDrilldownTable
-			:color="tableSettings.color"
+			v-model="selected"
 			:colors="tableSettings.colors"
 			:density="tableSettings.density"
 			:drilldown-key="tableSettings.drilldownKey"
@@ -19,13 +19,13 @@
 			:hover="tableSettings.hover"
 			:item-children-key="tableSettings.itemChildrenKey"
 			:item-props="tableSettings.itemProps"
+			:item-selectable="tableSettings.itemSelectable"
 			:items="tableSettings.items"
 			:items-length="tableSettings.itemsLength"
 			:items-per-page="tableSettings.itemsPerPage"
 			:items-per-page-options="tableSettings.itemsPerPageOptions"
 			:items-per-page-text="tableSettings.itemsPerPageText"
 			:last-icon="tableSettings.lastIcon"
-			:last-page-label="tableSettings.lastPageLabel"
 			:level="tableSettings.level"
 			:levels="tableSettings.levels"
 			:loader-height="tableSettings.loaderHeight"
@@ -43,6 +43,7 @@
 			:prev-page-label="tableSettings.prevPageLabel"
 			:search-debounce="tableSettings.searchDebounce"
 			:search-max-wait="tableSettings.searchMaxWait"
+			:select-strategy="tableSettings.selectStrategy"
 			:server="tableSettings.server"
 			:show-current-page="tableSettings.showCurrentPage"
 			:show-expand="tableSettings.showExpand"
@@ -73,6 +74,7 @@ const props = defineProps({
 	},
 });
 
+const selected = ref([]);
 
 const classes = inject('classes');
 const tableSettings = ref({ ...props.settings });
