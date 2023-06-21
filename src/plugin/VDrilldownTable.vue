@@ -2,6 +2,7 @@
 	<component
 		:is="tableType"
 		v-if="tableType"
+		v-model="loadedDrilldown.modelValue"
 		v-bind="$attrs"
 		:class="tableClasses"
 		:density="loadedDrilldown.density"
@@ -11,6 +12,7 @@
 		:height="loadedDrilldown.height"
 		:hide-no-data="hidingNoData"
 		:hover="loadedDrilldown.hover"
+		:item-selectable="loadedDrilldown.itemSelectable"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
 		:items-length="loadedDrilldown.itemsLength"
@@ -20,9 +22,7 @@
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
 		:no-data-text="loadedDrilldown.noDataText"
-		:no-filter="loadedDrilldown.noFilter"
 		:page="loadedDrilldown.page"
-		:return-object="loadedDrilldown.returnObject"
 		:search="levelSearch"
 		:select-strategy="loadedDrilldown.selectStrategy"
 		:show-expand="loadedDrilldown.showExpand"
@@ -44,7 +44,6 @@
 				:search-props="loadedDrilldown.searchProps"
 				:show-search="loadedDrilldown.showSearch ?? false"
 				:slot-props="props"
-				@click:selectAll="emitAllSelectedEvent($event)"
 				@update:search="levelSearch = $event"
 			>
 				<!-- Pass on all scoped slots -->
@@ -65,8 +64,10 @@
 		<template #[`headers`]="props">
 			<HeadersSlot
 				:key="level"
+				:all-selected="props.allSelected"
 				:colors="loadedDrilldown.colors"
 				:density="loadedDrilldown.density"
+				:items="loadedDrilldown.items"
 				:level="level"
 				:loader-settings="{
 					colspan: props.columns.length,
@@ -77,12 +78,14 @@
 					size: loadedDrilldown.loaderSize,
 					skeltonType: loadedDrilldown.skeltonType,
 				}"
+				:select-strategy="loadedDrilldown.selectStrategy"
 				:show-select="loadedDrilldown.showSelect"
-				:slot-props="{ allRowsSelected, ...props }"
+				:slot-props="{ ...props }"
 				:sort-asc-icon="loadedDrilldown.sortAscIcon"
 				:sort-by="loadedDrilldown.sortBy"
-				@click:selectAll="emitAllSelectedEvent($event)"
+				:table-model-value="loadedDrilldown.modelValue"
 			>
+				<!-- @click:selectAll="emitAllSelectedEvent($event)" -->
 				<!-- Pass on all scoped slots -->
 				<template
 					v-for="(_, slot) in slots"
@@ -163,12 +166,13 @@
 				:key="level"
 				:density="loadedDrilldown.density"
 				:expand-on-click="loadedDrilldown.expandOnClick"
+				:item-selectable="loadedDrilldown.itemSelectable"
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
 				:levels="loadedDrilldown.levels"
 				:show-expand="loadedDrilldown.showExpand"
 				:show-select="loadedDrilldown.showSelect"
-				:slot-props="{ allRowsSelected, level, ...props }"
+				:slot-props="{ level, ...props }"
 				@click:row="emitClickRow($event)"
 				@click:row:checkbox="emitClickRowCheckbox($event)"
 				@update:expanded="emitUpdatedExpanded($event)"
@@ -263,7 +267,7 @@
 				:footers="loadedDrilldown.footers || []"
 				:level="loadedDrilldown.level"
 				:show-select="loadedDrilldown.showSelect"
-				:slot-props="{ allRowsSelected, ...props }"
+				:slot-props="{ ...props }"
 			>
 				<!-- Pass on all scoped slots -->
 				<template
@@ -388,7 +392,6 @@ const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 
 // -------------------------------------------------- Data //
-const allRowsSelected = ref<boolean>(false);
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
@@ -487,10 +490,6 @@ function setLoadedDrilldown(): void {
 }
 
 // -------------------------------------------------- Emit Events //
-function emitAllSelectedEvent(val: boolean): void {
-	allRowsSelected.value = val;
-}
-
 function emitClickRow(event: MouseEvent): void {
 	emit('click:row', event);
 }

@@ -39,6 +39,7 @@ export interface DataTableItem<T = any> {
 	type: 'item';
 	raw: T;
 	selected: boolean;
+	selectable: boolean;
 	columns: {
 		[key: string]: any;
 	};
@@ -140,8 +141,8 @@ export interface Props {
 	hover?: VDataTable['$props']['hover'];
 	isDrilldown?: boolean;
 	item?: VDataTableRow['$props']['item'];
-	// itemChildren?: VDataTable['$props']['itemChildren'];							// ? Type missing in v3.3.0
 	itemChildrenKey?: string;
+	itemSelectable?: VDataTable['$props']['itemSelectable'];
 	itemValue?: VDataTable['$props']['itemValue'];
 	items?: VDataTable['$props']['items'];
 	itemsLength?: number;
@@ -153,7 +154,7 @@ export interface Props {
 	loaderSize?: VProgressCircular['$props']['size'];
 	loaderType?: string | string[] | false | null;
 	loading?: VDataTable['$props']['loading'];
-	loadingText?: VDataTable['$props']['loadingText'];									// ! Not working properly //
+	loadingText?: VDataTable['$props']['loadingText'];
 	modelValue?: unknown[];
 	multiSort?: VDataTable['$props']['multiSort'];
 	mustSort?: VDataTable['$props']['mustSort'];
@@ -167,7 +168,7 @@ export interface Props {
 	searchProps?: SearchProps;
 	separator?: string;																									// TODO: Maybe add this //
 	server?: boolean;
-	selectStrategy?: VDataTable['$props']['selectStrategy'];						// ! Testing
+	selectStrategy?: VDataTable['$props']['selectStrategy'];
 	showDrilldownWhenLoading?: boolean;
 	showExpand?: VDataTable['$props']['showExpand'];
 	showFooterRow?: boolean;
@@ -229,7 +230,9 @@ export interface TopSlotProps extends VDataTableSlotProps {
 };
 
 export interface HeaderSlotProps extends AllSlotProps {
+	allSelected?: boolean;
 	isTheadSlot?: boolean;
+	items: Props['items'];
 	loaderSettings: {
 		colspan: number;
 		height?: VProgressLinear['$props']['height'];
@@ -240,8 +243,10 @@ export interface HeaderSlotProps extends AllSlotProps {
 		skeltonType: Props['skeltonType'];
 		textLoader?: boolean;
 	};
+	selectStrategy: Props['selectStrategy'];
 	slotProps: {
 		allRowsSelected: boolean;
+		allSelected?: boolean;
 		columns: Column[];
 		getSortIcon: GetSortIcon;
 		index?: number;
@@ -252,6 +257,7 @@ export interface HeaderSlotProps extends AllSlotProps {
 		toggleSort: ToggleSort;
 	},
 	sortAscIcon?: Props['sortAscIcon'];
+	tableModelValue?: Props['modelValue'];
 }
 
 export interface THeadSlotProps extends AllSlotProps {
@@ -270,6 +276,7 @@ export interface THeadSlotProps extends AllSlotProps {
 
 export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
 	expandOnClick: Props['expandOnClick'];
+	itemSelectable: Props['itemSelectable'];
 	items: Props['items'];
 	levels: Props['levels'];
 	showExpand: Props['showExpand'];
@@ -346,8 +353,8 @@ export interface UseSetLoadedDrilldown {
 			loadedDrilldown: Props,
 			drilldown: object,
 			rawItem: DataTableItem['raw'],
-			level: number,
-			levels: number,
+			level: Props['level'],
+			levels: Props['levels'],
 		}
 	): Props;
 }
@@ -356,7 +363,7 @@ export interface UseGetLevelColors {
 	(
 		options: {
 			colors: ColorsObject | undefined | null,
-			level: number,
+			level: Props['level'],
 			prop: string,
 			themeColors: ThemeInstance,
 			type?: string | null,
@@ -368,7 +375,7 @@ export interface ConvertLevelColors {
 	(
 		options: {
 			colors: ColorsObject,
-			level: number,
+			level: Props['level'],
 			prop: string,
 			theme: ThemeInstance,
 			type: string | null,
@@ -421,7 +428,7 @@ export interface UseBodyCellClasses {
 	(
 		options: {
 			column: Column,
-			level: number,
+			level: Props['level'],
 		}
 	): object;
 }
@@ -430,8 +437,8 @@ export interface UseBodyRowClasses {
 	(
 		options: {
 			expandOnClick: Props['expandOnClick'],
-			level: number,
-			levels: number,
+			level: Props['level'],
+			levels: Props['levels'],
 		}
 	): object;
 }
@@ -449,7 +456,7 @@ export interface UseCellClasses {
 		options: {
 			column: Column,
 			elm: string,
-			level: number;
+			level: Props['level'];
 		},
 	): object;
 }
@@ -457,7 +464,7 @@ export interface UseCellClasses {
 export interface UseCheckBoxClasses {
 	(
 		options: {
-			level: number,
+			level: Props['level'],
 		}
 	): object;
 }
@@ -467,7 +474,7 @@ export interface UseHeaderCellClasses {
 		options: {
 			colors: ColorsObject | undefined | null | false,
 			column: Column,
-			level: number,
+			level: Props['level'],
 			slotName?: string,
 		}
 	): object;
@@ -476,7 +483,7 @@ export interface UseHeaderCellClasses {
 export interface UseHeaderRowClasses {
 	(
 		options: {
-			level: number,
+			level: Props['level'],
 		}
 	): object;
 }
@@ -486,7 +493,7 @@ export interface UseSortIconClasses {
 		options: {
 			iconOptions: IconOptions | undefined,
 			key: string,
-			level: number,
+			level: Props['level'],
 			sortBy: Props['sortBy'],
 		}
 	): object;
@@ -499,7 +506,7 @@ export interface UseTableClasses {
 			isDrilldown: boolean,
 			isHover: boolean | undefined,
 			isServerSide: boolean,
-			level: number,
+			level: Props['level'],
 		}
 	): object;
 }
@@ -507,7 +514,7 @@ export interface UseTableClasses {
 export interface UseTFootClasses {
 	(
 		options: {
-			level: number,
+			level: Props['level'],
 		}
 	): object;
 }
@@ -516,7 +523,7 @@ export interface UseTFootCellClasses {
 	(
 		options: {
 			column: Column,
-			level: number,
+			level: Props['level'],
 			slotName?: string,
 		}
 	): object;
@@ -525,7 +532,7 @@ export interface UseTFootCellClasses {
 export interface UseTFootRowClasses {
 	(
 		options: {
-			level: number,
+			level: Props['level'],
 		}
 	): object;
 }
@@ -537,7 +544,7 @@ export interface UseCellStyles {
 		options: {
 			colors: ColorsObject | undefined | null | false,
 			elm: string,
-			level: number,
+			level: Props['level'],
 			theme: ThemeInstance,
 		}
 	): CSSProperties;
@@ -549,7 +556,7 @@ export interface UseHeaderCellStyles {
 			colors: ColorsObject | undefined | null | false,
 			column: { width?: string | number; },
 			dataTableExpand: boolean,
-			level: number,
+			level: Props['level'],
 			theme: ThemeInstance,
 		}
 	): CSSProperties;
@@ -559,7 +566,7 @@ export interface UseTableStyles {
 	(
 		options: {
 			colors: ColorsObject | undefined | null | false,
-			level: number,
+			level: Props['level'],
 			theme: ThemeInstance,
 		}
 	): StyleValue;
@@ -570,7 +577,7 @@ export interface UseTFootCellStyles {
 		options: {
 			colors: ColorsObject | undefined | null | false,
 			elm: string,
-			level: number,
+			level: Props['level'],
 			theme: ThemeInstance,
 		}
 	): CSSProperties;
@@ -585,7 +592,7 @@ export type DrilldownEvent = {
 	isExpanded: IsExpanded;
 	item: DataTableItem | any;
 	items?: object;
-	level?: number;
+	level?: Props['level'];
 	sortBy?: object;
 	toggleExpand: ToggleExpandSelect;
 };
@@ -594,7 +601,7 @@ export type ClickRowCheckboxEvent = {
 	columns?: object;
 	index?: number;
 	item?: object;
-	level?: number;
+	level?: Props['level'];
 	toggleSelect(item?: object): void;
 };
 
