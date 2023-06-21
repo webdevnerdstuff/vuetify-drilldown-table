@@ -1,8 +1,8 @@
 import { Column } from '@/types';
 
 export const AllProps = {
-	// ? Colors accept Vuetify them color names or variables, HEX, RGB, HSL, and CSS color names
-	colors: {															// * Passed
+	// color: 'primary',															// ? Doesn't seem to work
+	colors: () => ({
 		body: {
 			base: '--v-theme-surface',
 			bg: '--v-theme-surface',
@@ -31,36 +31,36 @@ export const AllProps = {
 		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
-	},
-	// customFilter: undefined, 													// ? Needs Testing
-	// customKeyFilter: undefined,												// ? Needs Testing
-	density: 'default',																// * Works
-	// drilldown: () => ({}),
-	drilldownKey: 'id',																// * Works
-	elevation: 0,																			// * Works
-	expandOnClick: false, 														// * Works
-	// expanded: () => [], 																	// ? Needs Testing
-	filterKeys: undefined, 																	// ? Needs Testing
-	// filterMode: 'some',																// ? Needs Testing
-	// firstIcon: '',																	// & Works - Is binding prop
-	// firstPageLabel: '',														// ? Not sure what this does or if it works
-	fixedFooter: true, 																// ? Not sure what this does or if it works
-	fixedHeader: true, 																// ? Not sure what this does or if it works
+	}) as const,
+	// customFilter: undefined, 											// ? Needs Testing
+	// customKeyFilter: undefined,										// ? Needs Testing
+	density: 'default',
+	// drilldown: () => ({}),													// * Works - Internal Prop
+	drilldownKey: 'id',
+	elevation: 0,
+	expandOnClick: false,
+	// expanded: () => [], 														// ? Needs Testing
+	filterKeys: undefined, 														// ? Needs Testing
+	// filterMode: 'some',														// ? Needs Testing
+	// firstIcon: '',																	// * Works - Keep Commented Out
+	// firstPageLabel: '',														// ? Doesn't seem to work
+	// fixedFooter: true, 														// ? Doesn't seem to work
+	// fixedHeader: true, 														// ? Doesn't seem to work
 	footers: () => [] as Column[],
-	// headers: () => [] as const,
-	height: 'auto',																		// * Works
-	// hideDefaultFooter: false, 											// ? In v2 Missing in v3
-	// hideDefaultHeader: true,	 											// ? In v2 Missing in v3
-	hideNoData: false, 																// * Works
-	hover: false, 																		// * Works
-	isDrilldown: false, 															// * Works
-	// item: () => ({}), 															// * Works - Keep Commented Out
-	itemChildrenKey: 'child', 												// * Works
-	itemValue: 'id',																	// * Works, but is weird
-	// items: () => [], 															// * Works
+	// headers: () => [] as const,										// * Works - Keep Commented Out
+	height: 'auto',
+	// hideDrilldownWhenLoading: true,								// * Works - Keep Commented Out
+	hideNoData: false,
+	hover: false,
+	isDrilldown: false, 															// ? Internal Prop
+	itemChildrenKey: 'child',
+	itemSelectable: undefined,
+	itemValue: 'id',
+	items: () => [],
 	itemsLength: 0,																		// ? Not sure if this will be used
-	itemsPerPage: 10, 																// * Works
-	// itemsPerPageOptions: [													// ? Works - Keep Commented Out - Test drilldowns
+	itemsPerPage: 10,
+	// itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText',	// * Works - Keep Commented Out
+	// itemsPerPageOptions: [													// * Works - Keep Commented Out
 	// 	{
 	// 		title: '10',
 	// 		value: 10,
@@ -82,7 +82,8 @@ export const AllProps = {
 	// 		value: -1,
 	// 	}
 	// ],
-	// lastIcon: '', 																	// & Works - Is binding prop
+	// lastPageLabel: '$vuetify.dataFooter.lastPage',	// ? Doesn't seem to work
+	// lastIcon: '',																	// * Works - Keep Commented Out
 	level: 1,
 	levels: 1,
 	loaderHeight: '2px',
@@ -91,15 +92,16 @@ export const AllProps = {
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
 	multiSort: false,																	// ! Not sure if this is working correctly - Is binding prop
-	// nextIcon: '', 																	// & Works - Is binding prop
-	noDataText: '$vuetify.noDataText',								// * Works
-	noFilter: false,																	// * Works, but not sure why you would use this.
-	page: 1, 																					// * Works
-	returnObject: true,																// ? Not sure what this does or if it works - Missing Docs
+	// nextIcon: '', 																	// * Works - Keep Commented Out
+	noDataText: '$vuetify.noDataText',
+	noFilter: false,
+	page: 1,
+	// returnObject: true,														// ? Not sure what this does or if works.
+	// rowHeight: undefined,													// ? Doesn't seem to work
 	search: '',																				// ? Need to test this when top slot is used over showSearch prop
-	searchDebounce: 750,															// * Works
-	searchMaxWait: 1000,															// * Works
-	searchProps: () => ({															// ? Needs more testing
+	searchDebounce: 750,
+	searchMaxWait: 1000,
+	searchProps: () => ({
 		cols: {
 			lg: 3,
 			md: 6,
@@ -111,15 +113,17 @@ export const AllProps = {
 		density: 'comfortable',
 		variant: 'underlined',
 	}) as const,
+	selectStrategy: 'page' as const,
 	// separator: '', 																// TODO: Maybe add this //
 	server: false,
 	showDrilldownWhenLoading: true,
-	showExpand: false,																// ? Works but needs testing.- Not sure if needed in this object
-	showFooterRow: false,															// ? Not sure if I will use this. Depends on a possible footer slot
-	showSearch: false,																// * Custom Prop
-	showSelect: false,																// * Works
-	skeltonType: 'heading@1',													// * Works
-	sortBy: () => [],																	// * Works
+	showExpand: false,
+	showFooterRow: false,
+	showSearch: false,																// * Works - May or may not keep
+	showSelect: false,
+	skeltonType: 'heading@1',
+	sortAscIcon: '$sortAsc',
+	sortBy: () => [],
 	tableType: () => ({}),
-	width: '100%',																		// ! Not working properly //
+	// width: '100%',																	// ? Doesn't seem to work
 };

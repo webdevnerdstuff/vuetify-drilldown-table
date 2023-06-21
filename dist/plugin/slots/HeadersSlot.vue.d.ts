@@ -6,9 +6,30 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    items: {
+        type: __PropType<any[] | undefined>;
+        required: true;
+    };
+    loaderSettings: {
+        type: __PropType<{
+            colspan: number;
+            height?: string | number | undefined;
+            loaderType: string | false | string[] | null | undefined;
+            loading: string | boolean | undefined;
+            loadingText?: string | undefined;
+            size?: string | number | undefined;
+            skeltonType: string | undefined;
+            textLoader?: boolean | undefined;
+        }>;
+        required: true;
+    };
+    selectStrategy: {
+        type: __PropType<"page" | "all" | "single" | undefined>;
+        required: true;
+    };
     slotProps: {
         type: __PropType<{
-            allRowsSelected: boolean;
+            allSelected?: boolean | undefined;
             columns: Column[];
             getSortIcon: (column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
             index?: number | undefined;
@@ -22,6 +43,14 @@ declare const _sfc_main: import("vue").DefineComponent<{
             toggleSort: (column: InternalDataTableHeader) => void;
         }>;
         required: true;
+    };
+    sortAscIcon: {
+        type: __PropType<(string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined>;
+        required: false;
+    };
+    tableModelValue: {
+        type: __PropType<unknown[] | undefined>;
+        required: false;
     };
     colors: {
         type: __PropType<ColorsObject | null | undefined>;
@@ -53,9 +82,30 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    items: {
+        type: __PropType<any[] | undefined>;
+        required: true;
+    };
+    loaderSettings: {
+        type: __PropType<{
+            colspan: number;
+            height?: string | number | undefined;
+            loaderType: string | false | string[] | null | undefined;
+            loading: string | boolean | undefined;
+            loadingText?: string | undefined;
+            size?: string | number | undefined;
+            skeltonType: string | undefined;
+            textLoader?: boolean | undefined;
+        }>;
+        required: true;
+    };
+    selectStrategy: {
+        type: __PropType<"page" | "all" | "single" | undefined>;
+        required: true;
+    };
     slotProps: {
         type: __PropType<{
-            allRowsSelected: boolean;
+            allSelected?: boolean | undefined;
             columns: Column[];
             getSortIcon: (column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
             index?: number | undefined;
@@ -69,6 +119,14 @@ declare const _sfc_main: import("vue").DefineComponent<{
             toggleSort: (column: InternalDataTableHeader) => void;
         }>;
         required: true;
+    };
+    sortAscIcon: {
+        type: __PropType<(string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined>;
+        required: false;
+    };
+    tableModelValue: {
+        type: __PropType<unknown[] | undefined>;
+        required: false;
     };
     colors: {
         type: __PropType<ColorsObject | null | undefined>;

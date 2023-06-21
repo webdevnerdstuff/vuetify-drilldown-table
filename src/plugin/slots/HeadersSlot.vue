@@ -24,11 +24,13 @@
 				:style="cellStyles(column, true)"
 			>
 				<v-checkbox
-					v-model="isAllSelected"
+					v-if="selectStrategy !== 'single'"
 					:class="checkBoxClasses"
 					:density="density"
 					:focused="false"
 					:indeterminate="isIndeterminate"
+					:model-value="isAllSelected"
+					@update:modelValue="selectAllBoxes"
 				></v-checkbox>
 			</th>
 			<!-- Column Render `data-table-expand` -->
@@ -66,6 +68,19 @@
 			</th>
 		</template>
 	</tr>
+
+	<TableLoader
+		v-if="loaderSettings.loaderType && !slots.loading"
+		:colors="colors || null"
+		:colspan="loaderSettings.colspan"
+		:height="loaderSettings.height"
+		:level="level"
+		:loader-type="loaderSettings.loaderType"
+		:loading="loaderSettings.loading || false"
+		:loading-text="loaderSettings.loadingText"
+		:size="loaderSettings.size"
+		:skelton-type="loaderSettings.skeltonType"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -85,6 +100,7 @@ import {
 } from '@/plugin/composables/classes';
 import { useHeaderCellStyles } from '@/plugin/composables/styles';
 import { useRenderCell } from '@/plugin/composables/helpers';
+import { TableLoader } from '@/plugin/components';
 
 
 const slots = useSlots();
@@ -97,18 +113,25 @@ const props = withDefaults(defineProps<HeaderSlotProps>(), {
 	showSelect: false,
 });
 
-const iconOptions = inject<IconOptions>(Symbol.for('vuetify:icons'));
-const theme = useTheme();
-const isAllSelected = ref<boolean>(props.slotProps.allRowsSelected);
-
-const allSelected = computed(() => props.slotProps.allRowsSelected || isAllSelected.value);
+const allSelectable = ref();
 const columns = computed<Column[]>(() => props.slotProps.columns);
-const someSelected = computed(() => props.slotProps.someSelected);
-const isIndeterminate = computed(() => someSelected.value && !props.slotProps.allRowsSelected);
+const iconOptions = inject<IconOptions>(Symbol.for('vuetify:icons'));
+const isAllSelected = ref<boolean>(false);
+const items = ref(props.items);
+const sortAscIcon = ref(props.sortAscIcon);
+const tableModelValue = computed(() => props.tableModelValue);
+const theme = useTheme();
 
-// TODO: This may change if pull request is accepted //
-// ? https://github.com/vuetifyjs/vuetify/pull/17598 //
-const sortAscIcon = ref('$sortAsc');
+
+watch(() => props.items, (newItems) => {
+	items.value = newItems;
+
+	allSelectable.value = newItems?.filter(item => item.selectable) ?? [];
+
+	allSelectable.value = newItems?.filter(item => {
+		return item.selectable !== false;
+	});
+});
 
 
 // -------------------------------------------------- Header Row //
@@ -143,20 +166,30 @@ const cellStyles = (column: { width?: string | number; }, dataTableExpand = fals
 
 
 // -------------------------------------------------- Select //
-watch(isAllSelected, (newVal) => {
-	props.slotProps.selectAll(newVal);
-	emit('click:selectAll', isAllSelected.value);
+const isIndeterminate = computed(() => {
+	if (props.slotProps.allSelected || tableModelValue?.value?.length === 0) {
+		return false;
+	}
+
+	return true;
 });
 
-watch(allSelected, (newVal) => {
-	isAllSelected.value = newVal;
+watch(() => props.slotProps.allSelected, (newAllSelected) => {
+	isAllSelected.value = newAllSelected as boolean;
 });
 
-watch(someSelected, (newVal) => {
-	if (!newVal) {
-		isAllSelected.value = false;
+watch(() => props.slotProps.someSelected, () => {
+	if (props.slotProps.allSelected) {
+		return false;
 	}
 });
+
+function selectAllBoxes() {
+	isAllSelected.value = !isAllSelected.value;
+	props.slotProps.selectAll(isAllSelected.value);
+
+	emit('click:selectAll', isAllSelected.value);
+}
 
 const checkBoxClasses = computed<object>(() => {
 	return useCheckBoxClasses({ level: props.level });
@@ -183,11 +216,14 @@ function sortColumn(column: InternalDataTableHeader): void {
 // -------------------------------------------------- Icons //
 const iconSize = computed(() => {
 	if (iconOptions?.defaultSet === 'fa') {
-		sortAscIcon.value = 'fas fa-arrow-up';
+
+		// TODO: This may change if pull request is accepted //
+		// ? https://github.com/vuetifyjs/vuetify/pull/17598 //
+		sortAscIcon.value = props?.sortAscIcon ?? 'fas fa-arrow-up';
 		return 'small';
 	}
 
-	sortAscIcon.value = '$sortAsc';
+	sortAscIcon.value = props?.sortAscIcon ?? '$sortAsc';
 	return 'default';
 });
 

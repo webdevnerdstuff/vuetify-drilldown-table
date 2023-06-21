@@ -20,3 +20,7 @@ export declare function useRenderCell(column: Column): unknown;
  * Deep merge objects.
  */
 export declare function useMergeDeep(target: object | object[], ...sources: object[]): object;
+/**
+ * Debugging Log Helper
+ */
+export declare function useLogHelper(options: any): void;

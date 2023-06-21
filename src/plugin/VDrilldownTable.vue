@@ -2,6 +2,7 @@
 	<component
 		:is="tableType"
 		v-if="tableType"
+		v-model="loadedDrilldown.modelValue"
 		v-bind="$attrs"
 		:class="tableClasses"
 		:density="loadedDrilldown.density"
@@ -10,6 +11,8 @@
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
 		:hide-no-data="hidingNoData"
+		:hover="loadedDrilldown.hover"
+		:item-selectable="loadedDrilldown.itemSelectable"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
 		:items-length="loadedDrilldown.itemsLength"
@@ -19,10 +22,9 @@
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
 		:no-data-text="loadedDrilldown.noDataText"
-		:no-filter="loadedDrilldown.noFilter"
 		:page="loadedDrilldown.page"
-		:return-object="loadedDrilldown.returnObject"
 		:search="levelSearch"
+		:select-strategy="loadedDrilldown.selectStrategy"
 		:show-expand="loadedDrilldown.showExpand"
 		:sort-by="currentSortBy"
 		:style="tableStyles"
@@ -33,7 +35,7 @@
 	>
 
 		<!-- ================================================== Top Slot -->
-		<template #top="props">
+		<template #[`top`]="props">
 			<TopSlot
 				:key="level"
 				:items="loadedDrilldown.items"
@@ -42,7 +44,6 @@
 				:search-props="loadedDrilldown.searchProps"
 				:show-search="loadedDrilldown.showSearch ?? false"
 				:slot-props="props"
-				@click:selectAll="emitAllSelectedEvent($event)"
 				@update:search="levelSearch = $event"
 			>
 				<!-- Pass on all scoped slots -->
@@ -60,17 +61,30 @@
 
 
 		<!-- ================================================== Headers Slot -->
-		<template #headers="props">
+		<template #[`headers`]="props">
 			<HeadersSlot
 				:key="level"
 				:colors="loadedDrilldown.colors"
 				:density="loadedDrilldown.density"
+				:items="loadedDrilldown.items"
 				:level="level"
+				:loader-settings="{
+					colspan: props.columns.length,
+					height: loadedDrilldown.loaderHeight,
+					loaderType: loadedDrilldown.loaderType,
+					loading: loadedDrilldown.loading,
+					loadingText: loadingText,
+					size: loadedDrilldown.loaderSize,
+					skeltonType: loadedDrilldown.skeltonType,
+				}"
+				:select-strategy="loadedDrilldown.selectStrategy"
 				:show-select="loadedDrilldown.showSelect"
-				:slot-props="{ allRowsSelected, ...props }"
+				:slot-props="{ ...props }"
+				:sort-asc-icon="loadedDrilldown.sortAscIcon"
 				:sort-by="loadedDrilldown.sortBy"
-				@click:selectAll="emitAllSelectedEvent($event)"
+				:table-model-value="loadedDrilldown.modelValue"
 			>
+				<!-- @click:selectAll="emitAllSelectedEvent($event)" -->
 				<!-- Pass on all scoped slots -->
 				<template
 					v-for="(_, slot) in slots"
@@ -82,32 +96,20 @@
 					/>
 				</template>
 			</HeadersSlot>
-			<TableLoader
-				v-if="loadedDrilldown.loading && loadedDrilldown.loaderType && !slots.loading && level === 1"
-				:colors="loadedDrilldown.colors || null"
-				:colspan="props.columns.length"
-				:height="loadedDrilldown.loaderHeight"
-				:level="loadedDrilldown.level"
-				:loader-type="loadedDrilldown.loaderType"
-				:loading="loadedDrilldown.loading || false"
-				:loading-text="loadingText"
-				:size="loadedDrilldown.loaderSize"
-				:skelton-type="loadedDrilldown.skeltonType"
-			/>
 		</template>
 
 
 		<!-- ================================================== Loader & Loading Slot -->
 		<template
 			v-if="slots.loader"
-			#loader
+			#[`loader`]
 		>
 			<slot name="loader" />
 		</template>
 
 		<template
 			v-if="slots.loading"
-			#loading
+			#[`loading`]
 		>
 			<slot name="loading" />
 		</template>
@@ -116,7 +118,7 @@
 		<!-- ================================================== Thead Slot -->
 		<template
 			v-if="slots.thead"
-			#thead="props"
+			#[`thead`]="props"
 		>
 			<slot
 				name="thead"
@@ -128,7 +130,7 @@
 		<!-- ================================================== Body Slot -->
 		<template
 			v-if="slots.body"
-			#body="props"
+			#[`body`]="props"
 		>
 			<slot
 				name="body"
@@ -140,14 +142,13 @@
 		<!-- ================================================== tbody Slot -->
 		<template
 			v-if="slots.tbody"
-			#tbody="props"
+			#[`tbody`]="props"
 		>
 			<slot
 				name="tbody"
 				v-bind="{ ...props }"
 			/>
 		</template>
-
 
 		<template
 			v-if="slots['no-data']"
@@ -158,17 +159,18 @@
 
 
 		<!-- ================================================== Row Item Slot -->
-		<template #item="props">
+		<template #[`item`]="props">
 			<ItemSlot
 				:key="level"
 				:density="loadedDrilldown.density"
 				:expand-on-click="loadedDrilldown.expandOnClick"
+				:item-selectable="loadedDrilldown.itemSelectable"
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
 				:levels="loadedDrilldown.levels"
 				:show-expand="loadedDrilldown.showExpand"
 				:show-select="loadedDrilldown.showSelect"
-				:slot-props="{ allRowsSelected, level, ...props }"
+				:slot-props="{ level, ...props }"
 				@click:row="emitClickRow($event)"
 				@click:row:checkbox="emitClickRowCheckbox($event)"
 				@update:expanded="emitUpdatedExpanded($event)"
@@ -189,20 +191,6 @@
 
 		<!-- ================================================== Expanded Row Slot -->
 		<template #expanded-row="{ columns, item }">
-			<TableLoader
-				v-if="item.raw[itemChildrenKey]?.loading && loadedDrilldown.loaderType && !slots.loading"
-				class="pa-0 ma-0"
-				:colors="item.raw[itemChildrenKey]?.colors ?? null"
-				:colspan="columns.length"
-				:height="item.raw[itemChildrenKey].loaderHeight"
-				:level="level + 1"
-				:loader-type="item.raw[itemChildrenKey].loaderType"
-				:loading="item.raw[itemChildrenKey]?.loading"
-				:loading-text="loadingText"
-				:size="item.raw[itemChildrenKey].loaderSize"
-				:skelton-type="item.raw[itemChildrenKey].skeltonType"
-			/>
-
 			<tr :class="showLoadingDrilldownTable(item.raw[itemChildrenKey]?.loading) ? '' : 'd-none'">
 				<td
 					class="px-0 ma-0"
@@ -212,6 +200,7 @@
 					<VDrilldownTable
 						:key="item.raw"
 						:colors="colors"
+						:density="loadedDrilldown.density"
 						:drilldown="loadedDrilldown"
 						:headers="item.raw[itemChildrenKey]?.headers"
 						:is-drilldown="true"
@@ -220,11 +209,16 @@
 						:items-per-page="item.raw[itemChildrenKey]?.itemsPerPage"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
+						:loaderHeight="item.raw[itemChildrenKey]?.loaderHeight"
+						:loaderSize="item.raw[itemChildrenKey]?.loaderSize"
+						:loaderType="item.raw[itemChildrenKey]?.loaderType"
 						:loading="item.raw[itemChildrenKey]?.loading"
+						:loadingText="loadingText"
 						:multi-sort="item.raw[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:parent-ref="parentTableRef"
 						:server="item.raw[itemChildrenKey]?.server"
+						:skeltonType="item.raw[itemChildrenKey]?.skeltonType"
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
@@ -255,7 +249,7 @@
 		<!-- ================================================== Tfoot Slot -->
 		<template
 			v-if="slots.tfoot || showFooterRow"
-			#tfoot="props"
+			#[`tfoot`]="props"
 		>
 			<slot
 				v-if="slots.tfoot"
@@ -269,9 +263,12 @@
 				:colors="loadedDrilldown.colors || null"
 				:density="loadedDrilldown.density"
 				:footers="loadedDrilldown.footers || []"
+				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
+				:select-strategy="loadedDrilldown.selectStrategy"
 				:show-select="loadedDrilldown.showSelect"
-				:slot-props="{ allRowsSelected, ...props }"
+				:slot-props="{ ...props }"
+				:table-model-value="loadedDrilldown.modelValue"
 			>
 				<!-- Pass on all scoped slots -->
 				<template
@@ -299,7 +296,7 @@
 		<!-- ================================================== Bottom Slot -->
 		<template
 			v-if="slots.bottom"
-			#bottom="props"
+			#[`bottom`]="props"
 		>
 			<BottomSlot
 				:key="level"
@@ -324,7 +321,6 @@
 <script setup lang="ts">
 import { VDataTableServer, VDataTable } from 'vuetify/labs/components';
 import { AllProps } from './utils/props';
-import { TableLoader } from './components';
 import {
 	BottomSlot,
 	HeadersSlot,
@@ -376,7 +372,7 @@ const tableType = shallowRef<TableType>(null);
 
 // -------------------------------------------------- Mounted Hooks //
 /**
- * ? This is needs to make sure the drilldown is remounted on sortBy change
+ * ? This is needed to make sure the drilldown is remounted on sortBy change
  * ? Client Side Table Only
  */
 onMounted(() => {
@@ -397,7 +393,6 @@ const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 
 // -------------------------------------------------- Data //
-const allRowsSelected = ref<boolean>(false);
 const parentTableRef = ref<string>('');
 const levelSearch = ref<string>('');
 const theme = useTheme();
@@ -496,16 +491,11 @@ function setLoadedDrilldown(): void {
 }
 
 // -------------------------------------------------- Emit Events //
-function emitAllSelectedEvent(val: boolean): void {
-	allRowsSelected.value = val;
-}
-
 function emitClickRow(event: MouseEvent): void {
 	emit('click:row', event);
 }
 
 function emitClickRowCheckbox(item: DataTableItem): void {
-	console.log('emitClickRowCheckbox');
 	emit('click:row:checkbox', item);
 }
 

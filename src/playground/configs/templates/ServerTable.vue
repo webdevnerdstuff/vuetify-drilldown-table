@@ -1,43 +1,31 @@
 <template>
-	<v-col
-		id="example-data-table-server"
-		cols="12"
-	>
+	<v-col cols="12">
 		<h3 :class="classes.h3">
-			<a
-				:class="classes.headerA"
-				href="#example-data-table-server"
-			>#</a>
 			Server Side Data Table
 		</h3>
 	</v-col>
 
 	<v-col cols="12">
-		To enable the client side server, you need to set the <code class="inline-code">server</code> prop to <code
-			class="inline-code"
-		>true</code>
-	</v-col>
-
-	<v-col cols="12">
 		<VDrilldownTable
-			:color="tableSettings.color"
+			v-model="selected"
 			:colors="tableSettings.colors"
 			:density="tableSettings.density"
 			:drilldown-key="tableSettings.drilldownKey"
 			:elevation="tableSettings.elevation"
 			:expand-on-click="tableSettings.expandOnClick"
 			:first-icon="tableSettings.firstIcon"
+			:footers="footers.users"
 			:headers="headers.users"
 			:hover="tableSettings.hover"
 			:item-children-key="tableSettings.itemChildrenKey"
 			:item-props="tableSettings.itemProps"
+			:item-selectable="tableSettings.itemSelectable"
 			:items="tableSettings.items"
 			:items-length="tableSettings.itemsLength"
 			:items-per-page="tableSettings.itemsPerPage"
 			:items-per-page-options="tableSettings.itemsPerPageOptions"
 			:items-per-page-text="tableSettings.itemsPerPageText"
 			:last-icon="tableSettings.lastIcon"
-			:last-page-label="tableSettings.lastPageLabel"
 			:level="tableSettings.level"
 			:levels="tableSettings.levels"
 			:loader-height="tableSettings.loaderHeight"
@@ -55,12 +43,15 @@
 			:prev-page-label="tableSettings.prevPageLabel"
 			:search-debounce="tableSettings.searchDebounce"
 			:search-max-wait="tableSettings.searchMaxWait"
+			:select-strategy="tableSettings.selectStrategy"
 			:server="tableSettings.server"
 			:show-current-page="tableSettings.showCurrentPage"
 			:show-expand="tableSettings.showExpand"
+			:show-footer-row="tableSettings.showFooterRow"
 			:show-search="tableSettings.showSearch"
 			:show-select="tableSettings.showSelect"
 			:skelton-type="tableSettings.skeltonType"
+			:sort-asc-icon="tableSettings.sortAscIcon"
 			:sort-by="tableSettings.sortBy"
 			:tag="tableSettings.tag"
 			:theme="tableSettings.theme"
@@ -73,7 +64,7 @@
 
 <script setup>
 import { inject } from 'vue';
-import tableDefaults from '@/playground/configs/templates/tableDefaults';
+import tableDefaults from './tableDefaults';
 
 
 const props = defineProps({
@@ -83,6 +74,7 @@ const props = defineProps({
 	},
 });
 
+const selected = ref([]);
 
 const classes = inject('classes');
 const tableSettings = ref({ ...props.settings });
@@ -166,6 +158,9 @@ const headers = {
 		{
 			align: 'start',
 			key: 'email',
+			renderItem(value) {
+				return `<a href="mailto:${value}">${value}</a>`;
+			},
 			title: 'Email',
 		},
 		{
@@ -236,15 +231,15 @@ const footers = {
 		{
 			align: 'start',
 			key: 'id',
+			renderFooter() {
+				return '&nbsp;';
+			},
 			title: 'User ID',
 			width: 350,
 		},
 		{
 			align: 'start',
 			key: 'name',
-			renderer() {
-				return 'Total';
-			},
 			title: 'Name',
 		},
 		{
@@ -330,7 +325,6 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 	user.child = Object.assign({}, {
 		...user.child,
 		...{
-			colors: null,
 			drilldownKey: 'id',
 			footers: footers.posts,
 			headers: headers.posts,
@@ -389,7 +383,6 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	post.child = Object.assign({}, {
 		...post.child,
 		...{
-			colors: null,
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,
