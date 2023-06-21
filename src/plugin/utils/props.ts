@@ -96,7 +96,7 @@ export const AllProps = {
 	noDataText: '$vuetify.noDataText',
 	noFilter: false,
 	page: 1,
-	// returnObject: true,														// ? Not sure what this does or if works.
+	returnObject: true,																// * Works - Needs to be set to `true`
 	// rowHeight: undefined,													// ? Doesn't seem to work
 	search: '',																				// ? Need to test this when top slot is used over showSearch prop
 	searchDebounce: 750,
