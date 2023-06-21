@@ -96,7 +96,7 @@ const props = withDefaults(defineProps<TFootSlotProps>(), {});
 
 const allSelectable = ref();
 const theme = useTheme();
-const isAllSelected = ref<boolean>(props.slotProps.allRowsSelected);
+const isAllSelected = ref<boolean>(false);
 const items = ref(props.items);
 const tableModelValue = computed(() => props.tableModelValue);
 
