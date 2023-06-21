@@ -112,8 +112,8 @@ export const useSortIconClasses: UseSortIconClasses = (options) => {
 		'mx-1': true,
 		[`${componentName}--header-row-th-sortable-sort-icon`]: true,
 		[`${componentName}--header-row-th-sortable-sort-icon-${level}`]: true,
-		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: useGetSortDirection(sortBy, key) === 'desc',
-		[`${componentName}--header-row-th-sortable-sort-icon-asc`]: useGetSortDirection(sortBy, key) === 'asc',
+		[`${componentName}--header-row-th-sortable-sort-icon-desc`]: useGetSortDirection({ id: key, sortBy }) === 'desc',
+		[`${componentName}--header-row-th-sortable-sort-icon-asc`]: useGetSortDirection({ id: key, sortBy }) === 'asc',
 	};
 };
 

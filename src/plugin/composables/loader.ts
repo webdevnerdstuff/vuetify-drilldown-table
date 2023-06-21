@@ -1,7 +1,5 @@
 import { componentName } from '../utils/globals';
-import {
-	useConvertToUnit,
-} from './helpers';
+import { useConvertToUnit } from './helpers';
 import {
 	UseLoaderContainerClasses,
 	UseLoaderStyles
@@ -30,7 +28,7 @@ export function useIsOnlyLinearLoader(loaderType: string | string[]): boolean {
 * Get's the loader height
 */
 export function useLoaderHeight(loaderHeight: string | number): string | undefined {
-	return useConvertToUnit(loaderHeight) || '2px';
+	return useConvertToUnit({ str: loaderHeight }) || '2px';
 };
 
 

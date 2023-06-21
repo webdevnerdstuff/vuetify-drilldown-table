@@ -113,6 +113,45 @@ export type SearchProps = {
 };
 
 
+// -------------------------------------------------- Cell Rendering //
+interface CellRender {
+	(
+		key?: string,
+		column?: object,
+		index?: number,
+	): void;
+};
+
+interface ItemCellRender {
+	(
+		itemValue?: string,
+		item?: object,
+		column?: object,
+		index?: number,
+	): void;
+};
+
+export interface Column {
+	align?: string;
+	cellClass?: string;
+	colspan?: number;
+	columnFooter?: string;
+	fixedOffset?: number;
+	key?: string;
+	renderCell?: CellRender;
+	renderFooter?: CellRender;
+	renderFooterCell?: CellRender;
+	renderHeader?: CellRender;
+	renderItem?: ItemCellRender;
+	renderer?: CellRender,
+	rowClass?: string;
+	rowspan?: number;
+	sortable?: boolean;
+	title?: string;
+	width?: string | number;
+};
+
+
 // -------------------------------------------------- Table //
 export type TableType = VDataTable | VDataTableServer | unknown;
 
@@ -346,6 +385,8 @@ export interface UseLoaderContainerClasses {
 
 
 // -------------------------------------------------- Composables //
+
+// ------------------------- Loaded Drilldown //
 export interface UseSetLoadedDrilldown {
 	(
 		options: {
@@ -358,6 +399,8 @@ export interface UseSetLoadedDrilldown {
 	): Props;
 }
 
+
+// ------------------------- Level Colors //
 export interface UseGetLevelColors {
 	(
 		options: {
@@ -382,47 +425,51 @@ export interface ConvertLevelColors {
 	): LevelColorResponse;
 }
 
-
-// -------------------------------------------------- Cell Rendering //
-interface CellRender {
+export interface LevelPercentage {
 	(
-		key?: string,
-		column?: object,
-		index?: number,
-	): void;
-};
+		colors: ColorsObject,
+		level: number,
+		direction: string,
+	): number;
+}
 
-interface ItemCellRender {
+
+// ------------------------- Helpers //
+export interface UseGetSortDirection {
 	(
-		itemValue?: string,
-		item?: object,
-		column?: object,
-		index?: number,
+		options: {
+			id: string,
+			sortBy: Props['sortBy'],
+		}
+	): string | boolean | void;
+}
+
+export interface UseConvertToUnit {
+	(
+		options: {
+			str: string | number,
+			unit?: string,
+		}
+	): string | void;
+}
+
+
+// ------------------------- Emits //
+export interface UseEmitUpdatedExpanded {
+	(
+		options: {
+			emit: {
+				(e: 'update:drilldown', drilldownData: Props): void;
+				(e: 'update:expanded', data: DrilldownEvent): void;
+			},
+			data: DrilldownEvent,
+			drilldownData: Props,
+		}
 	): void;
-};
-
-export interface Column {
-	align?: string;
-	cellClass?: string;
-	colspan?: number;
-	columnFooter?: string;
-	fixedOffset?: number;
-	key?: string;
-	renderCell?: CellRender;
-	renderFooter?: CellRender;
-	renderFooterCell?: CellRender;
-	renderHeader?: CellRender;
-	renderItem?: ItemCellRender;
-	renderer?: CellRender,
-	rowClass?: string;
-	rowspan?: number;
-	sortable?: boolean;
-	title?: string;
-	width?: string | number;
-};
+}
 
 
-// -------------------------------------------------- Classes //
+// ------------------------- Classes //
 export interface UseBodyCellClasses {
 	(
 		options: {
@@ -537,7 +584,7 @@ export interface UseTFootRowClasses {
 }
 
 
-// -------------------------------------------------- Styles //
+// ------------------------- Styles //
 export interface UseCellStyles {
 	(
 		options: {
@@ -615,18 +662,3 @@ export interface OptionsEventObject {
 }
 
 export const OptionsEventBus: EventBusKey<OptionsEventObject> = Symbol('data');
-
-
-// -------------------------------------------------- Emits //
-export interface UseEmitUpdatedExpanded {
-	(
-		options: {
-			emit: {
-				(e: 'update:drilldown', drilldownData: Props): void;
-				(e: 'update:expanded', data: DrilldownEvent): void;
-			},
-			data: DrilldownEvent,
-			drilldownData: Props,
-		}
-	): void;
-}

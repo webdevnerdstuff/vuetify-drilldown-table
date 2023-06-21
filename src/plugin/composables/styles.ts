@@ -43,8 +43,8 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 		minWidth?: string | number | unknown;
 		width?: string | number | unknown;
 	} = {
-		minWidth: column.width ? useConvertToUnit(column.width) : 'auto',
-		width: column.width ? useConvertToUnit(column.width) : 'auto',
+		minWidth: column.width ? useConvertToUnit({ str: column.width }) : 'auto',
+		width: column.width ? useConvertToUnit({ str: column.width }) : 'auto',
 	};
 
 	if (dataTableExpand && !column.width) {

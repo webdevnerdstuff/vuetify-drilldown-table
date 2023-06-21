@@ -4,9 +4,48 @@ import {
 	HEXColor,
 	HSLColor,
 	LevelColorResponse,
+	LevelPercentage,
 	RGBColor,
 	UseGetLevelColors,
 } from '@/types';
+
+
+/**
+ * Gets the percentage difference for the current drilldown level
+ */
+const levelPercentage: LevelPercentage = (colors, level, direction) => {
+	let percentage = 100;
+	let percentageChange = colors.percentageChange ?? 0;
+
+	if (isNaN(percentageChange)) {
+		percentage = 100;
+	}
+
+	percentageChange = percentageChange * level;
+
+	if (direction === 'desc' || direction === 'descending') {
+		percentage = 100 - percentageChange;
+	}
+
+	if (direction === 'asc' || direction === 'ascending') {
+		percentage = 0 + percentageChange;
+	}
+
+	if (percentage < 0) {
+		percentage = 0;
+	}
+
+	if (percentage > 100) {
+		percentage = 100;
+	}
+
+	// check if percentage is NaN
+	if (isNaN(percentage)) {
+		percentage = 100;
+	}
+
+	return percentage;
+};
 
 
 /**
@@ -67,48 +106,6 @@ const convertLevelColors: ConvertLevelColors = (options) => {
 
 	return propOptionResponse;
 };
-
-
-/**
- * Gets the percentage difference for the current drilldown level
- */
-function levelPercentage(
-	colors: ColorsObject,
-	level: number,
-	direction: string,
-): number {
-	let percentage = 100;
-	let percentageChange = colors.percentageChange ?? 0;
-
-	if (isNaN(percentageChange)) {
-		percentage = 100;
-	}
-
-	percentageChange = percentageChange * level;
-
-	if (direction === 'desc' || direction === 'descending') {
-		percentage = 100 - percentageChange;
-	}
-
-	if (direction === 'asc' || direction === 'ascending') {
-		percentage = 0 + percentageChange;
-	}
-
-	if (percentage < 0) {
-		percentage = 0;
-	}
-
-	if (percentage > 100) {
-		percentage = 100;
-	}
-
-	// check if percentage is NaN
-	if (isNaN(percentage)) {
-		percentage = 100;
-	}
-
-	return percentage;
-}
 
 
 /**

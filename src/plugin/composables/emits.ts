@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
-import {
-	UseEmitUpdatedExpanded,
-} from '@/types';
+import { UseEmitUpdatedExpanded } from '@/types';
 
 
 // -------------------------------------------------- VDrilldownTable //
