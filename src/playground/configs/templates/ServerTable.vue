@@ -1,3 +1,5 @@
+
+
 <template>
 	<v-col cols="12">
 		<h3 :class="classes.h3">
@@ -102,8 +104,9 @@ const headers = {
 		{
 			align: 'start',
 			key: 'id',
+			sortable: false,
 			title: 'Comment ID',
-			width: 150,
+			width: 130,
 		},
 		{
 			align: 'start',
@@ -127,7 +130,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			width: 260,
+			width: 235,
 		},
 		{
 			align: 'start',
@@ -148,11 +151,14 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'User ID',
-			width: 370,
+			width: 345,
 		},
 		{
 			align: 'start',
 			key: 'name',
+			renderer(value) {
+				return value;
+			},
 			title: 'Name',
 		},
 		{
@@ -332,6 +338,7 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 			itemsPerPage: drilldown?.itemsPerPage ?? 0,
 			level: 2,
 			loading: true,
+			server: true,
 			sortBy: [],
 		},
 	});
@@ -387,9 +394,10 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 			footers: footers.comments,
 			headers: headers.comments,
 			itemsLength: drilldown?.itemsLength ?? 0,
-			itemsPerPage: drilldown?.itemsPerPage ?? 0,
+			itemsPerPage: 2,
 			level: 3,
 			loading: true,
+			server: true,
 			sortBy: [],
 		},
 	});
@@ -400,7 +408,7 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	}
 
 	const body = {
-		limit: drilldown.itemsPerPage,
+		limit: 2,
 		page: drilldown.page,
 		postId,
 		query: drilldown.search,

@@ -242,8 +242,9 @@ const headers = {
 		{
 			align: 'start',
 			key: 'id',
+			sortable: false,
 			title: 'Comment ID',
-			width: 150,
+			width: 130,
 		},
 		{
 			align: 'start',
@@ -267,7 +268,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			width: 260,
+			width: 235,
 		},
 		{
 			align: 'start',
@@ -288,7 +289,7 @@ const headers = {
 			align: 'start',
 			key: 'id',
 			title: 'User ID',
-			width: 370,
+			width: 345,
 		},
 		{
 			align: 'start',
