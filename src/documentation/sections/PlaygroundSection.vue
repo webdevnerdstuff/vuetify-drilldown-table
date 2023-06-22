@@ -25,6 +25,7 @@
 			<h3 class="mb-2 text-secondary">Setup the Playground</h3>
 
 			<CodeBlock
+				class="mb-6"
 				code="git clone git@github.com:webdevnerdstuff/vuetify-drilldown-table.git"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 				lang="plain"
