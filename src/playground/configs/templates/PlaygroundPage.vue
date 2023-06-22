@@ -9,6 +9,7 @@
 
 
 <script setup>
+import { ref } from 'vue';
 import ClientTable from './ClientTable.vue';
 import ServerTable from './ServerTable.vue';
 import tableDefaults from './tableDefaults';
