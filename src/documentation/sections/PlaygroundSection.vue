@@ -13,28 +13,43 @@
 				Developer Playground
 			</h2>
 
-			<div>
-				<p class="mb-3">
-					In order to gain a comprehensive understanding of utilizing this component, we highly recommend utilizing the
-					developer Playground. The Playground serves as a complete exemplification of how to effectively employ this
-					component, equipped with most of the available properties. It serves as a comprehensive model that can serve as
-					an ideal launching pad for your own project. You have the flexibility to customize the settings and observe
-					their direct impact on the table.
-				</p>
-				<p>
-					After you have forked and/or cloned the repository, run the following commands to start the Playground example:
-				</p>
-			</div>
-		</v-col>
 
-		<v-col cols="12">
+			<p class="mb-4">
+				In order to gain a comprehensive understanding of utilizing this component, we highly recommend utilizing the
+				developer Playground. The Playground serves as a complete exemplification of how to effectively employ this
+				component, equipped with most of the available properties. It serves as a comprehensive model that can serve as
+				an ideal launching pad for your own project. You have the flexibility to customize the settings and observe
+				their direct impact on the table.
+			</p>
+
+			<h3 class="mb-2 text-secondary">Setup the Playground</h3>
+
+			<CodeBlock
+				code="git clone git@github.com:webdevnerdstuff/vuetify-drilldown-table.git"
+				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
+				lang="plain"
+				:prismjs="codeBlockSettings.plugin === 'prismjs'"
+				:theme="codeBlockSettings.theme"
+			>
+				<template #label>
+					First clone the <a
+						:href="store.links.github"
+						target="blank"
+					>repository:</a>
+				</template>
+			</CodeBlock>
+
 			<CodeBlock
 				code="pnpm i && pnpm play"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 				lang="plain"
 				:prismjs="codeBlockSettings.plugin === 'prismjs'"
 				:theme="codeBlockSettings.theme"
-			/>
+			>
+				<template #label>
+					Next run the following command to setup the Playground:
+				</template>
+			</CodeBlock>
 		</v-col>
 
 		<v-col cols="12">
@@ -46,7 +61,7 @@
 		</v-col>
 
 		<v-col cols="12">
-			<h3 class="mb-1">PlaygroundPage.vue</h3>
+			<h3 class="mb-2 text-secondary">PlaygroundPage.vue</h3>
 
 			<p>
 				This file includes the import of two table components. Feel free to add and customize them as needed, but the
@@ -56,7 +71,7 @@
 		</v-col>
 
 		<v-col cols="12">
-			<h3 class="mb-1">tableDefaults.ts</h3>
+			<h3 class="mb-2 text-secondary">tableDefaults.ts</h3>
 
 			<p class="mb-3">
 				This file imports two table components, which you can freely modify and customize according to your needs.
@@ -71,7 +86,7 @@
 		</v-col>
 
 		<v-col cols="12">
-			<h3 class="mb-1">ClientTable.vue</h3>
+			<h3 class="mb-2 text-secondary">ClientTable.vue</h3>
 
 			<p>
 				This file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use it
@@ -80,10 +95,10 @@
 		</v-col>
 
 		<v-col cols="12">
-			<h3 class="mb-1">ServerTable.vue</h3>
+			<h3 class="mb-2 text-secondary">ServerTable.vue</h3>
 
 			<p>
-				his file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use it
+				This file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use it
 				as a server side table.
 			</p>
 		</v-col>
@@ -92,6 +107,7 @@
 
 <script setup>
 import { computed, inject } from 'vue';
+import { useCoreStore } from '@/stores/index';
 
 const props = defineProps({
 	codeBlockOptions: {
@@ -103,4 +119,5 @@ const props = defineProps({
 
 const codeBlockSettings = computed(() => props.codeBlockOptions);
 const classes = inject('classes');
+const store = useCoreStore();
 </script>
