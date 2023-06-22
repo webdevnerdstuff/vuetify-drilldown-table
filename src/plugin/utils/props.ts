@@ -92,7 +92,7 @@ export const AllProps = {
 	loaderType: 'linear',
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
-	matchColumnWidths: true,
+	matchColumnWidths: false,
 	multiSort: false,																	// ! Not sure if this is working correctly - Is binding prop
 	// nextIcon: '', 																	// * Works - Keep Commented Out
 	noDataText: '$vuetify.noDataText',
