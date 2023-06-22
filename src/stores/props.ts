@@ -9,25 +9,25 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: '1px',
 			desc: `Sets the height for the linear progress loader. See <a href="${links.vuetify}/en/api/v-progress-linear/#props-height" target="_blank"><code class="inline-code">VProgressLinear</code></a> for more information.`,
-			name: 'loaderHeight',
+			name: 'loader-height',
 			type: 'VProgressLinear["$props"]["height"]',
 		},
 		{
 			default: 'default',
 			desc: `Sets the diameter of the circular progress loader circle in pixels. See <a href="${links.vuetify}/en/api/v-progress-circular/#props-size" target="_blank"><code class="inline-code">VProgressCircular</code></a> for more information.`,
-			name: 'loaderSize',
+			name: 'loader-size',
 			type: 'VProgressCircular["$props"]["size"]',
 		},
 		{
 			default: 'linear',
 			desc: 'Sets the type of loader. Available types are <code class="inline-code">linear</code>, <code class="inline-code">circular</code>, <code class="inline-code">text</code> and <code class="inline-code">skelton</code>. You can also use multiple loaders by passing an array of types. The order of the array determines the order of the loaders. To use the <a href="#slots-supported-loader"><code class="inline-code">loader</code></a> slot, set this prop to <code class="inline-code">null</code> or <code class="inline-code">false</code>.',
-			name: 'loaderType',
+			name: 'loader-type',
 			type: 'string | string[] | false | null',
 		},
 		{
 			default: 'heading@1',
 			desc: `The type of skelton loader to show. See <a href="${links.vuetify}/en/api/v-skeleton-loader/#props-type" target="_blank">Vuetify Skeleton Loader</a> for more information.`,
-			name: 'skeltonType',
+			name: 'skelton-type',
 			type: 'string',
 		},
 	];
@@ -39,6 +39,12 @@ export const usePropsStore = defineStore('props', () => {
 			desc: 'Applies specified colors to the table. See the <a href="#props-colors">Colors Prop</a> section for more information and default settings.',
 			name: 'colors',
 			type: 'ColorsObject | null',
+		},
+		{
+			default: () => ([]),
+			desc: 'Internal use only. This holds the header cell widths when the <code class="inline-code">matchColumnWidths</code> prop is set.',
+			name: 'column-widths',
+			type: 'object',
 		},
 		{
 			default: () => ({}),
@@ -73,13 +79,13 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: undefined,
 			desc: 'Currently not supported',
-			name: 'groupBy',
+			name: 'group-by',
 			type: 'VDataTable["$props"]["groupBy"]',
 		},
 		{
 			default: false,
 			desc: 'Internal use only',
-			name: 'isDrilldown',
+			name: 'is-drilldown',
 			type: 'boolean',
 		},
 		{
@@ -91,13 +97,13 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: 'child',
 			desc: 'This is the key used to hold the drilldown data and settings in the item object.',
-			name: 'itemChildrenKey',
+			name: 'item-children-key',
 			type: 'string',
 		},
 		{
 			default: 0,
 			desc: `<code class="inline-code">VDataTableServer</code> specific prop. See <a href="${links.vuetify}/en/api/v-data-table-server/#props-items-length" target="_blank">items-length</a> prop for more information.`,
-			name: 'itemsLength',
+			name: 'items-length',
 			type: 'number',
 		},
 		{
@@ -119,9 +125,15 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'VDataTable["$props"]["loading"]',
 		},
 		{
+			default: false,
+			desc: 'Adjusts the width of the drilldown table header cells to match the parent table\'s header cell widths. In case you specify a width for the headers, that specific column\'s width will be utilized instead. Ideally, the column count of both tables should align for optimal results. However, if they don\'t, the last column will be disregarded and automatically set to the default width used by Vuetify\'s <code class="inline-code">VDataTable</code>/<code class="inline-code">VDataTableServer</code>.',
+			name: 'match-column-widths',
+			type: 'boolean',
+		},
+		{
 			default: true,
 			desc: 'Missing description in Vuetify docs. This prop <u>needs</u> to be set to <code class="inline-code">true</code> for the server table to function properly. Do not set this to <code class="inline-code">false</code>.',
-			name: 'returnObject',
+			name: 'return-object',
 			type: 'boolean | undefined',
 		},
 		{
@@ -133,19 +145,19 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: 750,
 			desc: 'The delay before the search filters the items',
-			name: 'searchDebounce',
+			name: 'search-debounce',
 			type: 'number | undefined | null',
 		},
 		{
 			default: 1000,
 			desc: 'The maximum time to wait before the search filters the items',
-			name: 'searchMaxWait',
+			name: 'search-max-wait',
 			type: 'number | undefined | null',
 		},
 		{
 			default: 'tbd',
 			desc: 'The <code class="inline-code">VTextField</code> props',
-			name: 'searchProps',
+			name: 'search-props',
 			type: 'SearchProps',
 		},
 		{
@@ -163,25 +175,25 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: true,
 			desc: 'Determines if the table should show the drilldown when loading',
-			name: 'showDrilldownWhenLoading',
+			name: 'show-drilldown-when-loading',
 			type: 'boolean',
 		},
 		{
 			default: false,
 			desc: 'Determines if the table should show the footer row, which by default shows the same values as the header row. To customize the footer row, use the <a href="#props-all-footers"><code class="inline-code">footers</code></a> prop.',
-			name: 'showFooterRow',
+			name: 'show-footer-row',
 			type: 'boolean',
 		},
 		{
 			default: false,
 			desc: 'Determines if the table should show the <code class="inline-code">VTextField</code> in the <code class="inline-code">top</code> slot',
-			name: 'showSearch',
+			name: 'show-search',
 			type: 'boolean',
 		},
 		{
 			default: 'VDataTable',
 			desc: 'Internal use only',
-			name: 'tableType',
+			name: 'table-type',
 			type: 'TableType',
 		},
 	];
