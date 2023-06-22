@@ -2,9 +2,10 @@
 	<component
 		:is="tableType"
 		v-if="tableType"
-		v-model="loadedDrilldown.modelValue"
 		v-bind="$attrs"
+		v-model="loadedDrilldown.modelValue"
 		:class="tableClasses"
+		:data-vdt-id="tableId"
 		:density="loadedDrilldown.density"
 		:expand-on-click="loadedDrilldown.expandOnClick"
 		:expanded="loadedDrilldown.expanded"
@@ -66,6 +67,7 @@
 			<HeadersSlot
 				:key="level"
 				:colors="loadedDrilldown.colors"
+				:column-widths="loadedDrilldown.columnWidths"
 				:density="loadedDrilldown.density"
 				:items="loadedDrilldown.items"
 				:level="level"
@@ -78,6 +80,7 @@
 					size: loadedDrilldown.loaderSize,
 					skeltonType: loadedDrilldown.skeltonType,
 				}"
+				:match-column-widths="loadedDrilldown.matchColumnWidths"
 				:select-strategy="loadedDrilldown.selectStrategy"
 				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ ...props }"
@@ -85,7 +88,6 @@
 				:sort-by="loadedDrilldown.sortBy"
 				:table-model-value="loadedDrilldown.modelValue"
 			>
-				<!-- @click:selectAll="emitAllSelectedEvent($event)" -->
 				<!-- Pass on all scoped slots -->
 				<template
 					v-for="(_, slot) in slots"
@@ -201,6 +203,7 @@
 					<VDrilldownTable
 						:key="item.raw"
 						:colors="colors"
+						:column-widths="loadedDrilldown.columnWidths"
 						:density="loadedDrilldown.density"
 						:drilldown="loadedDrilldown"
 						:headers="item.raw[itemChildrenKey]?.headers"
@@ -215,9 +218,9 @@
 						:loaderType="item.raw[itemChildrenKey]?.loaderType"
 						:loading="item.raw[itemChildrenKey]?.loading"
 						:loadingText="loadingText"
+						:match-column-widths="loadedDrilldown.matchColumnWidths"
 						:multi-sort="item.raw[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
-						:parent-ref="parentTableRef"
 						:server="item.raw[itemChildrenKey]?.server"
 						:skeltonType="item.raw[itemChildrenKey]?.skeltonType"
 						:sort-by="loadedDrilldown.sortBy"
@@ -331,7 +334,10 @@ import {
 } from './slots';
 import { useEmitUpdatedExpanded } from './composables/emits';
 import { useMergeDeep } from './composables/helpers';
-import { useSetLoadedDrilldown } from './composables/loadedDrilldown';
+import {
+	useGetHeaderColumnWidths,
+	useSetLoadedDrilldown,
+} from './composables/loadedDrilldown';
 import { useTableClasses } from './composables/classes';
 import { useTableStyles } from './composables/styles';
 import {
@@ -367,6 +373,7 @@ const emit = defineEmits([
 const props = withDefaults(defineProps<Props>(), { ...AllProps });
 
 const slots = useSlots();
+const attrs = useAttrs();
 
 const tableType = shallowRef<TableType>(null);
 
@@ -394,7 +401,7 @@ const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 
 // -------------------------------------------------- Data //
-const parentTableRef = ref<string>('');
+const tableId = ref<string>(attrs['data-vdt-id'] as string ?? `v-drilldown-table-${Date.now()}`);
 const levelSearch = ref<string>('');
 const theme = useTheme();
 
@@ -410,6 +417,7 @@ const hidingNoData = computed(() => {
 	return loadedDrilldown.hideNoData;
 });
 
+
 // -------------------------------------------------- Watch //
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 watchOnce(props as any, () => {
@@ -420,13 +428,18 @@ watchOnce(props as any, () => {
 	loadedDrilldown.itemsPerPage = props.itemsPerPage;
 }, { immediate: false });
 
-watch(() => props.items, () => {
-	setLoadedDrilldown();
-});
 
-watch(() => props.loading, (value) => {
-	if (value) {
-		loadedDrilldown.loading = value;
+watch(() => props.items, () => {
+	if (!props.loading) {
+		setLoadedDrilldown();
+	}
+}, { deep: true });
+
+
+watch(() => props.loading, () => {
+	if (props.loading) {
+		loadedDrilldown.loading = props.loading;
+		return false;
 	}
 
 	setLoadedDrilldown();
@@ -484,12 +497,17 @@ function setLoadedDrilldown(): void {
 			level: props.level,
 			levels: props.levels,
 			loadedDrilldown,
+			matchColumnWidths: props.matchColumnWidths,
 			rawItem: props.item?.raw,
 		});
 		return;
 	}
 
 	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as Props;
+
+	if (props.matchColumnWidths && loadedDrilldown?.columnWidths?.length === 0) {
+		loadedDrilldown.columnWidths = useGetHeaderColumnWidths({ tableId });
+	}
 }
 
 // -------------------------------------------------- Emit Events //

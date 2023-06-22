@@ -114,13 +114,17 @@ const props = withDefaults(defineProps<HeaderSlotProps>(), {
 });
 
 const allSelectable = ref();
-const columns = computed<Column[]>(() => props.slotProps.columns);
 const iconOptions = inject<IconOptions>(Symbol.for('vuetify:icons'));
 const isAllSelected = ref<boolean>(false);
 const items = ref(props.items);
+const matchColumnWidths = ref<boolean>(props.matchColumnWidths);
+const columnWidths = ref<number[]>(props.columnWidths || []);
 const sortAscIcon = ref(props.sortAscIcon);
 const tableModelValue = computed(() => props.tableModelValue);
 const theme = useTheme();
+
+
+const columns = computed<Column[]>(() => checkColumnWidthUsage());
 
 
 watch(() => props.items, (newItems) => {
@@ -138,6 +142,35 @@ watch(() => props.items, (newItems) => {
 const headerRowClasses = computed<object>(() => {
 	return useHeaderRowClasses({ level: props.level });
 });
+
+function checkColumnWidthUsage(): Column[] {
+	const cols = props.slotProps.columns;
+
+	if (props.level <= 1 || !matchColumnWidths.value) {
+		return cols;
+	}
+
+	if (columnWidths.value.length === 0) {
+		throw new Error('VDrilldownTable (matchColumnWidths): There was an issue getting the parent tables widths.');
+	}
+
+	// Attach the width to the column //
+	Object.entries(cols).forEach(([index]) => {
+
+		// ? Do not add width to the last row
+		// ? This can cause width issues if columns length differ
+		if (Object.keys(cols).length === parseInt(index) + 1) {
+			return;
+		}
+
+		// Only set the width if the user has not already set it //
+		if (typeof cols[index].width === 'undefined') {
+			cols[index].width = columnWidths.value[parseInt(index)] as number;
+		}
+	});
+
+	return cols;
+}
 
 
 // -------------------------------------------------- Header Row Cells //

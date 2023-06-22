@@ -1,5 +1,5 @@
 export default {
-	// color: 'primary',																			// ? Doesn't seem to work
+	// color: 'primary',																			// ? Doesn't seem to work - Vuetify prop
 	// colors: null,
 	colors: {
 		body: {
@@ -31,19 +31,19 @@ export default {
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
-	// customFilter: undefined, 															// ? Needs Testing
-	// customKeyFilter: undefined,														// ? Needs Testing
+	// customFilter: undefined, 															// ? Needs Testing - Vuetify prop
+	// customKeyFilter: undefined,														// ? Needs Testing - Vuetify prop
 	density: 'default',
 	drilldownKey: 'id',
 	elevation: 5,
-	// expanded: () => [], 																		// ? Needs Testing
+	// expanded: () => [], 																		// ? Needs Testing - Vuetify prop
 	expandOnClick: false,
-	// filterKeys: undefined, 																// ? Needs Testing
-	// filterMode: 'some',																		// ? Needs Testing
+	// filterKeys: undefined, 																// ? Needs Testing - Vuetify prop
+	// filterMode: 'some',																		// ? Needs Testing - Vuetify prop
 	firstIcon: '$first',
-	// firstPageLabel: '',																		// ? Doesn't seem to work
-	// fixedFooter: true, 																		// ? Doesn't seem to work
-	// fixedHeader: true, 																		// ? Doesn't seem to work
+	// firstPageLabel: '',																		// ? Doesn't seem to work - Vuetify prop
+	// fixedFooter: true, 																		// ? Doesn't seem to work - Vuetify prop
+	// fixedHeader: true, 																		// ? Doesn't seem to work - Vuetify prop
 	footers: [],
 	headers: [],
 	height: 'auto',
@@ -84,7 +84,7 @@ export default {
 	],
 	itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText',
 	lastIcon: '$last',
-	// lastPageLabel: '$vuetify.dataFooter.lastPage',					// ? Doesn't seem to work
+	// lastPageLabel: '$vuetify.dataFooter.lastPage',					// ? Doesn't seem to work - Vuetify prop
 	level: 1,
 	levels: 3,
 	loaderHeight: '2px',
@@ -97,17 +97,17 @@ export default {
 	],
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
+	matchColumnWidths: false,
 	multiSort: false,
 	mustSort: false,
 	nextIcon: '$next',
-	nextPageLabel: '$vuetify.dataFooter.nextPage',						// ? Doesn't seem to work
+	nextPageLabel: '$vuetify.dataFooter.nextPage',						// ? Doesn't seem to work - Vuetify prop
 	noDataText: '$vuetify.noDataText',
 	page: 1,
 	pageText: '$vuetify.dataFooter.pageText',
 	prevIcon: '$prev',
-	// prevPageLabel: '$vuetify.dataFooter.prevPage',					// ? Doesn't seem to work
-	// returnObject: false,																		// ? Not sure what this does or if works.
-	// rowHeight: undefined,																	// ? Doesn't seem to work
+	// prevPageLabel: '$vuetify.dataFooter.prevPage',					// ? Doesn't seem to work - Vuetify prop
+	// rowHeight: undefined,																	// ? Doesn't seem to work - Vuetify prop
 	search: '',
 	searchDebounce: 750,
 	searchMaxWait: 1000,
@@ -135,8 +135,8 @@ export default {
 	skeltonType: 'heading@1',
 	sortAscIcon: '$sortAsc',
 	sortBy: [],
-	// sticky: false,																					// ? Doesn't seem to work
+	// sticky: false,																					// ? Doesn't seem to work - Vuetify prop
 	tag: 'div',
 	theme: undefined,
-	// width: undefined,																			// ? Doesn't seem to work
+	// width: undefined,																			// ? Doesn't seem to work - Vuetify prop
 };

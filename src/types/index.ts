@@ -159,6 +159,7 @@ export type TableType = VDataTable | VDataTableServer | unknown;
 // -------------------------------------------------- Props //
 export interface Props {
 	colors?: ColorsObject | null;
+	columnWidths?: number[];
 	customFilter?: VDataTable['$props']['customFilter'];
 	customKeyFilter?: VDataTable['$props']['customKeyFilter'];
 	density?: VDataTable['$options']['density'];
@@ -194,6 +195,7 @@ export interface Props {
 	loaderType?: string | string[] | false | null;
 	loading?: VDataTable['$props']['loading'];
 	loadingText?: VDataTable['$props']['loadingText'];
+	matchColumnWidths?: boolean;
 	modelValue?: unknown[];
 	multiSort?: VDataTable['$props']['multiSort'];
 	mustSort?: VDataTable['$props']['mustSort'];
@@ -269,6 +271,7 @@ export interface TopSlotProps extends VDataTableSlotProps {
 };
 
 export interface HeaderSlotProps extends AllSlotProps {
+	columnWidths: Props['columnWidths'];
 	isTheadSlot?: boolean;
 	items: Props['items'];
 	loaderSettings: {
@@ -281,6 +284,7 @@ export interface HeaderSlotProps extends AllSlotProps {
 		skeltonType: Props['skeltonType'];
 		textLoader?: boolean;
 	};
+	matchColumnWidths: Props['matchColumnWidths'];
 	selectStrategy: Props['selectStrategy'];
 	slotProps: {
 		allSelected?: boolean;
@@ -395,8 +399,17 @@ export interface UseSetLoadedDrilldown {
 			rawItem: DataTableItem['raw'],
 			level: Props['level'],
 			levels: Props['levels'],
+			matchColumnWidths?: Props['matchColumnWidths'],
 		}
 	): Props;
+}
+
+export interface UseGetHeaderColumnWidths {
+	(
+		options: {
+			tableId: MaybeRef<string>,
+		}
+	): number[];
 }
 
 

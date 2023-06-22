@@ -32,6 +32,7 @@ export const AllProps = {
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	}) as const,
+	columnWidths: () => ([]),
 	// customFilter: undefined, 											// ? Needs Testing
 	// customKeyFilter: undefined,										// ? Needs Testing
 	density: 'default',
@@ -59,7 +60,7 @@ export const AllProps = {
 	items: () => [],
 	itemsLength: 0,																		// ? Not sure if this will be used
 	itemsPerPage: 10,
-	// itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText',	// * Works - Keep Commented Out
+	// itemsPerPageText: ',														// * Works - Keep Commented Out
 	// itemsPerPageOptions: [													// * Works - Keep Commented Out
 	// 	{
 	// 		title: '10',
@@ -91,6 +92,7 @@ export const AllProps = {
 	loaderType: 'linear',
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
+	matchColumnWidths: false,
 	multiSort: false,																	// ! Not sure if this is working correctly - Is binding prop
 	// nextIcon: '', 																	// * Works - Keep Commented Out
 	noDataText: '$vuetify.noDataText',

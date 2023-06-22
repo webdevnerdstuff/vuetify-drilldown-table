@@ -1,12 +1,33 @@
 import {
 	Props,
+	UseGetHeaderColumnWidths,
 	UseSetLoadedDrilldown,
 } from '@/types';
 import { useMergeDeep } from './helpers';
 
 
+export const useGetHeaderColumnWidths: UseGetHeaderColumnWidths = (options) => {
+	const { tableId } = options;
+	const columnWidths = [] as number[];
+
+	const id = unref(tableId);
+
+	const domHeaders = document.querySelectorAll(`[data-vdt-id="${id}"] .v-drilldown-table--header-row-th-1`);
+
+	if (Object.keys(domHeaders).length > 0) {
+		for (let i = 0; i < domHeaders.length; i += 1) {
+			const column = domHeaders[i] as HTMLElement;
+
+			columnWidths.push(column.offsetWidth);
+		}
+	}
+
+	return columnWidths;
+};
+
+
 export const useSetLoadedDrilldown: UseSetLoadedDrilldown = (options) => {
-	const { loadedDrilldown, drilldown, rawItem, level, levels } = options;
+	const { drilldown, rawItem, level, levels, loadedDrilldown } = options;
 	let settings = loadedDrilldown;
 
 	settings = useMergeDeep(loadedDrilldown, drilldown) as Props;

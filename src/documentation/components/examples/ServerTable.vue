@@ -20,7 +20,6 @@
 
 	<v-col cols="12">
 		<VDrilldownTable
-			:color="tableSettings.color"
 			:colors="tableSettings.colors"
 			:density="tableSettings.density"
 			:drilldown-key="tableSettings.drilldownKey"
@@ -37,7 +36,6 @@
 			:items-per-page-options="tableSettings.itemsPerPageOptions"
 			:items-per-page-text="tableSettings.itemsPerPageText"
 			:last-icon="tableSettings.lastIcon"
-			:last-page-label="tableSettings.lastPageLabel"
 			:level="tableSettings.level"
 			:levels="tableSettings.levels"
 			:loader-height="tableSettings.loaderHeight"
@@ -52,7 +50,6 @@
 			:page="tableSettings.page"
 			:page-text="tableSettings.pageText"
 			:prev-icon="tableSettings.prevIcon"
-			:prev-page-label="tableSettings.prevPageLabel"
 			:search-debounce="tableSettings.searchDebounce"
 			:search-max-wait="tableSettings.searchMaxWait"
 			:server="tableSettings.server"
