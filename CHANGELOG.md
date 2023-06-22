@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.0-beta-4
+06-22-23
+[main] (@webdevnerdstuff)
+* Added match column widths functionality
+* Updating Playground examples
+* Update documentation
+* Cleaning up
+
 ## v1.0.0-beta-3
 06-20-23
 [main] (@webdevnerdstuff)
