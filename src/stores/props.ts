@@ -41,13 +41,13 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'ColorsObject | null',
 		},
 		{
-			default: () => ([]),
+			default: '[]',
 			desc: 'Internal use only. This holds the header cell widths when the <code class="inline-code">matchColumnWidths</code> prop is set.',
 			name: 'column-widths',
 			type: 'object',
 		},
 		{
-			default: () => ({}),
+			default: '',
 			desc: 'Internal use only. This holds the drilldown tables data and settings.',
 			name: 'drilldown',
 			type: 'object',
