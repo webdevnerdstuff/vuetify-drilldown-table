@@ -1,6 +1,10 @@
 import type { PropType as __PropType } from 'vue';
 import { ColorsObject, Column, InternalDataTableHeader } from '../../types';
 declare const _sfc_main: import("vue").DefineComponent<{
+    columnWidths: {
+        type: __PropType<number[] | undefined>;
+        required: true;
+    };
     isTheadSlot: {
         type: __PropType<boolean | undefined>;
         required: false;
@@ -21,6 +25,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
             skeltonType: string | undefined;
             textLoader?: boolean | undefined;
         }>;
+        required: true;
+    };
+    matchColumnWidths: {
+        type: __PropType<boolean | undefined>;
         required: true;
     };
     selectStrategy: {
@@ -77,6 +85,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "click:selectAll"[], "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    columnWidths: {
+        type: __PropType<number[] | undefined>;
+        required: true;
+    };
     isTheadSlot: {
         type: __PropType<boolean | undefined>;
         required: false;
@@ -97,6 +109,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
             skeltonType: string | undefined;
             textLoader?: boolean | undefined;
         }>;
+        required: true;
+    };
+    matchColumnWidths: {
+        type: __PropType<boolean | undefined>;
         required: true;
     };
     selectStrategy: {

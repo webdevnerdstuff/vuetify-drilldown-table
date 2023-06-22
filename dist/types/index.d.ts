@@ -93,9 +93,35 @@ export type SearchProps = {
     density?: VTextField['$props']['density'];
     variant?: VTextField['$props']['variant'];
 };
+interface CellRender {
+    (key?: string, column?: object, index?: number): void;
+}
+interface ItemCellRender {
+    (itemValue?: string, item?: object, column?: object, index?: number): void;
+}
+export interface Column {
+    align?: string;
+    cellClass?: string;
+    colspan?: number;
+    columnFooter?: string;
+    fixedOffset?: number;
+    key?: string;
+    renderCell?: CellRender;
+    renderFooter?: CellRender;
+    renderFooterCell?: CellRender;
+    renderHeader?: CellRender;
+    renderItem?: ItemCellRender;
+    renderer?: CellRender;
+    rowClass?: string;
+    rowspan?: number;
+    sortable?: boolean;
+    title?: string;
+    width?: string | number;
+}
 export type TableType = VDataTable | VDataTableServer | unknown;
 export interface Props {
     colors?: ColorsObject | null;
+    columnWidths?: number[];
     customFilter?: VDataTable['$props']['customFilter'];
     customKeyFilter?: VDataTable['$props']['customKeyFilter'];
     density?: VDataTable['$options']['density'];
@@ -129,6 +155,7 @@ export interface Props {
     loaderType?: string | string[] | false | null;
     loading?: VDataTable['$props']['loading'];
     loadingText?: VDataTable['$props']['loadingText'];
+    matchColumnWidths?: boolean;
     modelValue?: unknown[];
     multiSort?: VDataTable['$props']['multiSort'];
     mustSort?: VDataTable['$props']['mustSort'];
@@ -140,7 +167,7 @@ export interface Props {
     searchDebounce?: number | undefined | null;
     searchMaxWait?: number | undefined | null;
     searchProps?: SearchProps;
-    separator?: string;
+    separator?: 'default' | 'horizontal' | 'vertical' | 'cell' | undefined;
     server?: boolean;
     selectStrategy?: VDataTable['$props']['selectStrategy'];
     showDrilldownWhenLoading?: boolean;
@@ -196,6 +223,7 @@ export interface TopSlotProps extends VDataTableSlotProps {
     showSearch: boolean;
 }
 export interface HeaderSlotProps extends AllSlotProps {
+    columnWidths: Props['columnWidths'];
     isTheadSlot?: boolean;
     items: Props['items'];
     loaderSettings: {
@@ -208,6 +236,7 @@ export interface HeaderSlotProps extends AllSlotProps {
         skeltonType: Props['skeltonType'];
         textLoader?: boolean;
     };
+    matchColumnWidths: Props['matchColumnWidths'];
     selectStrategy: Props['selectStrategy'];
     slotProps: {
         allSelected?: boolean;
@@ -304,7 +333,13 @@ export interface UseSetLoadedDrilldown {
         rawItem: DataTableItem['raw'];
         level: Props['level'];
         levels: Props['levels'];
+        matchColumnWidths?: Props['matchColumnWidths'];
     }): Props;
+}
+export interface UseGetHeaderColumnWidths {
+    (options: {
+        tableId: MaybeRef<string>;
+    }): number[];
 }
 export interface UseGetLevelColors {
     (options: {
@@ -324,30 +359,30 @@ export interface ConvertLevelColors {
         type: string | null;
     }): LevelColorResponse;
 }
-interface CellRender {
-    (key?: string, column?: object, index?: number): void;
+export interface LevelPercentage {
+    (colors: ColorsObject, level: number, direction: string): number;
 }
-interface ItemCellRender {
-    (itemValue?: string, item?: object, column?: object, index?: number): void;
+export interface UseGetSortDirection {
+    (options: {
+        id: string;
+        sortBy: Props['sortBy'];
+    }): string | boolean | void;
 }
-export interface Column {
-    align?: string;
-    cellClass?: string;
-    colspan?: number;
-    columnFooter?: string;
-    fixedOffset?: number;
-    key?: string;
-    renderCell?: CellRender;
-    renderFooter?: CellRender;
-    renderFooterCell?: CellRender;
-    renderHeader?: CellRender;
-    renderItem?: ItemCellRender;
-    renderer?: CellRender;
-    rowClass?: string;
-    rowspan?: number;
-    sortable?: boolean;
-    title?: string;
-    width?: string | number;
+export interface UseConvertToUnit {
+    (options: {
+        str: string | number;
+        unit?: string;
+    }): string | void;
+}
+export interface UseEmitUpdatedExpanded {
+    (options: {
+        emit: {
+            (e: 'update:drilldown', drilldownData: Props): void;
+            (e: 'update:expanded', data: DrilldownEvent): void;
+        };
+        data: DrilldownEvent;
+        drilldownData: Props;
+    }): void;
 }
 export interface UseBodyCellClasses {
     (options: {
@@ -407,6 +442,7 @@ export interface UseTableClasses {
         isHover: boolean | undefined;
         isServerSide: boolean;
         level: Props['level'];
+        separator: Props['separator'];
     }): object;
 }
 export interface UseTFootClasses {
@@ -486,14 +522,4 @@ export interface OptionsEventObject {
     itemsPerPage?: Props['itemsPerPage'];
 }
 export declare const OptionsEventBus: EventBusKey<OptionsEventObject>;
-export interface UseEmitUpdatedExpanded {
-    (options: {
-        emit: {
-            (e: 'update:drilldown', drilldownData: Props): void;
-            (e: 'update:expanded', data: DrilldownEvent): void;
-        };
-        data: DrilldownEvent;
-        drilldownData: Props;
-    }): void;
-}
 export {};

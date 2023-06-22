@@ -1,12 +1,12 @@
-import { Column, Props } from '../../types';
+import { Column, UseGetSortDirection, UseConvertToUnit } from '../../types';
 /**
 * Get's the sort direction for a column
 */
-export declare function useGetSortDirection(sortBy: Props['sortBy'], id: string): string | boolean | void;
+export declare const useGetSortDirection: UseGetSortDirection;
 /**
 * Converts a string to a number with a unit.
 */
-export declare function useConvertToUnit(str: string | number, unit?: string): string | void;
+export declare const useConvertToUnit: UseConvertToUnit;
 /**
  * Render the cell item
  */
@@ -20,7 +20,3 @@ export declare function useRenderCell(column: Column): unknown;
  * Deep merge objects.
  */
 export declare function useMergeDeep(target: object | object[], ...sources: object[]): object;
-/**
- * Debugging Log Helper
- */
-export declare function useLogHelper(options: any): void;

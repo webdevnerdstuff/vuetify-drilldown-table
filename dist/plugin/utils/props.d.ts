@@ -29,6 +29,7 @@ export declare const AllProps: {
         readonly percentageChange: 25;
         readonly percentageDirection: "desc";
     };
+    columnWidths: () => never[];
     density: string;
     drilldownKey: string;
     elevation: number;
@@ -52,10 +53,12 @@ export declare const AllProps: {
     loaderType: string;
     loading: boolean;
     loadingText: string;
+    matchColumnWidths: boolean;
     multiSort: boolean;
     noDataText: string;
     noFilter: boolean;
     page: number;
+    returnObject: boolean;
     search: string;
     searchDebounce: number;
     searchMaxWait: number;
@@ -72,6 +75,7 @@ export declare const AllProps: {
         readonly variant: "underlined";
     };
     selectStrategy: "page";
+    separator: "default";
     server: boolean;
     showDrilldownWhenLoading: boolean;
     showExpand: boolean;
