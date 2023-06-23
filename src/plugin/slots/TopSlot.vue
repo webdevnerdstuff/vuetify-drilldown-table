@@ -6,10 +6,10 @@
 	/>
 
 	<v-col
-		v-else-if="showSearch || slots[`top.left`] || slots[`top.right`]"
+		v-else-if="(showSearch || slots[`top.left`] || slots[`top.right`]) && showTopContent"
 		lg="12"
 	>
-		<v-row>
+		<v-row :data-id="`vdt-top-id-${props.level}`">
 			<slot
 				v-if="slots[`top.left`]"
 				name="top.left"
@@ -59,7 +59,6 @@ const emit = defineEmits([
 	'update:search',
 ]);
 
-
 const props = withDefaults(defineProps<TopSlotProps>(), {
 	searchProps: () => ({
 		cols: {
@@ -76,6 +75,7 @@ const props = withDefaults(defineProps<TopSlotProps>(), {
 });
 
 const levelSearch = ref<string>('');
+const showTopContent = ref<boolean>(true);
 
 const tableItems = computed(() => {
 	return props.items;
@@ -97,6 +97,16 @@ const boundProps = computed(() => {
 		setItemsPerPage: props.slotProps.setItemsPerPage,
 		toggleSelectAll: toggleSelectAllCallback,
 	};
+});
+
+// -------------------------------------------------- Slot content check //
+onMounted(() => {
+	const slotContentCheck = document.querySelector(`[data-id="vdt-top-id-${props.level}"]`) as HTMLElement;
+
+	// ? If slot does not have content, hide the column to avoid unnecessary space //
+	if (slotContentCheck?.children.length === 0) {
+		showTopContent.value = false;
+	}
 });
 
 
