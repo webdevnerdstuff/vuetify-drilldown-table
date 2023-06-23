@@ -595,9 +595,9 @@ function updatePage(val: Props['page']) {
 
 // ------------ Search //
 watchDebounced(
-	levelSearch,
+	() => props.search,
 	() => {
-		loadedDrilldown.search = levelSearch.value;
+		levelSearch.value = props.search || '';
 
 		const options = updatedOptions(loadedDrilldown);
 		const drilldown = { ...props, ...options, ...{ search: levelSearch.value } };
