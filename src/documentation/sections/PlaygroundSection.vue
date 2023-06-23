@@ -13,7 +13,6 @@
 				Developer Playground
 			</h2>
 
-
 			<p class="mb-4">
 				In order to gain a comprehensive understanding of utilizing this component, we highly recommend utilizing the
 				developer Playground. The Playground serves as a complete exemplification of how to effectively employ this

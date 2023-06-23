@@ -41,6 +41,7 @@
 			:page="tableSettings.page"
 			:page-text="tableSettings.pageText"
 			:prev-icon="tableSettings.prevIcon"
+			:search="tableSettings.search"
 			:search-debounce="tableSettings.searchDebounce"
 			:search-max-wait="tableSettings.searchMaxWait"
 			:select-strategy="tableSettings.selectStrategy"
@@ -59,6 +60,141 @@
 			@update:drilldown="fetchServerData($event)"
 			@update:options="updateOptions"
 		>
+			<!-- <template #loading>
+				[loading Slot]
+			</template> -->
+
+			<!-- <template #no-data>
+				[no-data Slot]
+			</template> -->
+
+			<!-- <template #top>
+				[top Slot]
+			</template> -->
+
+			<!-- <template #[`top.left`]="{ props }">
+				<v-col
+					v-if="props.level === 1"
+					cols="4"
+				>
+					<v-text-field
+						v-model="tableSettings.search"
+						class="mt-0 pt-0"
+						clearable
+						density="compact"
+						hide-details
+						label="Search"
+						single-line
+						variant="outlined"
+					></v-text-field>
+				</v-col>
+			</template> -->
+
+			<!-- <template #[`top.right`]="props">
+				<v-col
+					v-if="props.level === 1"
+					class="d-flex align-center justify-end"
+				>
+					{{ props.search }}
+					<v-btn
+						class="ms-2"
+						color="primary"
+						@click="props.toggleSelectAll()"
+					>Toggle Select</v-btn>
+					<v-btn
+						class="ms-2"
+						color="primary"
+						@click="props.selectAll(true)"
+					>Select All</v-btn>
+					<v-btn
+						class="ms-2"
+						color="primary"
+						@click="props.selectAll(false)"
+					>De-Select All</v-btn>
+				</v-col>
+			</template> -->
+
+			<!-- <template #[`header.data-table-select`]>
+				<div class="d-flex justify-center">
+					<v-icon>mdi mdi-vuetify</v-icon>
+				</div>
+			</template> -->
+
+			<!-- <template #[`header.sortIcon`]>
+				<fa-icon icon="fa-solid fa-arrow-up"></fa-icon>
+			</template> -->
+
+			<!-- <template #[`header.id`]="{ column }">
+				[header cell Slot]: slot {{ column.title }}
+			</template> -->
+
+			<!-- <template #thead="props">
+				<thead>
+					<tr>
+						<td
+							v-for="column in props.columns"
+							:key="column"
+						>
+							{{ column.title }}
+						</td>
+					</tr>
+				</thead>
+			</template> -->
+
+			<!-- <template #body>
+				[body Slot]
+			</template> -->
+
+			<!-- <template #tbody="{ props }">
+				<tbody>
+					<tr>
+						<td :colspan="Object.keys(tableSettings.headers.users).length">
+							[tbody Slot] {{ props }}
+						</td>
+					</tr>
+				</tbody>
+			</template> -->
+
+			<!-- <template #[`item.id`]="{ item }">
+				[item cell Slot]: {{ item.raw.id }}
+			</template> -->
+
+			<!-- <template #[`item.data-table-select`]>
+				<v-icon>mdi mdi-vuetify</v-icon>
+			</template> -->
+
+			<!-- <template #[`item.data-table-expand`]>
+				<fa-icon icon="fa-solid fa-chevron-down"></fa-icon>
+			</template> -->
+
+			<!-- <template #tfoot="props">
+				<tfoot>
+					<tr>
+						<td
+							v-for="column in props.columns"
+							:key="column"
+						>
+							{{ column.title }}
+						</td>
+					</tr>
+				</tfoot>
+			</template> -->
+
+			<!-- <template #[`tfoot.name`]>
+				<td>
+					[tfoot Slot]
+				</td>
+			</template> -->
+
+			<!-- <template #bottom>
+				[bottom Slot]
+			</template> -->
+
+			<!-- <template #[`footer.prepend`]>
+				<div class="me-2">
+					[footer.prepend Slot]
+				</div>
+			</template> -->
 		</VDrilldownTable>
 	</v-col>
 </template>
