@@ -42,8 +42,10 @@
 			:page-text="tableSettings.pageText"
 			:prev-icon="tableSettings.prevIcon"
 			:search="tableSettings.search"
+			:search-container-cols="tableSettings.searchContainerCols"
 			:search-debounce="tableSettings.searchDebounce"
 			:search-max-wait="tableSettings.searchMaxWait"
+			:search-props="tableSettings.searchProps"
 			:select-strategy="tableSettings.selectStrategy"
 			:separator="tableSettings.separator"
 			:server="tableSettings.server"
@@ -72,7 +74,7 @@
 				[top Slot]
 			</template> -->
 
-			<!-- <template #[`top.left`]="{ props }">
+			<!-- <template #[`top.left`]="props">
 				<v-col
 					v-if="props.level === 1"
 					cols="4"

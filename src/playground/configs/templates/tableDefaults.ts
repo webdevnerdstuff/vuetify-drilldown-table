@@ -109,18 +109,38 @@ export default {
 	// prevPageLabel: '$vuetify.dataFooter.prevPage',					// ? Doesn't seem to work - Vuetify prop
 	// rowHeight: undefined,																	// ? Doesn't seem to work - Vuetify prop
 	search: '',
+	searchContainerCols: {
+		lg: 3,
+		md: 6,
+		sm: 12,
+		xl: 3,
+		xs: 12,
+		xxl: 2,
+	},
 	searchDebounce: 750,
+	searchEvents: {
+		// 'input': (e: InputEvent) => {
+		// 	console.log('input event triggered', e);
+		// },
+		// 'click': (e: MouseEvent) => {
+		// 	console.log('click event triggered', e);
+		// },
+		// 'click:control': (e: MouseEvent) => {
+		// 	console.log('click:control event triggered', e);
+		// },
+		// 'mousedown:control': (e: MouseEvent) => {
+		// 	console.log('mousedown:control event triggered', e);
+		// },
+		// 'update:modelValue': (val: string) => {
+		// 	console.log('update:modelValue event triggered', val);
+		// },
+	},
 	searchMaxWait: 1000,
-	searchProps: {																						// ? Needs Testing
-		cols: {
-			lg: 3,
-			md: 6,
-			sm: 12,
-			xl: 3,
-			xs: 12,
-			xxl: 2,
-		},
+	searchProps: {
+		clearable: true,
+		color: 'primary',
 		density: 'compact',
+		prependInnerIcon: 'mdi mdi-magnify',
 		variant: 'underlined',
 	},
 	selectStrategy: 'page',
@@ -131,7 +151,7 @@ export default {
 	showExpand: false,
 	showFooterRow: false,
 	showSearch: false,
-	showSelect: true,
+	showSelect: false,
 	skeltonType: 'heading@1',
 	sortAscIcon: '$sortAsc',
 	sortBy: [],
