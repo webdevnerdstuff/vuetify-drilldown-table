@@ -40,6 +40,7 @@
 			:page="tableSettings.page"
 			:page-text="tableSettings.pageText"
 			:prev-icon="tableSettings.prevIcon"
+			:search="tableSettings.search"
 			:search-debounce="tableSettings.searchDebounce"
 			:search-max-wait="tableSettings.searchMaxWait"
 			:select-strategy="tableSettings.selectStrategy"
@@ -69,14 +70,15 @@
 				[top Slot]
 			</template> -->
 
-			<!-- <template
-				v-if="isServerSide"
-				#[`top.left`]
-			>
-				<v-col cols="4">
+			<!-- <template #[`top.left`]="{ props }">
+				<v-col
+					v-if="props.level === 1"
+					cols="4"
+				>
 					<v-text-field
 						v-model="tableSettings.search"
 						class="mt-0 pt-0"
+						clearable
 						density="compact"
 						hide-details
 						label="Search"
