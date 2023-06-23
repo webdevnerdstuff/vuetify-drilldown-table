@@ -43,6 +43,8 @@
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
 				:loading="loadedDrilldown.loading"
+				:search-container-cols="loadedDrilldown.searchContainerCols"
+				:search-events="loadedDrilldown.searchEvents"
 				:search-props="loadedDrilldown.searchProps"
 				:show-search="loadedDrilldown.showSearch ?? false"
 				:slot-props="props"
@@ -594,23 +596,46 @@ function updatePage(val: Props['page']) {
 }
 
 // ------------ Search //
+const searchDebounce = {
+	debounce: loadedDrilldown.searchDebounce as number,
+	maxWait: loadedDrilldown.searchMaxWait as number,
+};
+
+// ? Using top.left slot //
 watchDebounced(
 	() => props.search,
 	() => {
-		levelSearch.value = props.search || '';
-
-		const options = updatedOptions(loadedDrilldown);
-		const drilldown = { ...props, ...options, ...{ search: levelSearch.value } };
-		const data = { drilldown, search: levelSearch.value };
-
-		optionsBus.emit(data);
-		emit('update:search', data);
+		searchUpdated();
 	},
-	{
-		debounce: loadedDrilldown.searchDebounce as number,
-		maxWait: loadedDrilldown.searchMaxWait as number,
-	},
+	searchDebounce,
 );
+
+// ? Not using top.left slot //
+watchDebounced(
+	levelSearch,
+	() => {
+		searchUpdated();
+	},
+	searchDebounce,
+);
+
+// Search - Updated //
+function searchUpdated() {
+	if (!slots['top.left']) {
+		loadedDrilldown.search = levelSearch.value;
+	}
+
+	if (slots['top.left']) {
+		levelSearch.value = props.search || '';
+	}
+
+	const options = updatedOptions(loadedDrilldown);
+	const drilldown = { ...props, ...options, ...{ search: levelSearch.value } };
+	const data = { drilldown, search: levelSearch.value };
+
+	optionsBus.emit(data);
+	emit('update:search', data);;
+}
 
 // ------------ Column Sorting //
 function updateSortBy(val: Props['sortBy']) {

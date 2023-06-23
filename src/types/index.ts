@@ -3,7 +3,7 @@
 import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
-import type { VTextField, VProgressCircular, VProgressLinear } from 'vuetify/components';
+import type { VProgressCircular, VProgressLinear } from 'vuetify/components';
 import type { VDataTable, VDataTableServer, VDataTableRow } from 'vuetify/labs/components';
 
 
@@ -97,7 +97,7 @@ export type RGBColor = [number, number, number];
 
 
 // -------------------------------------------------- Search //
-export type SearchPropCols = {
+export type SearchContainerCols = {
 	lg?: number;
 	md?: number;
 	sm?: number;
@@ -106,28 +106,30 @@ export type SearchPropCols = {
 	xxl?: number;
 };
 
-export type SearchProps = {
-	cols?: SearchPropCols;
-	density?: VTextField['$props']['density'];
-	variant?: VTextField['$props']['variant'];
+export type SearchEvents<T = any> = {
+	[key: string]: T;
+};
+
+export type SearchProps<T = any> = {
+	[key: string]: T;
 };
 
 
 // -------------------------------------------------- Cell Rendering //
 interface CellRender {
 	(
-		key?: string,
 		column?: object,
 		index?: number,
+		key?: string,
 	): void;
 };
 
 interface ItemCellRender {
 	(
-		itemValue?: string,
-		item?: object,
 		column?: object,
 		index?: number,
+		item?: object,
+		itemValue?: string,
 	): void;
 };
 
@@ -204,7 +206,9 @@ export interface Props {
 	page?: VDataTable['$props']['page'];
 	returnObject?: VDataTable['$props']['returnObject'];
 	search?: string | undefined;
+	searchContainerCols?: SearchContainerCols;
 	searchDebounce?: number | undefined | null;
+	searchEvents?: SearchEvents;
 	searchMaxWait?: number | undefined | null;
 	searchProps?: SearchProps;
 	separator?: 'default' | 'horizontal' | 'vertical' | 'cell' | undefined;
@@ -266,6 +270,8 @@ export interface TopSlotProps extends VDataTableSlotProps {
 	items: Props['items'];
 	level: Props['level'];
 	loading: Props['loading'];
+	searchContainerCols: SearchContainerCols;
+	searchEvents?: SearchEvents;
 	searchProps?: SearchProps;
 	showSearch: boolean;
 };

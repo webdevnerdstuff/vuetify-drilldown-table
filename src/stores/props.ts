@@ -143,10 +143,29 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'string | undefined',
 		},
 		{
+			default: `{
+				lg: 3,
+				md: 6,
+				sm: 12,
+				xl: 3,
+				xs: 12,
+				xxl: 2,
+			}`,
+			desc: 'Sets the cols prop of the <code class="inline-code">VCol</code> component that wraps the search input inside the <code class="inline-code"><a href="#slots-top-left">top.left</a></code> slot. This is useful if you want to change the width of the search input.',
+			name: 'search-container-cols',
+			type: 'string | undefined',
+		},
+		{
 			default: 750,
 			desc: 'The delay before the search filters the items',
 			name: 'search-debounce',
 			type: 'number | undefined | null',
+		},
+		{
+			default: undefined,
+			desc: 'Used to bind events to the <code class="inline-code">VTextField</code> used for the search field. You can see an example of how to do this in the Playground <code class="inline-code">tableDefaults.ts</code> file.',
+			name: 'search-events',
+			type: 'object',
 		},
 		{
 			default: 1000,
@@ -155,8 +174,8 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'number | undefined | null',
 		},
 		{
-			default: 'tbd',
-			desc: 'The <code class="inline-code">VTextField</code> props',
+			default: undefined,
+			desc: 'Used to bind the props of the <code class="inline-code">VTextField</code> used for the search field',
 			name: 'search-props',
 			type: 'SearchProps',
 		},
@@ -186,7 +205,7 @@ export const usePropsStore = defineStore('props', () => {
 		},
 		{
 			default: false,
-			desc: 'Determines if the table should show the <code class="inline-code">VDrilldownTable</code> built in <code class="inline-code">VTextField</code> in the <code class="inline-code">top</code> slot. Limited <code class="inline-code">VTextField</code> props are supported. If you would like more customization of the search field, we suggest using the available <code class="inline-code"><a href="#slots-supported-top">top</a></code> or <code class="inline-code"><a href="#slots-top-left">top.left</a></code> slots.',
+			desc: 'Determines if the table should show the <code class="inline-code">VDrilldownTable</code> built in <code class="inline-code">VTextField</code> in the <code class="inline-code">top</code> slot. You can use the prop <code class="inline-code"><a href="#props-all-search-props">search-props</a></code> to customize the <code class="inline-code">VTextField</code>.',
 			name: 'show-search',
 			type: 'boolean',
 		},
@@ -197,7 +216,6 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'TableType',
 		},
 	];
-
 
 	return {
 		allProps,

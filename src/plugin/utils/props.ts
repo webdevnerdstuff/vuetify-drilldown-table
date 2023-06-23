@@ -100,21 +100,19 @@ export const AllProps = {
 	page: 1,
 	returnObject: true,																// * Works - Needs to be set to `true`
 	// rowHeight: undefined,													// ? Doesn't seem to work
-	search: '',																				// ? Need to test this when top slot is used over showSearch prop
+	search: '',
+	searchContainerCols: () => ({
+		lg: 3,
+		md: 6,
+		sm: 12,
+		xl: 3,
+		xs: 12,
+		xxl: 2,
+	}),
 	searchDebounce: 750,
+	searchEvents: () => ({}),
 	searchMaxWait: 1000,
-	searchProps: () => ({
-		cols: {
-			lg: 3,
-			md: 6,
-			sm: 12,
-			xl: 3,
-			xs: 12,
-			xxl: 2,
-		},
-		density: 'comfortable',
-		variant: 'underlined',
-	}) as const,
+	searchProps: () => ({}),
 	selectStrategy: 'page' as const,
 	separator: 'default' as const,
 	server: false,
