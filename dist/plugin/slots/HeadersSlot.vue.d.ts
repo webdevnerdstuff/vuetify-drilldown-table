@@ -14,6 +14,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<any[] | undefined>;
         required: true;
     };
+    loaderProps: {
+        type: __PropType<import('../../types').LoaderProps>;
+        required: true;
+    };
     loaderSettings: {
         type: __PropType<{
             colspan: number;
@@ -22,7 +26,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
             loading: string | boolean | undefined;
             loadingText?: string | undefined;
             size?: string | number | undefined;
-            skeltonType: string | undefined;
             textLoader?: boolean | undefined;
         }>;
         required: true;
@@ -98,6 +101,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<any[] | undefined>;
         required: true;
     };
+    loaderProps: {
+        type: __PropType<import('../../types').LoaderProps>;
+        required: true;
+    };
     loaderSettings: {
         type: __PropType<{
             colspan: number;
@@ -106,7 +113,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
             loading: string | boolean | undefined;
             loadingText?: string | undefined;
             size?: string | number | undefined;
-            skeltonType: string | undefined;
             textLoader?: boolean | undefined;
         }>;
         required: true;

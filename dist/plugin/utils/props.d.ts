@@ -20,12 +20,6 @@ export declare const AllProps: {
             readonly bg: "primary";
             readonly text: "on-primary";
         };
-        readonly loader: {
-            readonly circular: "primary";
-            readonly color: "primary";
-            readonly linear: "surface-variant";
-            readonly text: "surface-variant";
-        };
         readonly percentageChange: 25;
         readonly percentageDirection: "desc";
     };
@@ -48,8 +42,24 @@ export declare const AllProps: {
     itemsPerPage: number;
     level: number;
     levels: number;
-    loaderHeight: string;
-    loaderSize: string;
+    loaderProps: () => {
+        readonly circular: {
+            readonly bgColor: "theme-surface";
+            readonly color: "primary";
+            readonly indeterminate: true;
+        };
+        readonly linear: {
+            readonly color: "surface-variant";
+            readonly height: "2px";
+            readonly indeterminate: true;
+        };
+        readonly skelton: {
+            readonly type: "heading@1";
+        };
+        readonly text: {
+            readonly color: "surface-variant";
+        };
+    };
     loaderType: string;
     loading: boolean;
     loadingText: string;
@@ -60,20 +70,18 @@ export declare const AllProps: {
     page: number;
     returnObject: boolean;
     search: string;
-    searchDebounce: number;
-    searchMaxWait: number;
-    searchProps: () => {
-        readonly cols: {
-            readonly lg: 3;
-            readonly md: 6;
-            readonly sm: 12;
-            readonly xl: 3;
-            readonly xs: 12;
-            readonly xxl: 2;
-        };
-        readonly density: "comfortable";
-        readonly variant: "underlined";
+    searchContainerCols: () => {
+        lg: number;
+        md: number;
+        sm: number;
+        xl: number;
+        xs: number;
+        xxl: number;
     };
+    searchDebounce: number;
+    searchEvents: () => {};
+    searchMaxWait: number;
+    searchProps: () => {};
     selectStrategy: "page";
     separator: "default";
     server: boolean;
@@ -82,7 +90,6 @@ export declare const AllProps: {
     showFooterRow: boolean;
     showSearch: boolean;
     showSelect: boolean;
-    skeltonType: string;
     sortAscIcon: string;
     sortBy: () => never[];
     tableType: () => {};

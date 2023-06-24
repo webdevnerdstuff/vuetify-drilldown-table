@@ -1,8 +1,8 @@
 import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
-import type { VTextField, VProgressCircular, VProgressLinear } from 'vuetify/components';
-import type { VDataTable, VDataTableServer, VDataTableRow } from 'vuetify/labs/components';
+import type { VProgressCircular, VProgressLinear } from 'vuetify/components';
+import type { VDataTable, VDataTableServer, VDataTableRow, VSkeletonLoader } from 'vuetify/labs/components';
 export type Density = 'default' | 'comfortable' | 'compact';
 type IconValue = string | (string | [path: string, opacity: number])[] | JSXComponent;
 type SelectItemKey = boolean | string | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any);
@@ -36,6 +36,9 @@ export interface DataTableItem<T = any> {
         [key: string]: any;
     };
 }
+export interface KeyStringAny<T = any> {
+    [key: string]: T;
+}
 export interface TableColors<T = any> {
     [key: string]: T;
 }
@@ -59,13 +62,6 @@ export type ColorsObject = {
         bg?: string;
         text?: string;
     };
-    loader?: {
-        bg?: string;
-        circular?: string;
-        color?: string;
-        linear?: string;
-        text?: string;
-    };
     percentageChange?: number;
     percentageDirection?: 'asc' | 'desc';
 };
@@ -80,7 +76,7 @@ export type LevelColorResponse = {
 export type HEXColor = string;
 export type HSLColor = [number, number, number];
 export type RGBColor = [number, number, number];
-export type SearchPropCols = {
+export type SearchContainerCols = {
     lg?: number;
     md?: number;
     sm?: number;
@@ -88,16 +84,11 @@ export type SearchPropCols = {
     xs?: number;
     xxl?: number;
 };
-export type SearchProps = {
-    cols?: SearchPropCols;
-    density?: VTextField['$props']['density'];
-    variant?: VTextField['$props']['variant'];
-};
 interface CellRender {
-    (key?: string, column?: object, index?: number): void;
+    (column?: object, index?: number, key?: string): void;
 }
 interface ItemCellRender {
-    (itemValue?: string, item?: object, column?: object, index?: number): void;
+    (column?: object, index?: number, item?: object, itemValue?: string): void;
 }
 export interface Column {
     align?: string;
@@ -150,7 +141,7 @@ export interface Props {
     itemsPerPageOptions?: VDataTable['$props']['itemsPerPageOptions'];
     level: number;
     levels: number;
-    loaderHeight?: VProgressLinear['$props']['height'];
+    loaderProps?: LoaderProps;
     loaderSize?: VProgressCircular['$props']['size'];
     loaderType?: string | string[] | false | null;
     loading?: VDataTable['$props']['loading'];
@@ -164,9 +155,11 @@ export interface Props {
     page?: VDataTable['$props']['page'];
     returnObject?: VDataTable['$props']['returnObject'];
     search?: string | undefined;
+    searchContainerCols?: SearchContainerCols;
     searchDebounce?: number | undefined | null;
+    searchEvents?: KeyStringAny;
     searchMaxWait?: number | undefined | null;
-    searchProps?: SearchProps;
+    searchProps?: KeyStringAny;
     separator?: 'default' | 'horizontal' | 'vertical' | 'cell' | undefined;
     server?: boolean;
     selectStrategy?: VDataTable['$props']['selectStrategy'];
@@ -175,7 +168,6 @@ export interface Props {
     showFooterRow?: boolean;
     showSearch?: boolean;
     showSelect?: VDataTable['$props']['showSelect'];
-    skeltonType?: string;
     sortAscIcon?: VDataTable['$props']['sortAscIcon'];
     sortBy?: VDataTable['$props']['sortBy'];
     tableType?: TableType;
@@ -219,13 +211,16 @@ export interface TopSlotProps extends VDataTableSlotProps {
     items: Props['items'];
     level: Props['level'];
     loading: Props['loading'];
-    searchProps?: SearchProps;
+    searchContainerCols: SearchContainerCols;
+    searchEvents?: KeyStringAny;
+    searchProps?: KeyStringAny;
     showSearch: boolean;
 }
 export interface HeaderSlotProps extends AllSlotProps {
     columnWidths: Props['columnWidths'];
     isTheadSlot?: boolean;
     items: Props['items'];
+    loaderProps: LoaderProps;
     loaderSettings: {
         colspan: number;
         height?: VProgressLinear['$props']['height'];
@@ -233,7 +228,6 @@ export interface HeaderSlotProps extends AllSlotProps {
         loading: VDataTable['$props']['loading'];
         loadingText?: VDataTable['$props']['loadingText'];
         size?: VProgressCircular['$props']['size'];
-        skeltonType: Props['skeltonType'];
         textLoader?: boolean;
     };
     matchColumnWidths: Props['matchColumnWidths'];
@@ -303,6 +297,27 @@ export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortB
     };
     tableModelValue?: Props['modelValue'];
 }
+export interface CircularLoaderProps extends KeyStringAny {
+    bgColor?: VProgressCircular['$props']['bgColor'];
+    color?: VProgressCircular['$props']['color'];
+    indeterminate?: VProgressCircular['$props']['indeterminate'];
+    size?: VProgressCircular['$props']['size'];
+}
+export interface LinearLoaderProps extends KeyStringAny {
+    color?: VProgressLinear['$props']['color'];
+    indeterminate?: VProgressLinear['$props']['indeterminate'];
+}
+export interface SkeltonLoaderProps extends KeyStringAny {
+    type?: VSkeletonLoader['$props']['type'];
+}
+export interface LoaderProps {
+    circular?: CircularLoaderProps;
+    linear?: LinearLoaderProps;
+    skelton?: SkeltonLoaderProps;
+    text?: {
+        color?: string;
+    };
+}
 export type TableLoader = {
     colors: Props['colors'];
     colspan: number;
@@ -310,15 +325,15 @@ export type TableLoader = {
     level: Props['level'];
     loaderType: Props['loaderType'];
     loading: VDataTable['$props']['loading'];
+    loaderProps: LoaderProps;
     loadingText?: VDataTable['$props']['loadingText'];
     size?: VProgressCircular['$props']['size'];
-    skeltonType: Props['skeltonType'];
     textLoader?: boolean;
 };
 export interface UseLoaderStyles {
     (options: {
         isLinearOnly: MaybeRef<boolean>;
-        loaderHeight: MaybeRef<Props['loaderHeight']>;
+        loaderHeight: MaybeRef<VProgressLinear['$props']['height']>;
     }): CSSProperties;
 }
 export interface UseLoaderContainerClasses {
