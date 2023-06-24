@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.0-beta-5
+06-23-23
+[main] (@webdevnerdstuff)
+* Added ability to pass VTextField props and events to bind to the search field
+* Added ability to pass props to bind to the VProgressLinear, VProgressCircular, and VSkeletonLoader
+* Removed old props no longer used due to adding ability to pass props and events to bind to components
+* Updating Playground examples
+* Update documentation
+* Cleaning up
+
 ## v1.0.0-beta-4
 06-22-23
 [main] (@webdevnerdstuff)

@@ -19,18 +19,15 @@
 			<v-col
 				v-else-if="showSearch"
 				class="d-flex align-center justify-end"
-				:class="searchFieldClasses"
+				:class="searchContainerCols"
 			>
 				<!-- =========================== Search -->
 				<v-text-field
 					v-if="showSearch"
+					v-bind="boundSearchProps"
 					v-model="levelSearch"
 					class="mt-0 pt-0"
-					:density="searchProps.density"
-					hide-details
-					label="Search"
-					single-line
-					:variant="searchProps.variant"
+					v-on="searchEvents"
 				></v-text-field>
 			</v-col>
 
@@ -44,11 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-	SearchProps,
-	SearchPropCols,
-	TopSlotProps,
-} from '@/types';
+import { TopSlotProps } from '@/types';
 import { componentName } from '@/plugin/utils/globals';
 import { watchDebounced } from '@vueuse/core';
 
@@ -59,20 +52,8 @@ const emit = defineEmits([
 	'update:search',
 ]);
 
-const props = withDefaults(defineProps<TopSlotProps>(), {
-	searchProps: () => ({
-		cols: {
-			lg: 3,
-			md: 6,
-			sm: 12,
-			xl: 3,
-			xs: 12,
-			xxl: 2,
-		},
-		density: 'comfortable',
-		variant: 'underlined',
-	})
-});
+const props = withDefaults(defineProps<TopSlotProps>(), {});
+
 
 const levelSearch = ref<string>('');
 const showTopContent = ref<boolean>(true);
@@ -131,18 +112,30 @@ watchDebounced(
 	{ debounce: 750, maxWait: 1000 },
 );
 
-const searchFieldClasses = computed<object>(() => {
-	const searchProps = props.searchProps as SearchProps;
-	const searchCols = searchProps.cols as SearchPropCols;
+const boundSearchProps = computed(() => {
+	return {
+		...{
+			density: 'compact',
+			hideDetails: true,
+			label: 'Search',
+			singleLine: true,
+			variant: 'underlined',
+		},
+		...props.searchProps,
+	};
+});
+
+const searchContainerCols = computed<object>(() => {
+	const col = props.searchContainerCols;
 
 	const classes = {
 		[`${componentName}--search-field`]: true,
-		[`v-col-${searchCols.xs}`]: searchCols.xs,
-		[`v-col-sm-${searchCols.sm}`]: searchCols.sm,
-		[`v-col-md-${searchCols.md}`]: searchCols.md,
-		[`v-col-lg-${searchCols.lg}`]: searchCols.lg,
-		[`v-col-xl-${searchCols.xl}`]: searchCols.xl,
-		[`v-col-xxl-${searchCols.xxl}`]: searchCols.xxl,
+		[`v-col-${col.xs}`]: true,
+		[`v-col-sm-${col.sm}`]: true,
+		[`v-col-md-${col.md}`]: true,
+		[`v-col-lg-${col.lg}`]: true,
+		[`v-col-xl-${col.xl}`]: true,
+		[`v-col-xxl-${col.xxl}`]: true,
 	};
 
 	return classes;

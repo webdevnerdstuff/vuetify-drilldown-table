@@ -26,6 +26,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<string | boolean | undefined>;
         required: true;
     };
+    loaderProps: {
+        type: __PropType<import('../../types').LoaderProps>;
+        required: true;
+    };
     loadingText: {
         type: __PropType<string | undefined>;
         required: false;
@@ -35,10 +39,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<string | number | undefined>;
         required: false;
         default: string;
-    };
-    skeltonType: {
-        type: __PropType<string | undefined>;
-        required: true;
     };
     textLoader: {
         type: __PropType<boolean | undefined>;
@@ -72,6 +72,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<string | boolean | undefined>;
         required: true;
     };
+    loaderProps: {
+        type: __PropType<import('../../types').LoaderProps>;
+        required: true;
+    };
     loadingText: {
         type: __PropType<string | undefined>;
         required: false;
@@ -82,10 +86,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: string;
     };
-    skeltonType: {
-        type: __PropType<string | undefined>;
-        required: true;
-    };
     textLoader: {
         type: __PropType<boolean | undefined>;
         required: false;
@@ -93,8 +93,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>>, {
     height: string | number | undefined;
-    size: string | number | undefined;
     loadingText: string | undefined;
+    size: string | number | undefined;
     loaderType: string | false | string[] | null | undefined;
     textLoader: boolean | undefined;
 }, {}>;

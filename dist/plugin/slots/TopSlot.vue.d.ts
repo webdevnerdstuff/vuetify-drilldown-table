@@ -1,5 +1,4 @@
 import type { PropType as __PropType } from 'vue';
-import { SearchProps } from '../../types';
 declare const _sfc_main: import("vue").DefineComponent<{
     items: {
         type: __PropType<any[] | undefined>;
@@ -13,21 +12,17 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<string | boolean | undefined>;
         required: true;
     };
-    searchProps: {
-        type: __PropType<SearchProps | undefined>;
+    searchContainerCols: {
+        type: __PropType<import('../../types').SearchContainerCols>;
+        required: true;
+    };
+    searchEvents: {
+        type: __PropType<import('../../types').KeyStringAny<any> | undefined>;
         required: false;
-        default: () => {
-            cols: {
-                lg: number;
-                md: number;
-                sm: number;
-                xl: number;
-                xs: number;
-                xxl: number;
-            };
-            density: string;
-            variant: string;
-        };
+    };
+    searchProps: {
+        type: __PropType<import('../../types').KeyStringAny<any> | undefined>;
+        required: false;
     };
     showSearch: {
         type: __PropType<boolean>;
@@ -71,21 +66,17 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<string | boolean | undefined>;
         required: true;
     };
-    searchProps: {
-        type: __PropType<SearchProps | undefined>;
+    searchContainerCols: {
+        type: __PropType<import('../../types').SearchContainerCols>;
+        required: true;
+    };
+    searchEvents: {
+        type: __PropType<import('../../types').KeyStringAny<any> | undefined>;
         required: false;
-        default: () => {
-            cols: {
-                lg: number;
-                md: number;
-                sm: number;
-                xl: number;
-                xs: number;
-                xxl: number;
-            };
-            density: string;
-            variant: string;
-        };
+    };
+    searchProps: {
+        type: __PropType<import('../../types').KeyStringAny<any> | undefined>;
+        required: false;
     };
     showSearch: {
         type: __PropType<boolean>;
@@ -119,7 +110,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }>> & {
     "onUpdate:search"?: ((...args: any[]) => any) | undefined;
     "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
-}, {
-    searchProps: SearchProps | undefined;
-}, {}>;
+}, {}, {}>;
 export default _sfc_main;

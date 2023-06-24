@@ -22,13 +22,6 @@ export const AllProps = {
 			bg: 'primary',
 			text: 'on-primary',
 		},
-		loader: {
-			// bg: '',
-			circular: 'primary',
-			color: 'primary',
-			linear: 'surface-variant',
-			text: 'surface-variant',
-		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	}) as const,
@@ -87,8 +80,24 @@ export const AllProps = {
 	// lastIcon: '',																	// * Works - Keep Commented Out
 	level: 1,
 	levels: 1,
-	loaderHeight: '2px',
-	loaderSize: 'default',
+	loaderProps: () => ({
+		circular: {
+			bgColor: 'theme-surface',
+			color: 'primary',
+			indeterminate: true,
+		},
+		linear: {
+			color: 'surface-variant',
+			height: '2px',
+			indeterminate: true,
+		},
+		skelton: {
+			type: 'heading@1',
+		},
+		text: {
+			color: 'surface-variant',
+		},
+	}) as const,
 	loaderType: 'linear',
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
@@ -100,21 +109,19 @@ export const AllProps = {
 	page: 1,
 	returnObject: true,																// * Works - Needs to be set to `true`
 	// rowHeight: undefined,													// ? Doesn't seem to work
-	search: '',																				// ? Need to test this when top slot is used over showSearch prop
+	search: '',
+	searchContainerCols: () => ({
+		lg: 3,
+		md: 6,
+		sm: 12,
+		xl: 3,
+		xs: 12,
+		xxl: 2,
+	}),
 	searchDebounce: 750,
+	searchEvents: () => ({}),
 	searchMaxWait: 1000,
-	searchProps: () => ({
-		cols: {
-			lg: 3,
-			md: 6,
-			sm: 12,
-			xl: 3,
-			xs: 12,
-			xxl: 2,
-		},
-		density: 'comfortable',
-		variant: 'underlined',
-	}) as const,
+	searchProps: () => ({}),
 	selectStrategy: 'page' as const,
 	separator: 'default' as const,
 	server: false,
@@ -123,7 +130,6 @@ export const AllProps = {
 	showFooterRow: false,
 	showSearch: false,																// * Works - May or may not keep
 	showSelect: false,
-	skeltonType: 'heading@1',
 	sortAscIcon: '$sortAsc',
 	sortBy: () => [],
 	tableType: () => ({}),

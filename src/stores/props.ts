@@ -7,28 +7,22 @@ export const usePropsStore = defineStore('props', () => {
 
 	const tableLoaderProps = [
 		{
-			default: '1px',
-			desc: `Sets the height for the linear progress loader. See <a href="${links.vuetify}/en/api/v-progress-linear/#props-height" target="_blank"><code class="inline-code">VProgressLinear</code></a> for more information.`,
-			name: 'loader-height',
-			type: 'VProgressLinear["$props"]["height"]',
+			default: false,
+			desc: 'Displays the specified loader set with the <code class="inline-code">loaderType</code> prop',
+			name: 'loading',
+			type: 'boolean',
 		},
 		{
-			default: 'default',
-			desc: `Sets the diameter of the circular progress loader circle in pixels. See <a href="${links.vuetify}/en/api/v-progress-circular/#props-size" target="_blank"><code class="inline-code">VProgressCircular</code></a> for more information.`,
-			name: 'loader-size',
-			type: 'VProgressCircular["$props"]["size"]',
+			default: '',
+			desc: 'Used to bind the props of the <code class="inline-code">VProgressLinear</code>, <code class="inline-code">VProgressCircular</code>, and <code class="inline-code">VSkeletonLoader</code> loaders. See the <a href="#props-table-loader">Table Loader Props</a> for more information.',
+			name: 'loader-props',
+			type: 'object',
 		},
 		{
 			default: 'linear',
 			desc: 'Sets the type of loader. Available types are <code class="inline-code">linear</code>, <code class="inline-code">circular</code>, <code class="inline-code">text</code> and <code class="inline-code">skelton</code>. You can also use multiple loaders by passing an array of types. The order of the array determines the order of the loaders. To use the <a href="#slots-supported-loader"><code class="inline-code">loader</code></a> slot, set this prop to <code class="inline-code">null</code> or <code class="inline-code">false</code>.',
 			name: 'loader-type',
 			type: 'string | string[] | false | null',
-		},
-		{
-			default: 'heading@1',
-			desc: `The type of skelton loader to show. See <a href="${links.vuetify}/en/api/v-skeleton-loader/#props-type" target="_blank">Vuetify Skeleton Loader</a> for more information.`,
-			name: 'skelton-type',
-			type: 'string',
 		},
 	];
 
@@ -38,7 +32,7 @@ export const usePropsStore = defineStore('props', () => {
 			default: '',
 			desc: 'Applies specified colors to the table. See the <a href="#props-colors">Colors Prop</a> section for more information and default settings.',
 			name: 'colors',
-			type: 'ColorsObject | null',
+			type: 'object | null',
 		},
 		{
 			default: '[]',
@@ -120,12 +114,6 @@ export const usePropsStore = defineStore('props', () => {
 		},
 		{
 			default: false,
-			desc: 'Displays the specified loader set with the <code class="inline-code">loaderType</code> prop',
-			name: 'loading',
-			type: 'VDataTable["$props"]["loading"]',
-		},
-		{
-			default: false,
 			desc: 'Adjusts the width of the drilldown table header cells to match the parent table\'s header cell widths. In case you specify a width for the headers, that specific column\'s width will be utilized instead. Ideally, the column count of both tables should align for optimal results. However, if they don\'t, the last column will be disregarded and automatically set to the default width used by Vuetify\'s <code class="inline-code">VDataTable</code>/<code class="inline-code">VDataTableServer</code>.',
 			name: 'match-column-widths',
 			type: 'boolean',
@@ -143,10 +131,29 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'string | undefined',
 		},
 		{
+			default: `{
+				lg: 3,
+				md: 6,
+				sm: 12,
+				xl: 3,
+				xs: 12,
+				xxl: 2,
+			}`,
+			desc: 'Sets the cols prop of the <code class="inline-code">VCol</code> component that wraps the search input inside the <code class="inline-code"><a href="#slots-top-left">top.left</a></code> slot. This is useful if you want to change the width of the search input.',
+			name: 'search-container-cols',
+			type: 'string | undefined',
+		},
+		{
 			default: 750,
 			desc: 'The delay before the search filters the items',
 			name: 'search-debounce',
 			type: 'number | undefined | null',
+		},
+		{
+			default: undefined,
+			desc: 'Used to bind events to the <code class="inline-code">VTextField</code> used for the search field when <code class="inline-code">show-search</code> is <code class="inline-code">true</code>.. You can see an example of how to do this in the Playground <code class="inline-code">tableDefaults.ts</code> file.',
+			name: 'search-events',
+			type: 'object',
 		},
 		{
 			default: 1000,
@@ -155,10 +162,10 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'number | undefined | null',
 		},
 		{
-			default: 'tbd',
-			desc: 'The <code class="inline-code">VTextField</code> props',
+			default: undefined,
+			desc: 'Used to bind the props of the <code class="inline-code">VTextField</code> used for the search field when <code class="inline-code">show-search</code> is <code class="inline-code">true</code>.',
 			name: 'search-props',
-			type: 'SearchProps',
+			type: 'object',
 		},
 		{
 			default: 'default',
@@ -186,7 +193,7 @@ export const usePropsStore = defineStore('props', () => {
 		},
 		{
 			default: false,
-			desc: 'Determines if the table should show the <code class="inline-code">VDrilldownTable</code> built in <code class="inline-code">VTextField</code> in the <code class="inline-code">top</code> slot. Limited <code class="inline-code">VTextField</code> props are supported. If you would like more customization of the search field, we suggest using the available <code class="inline-code"><a href="#slots-supported-top">top</a></code> or <code class="inline-code"><a href="#slots-top-left">top.left</a></code> slots.',
+			desc: 'Determines if the table should show the <code class="inline-code">VDrilldownTable</code> built in <code class="inline-code">VTextField</code> in the <code class="inline-code">top</code> slot. You can use the prop <code class="inline-code"><a href="#props-all-search-props">search-props</a></code> to customize the <code class="inline-code">VTextField</code>.',
 			name: 'show-search',
 			type: 'boolean',
 		},
@@ -194,10 +201,9 @@ export const usePropsStore = defineStore('props', () => {
 			default: 'VDataTable',
 			desc: 'Internal use only',
 			name: 'table-type',
-			type: 'TableType',
+			type: 'VDataTable | VDataTableServer',
 		},
 	];
-
 
 	return {
 		allProps,

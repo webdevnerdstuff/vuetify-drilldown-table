@@ -73,15 +73,15 @@ export function useRenderCell(column: Column): unknown {
 	const cellData = [columnTitle, column] as [string, Column];
 
 	if (column.renderer) {
-		return column.renderer(...cellData);
+		return column.renderer([...cellData]);
 	}
 
 	if (column.renderHeader) {
-		return column.renderHeader(...cellData);
+		return column.renderHeader([...cellData]);
 	}
 
 	if (column.renderFooter) {
-		return column.renderFooter(...cellData);
+		return column.renderFooter([...cellData]);
 	}
 
 	if (columnTitle) {

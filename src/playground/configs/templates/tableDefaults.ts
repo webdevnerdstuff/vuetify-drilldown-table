@@ -21,13 +21,6 @@ export default {
 			bg: 'primary',
 			text: 'on-primary',
 		},
-		loader: {
-			// bg: '',
-			circular: 'primary',
-			color: 'primary',
-			linear: 'surface-variant',
-			text: 'surface-variant',
-		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
@@ -87,8 +80,24 @@ export default {
 	// lastPageLabel: '$vuetify.dataFooter.lastPage',					// ? Doesn't seem to work - Vuetify prop
 	level: 1,
 	levels: 3,
-	loaderHeight: '2px',
-	loaderSize: 'default',
+	loaderProps: {
+		circular: {
+			bgColor: 'theme-surface',
+			color: 'primary',
+			indeterminate: true,
+		},
+		linear: {
+			color: 'surface-variant',
+			height: '2px',
+			indeterminate: true,
+		},
+		skelton: {
+			type: 'heading@1',
+		},
+		text: {
+			color: 'surface-variant',
+		},
+	},
 	loaderType: [
 		'linear',
 		// 'circular',
@@ -96,12 +105,12 @@ export default {
 		// 'skelton',
 	],
 	loading: false,
-	loadingText: '$vuetify.dataIterator.loadingText',
+	loadingText: 'Loading',
 	matchColumnWidths: false,
 	multiSort: false,
 	mustSort: false,
 	nextIcon: '$next',
-	nextPageLabel: '$vuetify.dataFooter.nextPage',						// ? Doesn't seem to work - Vuetify prop
+	// nextPageLabel: '$vuetify.dataFooter.nextPage',					// ? Doesn't seem to work - Vuetify prop
 	noDataText: '$vuetify.noDataText',
 	page: 1,
 	pageText: '$vuetify.dataFooter.pageText',
@@ -109,18 +118,38 @@ export default {
 	// prevPageLabel: '$vuetify.dataFooter.prevPage',					// ? Doesn't seem to work - Vuetify prop
 	// rowHeight: undefined,																	// ? Doesn't seem to work - Vuetify prop
 	search: '',
+	searchContainerCols: {
+		lg: 3,
+		md: 6,
+		sm: 12,
+		xl: 3,
+		xs: 12,
+		xxl: 2,
+	},
 	searchDebounce: 750,
+	searchEvents: {
+		// 'input': (e: InputEvent) => {
+		// 	console.log('input event triggered', e);
+		// },
+		// 'click': (e: MouseEvent) => {
+		// 	console.log('click event triggered', e);
+		// },
+		// 'click:control': (e: MouseEvent) => {
+		// 	console.log('click:control event triggered', e);
+		// },
+		// 'mousedown:control': (e: MouseEvent) => {
+		// 	console.log('mousedown:control event triggered', e);
+		// },
+		// 'update:modelValue': (val: string) => {
+		// 	console.log('update:modelValue event triggered', val);
+		// },
+	},
 	searchMaxWait: 1000,
-	searchProps: {																						// ? Needs Testing
-		cols: {
-			lg: 3,
-			md: 6,
-			sm: 12,
-			xl: 3,
-			xs: 12,
-			xxl: 2,
-		},
+	searchProps: {
+		clearable: true,
+		color: 'primary',
 		density: 'compact',
+		prependInnerIcon: 'mdi mdi-magnify',
 		variant: 'underlined',
 	},
 	selectStrategy: 'page',
@@ -131,8 +160,7 @@ export default {
 	showExpand: false,
 	showFooterRow: false,
 	showSearch: false,
-	showSelect: true,
-	skeltonType: 'heading@1',
+	showSelect: false,
 	sortAscIcon: '$sortAsc',
 	sortBy: [],
 	// sticky: false,																					// ? Doesn't seem to work - Vuetify prop

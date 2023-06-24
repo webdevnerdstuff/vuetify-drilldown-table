@@ -43,6 +43,8 @@
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
 				:loading="loadedDrilldown.loading"
+				:search-container-cols="loadedDrilldown.searchContainerCols"
+				:search-events="loadedDrilldown.searchEvents"
 				:search-props="loadedDrilldown.searchProps"
 				:show-search="loadedDrilldown.showSearch ?? false"
 				:slot-props="props"
@@ -71,14 +73,12 @@
 				:density="loadedDrilldown.density"
 				:items="loadedDrilldown.items"
 				:level="level"
+				:loader-props="loadedDrilldown.loaderProps"
 				:loader-settings="{
 					colspan: props.columns.length,
-					height: loadedDrilldown.loaderHeight,
 					loaderType: loadedDrilldown.loaderType,
 					loading: loadedDrilldown.loading,
 					loadingText: loadingText,
-					size: loadedDrilldown.loaderSize,
-					skeltonType: loadedDrilldown.skeltonType,
 				}"
 				:match-column-widths="loadedDrilldown.matchColumnWidths"
 				:select-strategy="loadedDrilldown.selectStrategy"
@@ -213,8 +213,7 @@
 						:items-per-page="item.raw[itemChildrenKey]?.itemsPerPage"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
-						:loaderHeight="item.raw[itemChildrenKey]?.loaderHeight"
-						:loaderSize="item.raw[itemChildrenKey]?.loaderSize"
+						:loaderProps="item.raw[itemChildrenKey]?.loaderProps"
 						:loaderType="item.raw[itemChildrenKey]?.loaderType"
 						:loading="item.raw[itemChildrenKey]?.loading"
 						:loadingText="loadingText"
@@ -222,7 +221,6 @@
 						:multi-sort="item.raw[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:server="item.raw[itemChildrenKey]?.server"
-						:skeltonType="item.raw[itemChildrenKey]?.skeltonType"
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
@@ -594,23 +592,46 @@ function updatePage(val: Props['page']) {
 }
 
 // ------------ Search //
+const searchDebounce = {
+	debounce: loadedDrilldown.searchDebounce as number,
+	maxWait: loadedDrilldown.searchMaxWait as number,
+};
+
+// ? Using top.left slot //
 watchDebounced(
 	() => props.search,
 	() => {
-		levelSearch.value = props.search || '';
-
-		const options = updatedOptions(loadedDrilldown);
-		const drilldown = { ...props, ...options, ...{ search: levelSearch.value } };
-		const data = { drilldown, search: levelSearch.value };
-
-		optionsBus.emit(data);
-		emit('update:search', data);
+		searchUpdated();
 	},
-	{
-		debounce: loadedDrilldown.searchDebounce as number,
-		maxWait: loadedDrilldown.searchMaxWait as number,
-	},
+	searchDebounce,
 );
+
+// ? Not using top.left slot //
+watchDebounced(
+	levelSearch,
+	() => {
+		searchUpdated();
+	},
+	searchDebounce,
+);
+
+// Search - Updated //
+function searchUpdated() {
+	if (!slots['top.left']) {
+		loadedDrilldown.search = levelSearch.value;
+	}
+
+	if (slots['top.left']) {
+		levelSearch.value = props.search || '';
+	}
+
+	const options = updatedOptions(loadedDrilldown);
+	const drilldown = { ...props, ...options, ...{ search: levelSearch.value } };
+	const data = { drilldown, search: levelSearch.value };
+
+	optionsBus.emit(data);
+	emit('update:search', data);;
+}
 
 // ------------ Column Sorting //
 function updateSortBy(val: Props['sortBy']) {
