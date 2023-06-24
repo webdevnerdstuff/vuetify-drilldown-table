@@ -75,11 +75,12 @@
 		:colspan="loaderSettings.colspan"
 		:height="loaderSettings.height"
 		:level="level"
+		:loader-props="loaderProps"
+		:loader-settings="loaderSettings"
 		:loader-type="loaderSettings.loaderType"
 		:loading="loaderSettings.loading || false"
 		:loading-text="loaderSettings.loadingText"
 		:size="loaderSettings.size"
-		:skelton-type="loaderSettings.skeltonType"
 	/>
 </template>
 

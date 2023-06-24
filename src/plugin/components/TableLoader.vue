@@ -18,11 +18,7 @@
 					class="pa-0 ma-0"
 					:order="getOrder('linear')"
 				>
-					<v-progress-linear
-						:color="linearColor"
-						:height="loaderHeight"
-						indeterminate
-					></v-progress-linear>
+					<v-progress-linear v-bind="boundLinearProps"></v-progress-linear>
 				</v-col>
 
 				<v-col
@@ -30,12 +26,7 @@
 					class="pa-0 my-2"
 					:order="getOrder('circular')"
 				>
-					<v-progress-circular
-						:bg-color="circularBackgroundColor"
-						:color="circularColor"
-						indeterminate
-						:size="size"
-					></v-progress-circular>
+					<v-progress-circular v-bind="boundCircularProps"></v-progress-circular>
 				</v-col>
 
 				<v-col
@@ -44,8 +35,8 @@
 					:order="getOrder('skelton')"
 				>
 					<v-skeleton-loader
+						v-bind="boundSkeltonProps"
 						:loading="skeltonLoading"
-						:type="currentSkeltonType"
 					>
 					</v-skeleton-loader>
 				</v-col>
@@ -73,7 +64,7 @@ import {
 	useLoaderTrStyles,
 	useLoaderVRowClasses,
 } from '@/plugin/composables/loader';
-import { useGetLevelColors } from '@/plugin/composables/levelColors';
+import { getSingleColor } from '@/plugin/composables/levelColors';
 
 
 const theme = useTheme();
@@ -86,19 +77,8 @@ const props = withDefaults(defineProps<TableLoader>(), {
 	textLoader: true,
 });
 
-const baseColors = computed(() => {
-	if (typeof props.colors === 'object' && props.colors !== null) {
-		return useGetLevelColors({
-			colors: props.colors,
-			level: props.level,
-			prop: 'loader',
-			themeColors: theme,
-		});
-	}
 
-	return;
-});
-
+// -------------------------------------------------- Classes & Styles //
 const loaderTrStyles = computed<StyleValue>(() => useLoaderTrStyles({
 	isLinearOnly,
 	loaderHeight,
@@ -113,13 +93,13 @@ const loaderContainerClasses = computed(() => useLoaderContainerClasses({ isLine
 const loaderVRowClasses = computed(() => useLoaderVRowClasses());
 
 
-// v-progress-linear //
-const linearColor = computed<string | undefined>(() => {
-	return baseColors.value?.linear || '';
-});
+// -------------------------------------------------- v-progress-linear //
+const boundLinearProps = computed(() => props.loaderProps.linear);
 
 const loaderHeight = computed(() => {
-	return useLoaderHeight(props.height as string | number);
+	const height = props.loaderProps.linear?.height || '2px';
+
+	return useLoaderHeight(height as string | number);
 });
 
 const isLinearOnly = computed<boolean>(() => {
@@ -133,30 +113,25 @@ const isLinearOnly = computed<boolean>(() => {
 });
 
 
-// v-progress-circular //
-const circularBackgroundColor = computed<string | undefined>(() => {
-	return baseColors.value?.bg;
-});
-
-const circularColor = computed<string | undefined>(() => {
-	return baseColors.value?.circular;
-});
+// -------------------------------------------------- v-progress-circular //
+const boundCircularProps = computed(() => props.loaderProps.circular);
 
 
-// v-skeleton-loader //
-const currentSkeltonType = computed<string>(() => {
-	return props.skeltonType || 'heading@1';
-});
+// -------------------------------------------------- v-skeleton-loader //
+const boundSkeltonProps = computed(() => props.loaderProps.skelton);
 
 const skeltonLoading = computed(() => {
 	return props.loading as boolean;
 });
 
 
-// loadingText //
+// -------------------------------------------------- loadingText //
 const textStyles = computed<StyleValue>(() => {
+	let textColor = props.loaderProps.text?.color || 'surface-variant';
+	textColor = getSingleColor(textColor, theme);
+
 	const styles = {
-		color: baseColors.value?.text,
+		color: textColor,
 	};
 
 	return styles;
@@ -166,6 +141,8 @@ const computedLoadingText = computed<string>(() => {
 	return props.loadingText || 'Loading...';
 });
 
+
+// -------------------------------------------------- Methods //
 
 // Get the order of the loader type //
 const getOrder = (type: string): number => {

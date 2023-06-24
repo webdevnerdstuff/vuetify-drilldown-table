@@ -29,6 +29,7 @@
 			:level="tableSettings.level"
 			:levels="tableSettings.levels"
 			:loader-height="tableSettings.loaderHeight"
+			:loader-props="tableSettings.loaderProps"
 			:loader-size="tableSettings.loaderSize"
 			:loader-type="tableSettings.loaderType"
 			:loading="tableSettings.loading"

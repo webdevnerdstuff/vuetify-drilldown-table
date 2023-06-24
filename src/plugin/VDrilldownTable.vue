@@ -73,14 +73,12 @@
 				:density="loadedDrilldown.density"
 				:items="loadedDrilldown.items"
 				:level="level"
+				:loader-props="loadedDrilldown.loaderProps"
 				:loader-settings="{
 					colspan: props.columns.length,
-					height: loadedDrilldown.loaderHeight,
 					loaderType: loadedDrilldown.loaderType,
 					loading: loadedDrilldown.loading,
 					loadingText: loadingText,
-					size: loadedDrilldown.loaderSize,
-					skeltonType: loadedDrilldown.skeltonType,
 				}"
 				:match-column-widths="loadedDrilldown.matchColumnWidths"
 				:select-strategy="loadedDrilldown.selectStrategy"
@@ -215,8 +213,7 @@
 						:items-per-page="item.raw[itemChildrenKey]?.itemsPerPage"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
-						:loaderHeight="item.raw[itemChildrenKey]?.loaderHeight"
-						:loaderSize="item.raw[itemChildrenKey]?.loaderSize"
+						:loaderProps="item.raw[itemChildrenKey]?.loaderProps"
 						:loaderType="item.raw[itemChildrenKey]?.loaderType"
 						:loading="item.raw[itemChildrenKey]?.loading"
 						:loadingText="loadingText"
@@ -224,7 +221,6 @@
 						:multi-sort="item.raw[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:server="item.raw[itemChildrenKey]?.server"
-						:skeltonType="item.raw[itemChildrenKey]?.skeltonType"
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"

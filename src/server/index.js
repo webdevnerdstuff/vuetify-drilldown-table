@@ -163,7 +163,7 @@ export function makeServer({ environment = 'development' } = {}) {
 					},
 					users: users?.models ?? users,
 				};
-			}, { timing: 750 });
+			}, { timing: 10000000 });
 
 
 			// Posts //

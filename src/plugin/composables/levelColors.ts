@@ -1,3 +1,4 @@
+import { ThemeInstance } from 'vuetify';
 import {
 	ColorsObject,
 	ConvertLevelColors,
@@ -49,6 +50,48 @@ const levelPercentage: LevelPercentage = (colors, level, direction) => {
 
 
 /**
+ * Checks
+ */
+function checkDoNotConvert(color: string) {
+	return color === 'transparent' || color === 'none' || color === 'inherit' || color === 'currentColor' || color === 'initial' || color === 'unset';
+}
+
+function checkIfThemeVarColor(color: string) {
+	return color.includes('--v-theme');
+}
+
+function checkIfThemeColor(color: string, theme: ThemeInstance) {
+	const themeColors = theme.global.current.value.colors;
+
+	return Object.entries(themeColors).find(([key]) => {
+		return key === color;
+	});
+}
+
+
+/**
+ * Converts single color
+ */
+export const getSingleColor = (color: string, theme: ThemeInstance): string => {
+	if (checkDoNotConvert(color)) {
+		return color;
+	}
+
+	if (checkIfThemeVarColor(color)) {
+		return `rgb(var(${color}))`;
+	}
+
+	const isThemeColor = checkIfThemeColor(color, theme);
+
+	if (isThemeColor) {
+		return `hsl(${convertToHSL(isThemeColor[1])})`;
+	}
+
+	return `hsl(${convertToHSL(color)})`;
+};
+
+
+/**
  * Converts the colors to HSL values
  */
 const convertLevelColors: ConvertLevelColors = (options) => {
@@ -75,7 +118,7 @@ const convertLevelColors: ConvertLevelColors = (options) => {
 			}
 
 			// If color is a property that should not be converted, return the value //
-			if (color === 'transparent' || color === 'none' || color === 'inherit' || color === 'currentColor' || color === 'initial' || color === 'unset') {
+			if (checkDoNotConvert(color)) {
 				propOptionResponse[key as keyof LevelColorResponse] = color;
 				return;
 			}
@@ -86,7 +129,7 @@ const convertLevelColors: ConvertLevelColors = (options) => {
 			}
 
 			// If color is a theme variable, return the RGB with variable //
-			if (color.includes('--v-theme')) {
+			if (checkIfThemeVarColor(color)) {
 				propOptionResponse[key as keyof LevelColorResponse] = `rgb(var(${color}))`;
 				return;
 			}
@@ -383,7 +426,7 @@ export const useGetLevelColors: UseGetLevelColors = (options) => {
 
 	if (typeof colors !== 'object' || colors === null) {
 		console.trace();
-		throw new Error('The "colors" prop is set to false. This function should no be called.');
+		throw new Error('The "colors" prop is set to false. This function should not be called.');
 	}
 
 	const levelColorOptions = convertLevelColors({

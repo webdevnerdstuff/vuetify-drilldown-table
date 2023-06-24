@@ -22,13 +22,6 @@ export const AllProps = {
 			bg: 'primary',
 			text: 'on-primary',
 		},
-		loader: {
-			// bg: '',
-			circular: 'primary',
-			color: 'primary',
-			linear: 'surface-variant',
-			text: 'surface-variant',
-		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	}) as const,
@@ -87,8 +80,24 @@ export const AllProps = {
 	// lastIcon: '',																	// * Works - Keep Commented Out
 	level: 1,
 	levels: 1,
-	loaderHeight: '2px',
-	loaderSize: 'default',
+	loaderProps: () => ({
+		circular: {
+			bgColor: 'theme-surface',
+			color: 'primary',
+			indeterminate: true,
+		},
+		linear: {
+			color: 'surface-variant',
+			height: '2px',
+			indeterminate: true,
+		},
+		skelton: {
+			type: 'heading@1',
+		},
+		text: {
+			color: 'surface-variant',
+		},
+	}) as const,
 	loaderType: 'linear',
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
@@ -121,7 +130,6 @@ export const AllProps = {
 	showFooterRow: false,
 	showSearch: false,																// * Works - May or may not keep
 	showSelect: false,
-	skeltonType: 'heading@1',
 	sortAscIcon: '$sortAsc',
 	sortBy: () => [],
 	tableType: () => ({}),

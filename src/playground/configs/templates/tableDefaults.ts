@@ -21,13 +21,6 @@ export default {
 			bg: 'primary',
 			text: 'on-primary',
 		},
-		loader: {
-			// bg: '',
-			circular: 'primary',
-			color: 'primary',
-			linear: 'surface-variant',
-			text: 'surface-variant',
-		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
 	},
@@ -87,8 +80,24 @@ export default {
 	// lastPageLabel: '$vuetify.dataFooter.lastPage',					// ? Doesn't seem to work - Vuetify prop
 	level: 1,
 	levels: 3,
-	loaderHeight: '2px',
-	loaderSize: 'default',
+	loaderProps: {
+		circular: {
+			bgColor: 'theme-surface',
+			color: 'primary',
+			indeterminate: true,
+		},
+		linear: {
+			color: 'surface-variant',
+			height: '2px',
+			indeterminate: true,
+		},
+		skelton: {
+			type: 'heading@1',
+		},
+		text: {
+			color: 'surface-variant',
+		},
+	},
 	loaderType: [
 		'linear',
 		// 'circular',
@@ -96,12 +105,12 @@ export default {
 		// 'skelton',
 	],
 	loading: false,
-	loadingText: '$vuetify.dataIterator.loadingText',
+	loadingText: 'Loading',
 	matchColumnWidths: false,
 	multiSort: false,
 	mustSort: false,
 	nextIcon: '$next',
-	nextPageLabel: '$vuetify.dataFooter.nextPage',						// ? Doesn't seem to work - Vuetify prop
+	// nextPageLabel: '$vuetify.dataFooter.nextPage',					// ? Doesn't seem to work - Vuetify prop
 	noDataText: '$vuetify.noDataText',
 	page: 1,
 	pageText: '$vuetify.dataFooter.pageText',
@@ -152,7 +161,6 @@ export default {
 	showFooterRow: false,
 	showSearch: false,
 	showSelect: false,
-	skeltonType: 'heading@1',
 	sortAscIcon: '$sortAsc',
 	sortBy: [],
 	// sticky: false,																					// ? Doesn't seem to work - Vuetify prop
