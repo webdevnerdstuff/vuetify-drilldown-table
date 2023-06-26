@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.0-beta-6
+06-26-23
+[main] (@webdevnerdstuff)
+* Fixed rendering functions
+
 ## v1.0.0-beta-5
 06-23-23
 [main] (@webdevnerdstuff)
