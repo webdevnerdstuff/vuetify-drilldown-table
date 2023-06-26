@@ -70,18 +70,19 @@ export function useRenderCellItem(
 */
 export function useRenderCell(column: Column): unknown {
 	const columnTitle = column['title'];
-	const cellData = [columnTitle, column] as [string, Column];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const cellData = [columnTitle, column] as any[];
 
 	if (column.renderer) {
-		return column.renderer([...cellData]);
+		return column.renderer(...cellData);
 	}
 
 	if (column.renderHeader) {
-		return column.renderHeader([...cellData]);
+		return column.renderHeader(...cellData);
 	}
 
 	if (column.renderFooter) {
-		return column.renderFooter([...cellData]);
+		return column.renderFooter(...cellData);
 	}
 
 	if (columnTitle) {

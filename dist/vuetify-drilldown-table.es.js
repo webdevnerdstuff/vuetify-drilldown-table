@@ -2,7 +2,7 @@ import { Fragment as ae, reactive as At, computed as m, watchEffect as Re, toRef
 import { useTheme as pl } from "vuetify";
 /**
  * @name vuetify-drilldown-table
- * @version 1.0.0-beta-5
+ * @version 1.0.0-beta-6
  * @description The Vuetify Drilldown Table is a powerful component that enhances the functionality of the Vuetify framework's VDataTable and VDataTableServer. It provides a recursive table structure, allowing you to display hierarchical data in a nested format.
  * @author WebDevNerdStuff & Bunnies... lots and lots of bunnies! <webdevnerdstuff@gmail.com> (https://webdevnerdstuff.com)
  * @copyright Copyright 2023, WebDevNerdStuff
@@ -3074,7 +3074,7 @@ const Qn = (e) => {
 };
 function nr(e) {
   const l = e.title, t = [l, e];
-  return e.renderer ? e.renderer([...t]) : e.renderHeader ? e.renderHeader([...t]) : e.renderFooter ? e.renderFooter([...t]) : l || "";
+  return e.renderer ? e.renderer(...t) : e.renderHeader ? e.renderHeader(...t) : e.renderFooter ? e.renderFooter(...t) : l || "";
 }
 function Al(e) {
   return e && typeof e == "object" && !Array.isArray(e);
