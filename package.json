@@ -27,12 +27,12 @@
 	"author": "WebDevNerdStuff & Bunnies... lots and lots of bunnies! <webdevnerdstuff@gmail.com> (https://webdevnerdstuff.com)",
 	"funding": [
 		{
-			"type": "patreon",
-			"url": "https://www.patreon.com/WebDevNerdStuff"
+			"type": "paypal",
+			"url": "https://paypal.me/webdevnerdstuff"
 		},
 		{
-			"type": "individual",
-			"url": "https://bit.ly/wdns-paypal-veet-plugin"
+			"type": "patreon",
+			"url": "https://www.patreon.com/WebDevNerdStuff"
 		}
 	],
 	"license": "MIT",
