@@ -652,6 +652,7 @@ export type DrilldownEvent = {
 	columns?: object;
 	index?: number;
 	isExpanded: IsExpanded;
+	isRow?: boolean;
 	item: DataTableItem | any;
 	items?: object;
 	level?: Props['level'];
