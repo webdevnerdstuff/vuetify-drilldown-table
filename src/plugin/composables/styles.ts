@@ -1,7 +1,6 @@
 import { useConvertToUnit } from './helpers';
 import { useGetLevelColors } from './levelColors';
 import {
-	UseCellStyles,
 	UseHeaderCellStyles,
 	UseTableStyles,
 	UseTFootCellStyles,
@@ -65,31 +64,6 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 
 	styles.backgroundColor = headerColors.bg;
 	styles.color = headerColors.text;
-
-	return styles as CSSProperties;
-};
-
-
-// -------------------------------------------------- Cell Styles //
-// ! Not used currently //
-export const useCellStyles: UseCellStyles = (options) => {
-	const { colors, elm, level, theme } = options;
-
-	if (colors === false || colors === null) {
-		return {};
-	}
-
-	const baseColors = useGetLevelColors({
-		colors,
-		level,
-		prop: elm,
-		themeColors: theme,
-	});
-
-	const styles = {
-		backgroundColor: baseColors.bg,
-		color: baseColors.text,
-	};
 
 	return styles as CSSProperties;
 };
