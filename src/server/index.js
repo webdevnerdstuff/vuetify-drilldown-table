@@ -112,6 +112,10 @@ export function makeServer({ environment = 'development' } = {}) {
 				return schema.users.all();
 			});
 
+			this.get('/posts', (schema) => {
+				return schema.posts.all();
+			});
+
 			this.get('/users/:id/posts', (schema, request) => {
 				const posts = schema.posts.where({ userId: request.params.id });
 

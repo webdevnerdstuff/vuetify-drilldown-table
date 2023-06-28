@@ -1,27 +1,25 @@
 import { Column } from '../../types';
 export declare const AllProps: {
     colors: () => {
-        readonly body: {
-            readonly base: "--v-theme-surface";
-            readonly bg: "--v-theme-surface";
-            readonly text: "--v-theme-on-surface";
-        };
         readonly default: {
+            readonly background: "primary";
             readonly base: "primary";
-            readonly bg: "primary";
             readonly border: "primary";
-            readonly text: "on-primary";
+            readonly color: "on-primary";
         };
         readonly footer: {
-            readonly bg: "--v-theme-surface";
-            readonly text: "--v-theme-on-surface";
+            readonly background: "--v-theme-surface";
+            readonly color: "--v-theme-on-surface";
         };
         readonly header: {
-            readonly bg: "primary";
-            readonly text: "on-primary";
+            readonly background: "primary";
+            readonly color: "on-primary";
         };
-        readonly percentageChange: 25;
+        readonly percentageChange: 15;
         readonly percentageDirection: "desc";
+        readonly table: {
+            readonly bottomBorder: "primary";
+        };
     };
     columnWidths: () => never[];
     density: string;

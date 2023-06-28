@@ -13,11 +13,10 @@
 	</v-col>
 
 	<v-col cols="12">
-		To make things easier for the user to distinguish the different levels of a table, there is the <a
-			href="#props-all-colors"
-		><code class="inline-code">colors</code></a> prop. While the main <a href="#examples">examples</a> are a base
-		configuration with no colors, it is suggested to add the colors to the table to make it easier on the end user's
-		readability.
+		To make things easier for the user to distinguish the different levels of a table, there is the
+		<a href="#props-all-colors"><code class="inline-code">colors</code></a> prop. While the main
+		<a href="#examples">examples</a> are a base configuration with no colors, it is suggested to add the colors to the
+		table to make it easier on the end user's readability.
 	</v-col>
 
 	<v-col cols="12">
@@ -27,6 +26,20 @@
 			class="inline-code"
 		>colors</code> settings as well, you just have to adjust the settings being passed into the specific level inside of
 		the <code class="inline-code">child</code> object of the item being drilled down into.
+	</v-col>
+
+	<v-col cols="12">
+		Please be aware that the visual presentation and legibility of text and colors may vary based on your chosen color
+		scheme and the level of detail you explore within child tables. Consequently, it may be necessary to adjust the colors
+		as you delve deeper into the child tables. This can be accomplished by either passing the colors property to the
+		specific child object being navigated or by leveraging CSS for customization.
+	</v-col>
+
+	<v-col cols="12">
+		If you opt not to utilize the <a href="#props-all-colors"><code class="inline-code">colors</code></a> prop but still
+		wish to customize the table's appearance, you can take advantage of various CSS classes embedded within the tables.
+		These classes are designed with different levels, allowing you to selectively target specific elements within the
+		tables for styling purposes.
 	</v-col>
 
 	<v-col cols="12">
@@ -73,54 +86,38 @@ const codeBlockSettings = computed(() => props.codeBlockOptions);
 
 const colorsProp = {
 	colors: {
-		body: {
-			base: '--v-theme-surface',
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
-		default: {
-			base: 'primary',
-			bg: 'primary',
-			border: 'primary',
-			text: 'on-primary',
-		},
 		footer: {
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
+			background: '--v-theme-surface',
+			color: '--v-theme-on-surface',
 		},
 		header: {
-			bg: 'primary',
-			text: 'on-primary',
+			background: 'primary',
+			color: 'on-primary',
 		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
+		table: {
+			bottomBorder: 'primary',
+		},
 	}
 };
 
 const tableSettings = ref({ ...tableDefaults, ...{ colors: colorsProp } });
 
 const colorsPropCode = `colors: {
-  body: {
-    base: '--v-theme-surface',
-    bg: '--v-theme-surface',
-    text: '--v-theme-on-surface',
-  },
-  default: {
-    base: 'primary',
-    bg: 'primary',
-    border: 'primary',
-    text: 'on-primary',
-  },
   footer: {
-    bg: '--v-theme-surface',
+    background: '--v-theme-surface',
     text: '--v-theme-on-surface',
   },
   header: {
-    bg: 'primary',
+    background: 'primary',
     text: 'on-primary',
   },
   percentageChange: 25,
   percentageDirection: 'desc',
+  table: {
+    bottomBorder: 'primary',
+  },
 }`;
 
 </script>

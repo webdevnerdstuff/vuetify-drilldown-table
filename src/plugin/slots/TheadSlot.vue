@@ -1,13 +1,11 @@
 <template>
 	<thead>
 		<HeadersSlot
+			v-bind="$props"
 			:colors="colors"
 			:density="density"
 			:is-thead-slot="true"
 			:level="level"
-			:show-select="showSelect"
-			:slot-props="slotProps"
-			:sort-by="sortBy"
 			@click:selectAll="clickSelectAll($event)"
 			@update:sortBy="updateSortBy($event)"
 		/>

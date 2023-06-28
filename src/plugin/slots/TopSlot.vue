@@ -41,9 +41,10 @@
 </template>
 
 <script setup lang="ts">
-import { TopSlotProps } from '@/types';
+import { KeyStringAny, TopSlotProps } from '@/types';
 import { componentName } from '@/plugin/utils/globals';
 import { watchDebounced } from '@vueuse/core';
+import { AllProps } from '../utils/props';
 
 
 const slots = useSlots();
@@ -112,7 +113,7 @@ watchDebounced(
 	{ debounce: 750, maxWait: 1000 },
 );
 
-const boundSearchProps = computed(() => {
+const boundSearchProps = computed<KeyStringAny>(() => {
 	return {
 		...{
 			density: 'compact',
@@ -126,7 +127,7 @@ const boundSearchProps = computed(() => {
 });
 
 const searchContainerCols = computed<object>(() => {
-	const col = props.searchContainerCols;
+	const col = props.searchContainerCols ?? AllProps.searchContainerCols();
 
 	const classes = {
 		[`${componentName}--search-field`]: true,

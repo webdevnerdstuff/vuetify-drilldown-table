@@ -5,6 +5,7 @@
 			columns,
 			index,
 			isExpanded,
+			isRow: true,
 			item,
 			level: currentLevel,
 			toggleExpand,
@@ -153,9 +154,14 @@ const cellClasses = (column: Column): object => {
 };
 
 function drilldownEvent(data: DrilldownEvent): void {
-	const { item, level, toggleExpand } = data as DrilldownEvent;
+	const { isRow, item, level, toggleExpand } = data as DrilldownEvent;
 
-	if (props.level >= props.levels) {
+	if (props.level >= props.levels || props.expandOnClick && !isRow) {
+		return;
+	}
+
+	// If `expandOnClick` is true, prevent the expand button from triggering the event twice //
+	if (props.expandOnClick && !isRow) {
 		return;
 	}
 

@@ -71,12 +71,6 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'VDataTable["$props"]["headers"]',
 		},
 		{
-			default: undefined,
-			desc: 'Currently not supported',
-			name: 'group-by',
-			type: 'VDataTable["$props"]["groupBy"]',
-		},
-		{
 			default: false,
 			desc: 'Internal use only',
 			name: 'is-drilldown',

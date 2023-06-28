@@ -15,8 +15,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
     loaderProps: {
-        type: __PropType<import('../../types').LoaderProps>;
-        required: true;
+        type: __PropType<import('../../types').LoaderProps | undefined>;
+        required: false;
     };
     loaderSettings: {
         type: __PropType<{
@@ -102,8 +102,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
     loaderProps: {
-        type: __PropType<import('../../types').LoaderProps>;
-        required: true;
+        type: __PropType<import('../../types').LoaderProps | undefined>;
+        required: false;
     };
     loaderSettings: {
         type: __PropType<{

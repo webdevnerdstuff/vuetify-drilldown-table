@@ -3,27 +3,25 @@ import { Column } from '@/types';
 export const AllProps = {
 	// color: 'primary',															// ? Doesn't seem to work
 	colors: () => ({
-		body: {
-			base: '--v-theme-surface',
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
 		default: {
+			background: 'primary',
 			base: 'primary',
-			bg: 'primary',
 			border: 'primary',
-			text: 'on-primary',
+			color: 'on-primary',
 		},
 		footer: {
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
+			background: '--v-theme-surface',
+			color: '--v-theme-on-surface',
 		},
 		header: {
-			bg: 'primary',
-			text: 'on-primary',
+			background: 'primary',
+			color: 'on-primary',
 		},
-		percentageChange: 25,
+		percentageChange: 15,
 		percentageDirection: 'desc',
+		table: {
+			bottomBorder: 'primary',
+		},
 	}) as const,
 	columnWidths: () => ([]),
 	// customFilter: undefined, 											// ? Needs Testing

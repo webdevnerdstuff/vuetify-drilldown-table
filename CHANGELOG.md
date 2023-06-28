@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.0-beta-7
+06-28-23
+[main] (@webdevnerdstuff)
+* Fix expand icon not expanding row when expandOnClick is true
+* Fix issue with colors prop mutating all table settings
+* Add some groupBy support
+* Adjusting colors prop
+* Updated templates
+* Updated docs
+
 ## v1.0.0-beta-6
 06-26-23
 [main] (@webdevnerdstuff)
