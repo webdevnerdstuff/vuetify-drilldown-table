@@ -209,6 +209,10 @@ const slotsSupported = [
 		name: 'footer.prepend',
 	},
 	{
+		desc: 'The <code class="inline-code">group-header</code> slot is available',
+		name: 'group-header',
+	},
+	{
 		desc: 'The <code class="inline-code">item.data-table-expand</code> is available',
 		name: 'item.data-table-expand',
 	},
@@ -252,7 +256,7 @@ const slotsNotSupported = [
 		name: 'colgroup',
 	},
 	{
-		desc: 'The <code class="inline-code">data-table-group</code> slot is not available as the <code class="inline-code" >group-by</code> prop and grouping is not available',
+		desc: 'The <code class="inline-code">data-table-group</code> slot is not available',
 		name: 'data-table-group',
 	},
 	{
@@ -266,10 +270,6 @@ const slotsNotSupported = [
 	{
 		desc: 'The <code class="inline-code">expanded-row</code> slot is not available as the drilldown table is using it',
 		name: 'expanded-row',
-	},
-	{
-		desc: 'The <code class="inline-code">group-header</code> slot is not available as the <code class="inline-code" >group-by</code> prop and grouping is not available',
-		name: 'group-header',
 	},
 	{
 		desc: 'The <code class="inline-code">headers</code> slot is not available as the drilldown table is using it',

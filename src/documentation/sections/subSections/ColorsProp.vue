@@ -21,6 +21,13 @@
 	</v-col>
 
 	<v-col cols="12">
+		Please be aware that the visual presentation and legibility of text and colors may vary based on your chosen color
+		scheme and the level of detail you explore within child tables. Consequently, it may be necessary to adjust the colors
+		as you delve deeper into the child tables. This can be accomplished by either passing the colors property to the
+		specific child object being navigated or by leveraging CSS for customization.
+	</v-col>
+
+	<v-col cols="12">
 		With these settings you can adjust the percentage change of the header row <code class="inline-code">colors</code>
 		as you drilldown to deeper levels. This helps each level to stand out from the previous level. You can also set the
 		percentage change to 0 to keep the same color for each level. Each level has the capability to have it's own <code
@@ -73,11 +80,6 @@ const codeBlockSettings = computed(() => props.codeBlockOptions);
 
 const colorsProp = {
 	colors: {
-		body: {
-			base: '--v-theme-surface',
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
 		default: {
 			base: 'primary',
 			bg: 'primary',
@@ -100,11 +102,6 @@ const colorsProp = {
 const tableSettings = ref({ ...tableDefaults, ...{ colors: colorsProp } });
 
 const colorsPropCode = `colors: {
-  body: {
-    base: '--v-theme-surface',
-    bg: '--v-theme-surface',
-    text: '--v-theme-on-surface',
-  },
   default: {
     base: 'primary',
     bg: 'primary',
