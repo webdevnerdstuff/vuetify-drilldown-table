@@ -512,4 +512,18 @@ function fetchClientData(drilldown = null) {
 // 		color: #080808 !important;
 // 	}
 // }
+
+// ? Sometimes you might want to adjust the drilldown background color //
+// .v-drilldown-table {
+// 	&--level-2 {
+// 		&,
+// 		td {
+// 			background-color: #404040 !important;
+// 		}
+
+// 		th {
+// 			background-color: #353535 !important;
+// 		}
+// 	}
+// }
 </style>
