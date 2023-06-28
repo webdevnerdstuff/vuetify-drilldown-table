@@ -10,13 +10,13 @@ import {
 // -------------------------------------------------- VDrilldownTable //
 export const useTableStyles: UseTableStyles = (options) => {
 	const { colors, level, theme } = options;
-	let baseColors: { border?: string; } = {};
+	let baseColors: { bottomBorder?: string; } = {};
 
 	if (typeof colors === 'object' && colors !== null) {
 		baseColors = useGetLevelColors({
 			colors,
 			level,
-			prop: 'default',
+			prop: 'table',
 			themeColors: theme,
 		});
 	}
@@ -25,8 +25,8 @@ export const useTableStyles: UseTableStyles = (options) => {
 		borderBottom: 'none',
 	};
 
-	if (baseColors.border) {
-		styles.borderBottom = `1px solid ${baseColors.border}`;
+	if (baseColors.bottomBorder) {
+		styles.borderBottom = `1px solid ${baseColors.bottomBorder}`;
 	}
 
 	return styles;
@@ -62,8 +62,8 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 		themeColors: theme,
 	});
 
-	styles.backgroundColor = headerColors.bg;
-	styles.color = headerColors.text;
+	styles.backgroundColor = headerColors.background;
+	styles.color = headerColors.color;
 
 	return styles as CSSProperties;
 };
@@ -85,8 +85,8 @@ export const useTFootCellStyles: UseTFootCellStyles = (options) => {
 	});
 
 	const styles = {
-		backgroundColor: baseColors.bg,
-		color: baseColors.text,
+		backgroundColor: baseColors.background,
+		color: baseColors.color,
 	};
 
 	return styles as CSSProperties;

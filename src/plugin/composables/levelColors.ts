@@ -123,8 +123,8 @@ const convertLevelColors: ConvertLevelColors = (options) => {
 				return;
 			}
 
-			// Top Level and text should always be set to 100% //
-			if (key === 'text' || level === 0 && (direction === 'asc' as keyof ColorsObject)) {
+			// Top Level and text color should always be set to 100% //
+			if (key === 'color' || level === 0 && (direction === 'asc' as keyof ColorsObject)) {
 				percentage = 100;
 			}
 

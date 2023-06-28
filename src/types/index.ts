@@ -60,29 +60,32 @@ export interface TableColors<T = any> {
 export type ColorsObject = {
 	default?: {
 		base?: string;
-		bg?: string;
+		background?: string;
 		border?: string | null;
-		text?: string;
+		color?: string;
 	};
 	footer?: {
-		bg?: string;
-		text?: string;
+		background?: string;
+		color?: string;
 	};
 	header?: {
-		bg?: string;
-		text?: string;
+		background?: string;
+		color?: string;
 	};
 	percentageChange?: number;
 	percentageDirection?: 'asc' | 'desc';
+	table?: {
+		bottomBorder?: string;
+	};
 };
 
 export type LevelColorResponse = {
+	background?: string;
 	base?: string;
-	bg?: string;
-	border?: string;
+	bottomBorder?: string;
 	circular?: string;
+	color?: string;
 	linear?: string;
-	text?: string;
 };
 
 export type HEXColor = string;
