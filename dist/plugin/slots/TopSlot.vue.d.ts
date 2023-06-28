@@ -1,4 +1,5 @@
 import type { PropType as __PropType } from 'vue';
+import { KeyStringAny } from '../../types';
 declare const _sfc_main: import("vue").DefineComponent<{
     items: {
         type: __PropType<any[] | undefined>;
@@ -13,15 +14,15 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
     searchContainerCols: {
-        type: __PropType<import('../../types').SearchContainerCols>;
-        required: true;
+        type: __PropType<import('../../types').SearchContainerCols | undefined>;
+        required: false;
     };
     searchEvents: {
-        type: __PropType<import('../../types').KeyStringAny<any> | undefined>;
+        type: __PropType<KeyStringAny<any> | undefined>;
         required: false;
     };
     searchProps: {
-        type: __PropType<import('../../types').KeyStringAny<any> | undefined>;
+        type: __PropType<KeyStringAny<any> | undefined>;
         required: false;
     };
     showSearch: {
@@ -67,15 +68,15 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
     searchContainerCols: {
-        type: __PropType<import('../../types').SearchContainerCols>;
-        required: true;
+        type: __PropType<import('../../types').SearchContainerCols | undefined>;
+        required: false;
     };
     searchEvents: {
-        type: __PropType<import('../../types').KeyStringAny<any> | undefined>;
+        type: __PropType<KeyStringAny<any> | undefined>;
         required: false;
     };
     searchProps: {
-        type: __PropType<import('../../types').KeyStringAny<any> | undefined>;
+        type: __PropType<KeyStringAny<any> | undefined>;
         required: false;
     };
     showSearch: {
