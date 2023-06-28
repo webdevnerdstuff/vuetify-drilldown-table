@@ -16,6 +16,15 @@
 					:name="`column.${column.key}`"
 				/>
 			</th>
+			<!-- Column Render `data-table-group` -->
+			<th
+				v-else-if="column.key === 'data-table-group' || (column.key === 'data-table-group')"
+				:class="cellClasses(column, 'header-data-table-group')"
+				:colspan="column.colspan || 1"
+				:style="cellStyles(column, true)"
+				v-html="renderCell(column)"
+			>
+			</th>
 			<!-- Column Render `data-table-select` -->
 			<th
 				v-else-if="column.key === 'data-table-select' || (column.key === 'data-table-select' && showSelect)"
