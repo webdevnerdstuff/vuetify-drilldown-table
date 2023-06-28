@@ -94,10 +94,10 @@ const loaderVRowClasses = computed(() => useLoaderVRowClasses());
 
 
 // -------------------------------------------------- v-progress-linear //
-const boundLinearProps = computed(() => props.loaderProps.linear);
+const boundLinearProps = computed(() => props.loaderProps?.linear ?? {});
 
 const loaderHeight = computed(() => {
-	const height = props.loaderProps.linear?.height || '2px';
+	const height = props.loaderProps?.linear?.height || '2px';
 
 	return useLoaderHeight(height as string | number);
 });
@@ -114,11 +114,11 @@ const isLinearOnly = computed<boolean>(() => {
 
 
 // -------------------------------------------------- v-progress-circular //
-const boundCircularProps = computed(() => props.loaderProps.circular);
+const boundCircularProps = computed(() => props.loaderProps?.circular ?? {});
 
 
 // -------------------------------------------------- v-skeleton-loader //
-const boundSkeltonProps = computed(() => props.loaderProps.skelton);
+const boundSkeltonProps = computed(() => props.loaderProps?.skelton ?? {});
 
 const skeltonLoading = computed(() => {
 	return props.loading as boolean;
@@ -127,7 +127,7 @@ const skeltonLoading = computed(() => {
 
 // -------------------------------------------------- loadingText //
 const textStyles = computed<StyleValue>(() => {
-	let textColor = props.loaderProps.text?.color || 'surface-variant';
+	let textColor = props.loaderProps?.text?.color ?? 'surface-variant';
 	textColor = getSingleColor(textColor, theme);
 
 	const styles = {
