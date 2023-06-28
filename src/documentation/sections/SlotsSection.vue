@@ -256,7 +256,7 @@ const slotsNotSupported = [
 		name: 'colgroup',
 	},
 	{
-		desc: 'The <code class="inline-code">data-table-group</code> slot is not available',
+		desc: '<code class="inline-code">MISSING DESCRIPTION</code> in the Vuetify docs',
 		name: 'data-table-group',
 	},
 	{
