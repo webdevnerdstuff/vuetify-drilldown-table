@@ -13,11 +13,19 @@
 	</v-col>
 
 	<v-col cols="12">
-		To make things easier for the user to distinguish the different levels of a table, there is the <a
-			href="#props-all-colors"
-		><code class="inline-code">colors</code></a> prop. While the main <a href="#examples">examples</a> are a base
-		configuration with no colors, it is suggested to add the colors to the table to make it easier on the end user's
-		readability.
+		To make things easier for the user to distinguish the different levels of a table, there is the
+		<a href="#props-all-colors"><code class="inline-code">colors</code></a> prop. While the main
+		<a href="#examples">examples</a> are a base configuration with no colors, it is suggested to add the colors to the
+		table to make it easier on the end user's readability.
+	</v-col>
+
+	<v-col cols="12">
+		With these settings you can adjust the percentage change of the header row <code class="inline-code">colors</code>
+		as you drilldown to deeper levels. This helps each level to stand out from the previous level. You can also set the
+		percentage change to 0 to keep the same color for each level. Each level has the capability to have it's own <code
+			class="inline-code"
+		>colors</code> settings as well, you just have to adjust the settings being passed into the specific level inside of
+		the <code class="inline-code">child</code> object of the item being drilled down into.
 	</v-col>
 
 	<v-col cols="12">
@@ -28,12 +36,10 @@
 	</v-col>
 
 	<v-col cols="12">
-		With these settings you can adjust the percentage change of the header row <code class="inline-code">colors</code>
-		as you drilldown to deeper levels. This helps each level to stand out from the previous level. You can also set the
-		percentage change to 0 to keep the same color for each level. Each level has the capability to have it's own <code
-			class="inline-code"
-		>colors</code> settings as well, you just have to adjust the settings being passed into the specific level inside of
-		the <code class="inline-code">child</code> object of the item being drilled down into.
+		If you opt not to utilize the <a href="#props-all-colors"><code class="inline-code">colors</code></a> prop but still
+		wish to customize the table's appearance, you can take advantage of various CSS classes embedded within the tables.
+		These classes are designed with different levels, allowing you to selectively target specific elements within the
+		tables for styling purposes.
 	</v-col>
 
 	<v-col cols="12">
@@ -80,44 +86,38 @@ const codeBlockSettings = computed(() => props.codeBlockOptions);
 
 const colorsProp = {
 	colors: {
-		default: {
-			base: 'primary',
-			bg: 'primary',
-			border: 'primary',
-			text: 'on-primary',
-		},
 		footer: {
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
+			background: '--v-theme-surface',
+			color: '--v-theme-on-surface',
 		},
 		header: {
-			bg: 'primary',
-			text: 'on-primary',
+			background: 'primary',
+			color: 'on-primary',
 		},
 		percentageChange: 25,
 		percentageDirection: 'desc',
+		table: {
+			bottomBorder: 'primary',
+		},
 	}
 };
 
 const tableSettings = ref({ ...tableDefaults, ...{ colors: colorsProp } });
 
 const colorsPropCode = `colors: {
-  default: {
-    base: 'primary',
-    bg: 'primary',
-    border: 'primary',
-    text: 'on-primary',
-  },
   footer: {
-    bg: '--v-theme-surface',
+    background: '--v-theme-surface',
     text: '--v-theme-on-surface',
   },
   header: {
-    bg: 'primary',
+    background: 'primary',
     text: 'on-primary',
   },
   percentageChange: 25,
   percentageDirection: 'desc',
+  table: {
+    bottomBorder: 'primary',
+  },
 }`;
 
 </script>
