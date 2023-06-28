@@ -9,6 +9,7 @@
 		:density="loadedDrilldown.density"
 		:expand-on-click="loadedDrilldown.expandOnClick"
 		:expanded="loadedDrilldown.expanded"
+		:group-by="loadedDrilldown.groupBy"
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
 		:hide-no-data="hidingNoData"
@@ -125,7 +126,22 @@
 		>
 			<slot
 				name="thead"
-				v-bind="{ ...props }"
+				v-bind="{
+					...props,
+					...{
+						columnWidths: loadedDrilldown.columnWidths,
+						items: loadedDrilldown.items,
+						loaderSettings: {
+							colspan: props.columns.length,
+							loaderType: loadedDrilldown.loaderType,
+							loading: loadedDrilldown.loading,
+							loadingText: loadingText,
+						},
+						matchColumnWidths: loadedDrilldown.matchColumnWidths,
+						selectStrategy: loadedDrilldown.selectStrategy,
+						sortBy: loadedDrilldown.sortBy,
+					}
+				}"
 			/>
 		</template>
 
@@ -140,6 +156,19 @@
 				v-bind="{ ...props }"
 			/>
 		</template>
+
+
+		<!-- ================================================== Group Header Slot -->
+		<template
+			v-if="slots['group-header']"
+			#[`group-header`]="props"
+		>
+			<slot
+				name="group-header"
+				v-bind="{ ...props }"
+			/>
+		</template>
+
 
 
 		<!-- ================================================== tbody Slot -->
@@ -167,6 +196,7 @@
 				:key="level"
 				:density="loadedDrilldown.density"
 				:expand-on-click="loadedDrilldown.expandOnClick"
+				:group-by="loadedDrilldown.groupBy"
 				:item-selectable="loadedDrilldown.itemSelectable"
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
@@ -202,7 +232,6 @@
 				>
 					<VDrilldownTable
 						:key="item.raw"
-						:colors="colors"
 						:column-widths="loadedDrilldown.columnWidths"
 						:density="loadedDrilldown.density"
 						:drilldown="loadedDrilldown"
