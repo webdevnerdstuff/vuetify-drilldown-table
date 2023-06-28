@@ -58,11 +58,6 @@ export interface TableColors<T = any> {
 }
 
 export type ColorsObject = {
-	body?: {
-		base?: string;
-		bg?: string;
-		text?: string;
-	};
 	default?: {
 		base?: string;
 		bg?: string;
@@ -166,6 +161,7 @@ export interface Props {
 	fixedFooter?: boolean;
 	fixedHeader?: boolean;
 	footers?: Column[];
+	groupBy?: VDataTable['$props']['groupBy'];
 	headers?: VDataTable['$props']['headers'];
 	height?: string | number | undefined;
 	// hideDefaultFooter?: boolean;																			// ? Custom Property - Need to add/test
@@ -260,7 +256,7 @@ export interface TopSlotProps extends VDataTableSlotProps {
 	items: Props['items'];
 	level: Props['level'];
 	loading: Props['loading'];
-	searchContainerCols: SearchContainerCols;
+	searchContainerCols?: SearchContainerCols;
 	searchEvents?: KeyStringAny;
 	searchProps?: KeyStringAny;
 	showSearch: boolean;
@@ -270,7 +266,7 @@ export interface HeaderSlotProps extends AllSlotProps {
 	columnWidths: Props['columnWidths'];
 	isTheadSlot?: boolean;
 	items: Props['items'];
-	loaderProps: LoaderProps;
+	loaderProps?: LoaderProps;
 	loaderSettings: {
 		colspan: number;
 		height?: VProgressLinear['$props']['height'];
@@ -297,18 +293,16 @@ export interface HeaderSlotProps extends AllSlotProps {
 	tableModelValue?: Props['modelValue'];
 }
 
-export interface THeadSlotProps extends AllSlotProps {
-	slotProps: {
-		columns: Column[];
-		getSortIcon?: GetSortIcon;
-		index?: number;
-		item?: Props['item'] | any;
-		selectAll: SelectAll;
-		someSelected: boolean;
-		sortBy: Props['sortBy'];
-		toggleSort: ToggleSort;
-	},
-}
+export interface THeadSlotProps extends
+	AllSlotProps,
+	Pick<HeaderSlotProps,
+		'slotProps' |
+		'columnWidths' |
+		'items' |
+		'loaderSettings' |
+		'matchColumnWidths' |
+		'selectStrategy'
+	> { };
 
 export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
 	expandOnClick: Props['expandOnClick'];
@@ -383,7 +377,7 @@ export type TableLoader = {
 	level: Props['level'];
 	loaderType: Props['loaderType'];
 	loading: VDataTable['$props']['loading'];
-	loaderProps: LoaderProps;
+	loaderProps?: LoaderProps;
 	loadingText?: VDataTable['$props']['loadingText'];
 	size?: VProgressCircular['$props']['size'];
 	textLoader?: boolean;
@@ -618,17 +612,6 @@ export interface UseTFootRowClasses {
 
 
 // ------------------------- Styles //
-export interface UseCellStyles {
-	(
-		options: {
-			colors: ColorsObject | undefined | null | false,
-			elm: string,
-			level: Props['level'],
-			theme: ThemeInstance,
-		}
-	): CSSProperties;
-}
-
 export interface UseHeaderCellStyles {
 	(
 		options: {
