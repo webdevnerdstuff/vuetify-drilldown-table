@@ -3,11 +3,6 @@ import { Column } from '@/types';
 export const AllProps = {
 	// color: 'primary',															// ? Doesn't seem to work
 	colors: () => ({
-		body: {
-			base: '--v-theme-surface',
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
 		default: {
 			base: 'primary',
 			bg: 'primary',
@@ -22,7 +17,7 @@ export const AllProps = {
 			bg: 'primary',
 			text: 'on-primary',
 		},
-		percentageChange: 25,
+		percentageChange: 15,
 		percentageDirection: 'desc',
 	}) as const,
 	columnWidths: () => ([]),
