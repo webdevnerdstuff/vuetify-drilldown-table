@@ -207,50 +207,38 @@ import tableDefaults from './tableDefaults';
 
 
 const props = defineProps({
-	colors: {
-		default: () => { },
-		type: Object,
-	},
-	sectionId: {
-		default: 'example-data-table',
-		type: String,
-	},
 	settings: {
 		required: true,
 		type: Object,
-	},
-	title: {
-		default: '',
-		type: String,
 	},
 });
 
 const selected = ref([]);
 
 const classes = inject('classes');
-const tableSettings = ref({ ...props.settings, ...props.colors });
+const tableSettings = ref({ ...props.settings });
 
 const headers = {
 	comments: [
-		// {
-		// 	align: 'start',
-		// 	key: null,
-		// 	title: '',
-		// 	width: 110,
-		// },
+		{
+			align: 'start',
+			key: null,
+			title: '',
+			width: 110,
+		},
 		{
 			align: 'start',
 			key: 'postId',
 			sortable: false,
 			title: 'Post ID',
-			// width: 110,
+			width: 110,
 		},
 		{
 			align: 'start',
 			key: 'id',
 			sortable: false,
 			title: 'Comment ID',
-			// width: 130,
+			width: 130,
 		},
 		{
 			align: 'start',
@@ -264,13 +252,13 @@ const headers = {
 			key: 'userId',
 			sortable: false,
 			title: 'User ID',
-			// width: 110,
+			width: 110,
 		},
 		{
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			// width: 240,
+			width: 240,
 		},
 		{
 			align: 'start',
@@ -437,7 +425,6 @@ function fetchClientData(drilldown = null) {
 		user.child = {};
 		user.child = {
 			...tableDefaults,
-			...props.colors,
 			drilldownKey: 'id',
 			footers: footers.posts,
 			headers: headers.posts,
@@ -464,7 +451,6 @@ function fetchClientData(drilldown = null) {
 		post.child = {};
 		post.child = {
 			...tableDefaults,
-			...props.colors,
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,
@@ -513,3 +499,17 @@ function fetchClientData(drilldown = null) {
 		});
 }
 </script>
+
+
+<style lang="scss">
+// ? Sometimes you might want to adjust colors depending on theme and readability of text //
+// .v-drilldown-table--header-row-th-3 {
+// 	color: #fff !important;
+// }
+
+// .v-theme--light {
+// 	.v-drilldown-table--header-row-th-3 {
+// 		color: #080808 !important;
+// 	}
+// }
+</style>

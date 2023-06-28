@@ -2,11 +2,6 @@ export default {
 	// color: 'primary',																			// ? Doesn't seem to work - Vuetify prop
 	// colors: null,
 	colors: {
-		body: {
-			base: '--v-theme-surface',
-			bg: '--v-theme-surface',
-			text: '--v-theme-on-surface',
-		},
 		default: {
 			base: 'primary',
 			bg: 'primary',
@@ -21,7 +16,7 @@ export default {
 			bg: 'primary',
 			text: 'on-primary',
 		},
-		percentageChange: 25,
+		percentageChange: 15,
 		percentageDirection: 'desc',
 	},
 	// customFilter: undefined, 															// ? Needs Testing - Vuetify prop
