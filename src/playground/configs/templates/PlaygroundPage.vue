@@ -17,7 +17,7 @@ import ServerTable from './ServerTable.vue';
 import tableDefaults from './tableDefaults';
 
 const tableSettings = ref(Object.assign({}, tableDefaults));
-const tableSettingsServer = ref({ ...tableDefaults, ...{ server: true } });
+const tableSettingsServer = ref({ ...tableDefaults, ...{ searchDebounce: 5000, server: true } });
 </script>
 
 
