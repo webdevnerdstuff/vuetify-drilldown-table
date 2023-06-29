@@ -639,7 +639,9 @@ watchDebounced(
 watchDebounced(
 	levelSearch,
 	() => {
-		searchUpdated();
+		if (!slots['top'] && !slots['top.left']) {
+			searchUpdated();
+		}
 	},
 	searchDebounce,
 );
