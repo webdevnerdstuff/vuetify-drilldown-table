@@ -43,7 +43,6 @@
 <script setup lang="ts">
 import { KeyStringAny, TopSlotProps } from '@/types';
 import { componentName } from '@/plugin/utils/globals';
-import { watchDebounced } from '@vueuse/core';
 import { AllProps } from '../utils/props';
 
 
@@ -105,13 +104,10 @@ function toggleSelectAllCallback() {
 
 
 // -------------------------------------------------- Search Field //
-watchDebounced(
-	levelSearch,
-	() => {
-		emit('update:search', levelSearch.value);
-	},
-	{ debounce: 750, maxWait: 1000 },
-);
+watch(levelSearch, () => {
+	emit('update:search', levelSearch.value);
+});
+
 
 const boundSearchProps = computed<KeyStringAny>(() => {
 	return {

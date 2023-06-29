@@ -626,7 +626,7 @@ const searchDebounce = {
 	maxWait: loadedDrilldown.searchMaxWait as number,
 };
 
-// ? Using top.left slot //
+// ? Using top or top.left slot //
 watchDebounced(
 	() => props.search,
 	() => {
@@ -635,7 +635,7 @@ watchDebounced(
 	searchDebounce,
 );
 
-// ? Not using top.left slot //
+// ? Not using top or top.left slot //
 watchDebounced(
 	levelSearch,
 	() => {
@@ -646,11 +646,11 @@ watchDebounced(
 
 // Search - Updated //
 function searchUpdated() {
-	if (!slots['top.left']) {
+	if (!slots['top'] && !slots['top.left']) {
 		loadedDrilldown.search = levelSearch.value;
 	}
 
-	if (slots['top.left']) {
+	if (slots['top'] || slots['top.left']) {
 		levelSearch.value = props.search || '';
 	}
 
