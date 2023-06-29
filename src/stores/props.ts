@@ -138,7 +138,7 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'string | undefined',
 		},
 		{
-			default: 750,
+			default: 0,
 			desc: 'The delay before the search filters the items',
 			name: 'search-debounce',
 			type: 'number | undefined | null',
