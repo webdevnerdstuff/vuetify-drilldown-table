@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.0-beta-8
+06-28-23
+[main] (@webdevnerdstuff)
+* Fix search not working when using top slot
+
 ## v1.0.0-beta-7
 06-28-23
 [main] (@webdevnerdstuff)
