@@ -116,7 +116,7 @@ export const AllProps = {
 		xs: 12,
 		xxl: 2,
 	}),
-	searchDebounce: 750,
+	searchDebounce: 0,
 	searchEvents: () => ({}),
 	searchMaxWait: 1000,
 	searchProps: () => ({}),

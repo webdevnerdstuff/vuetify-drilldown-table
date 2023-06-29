@@ -1,10 +1,15 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.0-beta-10
+06-29-23
+[main] (@webdevnerdstuff)
+* Change default debounceDelay to zero
+
 ## v1.0.0-beta-9
 06-29-23
 [main] (@webdevnerdstuff)
-* Fix search not working when using top slot (debugging)
+* Fix search not working when using top slot... again
 
 ## v1.0.0-beta-8
 06-28-23
