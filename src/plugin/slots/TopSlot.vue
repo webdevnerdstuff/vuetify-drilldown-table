@@ -108,7 +108,6 @@ watch(levelSearch, () => {
 	emit('update:search', levelSearch.value);
 });
 
-
 const boundSearchProps = computed<KeyStringAny>(() => {
 	return {
 		...{
