@@ -478,10 +478,8 @@ function fetchClientData(drilldown = null) {
 			if (drilldown?.level === 1) {
 				user.child = {
 					...user.child,
-					...{
-						items: json.posts,
-						loading: false,
-					},
+					items: json.posts,
+					loading: false,
 				};
 				return;
 			}
@@ -490,10 +488,8 @@ function fetchClientData(drilldown = null) {
 			if (drilldown?.level === 2) {
 				post.child = {
 					...post.child,
-					...{
-						items: json.comments,
-						loading: false,
-					},
+					items: json.comments,
+					loading: false,
 				};
 			}
 		});

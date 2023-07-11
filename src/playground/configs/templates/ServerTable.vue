@@ -558,13 +558,11 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 
 		post.child = {
 			...post.child,
-			...{
-				items: comments,
-				itemsLength: pagination.itemsLength,
-				limit: post.child.server ? drilldown.limit : tableDefaults.itemsPerPage,
-				loading: false,
-				page: pagination.page,
-			},
+			items: comments,
+			itemsLength: pagination.itemsLength,
+			limit: post.child.server ? drilldown.limit : tableDefaults.itemsPerPage,
+			loading: false,
+			page: pagination.page,
 		};
 	});
 }
