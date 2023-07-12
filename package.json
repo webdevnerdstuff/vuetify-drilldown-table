@@ -67,11 +67,11 @@
 	],
 	"dependencies": {
 		"vue": "^3.3.4",
-		"vuetify": "3.3.7"
+		"vuetify": "3.3.8"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.22.5",
-		"@babel/eslint-parser": "^7.22.5",
+		"@babel/core": "^7.22.9",
+		"@babel/eslint-parser": "^7.22.9",
 		"@faker-js/faker": "^8.0.2",
 		"@fortawesome/fontawesome-svg-core": "^6.4.0",
 		"@fortawesome/free-brands-svg-icons": "^6.4.0",
