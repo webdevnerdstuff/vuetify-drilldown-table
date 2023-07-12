@@ -1,36 +1,21 @@
-import type { PropType as __PropType } from 'vue';
 import { KeyStringAny } from '../../types';
-declare const _sfc_main: import("vue").DefineComponent<{
+declare function selectAllCallback(val: boolean): void;
+declare function toggleSelectAllCallback(): void;
+declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
+    loading: {
+        type: globalThis.PropType<string | boolean | undefined>;
+        required: true;
+    };
     items: {
-        type: __PropType<any[] | undefined>;
+        type: globalThis.PropType<any[] | undefined>;
         required: true;
     };
     level: {
-        type: __PropType<number>;
-        required: true;
-    };
-    loading: {
-        type: __PropType<string | boolean | undefined>;
-        required: true;
-    };
-    searchContainerCols: {
-        type: __PropType<import('../../types').SearchContainerCols | undefined>;
-        required: false;
-    };
-    searchEvents: {
-        type: __PropType<KeyStringAny<any> | undefined>;
-        required: false;
-    };
-    searchProps: {
-        type: __PropType<KeyStringAny<any> | undefined>;
-        required: false;
-    };
-    showSearch: {
-        type: __PropType<boolean>;
+        type: globalThis.PropType<number>;
         required: true;
     };
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected: boolean;
             columns: import('../../types').InternalDataTableHeader[];
             headers: import('../../types').InternalDataTableHeader[][];
@@ -54,37 +39,34 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>;
         required: true;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:search" | "click:selectAll")[], "update:search" | "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    searchContainerCols: {
+        type: globalThis.PropType<import('../../types').SearchContainerCols>;
+    };
+    searchEvents: {
+        type: globalThis.PropType<KeyStringAny<any>>;
+    };
+    searchProps: {
+        type: globalThis.PropType<KeyStringAny<any>>;
+    };
+    showSearch: {
+        type: globalThis.PropType<boolean>;
+        required: true;
+    };
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("click:selectAll" | "update:search")[], "click:selectAll" | "update:search", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    loading: {
+        type: globalThis.PropType<string | boolean | undefined>;
+        required: true;
+    };
     items: {
-        type: __PropType<any[] | undefined>;
+        type: globalThis.PropType<any[] | undefined>;
         required: true;
     };
     level: {
-        type: __PropType<number>;
-        required: true;
-    };
-    loading: {
-        type: __PropType<string | boolean | undefined>;
-        required: true;
-    };
-    searchContainerCols: {
-        type: __PropType<import('../../types').SearchContainerCols | undefined>;
-        required: false;
-    };
-    searchEvents: {
-        type: __PropType<KeyStringAny<any> | undefined>;
-        required: false;
-    };
-    searchProps: {
-        type: __PropType<KeyStringAny<any> | undefined>;
-        required: false;
-    };
-    showSearch: {
-        type: __PropType<boolean>;
+        type: globalThis.PropType<number>;
         required: true;
     };
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected: boolean;
             columns: import('../../types').InternalDataTableHeader[];
             headers: import('../../types').InternalDataTableHeader[][];
@@ -106,10 +88,74 @@ declare const _sfc_main: import("vue").DefineComponent<{
             toggleSelect: (item: import('../../types').DataTableItem<any>) => void;
             toggleSort: (column: import('../../types').InternalDataTableHeader) => void;
         }>;
+        required: true;
+    };
+    searchContainerCols: {
+        type: globalThis.PropType<import('../../types').SearchContainerCols>;
+    };
+    searchEvents: {
+        type: globalThis.PropType<KeyStringAny<any>>;
+    };
+    searchProps: {
+        type: globalThis.PropType<KeyStringAny<any>>;
+    };
+    showSearch: {
+        type: globalThis.PropType<boolean>;
         required: true;
     };
 }>> & {
-    "onUpdate:search"?: ((...args: any[]) => any) | undefined;
     "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
-}, {}, {}>;
-export default _sfc_main;
+    "onUpdate:search"?: ((...args: any[]) => any) | undefined;
+}, {}, {}>, {
+    top?(_: {
+        allSelected: boolean;
+        columns: import('../../types').InternalDataTableHeader[];
+        headers: import('../../types').InternalDataTableHeader[][];
+        items: globalThis.ComputedRef<any[] | undefined>;
+        itemsPerPage: string | number | undefined;
+        level: number;
+        loading: string | boolean | undefined;
+        page: string | number | undefined;
+        pageCount: number;
+        search: string;
+        selectAll: typeof selectAllCallback;
+        setItemsPerPage: (itemsPerPage: number) => void;
+        toggleSelectAll: typeof toggleSelectAllCallback;
+    }): any;
+    "top.left"?(_: {
+        allSelected: boolean;
+        columns: import('../../types').InternalDataTableHeader[];
+        headers: import('../../types').InternalDataTableHeader[][];
+        items: globalThis.ComputedRef<any[] | undefined>;
+        itemsPerPage: string | number | undefined;
+        level: number;
+        loading: string | boolean | undefined;
+        page: string | number | undefined;
+        pageCount: number;
+        search: string;
+        selectAll: typeof selectAllCallback;
+        setItemsPerPage: (itemsPerPage: number) => void;
+        toggleSelectAll: typeof toggleSelectAllCallback;
+    }): any;
+    "top.right"?(_: {
+        allSelected: boolean;
+        columns: import('../../types').InternalDataTableHeader[];
+        headers: import('../../types').InternalDataTableHeader[][];
+        items: globalThis.ComputedRef<any[] | undefined>;
+        itemsPerPage: string | number | undefined;
+        level: number;
+        loading: string | boolean | undefined;
+        page: string | number | undefined;
+        pageCount: number;
+        search: string;
+        selectAll: typeof selectAllCallback;
+        setItemsPerPage: (itemsPerPage: number) => void;
+        toggleSelectAll: typeof toggleSelectAllCallback;
+    }): any;
+}>;
+export default _default;
+type __VLS_WithTemplateSlots<T, S> = T & {
+    new (): {
+        $slots: S;
+    };
+};

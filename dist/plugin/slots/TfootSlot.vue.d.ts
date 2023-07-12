@@ -1,20 +1,27 @@
-import type { PropType as __PropType } from 'vue';
 import { ColorsObject, Column } from '../../types';
-declare const _sfc_main: import("vue").DefineComponent<{
-    footers: {
-        type: __PropType<Column[]>;
-        required: true;
-    };
-    items: {
-        type: __PropType<any[] | undefined>;
+declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
+    density: {
+        type: globalThis.PropType<any>;
         required: true;
     };
     selectStrategy: {
-        type: __PropType<"page" | "all" | "single" | undefined>;
+        type: globalThis.PropType<"page" | "all" | "single" | undefined>;
+        required: true;
+    };
+    items: {
+        type: globalThis.PropType<any[] | undefined>;
+        required: true;
+    };
+    colors: {
+        type: globalThis.PropType<ColorsObject | null | undefined>;
+        required: true;
+    };
+    level: {
+        type: globalThis.PropType<number>;
         required: true;
     };
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected?: boolean | undefined;
             columns: Column[];
             getFixedStyles?: ((column: import('../../types').InternalDataTableHeader, y: number) => globalThis.CSSProperties | undefined) | undefined;
@@ -62,36 +69,35 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
     tableModelValue: {
-        type: __PropType<unknown[] | undefined>;
-        required: false;
+        type: globalThis.PropType<unknown[]>;
     };
-    colors: {
-        type: __PropType<ColorsObject | null | undefined>;
-        required: true;
-    };
-    density: {
-        type: __PropType<any>;
-        required: true;
-    };
-    level: {
-        type: __PropType<number>;
+    footers: {
+        type: globalThis.PropType<Column[]>;
         required: true;
     };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "click:selectAll"[], "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    footers: {
-        type: __PropType<Column[]>;
-        required: true;
-    };
-    items: {
-        type: __PropType<any[] | undefined>;
+    density: {
+        type: globalThis.PropType<any>;
         required: true;
     };
     selectStrategy: {
-        type: __PropType<"page" | "all" | "single" | undefined>;
+        type: globalThis.PropType<"page" | "all" | "single" | undefined>;
+        required: true;
+    };
+    items: {
+        type: globalThis.PropType<any[] | undefined>;
+        required: true;
+    };
+    colors: {
+        type: globalThis.PropType<ColorsObject | null | undefined>;
+        required: true;
+    };
+    level: {
+        type: globalThis.PropType<number>;
         required: true;
     };
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected?: boolean | undefined;
             columns: Column[];
             getFixedStyles?: ((column: import('../../types').InternalDataTableHeader, y: number) => globalThis.CSSProperties | undefined) | undefined;
@@ -139,22 +145,20 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
     };
     tableModelValue: {
-        type: __PropType<unknown[] | undefined>;
-        required: false;
+        type: globalThis.PropType<unknown[]>;
     };
-    colors: {
-        type: __PropType<ColorsObject | null | undefined>;
-        required: true;
-    };
-    density: {
-        type: __PropType<any>;
-        required: true;
-    };
-    level: {
-        type: __PropType<number>;
+    footers: {
+        type: globalThis.PropType<Column[]>;
         required: true;
     };
 }>> & {
     "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
-}, {}, {}>;
-export default _sfc_main;
+}, {}, {}>, Partial<Record<string, (_: {
+    column: Column;
+}) => any>>>;
+export default _default;
+type __VLS_WithTemplateSlots<T, S> = T & {
+    new (): {
+        $slots: S;
+    };
+};

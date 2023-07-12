@@ -1,32 +1,46 @@
-import type { PropType as __PropType } from 'vue';
 import { Column } from '../../types';
-declare const _sfc_main: import("vue").DefineComponent<{
-    colors: {
-        type: __PropType<import('../../types').ColorsObject | null | undefined>;
-        required: true;
-    };
+declare const _default: import("vue").DefineComponent<{
     density: {
-        type: __PropType<any>;
+        type: globalThis.PropType<any>;
         required: true;
-    };
-    level: {
-        type: __PropType<number>;
-        required: true;
-    };
-    showSelect: {
-        type: __PropType<boolean | undefined>;
-        required: false;
-        default: boolean;
     };
     sortBy: {
-        type: __PropType<readonly {
+        type: globalThis.PropType<readonly {
             key: string;
             order?: boolean | "asc" | "desc" | undefined;
         }[] | undefined>;
         required: true;
     };
+    showSelect: {
+        type: globalThis.PropType<boolean>;
+        default: boolean;
+    };
+    selectStrategy: {
+        type: globalThis.PropType<"page" | "all" | "single" | undefined>;
+        required: true;
+    };
+    items: {
+        type: globalThis.PropType<any[] | undefined>;
+        required: true;
+    };
+    colors: {
+        type: globalThis.PropType<import('../../types').ColorsObject | null | undefined>;
+        required: true;
+    };
+    level: {
+        type: globalThis.PropType<number>;
+        required: true;
+    };
+    columnWidths: {
+        type: globalThis.PropType<number[] | undefined>;
+        required: true;
+    };
+    matchColumnWidths: {
+        type: globalThis.PropType<boolean | undefined>;
+        required: true;
+    };
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected?: boolean | undefined;
             columns: Column[];
             getSortIcon: (column: import('../../types').InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
@@ -42,16 +56,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>;
         required: true;
     };
-    columnWidths: {
-        type: __PropType<number[] | undefined>;
-        required: true;
-    };
-    items: {
-        type: __PropType<any[] | undefined>;
-        required: true;
-    };
     loaderSettings: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             colspan: number;
             height?: string | number | undefined;
             loaderType: string | false | string[] | null | undefined;
@@ -62,41 +68,48 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>;
         required: true;
     };
-    matchColumnWidths: {
-        type: __PropType<boolean | undefined>;
-        required: true;
-    };
-    selectStrategy: {
-        type: __PropType<"page" | "all" | "single" | undefined>;
-        required: true;
-    };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:sortBy" | "click:selectAll")[], "update:sortBy" | "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    colors: {
-        type: __PropType<import('../../types').ColorsObject | null | undefined>;
-        required: true;
-    };
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("click:selectAll" | "update:sortBy")[], "click:selectAll" | "update:sortBy", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     density: {
-        type: __PropType<any>;
+        type: globalThis.PropType<any>;
         required: true;
-    };
-    level: {
-        type: __PropType<number>;
-        required: true;
-    };
-    showSelect: {
-        type: __PropType<boolean | undefined>;
-        required: false;
-        default: boolean;
     };
     sortBy: {
-        type: __PropType<readonly {
+        type: globalThis.PropType<readonly {
             key: string;
             order?: boolean | "asc" | "desc" | undefined;
         }[] | undefined>;
         required: true;
     };
+    showSelect: {
+        type: globalThis.PropType<boolean>;
+        default: boolean;
+    };
+    selectStrategy: {
+        type: globalThis.PropType<"page" | "all" | "single" | undefined>;
+        required: true;
+    };
+    items: {
+        type: globalThis.PropType<any[] | undefined>;
+        required: true;
+    };
+    colors: {
+        type: globalThis.PropType<import('../../types').ColorsObject | null | undefined>;
+        required: true;
+    };
+    level: {
+        type: globalThis.PropType<number>;
+        required: true;
+    };
+    columnWidths: {
+        type: globalThis.PropType<number[] | undefined>;
+        required: true;
+    };
+    matchColumnWidths: {
+        type: globalThis.PropType<boolean | undefined>;
+        required: true;
+    };
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected?: boolean | undefined;
             columns: Column[];
             getSortIcon: (column: import('../../types').InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
@@ -112,16 +125,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>;
         required: true;
     };
-    columnWidths: {
-        type: __PropType<number[] | undefined>;
-        required: true;
-    };
-    items: {
-        type: __PropType<any[] | undefined>;
-        required: true;
-    };
     loaderSettings: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             colspan: number;
             height?: string | number | undefined;
             loaderType: string | false | string[] | null | undefined;
@@ -130,20 +135,12 @@ declare const _sfc_main: import("vue").DefineComponent<{
             size?: string | number | undefined;
             textLoader?: boolean | undefined;
         }>;
-        required: true;
-    };
-    matchColumnWidths: {
-        type: __PropType<boolean | undefined>;
-        required: true;
-    };
-    selectStrategy: {
-        type: __PropType<"page" | "all" | "single" | undefined>;
         required: true;
     };
 }>> & {
-    "onUpdate:sortBy"?: ((...args: any[]) => any) | undefined;
     "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:sortBy"?: ((...args: any[]) => any) | undefined;
 }, {
-    showSelect: boolean | undefined;
+    showSelect: boolean;
 }, {}>;
-export default _sfc_main;
+export default _default;
