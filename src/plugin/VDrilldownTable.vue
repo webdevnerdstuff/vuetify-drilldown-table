@@ -9,6 +9,7 @@
 		:density="loadedDrilldown.density"
 		:expand-on-click="loadedDrilldown.expandOnClick"
 		:expanded="loadedDrilldown.expanded"
+		:fixed-header="loadedDrilldown.fixedHeader"
 		:group-by="loadedDrilldown.groupBy"
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
@@ -499,6 +500,7 @@ const tableClasses = computed<object>(() => {
 
 	return useTableClasses({
 		elevation: loadedDrilldown.elevation,
+		fixedHeader: loadedDrilldown.fixedHeader,
 		isDrilldown: props.isDrilldown,
 		isHover: loadedDrilldown.hover,
 		isServerSide,

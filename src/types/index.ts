@@ -578,6 +578,7 @@ export interface UseTableClasses {
 	(
 		options: {
 			elevation: string | number | undefined,
+			fixedHeader: Props['fixedHeader'],
 			isDrilldown: boolean,
 			isHover: boolean | undefined,
 			isServerSide: boolean,
