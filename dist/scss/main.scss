@@ -215,6 +215,40 @@
     position: relative;
   }
 
+  .v-table {
+    &--fixed-header {
+      > .v-table__wrapper {
+        > table {
+          > thead {
+            > tr {
+              > th {
+                box-shadow: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--fixed-header {
+    .v-table__wrapper {
+      > table {
+        > thead {
+          > tr {
+            > th {
+              box-shadow: none !important;
+            }
+
+            > td {
+              background: unset;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .v-data-table-footer {
     border-bottom: var(--vdt-border);
     padding-bottom: 4px;
