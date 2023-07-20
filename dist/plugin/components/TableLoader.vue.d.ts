@@ -1,101 +1,90 @@
-import type { PropType as __PropType } from 'vue';
-declare const _sfc_main: import("vue").DefineComponent<{
-    colors: {
-        type: __PropType<import('../../types').ColorsObject | null | undefined>;
-        required: true;
-    };
-    colspan: {
-        type: __PropType<number>;
-        required: true;
-    };
+declare const _default: import("vue").DefineComponent<{
     height: {
-        type: __PropType<string | number | undefined>;
-        required: false;
+        type: globalThis.PropType<string | number>;
         default: number;
     };
+    loading: {
+        type: globalThis.PropType<string | boolean | undefined>;
+        required: true;
+    };
+    loadingText: {
+        type: globalThis.PropType<string>;
+        default: string;
+    };
+    colspan: {
+        type: globalThis.PropType<number>;
+        required: true;
+    };
+    size: {
+        type: globalThis.PropType<string | number>;
+        default: string;
+    };
+    colors: {
+        type: globalThis.PropType<import('../../types').ColorsObject | null | undefined>;
+        required: true;
+    };
     level: {
-        type: __PropType<number>;
+        type: globalThis.PropType<number>;
         required: true;
     };
     loaderType: {
-        type: __PropType<string | false | string[] | null | undefined>;
+        type: globalThis.PropType<string | false | string[] | null | undefined>;
         required: true;
         default: string;
-    };
-    loading: {
-        type: __PropType<string | boolean | undefined>;
-        required: true;
     };
     loaderProps: {
-        type: __PropType<import('../../types').LoaderProps | undefined>;
-        required: false;
-    };
-    loadingText: {
-        type: __PropType<string | undefined>;
-        required: false;
-        default: string;
-    };
-    size: {
-        type: __PropType<string | number | undefined>;
-        required: false;
-        default: string;
+        type: globalThis.PropType<import('../../types').LoaderProps>;
     };
     textLoader: {
-        type: __PropType<boolean | undefined>;
-        required: false;
+        type: globalThis.PropType<boolean>;
         default: boolean;
     };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    colors: {
-        type: __PropType<import('../../types').ColorsObject | null | undefined>;
-        required: true;
-    };
-    colspan: {
-        type: __PropType<number>;
-        required: true;
-    };
     height: {
-        type: __PropType<string | number | undefined>;
-        required: false;
+        type: globalThis.PropType<string | number>;
         default: number;
     };
+    loading: {
+        type: globalThis.PropType<string | boolean | undefined>;
+        required: true;
+    };
+    loadingText: {
+        type: globalThis.PropType<string>;
+        default: string;
+    };
+    colspan: {
+        type: globalThis.PropType<number>;
+        required: true;
+    };
+    size: {
+        type: globalThis.PropType<string | number>;
+        default: string;
+    };
+    colors: {
+        type: globalThis.PropType<import('../../types').ColorsObject | null | undefined>;
+        required: true;
+    };
     level: {
-        type: __PropType<number>;
+        type: globalThis.PropType<number>;
         required: true;
     };
     loaderType: {
-        type: __PropType<string | false | string[] | null | undefined>;
+        type: globalThis.PropType<string | false | string[] | null | undefined>;
         required: true;
         default: string;
-    };
-    loading: {
-        type: __PropType<string | boolean | undefined>;
-        required: true;
     };
     loaderProps: {
-        type: __PropType<import('../../types').LoaderProps | undefined>;
-        required: false;
-    };
-    loadingText: {
-        type: __PropType<string | undefined>;
-        required: false;
-        default: string;
-    };
-    size: {
-        type: __PropType<string | number | undefined>;
-        required: false;
-        default: string;
+        type: globalThis.PropType<import('../../types').LoaderProps>;
     };
     textLoader: {
-        type: __PropType<boolean | undefined>;
-        required: false;
+        type: globalThis.PropType<boolean>;
         default: boolean;
     };
 }>>, {
-    height: string | number | undefined;
-    loadingText: string | undefined;
-    size: string | number | undefined;
+    height: string | number;
+    loadingText: string;
+    size: string | number;
     loaderType: string | false | string[] | null | undefined;
-    textLoader: boolean | undefined;
+    textLoader: boolean;
 }, {}>;
-export default _sfc_main;
+export default _default;

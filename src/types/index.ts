@@ -172,7 +172,7 @@ export interface Props {
 	hideNoData?: VDataTable['$props']['hideNoData'];
 	hover?: VDataTable['$props']['hover'];
 	isDrilldown?: boolean;
-	item?: VDataTableRow['$props']['item'];
+	item?: (typeof VDataTableRow)['$props']['item'];
 	itemChildrenKey?: string;
 	itemSelectable?: VDataTable['$props']['itemSelectable'];
 	itemValue?: VDataTable['$props']['itemValue'];
@@ -578,6 +578,7 @@ export interface UseTableClasses {
 	(
 		options: {
 			elevation: string | number | undefined,
+			fixedHeader: Props['fixedHeader'],
 			isDrilldown: boolean,
 			isHover: boolean | undefined,
 			isServerSide: boolean,

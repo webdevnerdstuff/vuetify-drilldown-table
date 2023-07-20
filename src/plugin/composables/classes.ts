@@ -18,10 +18,11 @@ import {
 
 // -------------------------------------------------- VDrilldownTable //
 export const useTableClasses: UseTableClasses = (options) => {
-	const { elevation, isDrilldown, isHover, isServerSide, level, separator } = options;
+	const { elevation, fixedHeader, isDrilldown, isHover, isServerSide, level, separator } = options;
 
 	const classes = {
 		[`${componentName}--child`]: isDrilldown,
+		[`${componentName}--fixed-header`]: fixedHeader,
 		[`${componentName}--hover`]: isHover,
 		[`${componentName}--level-${level}`]: true,
 		[`${componentName}--server`]: isServerSide,

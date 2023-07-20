@@ -1,7 +1,6 @@
-import type { PropType as __PropType } from 'vue';
-declare const _sfc_main: import("vue").DefineComponent<{
+declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected: boolean;
             columns: import('../../types').InternalDataTableHeader[];
             headers: import('../../types').InternalDataTableHeader[][];
@@ -27,7 +26,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected: boolean;
             columns: import('../../types').InternalDataTableHeader[];
             headers: import('../../types').InternalDataTableHeader[][];
@@ -51,5 +50,12 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>;
         required: true;
     };
-}>>, {}, {}>;
-export default _sfc_main;
+}>>, {}, {}>, {
+    bottom?(_: {}): any;
+}>;
+export default _default;
+type __VLS_WithTemplateSlots<T, S> = T & {
+    new (): {
+        $slots: S;
+    };
+};

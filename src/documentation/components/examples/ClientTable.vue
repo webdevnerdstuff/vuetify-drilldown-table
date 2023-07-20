@@ -94,7 +94,7 @@ const headers = {
 	comments: [
 		{
 			align: 'start',
-			key: null,
+			key: '',
 			title: '',
 			width: 110,
 		},
@@ -184,7 +184,7 @@ const footers = {
 	comments: [
 		{
 			align: 'start',
-			key: null,
+			key: '',
 			title: '',
 			width: 100,
 		},

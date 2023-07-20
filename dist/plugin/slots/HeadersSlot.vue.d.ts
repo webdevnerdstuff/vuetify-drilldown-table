@@ -1,45 +1,49 @@
-import type { PropType as __PropType } from 'vue';
 import { ColorsObject, Column, InternalDataTableHeader } from '../../types';
-declare const _sfc_main: import("vue").DefineComponent<{
-    columnWidths: {
-        type: __PropType<number[] | undefined>;
+declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
+    density: {
+        type: globalThis.PropType<any>;
         required: true;
     };
-    isTheadSlot: {
-        type: __PropType<boolean | undefined>;
-        required: false;
+    sortAscIcon: {
+        type: globalThis.PropType<string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]>;
+    };
+    sortBy: {
+        type: globalThis.PropType<readonly {
+            key: string;
+            order?: boolean | "asc" | "desc" | undefined;
+        }[] | undefined>;
+        required: true;
+    };
+    showSelect: {
+        type: globalThis.PropType<boolean>;
         default: boolean;
     };
-    items: {
-        type: __PropType<any[] | undefined>;
+    selectStrategy: {
+        type: globalThis.PropType<"page" | "all" | "single" | undefined>;
         required: true;
     };
-    loaderProps: {
-        type: __PropType<import('../../types').LoaderProps | undefined>;
-        required: false;
+    items: {
+        type: globalThis.PropType<any[] | undefined>;
+        required: true;
     };
-    loaderSettings: {
-        type: __PropType<{
-            colspan: number;
-            height?: string | number | undefined;
-            loaderType: string | false | string[] | null | undefined;
-            loading: string | boolean | undefined;
-            loadingText?: string | undefined;
-            size?: string | number | undefined;
-            textLoader?: boolean | undefined;
-        }>;
+    colors: {
+        type: globalThis.PropType<ColorsObject | null | undefined>;
+        required: true;
+    };
+    level: {
+        type: globalThis.PropType<number>;
+        required: true;
+    };
+    columnWidths: {
+        type: globalThis.PropType<number[] | undefined>;
         required: true;
     };
     matchColumnWidths: {
-        type: __PropType<boolean | undefined>;
-        required: true;
-    };
-    selectStrategy: {
-        type: __PropType<"page" | "all" | "single" | undefined>;
+        type: globalThis.PropType<boolean | undefined>;
         required: true;
     };
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected?: boolean | undefined;
             columns: Column[];
             getSortIcon: (column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
@@ -55,78 +59,73 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>;
         required: true;
     };
-    sortAscIcon: {
-        type: __PropType<(string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined>;
-        required: false;
-    };
-    tableModelValue: {
-        type: __PropType<unknown[] | undefined>;
-        required: false;
-    };
-    colors: {
-        type: __PropType<ColorsObject | null | undefined>;
+    loaderSettings: {
+        type: globalThis.PropType<{
+            colspan: number;
+            height?: string | number | undefined;
+            loaderType: string | false | string[] | null | undefined;
+            loading: string | boolean | undefined;
+            loadingText?: string | undefined;
+            size?: string | number | undefined;
+            textLoader?: boolean | undefined;
+        }>;
         required: true;
     };
-    density: {
-        type: __PropType<any>;
-        required: true;
-    };
-    level: {
-        type: __PropType<number>;
-        required: true;
-    };
-    showSelect: {
-        type: __PropType<boolean | undefined>;
-        required: false;
+    isTheadSlot: {
+        type: globalThis.PropType<boolean>;
         default: boolean;
     };
-    sortBy: {
-        type: __PropType<readonly {
-            key: string;
-            order?: boolean | "asc" | "desc" | undefined;
-        }[] | undefined>;
-        required: true;
+    loaderProps: {
+        type: globalThis.PropType<import('../../types').LoaderProps>;
+    };
+    tableModelValue: {
+        type: globalThis.PropType<unknown[]>;
     };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "click:selectAll"[], "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    columnWidths: {
-        type: __PropType<number[] | undefined>;
+    density: {
+        type: globalThis.PropType<any>;
         required: true;
     };
-    isTheadSlot: {
-        type: __PropType<boolean | undefined>;
-        required: false;
+    sortAscIcon: {
+        type: globalThis.PropType<string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]>;
+    };
+    sortBy: {
+        type: globalThis.PropType<readonly {
+            key: string;
+            order?: boolean | "asc" | "desc" | undefined;
+        }[] | undefined>;
+        required: true;
+    };
+    showSelect: {
+        type: globalThis.PropType<boolean>;
         default: boolean;
     };
-    items: {
-        type: __PropType<any[] | undefined>;
+    selectStrategy: {
+        type: globalThis.PropType<"page" | "all" | "single" | undefined>;
         required: true;
     };
-    loaderProps: {
-        type: __PropType<import('../../types').LoaderProps | undefined>;
-        required: false;
+    items: {
+        type: globalThis.PropType<any[] | undefined>;
+        required: true;
     };
-    loaderSettings: {
-        type: __PropType<{
-            colspan: number;
-            height?: string | number | undefined;
-            loaderType: string | false | string[] | null | undefined;
-            loading: string | boolean | undefined;
-            loadingText?: string | undefined;
-            size?: string | number | undefined;
-            textLoader?: boolean | undefined;
-        }>;
+    colors: {
+        type: globalThis.PropType<ColorsObject | null | undefined>;
+        required: true;
+    };
+    level: {
+        type: globalThis.PropType<number>;
+        required: true;
+    };
+    columnWidths: {
+        type: globalThis.PropType<number[] | undefined>;
         required: true;
     };
     matchColumnWidths: {
-        type: __PropType<boolean | undefined>;
-        required: true;
-    };
-    selectStrategy: {
-        type: __PropType<"page" | "all" | "single" | undefined>;
+        type: globalThis.PropType<boolean | undefined>;
         required: true;
     };
     slotProps: {
-        type: __PropType<{
+        type: globalThis.PropType<{
             allSelected?: boolean | undefined;
             columns: Column[];
             getSortIcon: (column: InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
@@ -142,42 +141,41 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>;
         required: true;
     };
-    sortAscIcon: {
-        type: __PropType<(string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined>;
-        required: false;
-    };
-    tableModelValue: {
-        type: __PropType<unknown[] | undefined>;
-        required: false;
-    };
-    colors: {
-        type: __PropType<ColorsObject | null | undefined>;
+    loaderSettings: {
+        type: globalThis.PropType<{
+            colspan: number;
+            height?: string | number | undefined;
+            loaderType: string | false | string[] | null | undefined;
+            loading: string | boolean | undefined;
+            loadingText?: string | undefined;
+            size?: string | number | undefined;
+            textLoader?: boolean | undefined;
+        }>;
         required: true;
     };
-    density: {
-        type: __PropType<any>;
-        required: true;
-    };
-    level: {
-        type: __PropType<number>;
-        required: true;
-    };
-    showSelect: {
-        type: __PropType<boolean | undefined>;
-        required: false;
+    isTheadSlot: {
+        type: globalThis.PropType<boolean>;
         default: boolean;
     };
-    sortBy: {
-        type: __PropType<readonly {
-            key: string;
-            order?: boolean | "asc" | "desc" | undefined;
-        }[] | undefined>;
-        required: true;
+    loaderProps: {
+        type: globalThis.PropType<import('../../types').LoaderProps>;
+    };
+    tableModelValue: {
+        type: globalThis.PropType<unknown[]>;
     };
 }>> & {
     "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
 }, {
-    showSelect: boolean | undefined;
-    isTheadSlot: boolean | undefined;
-}, {}>;
-export default _sfc_main;
+    showSelect: boolean;
+    isTheadSlot: boolean;
+}, {}>, Partial<Record<string, (_: {
+    column: Column;
+}) => any>> & {
+    "header.sortIcon"?(_: {}): any;
+}>;
+export default _default;
+type __VLS_WithTemplateSlots<T, S> = T & {
+    new (): {
+        $slots: S;
+    };
+};
