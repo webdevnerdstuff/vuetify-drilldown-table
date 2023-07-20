@@ -227,7 +227,7 @@ const headers = {
 	comments: [
 		// {
 		// 	align: 'start',
-		// 	key: null,
+		// 	key: '',
 		// 	title: '',
 		// 	width: 110,
 		// },
