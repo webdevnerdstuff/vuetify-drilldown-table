@@ -45,33 +45,33 @@
 				>
 					<template #[`item.name`]="{ item }">
 						<div
-							:id="slugifyString(sectionId, item.raw.name)"
+							:id="slugifyString(sectionId, item.name)"
 							class="name-item text-mono ml-n2"
 						>
 							<span class="text-primary">#</span>
 							<a
 								class="text-primary"
 								:class="classes.appLink"
-								:href="`#${slugifyString(sectionId, item.raw.name)}`"
-							>{{ item.raw.name }}</a>
+								:href="`#${slugifyString(sectionId, item.name)}`"
+							>{{ item.name }}</a>
 						</div>
 					</template>
 
 					<template #[`item.type`]="{ item }">
 						<div class="text-success">
-							{{ item.raw.type }}
+							{{ item.type }}
 						</div>
 					</template>
 
 					<template #[`item.default`]="{ item }">
 						<div
 							class="text-accent"
-							v-html="item.raw.default"
+							v-html="item.default"
 						></div>
 					</template>
 
 					<template #[`item.desc`]="{ item }">
-						<div v-html="item.raw.desc"></div>
+						<div v-html="item.desc"></div>
 					</template>
 				</v-data-table>
 			</v-card>

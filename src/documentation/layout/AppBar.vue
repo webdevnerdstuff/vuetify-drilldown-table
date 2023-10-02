@@ -42,10 +42,10 @@
 		>
 			<template #item="{ item }">
 				<v-list-item
-					:key="item.key"
+					:key="item.raw.key"
 					density="compact"
 					:href="item.raw.link"
-					:prepend-icon="item.raw.icon ? item.raw.icon : 'mdi:mdi-vuetify'"
+					:prepend-icon="item.raw.icon ? item.raw.icon : '$vuetify'"
 					target="_blank"
 					:title="item.raw?.topTitle || item.title"
 				>

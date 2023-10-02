@@ -271,7 +271,7 @@ onMounted(() => {
 
 
 function fetchClientData(drilldown = null) {
-	const item = drilldown?.item?.raw ?? null;
+	const item = drilldown?.item ?? null;
 
 	let url = 'api/users';
 	let user = null;

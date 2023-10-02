@@ -224,33 +224,33 @@
 
 
 		<!-- ================================================== Expanded Row Slot -->
-		<template #expanded-row="{ columns, item }">
-			<tr :class="showLoadingDrilldownTable(item.raw[itemChildrenKey]?.loading) ? '' : 'd-none'">
+		<template #expanded-row="{ columns, item, internalItem }">
+			<tr :class="showLoadingDrilldownTable(item[itemChildrenKey]?.loading) ? '' : 'd-none'">
 				<td
 					class="px-0 ma-0"
 					:colspan="columns.length"
 					style="vertical-align: top;"
 				>
 					<VDrilldownTable
-						:key="item.raw"
+						:key="internalItem.key"
 						:column-widths="loadedDrilldown.columnWidths"
 						:density="loadedDrilldown.density"
 						:drilldown="loadedDrilldown"
-						:headers="item.raw[itemChildrenKey]?.headers"
+						:headers="item[itemChildrenKey]?.headers"
 						:is-drilldown="true"
 						:item="item"
-						:items-length="item.raw[itemChildrenKey]?.itemsLength"
-						:items-per-page="item.raw[itemChildrenKey]?.itemsPerPage"
+						:items-length="item[itemChildrenKey]?.itemsLength"
+						:items-per-page="item[itemChildrenKey]?.itemsPerPage"
 						:level="level + 1"
 						:levels="loadedDrilldown.levels"
-						:loaderProps="item.raw[itemChildrenKey]?.loaderProps"
-						:loaderType="item.raw[itemChildrenKey]?.loaderType"
-						:loading="item.raw[itemChildrenKey]?.loading"
+						:loaderProps="item[itemChildrenKey]?.loaderProps"
+						:loaderType="item[itemChildrenKey]?.loaderType"
+						:loading="item[itemChildrenKey]?.loading"
 						:loadingText="loadingText"
 						:match-column-widths="loadedDrilldown.matchColumnWidths"
-						:multi-sort="item.raw[itemChildrenKey]?.multiSort"
+						:multi-sort="item[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
-						:server="item.raw[itemChildrenKey]?.server"
+						:server="item[itemChildrenKey]?.server"
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
@@ -523,11 +523,11 @@ function setLoadedDrilldown(): void {
 	if (props.drilldown) {
 		loadedDrilldown = useSetLoadedDrilldown({
 			drilldown: props.drilldown,
+			item: props.item,
 			level: props.level,
 			levels: props.levels,
 			loadedDrilldown,
 			matchColumnWidths: props.matchColumnWidths,
-			rawItem: props.item?.raw,
 		});
 		return;
 	}

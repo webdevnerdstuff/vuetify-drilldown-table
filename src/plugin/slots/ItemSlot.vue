@@ -7,6 +7,7 @@
 			isExpanded,
 			isRow: true,
 			item,
+			internalItem,
 			level: currentLevel,
 			toggleExpand,
 			$event,
@@ -63,12 +64,13 @@
 				<div
 					v-if="currentLevel < levels"
 					class="v-drilldown-table--expand-icon"
-					:class="!isExpanded(item) ? '' : 'rotate-180'"
+					:class="!isExpanded(internalItem) ? '' : 'rotate-180'"
 					@click="drilldownEvent({
 						columns,
 						index,
 						isExpanded,
 						item,
+						internalItem,
 						level: currentLevel,
 						toggleExpand,
 					})"
@@ -128,6 +130,7 @@ const columns = computed<Column[]>(() => props.slotProps.columns);
 const index = computed(() => props.slotProps.index);
 const isExpanded = computed(() => props.slotProps.isExpanded);
 const item = computed(() => props.slotProps.item);
+const internalItem = computed(() => props.slotProps.internalItem);
 const currentLevel = computed(() => props.slotProps.level);
 const toggleExpand = computed(() => props.slotProps.toggleExpand);
 const toggleSelect = computed(() => props.slotProps.toggleSelect);
@@ -154,7 +157,7 @@ const cellClasses = (column: Column): object => {
 };
 
 function drilldownEvent(data: DrilldownEvent): void {
-	const { isRow, item, level, toggleExpand } = data as DrilldownEvent;
+	const { isRow, internalItem, level, toggleExpand } = data as DrilldownEvent;
 
 	if (props.level >= props.levels || props.expandOnClick && !isRow) {
 		return;
@@ -176,7 +179,7 @@ function drilldownEvent(data: DrilldownEvent): void {
 
 	// Sets the expanded state of the item on current table //
 	if (level === props.level) {
-		toggleExpand(item);
+		toggleExpand(internalItem);
 	}
 
 	emit('update:expanded', data);
@@ -205,7 +208,7 @@ const expandIconSize = computed(() => {
 
 // -------------------------------------------------- Render //
 function renderCellItem(item: DataTableItem, column: Column): unknown {
-	return useRenderCellItem(item.raw as DataTableItem['raw'], column);
+	return useRenderCellItem(item as DataTableItem['item'], column);
 }
 </script>
 

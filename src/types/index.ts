@@ -37,7 +37,8 @@ export type InternalDataTableHeader = DataTableHeader & {
 export interface DataTableItem<T = any> {
 	value: any;
 	type: 'item';
-	raw: T;
+	internalItem: T;
+	item: T;
 	selected: boolean;
 	selectable: boolean;
 	columns: {
@@ -316,6 +317,7 @@ export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
 	slotProps: {
 		columns: Column[];
 		index?: number;
+		internalItem: DataTableItem | any;
 		isExpanded: IsExpanded;
 		isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
 		item: DataTableItem | any;
@@ -412,7 +414,7 @@ export interface UseSetLoadedDrilldown {
 		options: {
 			loadedDrilldown: Props,
 			drilldown: object,
-			rawItem: DataTableItem['raw'],
+			item: DataTableItem['item'],
 			level: Props['level'],
 			levels: Props['levels'],
 			matchColumnWidths?: Props['matchColumnWidths'],
@@ -655,6 +657,7 @@ export type DrilldownEvent = {
 	$event?: MouseEvent | undefined;
 	columns?: object;
 	index?: number;
+	internalItem: DataTableItem | any;
 	isExpanded: IsExpanded;
 	isRow?: boolean;
 	item: DataTableItem | any;
