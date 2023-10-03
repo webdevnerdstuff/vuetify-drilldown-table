@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.0-beta-13
+10-03-23
+[main] (@webdevnerdstuff)
+* Update packages
+* Fix bugs due to changes in vuetify data-tables updates
+* Fix loading issue on deeper levels
+* Add setting to not include Vuetify styles that are not needed
+
+
 ## v1.0.0-beta-10
 06-29-23
 [main] (@webdevnerdstuff)
