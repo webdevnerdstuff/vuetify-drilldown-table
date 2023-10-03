@@ -239,6 +239,7 @@
 						:headers="item[itemChildrenKey]?.headers"
 						:is-drilldown="true"
 						:item="item"
+						:items="item[itemChildrenKey]?.items"
 						:items-length="item[itemChildrenKey]?.itemsLength"
 						:items-per-page="item[itemChildrenKey]?.itemsPerPage"
 						:level="level + 1"
