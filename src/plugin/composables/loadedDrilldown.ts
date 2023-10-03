@@ -27,14 +27,15 @@ export const useGetHeaderColumnWidths: UseGetHeaderColumnWidths = (options) => {
 
 
 export const useSetLoadedDrilldown: UseSetLoadedDrilldown = (options) => {
-	const { drilldown, rawItem, level, levels, loadedDrilldown } = options;
+	const { drilldown, item, level, levels, loadedDrilldown } = options;
 	let settings = loadedDrilldown;
+	const rawItem = item;
 
 	settings = useMergeDeep(loadedDrilldown, drilldown) as Props;
 	const items = loadedDrilldown.items as Props['items'] || [{}];
 
-	const drilldownItem = items.find(<T, K extends keyof T>(item: T) => {
-		const thisItem = item[loadedDrilldown.drilldownKey as K];
+	const drilldownItem = items.find(<T, K extends keyof T>(dItem: T) => {
+		const thisItem = dItem[loadedDrilldown.drilldownKey as K];
 		let propsItem = {};
 
 		if (rawItem) {

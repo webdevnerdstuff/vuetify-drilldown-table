@@ -322,7 +322,7 @@ function getUsers(drilldown = null) {
 }
 
 function getUserPosts(drilldown = null, updateCurrentLevel = false) {
-	const item = drilldown?.item?.raw ?? null;
+	const item = drilldown?.item ?? null;
 
 	const userId = item.id;
 	const user = tableSettings.value.items.find(
@@ -377,7 +377,7 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 }
 
 function getPostComments(drilldown = null, updateCurrentLevel = false) {
-	const item = drilldown?.item?.raw ?? null;
+	const item = drilldown?.item ?? null;
 
 	const userId = item.userId;
 	const user = tableSettings.value.items.find(

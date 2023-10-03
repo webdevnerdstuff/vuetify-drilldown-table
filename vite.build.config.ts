@@ -72,6 +72,7 @@ export default defineConfig({
 		}),
 		vuetify({
 			autoImport: true,
+			styles: 'none',
 		}),
 		cssInjectedByJsPlugin({ topExecutionPriority: false }),
 		viteStaticCopy({

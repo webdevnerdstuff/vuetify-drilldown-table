@@ -5,7 +5,7 @@ import { UseEmitUpdatedExpanded } from '@/types';
 export const useEmitUpdatedExpanded: UseEmitUpdatedExpanded = (options) => {
 	const { data, drilldownData, emit } = options;
 
-	if (data.isExpanded(data.item)) {
+	if (data.isExpanded(data.internalItem)) {
 		emit('update:drilldown', drilldownData);
 	}
 

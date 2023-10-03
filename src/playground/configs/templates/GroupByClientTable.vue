@@ -203,7 +203,7 @@ onMounted(() => {
 const users = ref([]);
 
 function fetchClientData(drilldown = null) {
-	const item = drilldown?.item?.raw ?? null;
+	const item = drilldown?.item ?? null;
 
 	let url = 'api/posts';
 	let user = null;

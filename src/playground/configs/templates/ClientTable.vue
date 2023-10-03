@@ -158,7 +158,7 @@
 			</template> -->
 
 			<!-- <template #[`item.id`]="{ item }">
-				[item cell Slot]: {{ item.raw.id }}
+				[item cell Slot]: {{ item.id }}
 			</template> -->
 
 			<!-- <template #[`item.data-table-select`]>
@@ -396,7 +396,7 @@ onMounted(() => {
 
 
 function fetchClientData(drilldown = null) {
-	const item = drilldown?.item?.raw ?? null;
+	const item = drilldown?.item ?? null;
 
 	let url = 'api/users';
 	let user = null;

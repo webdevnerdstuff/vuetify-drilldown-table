@@ -259,7 +259,7 @@ const rendererExampleCode = `const headers = [
     align: 'start',
     key: 'name',
     renderer(value, item, column) {
-      return \`<span class="font-italic">\${item.raw.value}</span> Column\`;
+      return \`<span class="font-italic">\${item.value}</span> Column\`;
     },
     sortable: false,
     title: 'Name',
@@ -289,7 +289,7 @@ const rendererHeaderExampleCode = `const headers = [
     align: 'start',
     key: 'cost',
     renderHeader(value, item, column) {
-      return \`<span class="font-italic">\${item.raw.value}</span> Column\`;
+      return \`<span class="font-italic">\${item.value}</span> Column\`;
     },
     sortable: false,
     title: 'Cost',
@@ -349,7 +349,7 @@ const rendererItemExampleCode = `const headers = [
     align: 'start',
     key: 'cost',
     renderItem(value, item, column) {
-      return \`$\${item.raw.value}\`;
+      return \`$\${item.value}\`;
     },
     sortable: false,
     title: 'Cost',

@@ -158,7 +158,7 @@
 			</template> -->
 
 			<!-- <template #[`item.id`]="{ item }">
-				[item cell Slot]: {{ item.raw.id }}
+				[item cell Slot]: {{ item.id }}
 			</template> -->
 
 			<!-- <template #[`item.data-table-select`]>
@@ -456,7 +456,7 @@ function getUsers(drilldown = null) {
 }
 
 function getUserPosts(drilldown = null, updateCurrentLevel = false) {
-	const item = drilldown?.item?.raw ?? null;
+	const item = drilldown?.item ?? null;
 
 	const userId = item.id;
 	const user = tableSettings.value.items.find(
@@ -510,7 +510,7 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 }
 
 function getPostComments(drilldown = null, updateCurrentLevel = false) {
-	const item = drilldown?.item?.raw ?? null;
+	const item = drilldown?.item ?? null;
 
 	const userId = item.userId;
 	const user = tableSettings.value.items.find(
