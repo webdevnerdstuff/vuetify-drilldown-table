@@ -12,7 +12,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         required: true;
     };
     itemSelectable: {
-        type: globalThis.PropType<(string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any)) | undefined>;
+        type: globalThis.PropType<string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null | undefined>;
         required: true;
     };
     expandOnClick: {
@@ -31,6 +31,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         type: globalThis.PropType<{
             columns: Column[];
             index?: number | undefined;
+            internalItem: any;
             isExpanded: (item: DataTableItem<any>) => boolean;
             isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
             item: any;
@@ -44,7 +45,11 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         type: globalThis.PropType<number>;
         required: true;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:expanded" | "click:row" | "click:row:checkbox")[], "update:expanded" | "click:row" | "click:row:checkbox", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+    "update:expanded": (...args: any[]) => void;
+    "click:row": (...args: any[]) => void;
+    "click:row:checkbox": (...args: any[]) => void;
+}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     density: {
         type: globalThis.PropType<any>;
         required: true;
@@ -57,7 +62,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         required: true;
     };
     itemSelectable: {
-        type: globalThis.PropType<(string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any)) | undefined>;
+        type: globalThis.PropType<string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null | undefined>;
         required: true;
     };
     expandOnClick: {
@@ -76,6 +81,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         type: globalThis.PropType<{
             columns: Column[];
             index?: number | undefined;
+            internalItem: any;
             isExpanded: (item: DataTableItem<any>) => boolean;
             isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
             item: any;
@@ -93,14 +99,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
     "onClick:row"?: ((...args: any[]) => any) | undefined;
     "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
     "onClick:row:checkbox"?: ((...args: any[]) => any) | undefined;
-}, {}, {}>, Partial<Record<string, (_: {
-    columns: Column[];
-    index: number | undefined;
-    item: any;
-}) => any>> & {
-    "item.data-table-select"?(_: {}): any;
-    "item.data-table-expand"?(_: {}): any;
-}>;
+}, {}, {}>, Readonly<Record<string, any>>>;
 export default _default;
 type __VLS_WithTemplateSlots<T, S> = T & {
     new (): {
