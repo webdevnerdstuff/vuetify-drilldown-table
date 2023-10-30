@@ -68,7 +68,10 @@ declare const _default: import("vue").DefineComponent<{
         }>;
         required: true;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("click:selectAll" | "update:sortBy")[], "click:selectAll" | "update:sortBy", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+    "click:selectAll": (...args: any[]) => void;
+    "update:sortBy": (...args: any[]) => void;
+}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     density: {
         type: globalThis.PropType<any>;
         required: true;

@@ -81,7 +81,9 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
     tableModelValue: {
         type: globalThis.PropType<unknown[]>;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "click:selectAll"[], "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+    "click:selectAll": (...args: any[]) => void;
+}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     density: {
         type: globalThis.PropType<any>;
         required: true;

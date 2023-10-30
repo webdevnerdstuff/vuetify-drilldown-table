@@ -11,7 +11,7 @@ export declare const useLoaderTrStyles: UseLoaderStyles;
 export declare const useLoaderTdStyles: UseLoaderStyles;
 export declare const useLoaderContainerClasses: UseLoaderContainerClasses;
 export declare const useLoaderVRowClasses: () => {
-    [x: string]: boolean;
+    "v-drilldown-table--loader-tr-vrow": boolean;
     'align-center': boolean;
     'd-grid': boolean;
     'flex-column': boolean;

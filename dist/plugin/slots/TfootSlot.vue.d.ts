@@ -27,8 +27,8 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
             getFixedStyles?: ((column: import('../../types').InternalDataTableHeader, y: number) => globalThis.CSSProperties | undefined) | undefined;
             getSortIcon?: ((column: import('../../types').InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
             headers?: import("vue").DeepReadonly<{
-                key: string;
-                value?: (string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any)) | undefined;
+                key?: (string & {}) | "data-table-group" | "data-table-select" | "data-table-expand" | undefined;
+                value?: string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null | undefined;
                 title: string;
                 colspan?: number | undefined;
                 rowspan?: number | undefined;
@@ -40,8 +40,8 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
                 sortable?: boolean | undefined;
                 sort?: ((a: any, b: any) => number) | undefined;
             }[] | {
-                key: string;
-                value?: (string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any)) | undefined;
+                key?: (string & {}) | "data-table-group" | "data-table-select" | "data-table-expand" | undefined;
+                value?: string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null | undefined;
                 title: string;
                 colspan?: number | undefined;
                 rowspan?: number | undefined;
@@ -75,7 +75,9 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         type: globalThis.PropType<Column[]>;
         required: true;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "click:selectAll"[], "click:selectAll", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+    "click:selectAll": (...args: any[]) => void;
+}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     density: {
         type: globalThis.PropType<any>;
         required: true;
@@ -103,8 +105,8 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
             getFixedStyles?: ((column: import('../../types').InternalDataTableHeader, y: number) => globalThis.CSSProperties | undefined) | undefined;
             getSortIcon?: ((column: import('../../types').InternalDataTableHeader) => string | import("vue").JSXComponent | (string | [path: string, opacity: number])[]) | undefined;
             headers?: import("vue").DeepReadonly<{
-                key: string;
-                value?: (string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any)) | undefined;
+                key?: (string & {}) | "data-table-group" | "data-table-select" | "data-table-expand" | undefined;
+                value?: string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null | undefined;
                 title: string;
                 colspan?: number | undefined;
                 rowspan?: number | undefined;
@@ -116,8 +118,8 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
                 sortable?: boolean | undefined;
                 sort?: ((a: any, b: any) => number) | undefined;
             }[] | {
-                key: string;
-                value?: (string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any)) | undefined;
+                key?: (string & {}) | "data-table-group" | "data-table-select" | "data-table-expand" | undefined;
+                value?: string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null | undefined;
                 title: string;
                 colspan?: number | undefined;
                 rowspan?: number | undefined;
