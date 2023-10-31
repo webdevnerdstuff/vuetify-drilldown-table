@@ -43,11 +43,12 @@
 				<v-checkbox
 					class="d-flex v-simple-checkbox"
 					:density="density"
-					:disabled="item.raw.selectable === false && itemSelectable === 'selectable'"
-					:model-value="slotProps.isSelected([item])"
+					:disabled="item.selectable === false && itemSelectable === 'selectable'"
+					:model-value="slotProps.isSelected([internalItem])"
 					@click.stop="emitClickRowCheckbox({
 						columns,
 						index,
+						internalItem,
 						item,
 						level: currentLevel,
 						toggleSelect,
@@ -188,9 +189,9 @@ function drilldownEvent(data: DrilldownEvent): void {
 
 // -------------------------------------------------- Select //
 function emitClickRowCheckbox(data: ClickRowCheckboxEvent): void {
-	const { item, toggleSelect } = data as ClickRowCheckboxEvent;
+	const { internalItem, item, toggleSelect } = data as ClickRowCheckboxEvent;
 
-	toggleSelect(item);
+	toggleSelect(internalItem);
 
 	emit('click:row:checkbox', item);
 }

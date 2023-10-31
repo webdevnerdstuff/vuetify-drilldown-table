@@ -10,13 +10,13 @@ import {
 // -------------------------------------------------- VDrilldownTable //
 export const useTableStyles: UseTableStyles = (options) => {
 	const { colors, level, theme } = options;
-	let baseColors: { bottomBorder?: string; } = {};
+	let baseColors: { border?: string; } = {};
 
 	if (typeof colors === 'object' && colors !== null) {
 		baseColors = useGetLevelColors({
 			colors,
 			level,
-			prop: 'table',
+			prop: 'default',
 			themeColors: theme,
 		});
 	}
@@ -25,8 +25,8 @@ export const useTableStyles: UseTableStyles = (options) => {
 		borderBottom: 'none',
 	};
 
-	if (baseColors.bottomBorder) {
-		styles.borderBottom = `1px solid ${baseColors.bottomBorder}`;
+	if (baseColors.border) {
+		styles.borderBottom = `1px solid ${baseColors.border}`;
 	}
 
 	return styles;

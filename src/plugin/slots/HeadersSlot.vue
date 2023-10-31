@@ -133,7 +133,6 @@ const sortAscIcon = ref(props.sortAscIcon);
 const tableModelValue = computed(() => props.tableModelValue);
 const theme = useTheme();
 
-
 const columns = computed<Column[]>(() => checkColumnWidthUsage());
 
 
@@ -197,9 +196,23 @@ const cellClasses = (column: Column, slotName = ''): object => {
 	});
 };
 
+const computedColors = computed<ColorsObject>(() => {
+	const colors = props.colors as ColorsObject;
+
+	colors.header = {
+		background: props.headerBackgroundColor,
+		color: props.headerColor,
+	};
+
+	colors.percentageChange = props.colorPercentageChange;
+	colors.percentageDirection = props.colorPercentageDirection;
+
+	return colors as ColorsObject;
+});
+
 const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
 	return useHeaderCellStyles({
-		colors: props.colors as ColorsObject,
+		colors: computedColors.value,
 		column,
 		dataTableExpand,
 		level: props.level,

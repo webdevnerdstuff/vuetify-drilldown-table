@@ -1,14 +1,18 @@
-import { Column } from '@/types';
+import { Column, DefaultColors } from '@/types';
+
+export const defaultColorValues: DefaultColors = {
+	background: 'primary',
+	base: 'primary',
+	border: 'transparent',
+	color: 'on-primary',
+};
 
 export const AllProps = {
 	// color: 'primary',															// ? Doesn't seem to work
+	colorPercentageChange: 15,
+	colorPercentageDirection: 'desc' as const,
 	colors: () => ({
-		default: {
-			background: 'primary',
-			base: 'primary',
-			border: 'primary',
-			color: 'on-primary',
-		},
+		default: defaultColorValues,
 		footer: {
 			background: '--v-theme-surface',
 			color: '--v-theme-on-surface',
@@ -19,13 +23,11 @@ export const AllProps = {
 		},
 		percentageChange: 15,
 		percentageDirection: 'desc',
-		table: {
-			bottomBorder: 'primary',
-		},
 	}) as const,
 	columnWidths: () => ([]),
 	// customFilter: undefined, 											// ? Needs Testing
 	// customKeyFilter: undefined,										// ? Needs Testing
+	defaultColors: () => defaultColorValues,
 	density: 'default',
 	// drilldown: () => ({}),													// * Works - Internal Prop
 	drilldownKey: 'id',
@@ -38,7 +40,11 @@ export const AllProps = {
 	// firstPageLabel: '',														// ? Doesn't seem to work
 	// fixedFooter: true, 														// ? Doesn't seem to work
 	// fixedHeader: true, 														// ? Doesn't seem to work
+	footerBackgroundColor: '--v-theme-surface',
+	footerColor: '--v-theme-on-surface',
 	footers: () => [] as Column[],
+	headerBackgroundColor: 'primary',
+	headerColor: 'on-primary',
 	// headers: () => [] as const,										// * Works - Keep Commented Out
 	height: 'auto',
 	// hideDrilldownWhenLoading: true,								// * Works - Keep Commented Out
