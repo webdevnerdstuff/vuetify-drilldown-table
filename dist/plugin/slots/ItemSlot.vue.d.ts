@@ -1,106 +1,31 @@
-import { Column, DataTableItem } from '../../types';
-declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
-    density: {
-        type: globalThis.PropType<any>;
-        required: true;
-    };
-    showSelect: {
-        type: globalThis.PropType<boolean>;
-    };
-    items: {
-        type: globalThis.PropType<any[] | undefined>;
-        required: true;
-    };
-    itemSelectable: {
-        type: globalThis.PropType<string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null | undefined>;
-        required: true;
-    };
-    expandOnClick: {
-        type: globalThis.PropType<boolean | undefined>;
-        required: true;
-    };
-    showExpand: {
-        type: globalThis.PropType<boolean | undefined>;
-        required: true;
-    };
-    level: {
-        type: globalThis.PropType<number>;
-        required: true;
-    };
-    slotProps: {
-        type: globalThis.PropType<{
-            columns: Column[];
-            index?: number | undefined;
-            internalItem: any;
-            isExpanded: (item: DataTableItem<any>) => boolean;
-            isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
-            item: any;
-            level: number;
-            toggleExpand: (item: DataTableItem<any>) => void;
-            toggleSelect: (item: DataTableItem<any>) => void;
-        }>;
-        required: true;
-    };
-    levels: {
-        type: globalThis.PropType<number>;
-        required: true;
-    };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+import { ItemSlotProps } from '../../types';
+declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ItemSlotProps>, {}>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     "update:expanded": (...args: any[]) => void;
     "click:row": (...args: any[]) => void;
     "click:row:checkbox": (...args: any[]) => void;
-}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    density: {
-        type: globalThis.PropType<any>;
-        required: true;
-    };
-    showSelect: {
-        type: globalThis.PropType<boolean>;
-    };
-    items: {
-        type: globalThis.PropType<any[] | undefined>;
-        required: true;
-    };
-    itemSelectable: {
-        type: globalThis.PropType<string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null | undefined>;
-        required: true;
-    };
-    expandOnClick: {
-        type: globalThis.PropType<boolean | undefined>;
-        required: true;
-    };
-    showExpand: {
-        type: globalThis.PropType<boolean | undefined>;
-        required: true;
-    };
-    level: {
-        type: globalThis.PropType<number>;
-        required: true;
-    };
-    slotProps: {
-        type: globalThis.PropType<{
-            columns: Column[];
-            index?: number | undefined;
-            internalItem: any;
-            isExpanded: (item: DataTableItem<any>) => boolean;
-            isSelected: (items: DataTableItem<any> | DataTableItem<any>[]) => boolean;
-            item: any;
-            level: number;
-            toggleExpand: (item: DataTableItem<any>) => void;
-            toggleSelect: (item: DataTableItem<any>) => void;
-        }>;
-        required: true;
-    };
-    levels: {
-        type: globalThis.PropType<number>;
-        required: true;
-    };
-}>> & {
+}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ItemSlotProps>, {}>>> & {
     "onClick:row"?: ((...args: any[]) => any) | undefined;
     "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
     "onClick:row:checkbox"?: ((...args: any[]) => any) | undefined;
 }, {}, {}>, Readonly<Record<string, any>>>;
 export default _default;
+type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
+type __VLS_TypePropsToRuntimeProps<T> = {
+    [K in keyof T]-?: {} extends Pick<T, K> ? {
+        type: import('vue').PropType<__VLS_NonUndefinedable<T[K]>>;
+    } : {
+        type: import('vue').PropType<T[K]>;
+        required: true;
+    };
+};
+type __VLS_WithDefaults<P, D> = {
+    [K in keyof Pick<P, keyof P>]: K extends keyof D ? __VLS_Prettify<P[K] & {
+        default: D[K];
+    }> : P[K];
+};
+type __VLS_Prettify<T> = {
+    [K in keyof T]: T[K];
+} & {};
 type __VLS_WithTemplateSlots<T, S> = T & {
     new (): {
         $slots: S;

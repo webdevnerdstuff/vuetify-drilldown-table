@@ -1,59 +1,25 @@
-declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
-    slotProps: {
-        type: globalThis.PropType<{
-            allSelected: boolean;
-            columns: import('../../types').InternalDataTableHeader[];
-            headers: import('../../types').InternalDataTableHeader[][];
-            isExpanded: (item: import('../../types').DataTableItem<any>) => boolean;
-            isSelected: (items: import('../../types').DataTableItem<any> | import('../../types').DataTableItem<any>[]) => boolean;
-            items: readonly import('../../types').DataTableItem<any>[];
-            itemsPerPage: string | number | undefined;
-            page: string | number | undefined;
-            pageCount: number;
-            select: (items: import('../../types').DataTableItem<any>[], value: boolean) => void;
-            selectAll: (value: boolean) => void;
-            setItemsPerPage: (itemsPerPage: number) => void;
-            someSelected: boolean;
-            sortBy: readonly {
-                key: string;
-                order?: boolean | "asc" | "desc" | undefined;
-            }[] | undefined;
-            toggleExpand: (item: import('../../types').DataTableItem<any>) => void;
-            toggleSelect: (item: import('../../types').DataTableItem<any>) => void;
-            toggleSort: (column: import('../../types').InternalDataTableHeader) => void;
-        }>;
-        required: true;
-    };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    slotProps: {
-        type: globalThis.PropType<{
-            allSelected: boolean;
-            columns: import('../../types').InternalDataTableHeader[];
-            headers: import('../../types').InternalDataTableHeader[][];
-            isExpanded: (item: import('../../types').DataTableItem<any>) => boolean;
-            isSelected: (items: import('../../types').DataTableItem<any> | import('../../types').DataTableItem<any>[]) => boolean;
-            items: readonly import('../../types').DataTableItem<any>[];
-            itemsPerPage: string | number | undefined;
-            page: string | number | undefined;
-            pageCount: number;
-            select: (items: import('../../types').DataTableItem<any>[], value: boolean) => void;
-            selectAll: (value: boolean) => void;
-            setItemsPerPage: (itemsPerPage: number) => void;
-            someSelected: boolean;
-            sortBy: readonly {
-                key: string;
-                order?: boolean | "asc" | "desc" | undefined;
-            }[] | undefined;
-            toggleExpand: (item: import('../../types').DataTableItem<any>) => void;
-            toggleSelect: (item: import('../../types').DataTableItem<any>) => void;
-            toggleSort: (column: import('../../types').InternalDataTableHeader) => void;
-        }>;
-        required: true;
-    };
-}>>, {}, {}>, {
+import { VDataTableSlotProps } from '../../types';
+declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<VDataTableSlotProps>, {}>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<VDataTableSlotProps>, {}>>>, {}, {}>, {
     bottom?(_: {}): any;
 }>;
 export default _default;
+type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
+type __VLS_TypePropsToRuntimeProps<T> = {
+    [K in keyof T]-?: {} extends Pick<T, K> ? {
+        type: import('vue').PropType<__VLS_NonUndefinedable<T[K]>>;
+    } : {
+        type: import('vue').PropType<T[K]>;
+        required: true;
+    };
+};
+type __VLS_WithDefaults<P, D> = {
+    [K in keyof Pick<P, keyof P>]: K extends keyof D ? __VLS_Prettify<P[K] & {
+        default: D[K];
+    }> : P[K];
+};
+type __VLS_Prettify<T> = {
+    [K in keyof T]: T[K];
+} & {};
 type __VLS_WithTemplateSlots<T, S> = T & {
     new (): {
         $slots: S;

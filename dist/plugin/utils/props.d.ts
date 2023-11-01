@@ -1,33 +1,33 @@
-import { Column } from '../../types';
+import { Column, DefaultColors } from '../../types';
+export declare const defaultColorValues: DefaultColors;
 export declare const AllProps: {
+    colorPercentageChange: number;
+    colorPercentageDirection: "desc";
     colors: () => {
-        readonly default: {
-            readonly background: "primary";
-            readonly base: "primary";
-            readonly border: "primary";
-            readonly color: "on-primary";
-        };
+        readonly default: DefaultColors;
         readonly footer: {
-            readonly background: "--v-theme-surface";
-            readonly color: "--v-theme-on-surface";
+            readonly background: undefined;
+            readonly color: undefined;
         };
         readonly header: {
-            readonly background: "primary";
-            readonly color: "on-primary";
+            readonly background: undefined;
+            readonly color: undefined;
         };
         readonly percentageChange: 15;
         readonly percentageDirection: "desc";
-        readonly table: {
-            readonly bottomBorder: "primary";
-        };
     };
     columnWidths: () => never[];
+    defaultColors: () => DefaultColors;
     density: string;
     drilldownKey: string;
     elevation: number;
     expandOnClick: boolean;
     filterKeys: undefined;
+    footerBackgroundColor: undefined;
+    footerColor: undefined;
     footers: () => Column[];
+    headerBackgroundColor: undefined;
+    headerColor: undefined;
     height: string;
     hideNoData: boolean;
     hover: boolean;
@@ -62,7 +62,6 @@ export declare const AllProps: {
     loading: boolean;
     loadingText: string;
     matchColumnWidths: boolean;
-    multiSort: boolean;
     noDataText: string;
     noFilter: boolean;
     page: number;

@@ -1,86 +1,17 @@
-declare const _default: import("vue").DefineComponent<{
-    height: {
-        type: globalThis.PropType<string | number>;
-        default: number;
-    };
-    loading: {
-        type: globalThis.PropType<string | boolean | undefined>;
-        required: true;
-    };
-    loadingText: {
-        type: globalThis.PropType<string>;
-        default: string;
-    };
-    colspan: {
-        type: globalThis.PropType<number>;
-        required: true;
-    };
-    size: {
-        type: globalThis.PropType<string | number>;
-        default: string;
-    };
-    colors: {
-        type: globalThis.PropType<import('../../types').ColorsObject | null | undefined>;
-        required: true;
-    };
-    level: {
-        type: globalThis.PropType<number>;
-        required: true;
-    };
-    loaderType: {
-        type: globalThis.PropType<string | false | string[] | null | undefined>;
-        required: true;
-        default: string;
-    };
-    loaderProps: {
-        type: globalThis.PropType<import('../../types').LoaderProps>;
-    };
-    textLoader: {
-        type: globalThis.PropType<boolean>;
-        default: boolean;
-    };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    height: {
-        type: globalThis.PropType<string | number>;
-        default: number;
-    };
-    loading: {
-        type: globalThis.PropType<string | boolean | undefined>;
-        required: true;
-    };
-    loadingText: {
-        type: globalThis.PropType<string>;
-        default: string;
-    };
-    colspan: {
-        type: globalThis.PropType<number>;
-        required: true;
-    };
-    size: {
-        type: globalThis.PropType<string | number>;
-        default: string;
-    };
-    colors: {
-        type: globalThis.PropType<import('../../types').ColorsObject | null | undefined>;
-        required: true;
-    };
-    level: {
-        type: globalThis.PropType<number>;
-        required: true;
-    };
-    loaderType: {
-        type: globalThis.PropType<string | false | string[] | null | undefined>;
-        required: true;
-        default: string;
-    };
-    loaderProps: {
-        type: globalThis.PropType<import('../../types').LoaderProps>;
-    };
-    textLoader: {
-        type: globalThis.PropType<boolean>;
-        default: boolean;
-    };
-}>>, {
+import { TableLoader } from '../../types';
+declare const _default: import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TableLoader>, {
+    height: number;
+    loaderType: string;
+    loadingText: string;
+    size: string;
+    textLoader: boolean;
+}>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TableLoader>, {
+    height: number;
+    loaderType: string;
+    loadingText: string;
+    size: string;
+    textLoader: boolean;
+}>>>, {
     height: string | number;
     loadingText: string;
     size: string | number;
@@ -88,3 +19,20 @@ declare const _default: import("vue").DefineComponent<{
     textLoader: boolean;
 }, {}>;
 export default _default;
+type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
+type __VLS_TypePropsToRuntimeProps<T> = {
+    [K in keyof T]-?: {} extends Pick<T, K> ? {
+        type: import('vue').PropType<__VLS_NonUndefinedable<T[K]>>;
+    } : {
+        type: import('vue').PropType<T[K]>;
+        required: true;
+    };
+};
+type __VLS_WithDefaults<P, D> = {
+    [K in keyof Pick<P, keyof P>]: K extends keyof D ? __VLS_Prettify<P[K] & {
+        default: D[K];
+    }> : P[K];
+};
+type __VLS_Prettify<T> = {
+    [K in keyof T]: T[K];
+} & {};
