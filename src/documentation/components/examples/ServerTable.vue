@@ -20,7 +20,6 @@
 
 	<v-col cols="12">
 		<VDrilldownTable
-			:colors="tableSettings.colors"
 			:density="tableSettings.density"
 			:drilldown-key="tableSettings.drilldownKey"
 			:elevation="tableSettings.elevation"
@@ -334,7 +333,6 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 	user.child = Object.assign({}, {
 		...user.child,
 		...{
-			colors: null,
 			drilldownKey: 'id',
 			footers: footers.posts,
 			headers: headers.posts,
@@ -394,7 +392,6 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	post.child = Object.assign({}, {
 		...post.child,
 		...{
-			colors: null,
 			drilldownKey: 'id',
 			footers: footers.comments,
 			headers: headers.comments,

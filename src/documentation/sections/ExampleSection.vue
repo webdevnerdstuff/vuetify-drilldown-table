@@ -24,7 +24,6 @@
 
 
 		<ClientTable
-			:colors="{ colors: null }"
 			:settings="tableSettings"
 			title="Client Side Data Table"
 		/>
@@ -43,7 +42,7 @@ import {
 
 
 const classes = inject('classes');
-const tableSettings = ref({ ...tableDefaults, ...{ colors: null } });
-const tableSettingsServer = ref({ ...tableDefaults, ...{ colors: null, server: true } });
+const tableSettings = ref({ ...tableDefaults });
+const tableSettingsServer = ref({ ...tableDefaults, ...{ server: true } });
 
 </script>
