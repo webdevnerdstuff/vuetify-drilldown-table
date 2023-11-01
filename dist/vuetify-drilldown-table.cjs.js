@@ -1,5 +1,5 @@
 "use strict";/**
- * @name vuetify-drilldown-table
+ * @name @wdns/vuetify-drilldown-table
  * @version 1.0.0-beta-14
  * @description The Vuetify Drilldown Table is a powerful component that enhances the functionality of the Vuetify framework's VDataTable and VDataTableServer. It provides a recursive table structure, allowing you to display hierarchical data in a nested format.
  * @author WebDevNerdStuff & Bunnies... lots and lots of bunnies! <webdevnerdstuff@gmail.com> (https://webdevnerdstuff.com)

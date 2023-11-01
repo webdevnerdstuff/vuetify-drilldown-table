@@ -1,7 +1,7 @@
 import { Fragment as ae, reactive as Lt, computed as y, watchEffect as Le, toRefs as rn, isVNode as Rr, Comment as jr, capitalize as Mt, warn as Bl, ref as X, unref as h, provide as ye, inject as ve, shallowRef as ue, defineComponent as Xe, camelize as Io, h as bt, getCurrentInstance as Wr, TransitionGroup as Hr, Transition as nt, createVNode as v, mergeProps as te, watch as ee, onScopeDispose as Be, effectScope as sn, nextTick as Ee, isRef as St, onMounted as at, toRaw as Ye, resolveDynamicComponent as Do, toRef as Y, readonly as un, Teleport as zr, withDirectives as Oe, vShow as Ct, resolveDirective as rt, onBeforeUnmount as st, Text as Gr, onBeforeMount as cn, cloneVNode as Kr, createTextVNode as rl, withModifiers as zl, toDisplayString as To, renderSlot as de, resolveComponent as Oo, openBlock as Z, createElementBlock as ce, normalizeClass as ie, normalizeStyle as $e, createElementVNode as Re, createBlock as ge, withCtx as se, normalizeProps as Ce, guardReactiveProps as Ie, createCommentVNode as he, useSlots as Nt, renderList as Ne, toHandlers as qr, getCurrentScope as Ur, mergeDefaults as Yr, useAttrs as Xr, onUnmounted as Jr, createSlots as Qe } from "vue";
 import { useTheme as Pl } from "vuetify";
 /**
- * @name vuetify-drilldown-table
+ * @name @wdns/vuetify-drilldown-table
  * @version 1.0.0-beta-14
  * @description The Vuetify Drilldown Table is a powerful component that enhances the functionality of the Vuetify framework's VDataTable and VDataTableServer. It provides a recursive table structure, allowing you to display hierarchical data in a nested format.
  * @author WebDevNerdStuff & Bunnies... lots and lots of bunnies! <webdevnerdstuff@gmail.com> (https://webdevnerdstuff.com)
