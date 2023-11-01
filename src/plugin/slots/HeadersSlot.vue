@@ -80,7 +80,7 @@
 
 	<TableLoader
 		v-if="loaderSettings.loaderType && !slots.loading"
-		:colors="colors || null"
+		:colors="colors"
 		:colspan="loaderSettings.colspan"
 		:height="loaderSettings.height"
 		:level="level"
@@ -189,7 +189,6 @@ const cellAlignClasses = (align: string): object => {
 
 const cellClasses = (column: Column, slotName = ''): object => {
 	return useHeaderCellClasses({
-		colors: props.colors as ColorsObject,
 		column,
 		level: props.level,
 		slotName,
@@ -199,13 +198,15 @@ const cellClasses = (column: Column, slotName = ''): object => {
 const computedColors = computed<ColorsObject>(() => {
 	const colors = props.colors as ColorsObject;
 
-	colors.header = {
-		background: props.headerBackgroundColor,
-		color: props.headerColor,
-	};
+	if (colors) {
+		colors.header = {
+			background: props.headerBackgroundColor,
+			color: props.headerColor,
+		};
 
-	colors.percentageChange = props.colorPercentageChange;
-	colors.percentageDirection = props.colorPercentageDirection;
+		colors.percentageChange = props.colorPercentageChange;
+		colors.percentageDirection = props.colorPercentageDirection;
+	}
 
 	return colors as ColorsObject;
 });
@@ -272,10 +273,6 @@ function sortColumn(column: InternalDataTableHeader): void {
 // -------------------------------------------------- Icons //
 const iconSize = computed(() => {
 	if (iconOptions?.defaultSet === 'fa') {
-
-		// TODO: This may change if pull request is accepted //
-		// ? https://github.com/vuetifyjs/vuetify/pull/17598 //
-		sortAscIcon.value = props?.sortAscIcon ?? 'fas fa-arrow-up';
 		return 'small';
 	}
 
@@ -326,10 +323,6 @@ $hover: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
 						&-desc {
 							transform: rotate(180deg);
 						}
-
-						// &-fa {
-						// 	font-size: 1rem;
-						// }
 					}
 
 					&:hover {

@@ -5,6 +5,61 @@ export const usePropsStore = defineStore('props', () => {
 	const coreStore = useCoreStore();
 	const links = coreStore.links;
 
+	const colorProps = [
+		{
+			default: 15,
+			desc: 'Sets the percentage change for the header row background color within the drilldown tables.',
+			name: 'color-percentage-change',
+			type: 'number',
+		},
+		{
+			default: 'desc',
+			desc: 'Sets the direction of the percentage change for the header row background color within the drilldown tables.',
+			name: 'color-percentage-direction',
+			type: "'asc' | 'desc'",
+		},
+		{
+			default: undefined,
+			desc: 'Internal use only.',
+			name: 'colors',
+			type: 'object',
+		},
+		{
+			default: `<pre class="inline-code"><code>{
+  background: '--v-theme-surface',
+  border: 'transparent',
+  color: '--v-theme-on-surface',
+}</code></pre>`,
+			desc: 'Sets default colors to use for the header and footer rows, and table bottom border. See <a href="#props-colors">Colors</a> for more information.',
+			name: 'default-colors',
+			type: 'object',
+		},
+		{
+			default: '--v-theme-surface',
+			desc: 'Sets the background color of the footer row.',
+			name: 'footer-background-color',
+			type: 'string',
+		},
+		{
+			default: '--v-theme-on-surface',
+			desc: 'Sets the text color of the footer row.',
+			name: 'footer-color',
+			type: 'string',
+		},
+		{
+			default: '--v-theme-surface',
+			desc: 'Sets the background color of the header row.',
+			name: 'header-background-color',
+			type: 'string',
+		},
+		{
+			default: '--v-theme-on-surface',
+			desc: 'Sets the text color of the header row.',
+			name: 'header-color',
+			type: 'string',
+		},
+	];
+
 	const tableLoaderProps = [
 		{
 			default: false,
@@ -26,14 +81,10 @@ export const usePropsStore = defineStore('props', () => {
 		},
 	];
 
+
 	const allProps = [
+		...colorProps,
 		...tableLoaderProps,
-		{
-			default: '',
-			desc: 'Applies specified colors to the table. See the <a href="#props-colors">Colors Prop</a> section for more information and default settings.',
-			name: 'colors',
-			type: 'object | null',
-		},
 		{
 			default: '[]',
 			desc: 'Internal use only. This holds the header cell widths when the <code class="inline-code">matchColumnWidths</code> prop is set.',

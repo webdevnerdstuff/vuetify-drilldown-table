@@ -148,13 +148,15 @@ const cellClasses = (column: Column, slotName = ''): object => {
 const computedColors = computed<ColorsObject>(() => {
 	const colors = props.colors as ColorsObject;
 
-	colors.footer = {
-		background: props.footerBackgroundColor,
-		color: props.footerColor,
-	};
+	if (colors) {
+		colors.footer = {
+			background: props.footerBackgroundColor,
+			color: props.footerColor,
+		};
 
-	colors.percentageChange = props.colorPercentageChange;
-	colors.percentageDirection = props.colorPercentageDirection;
+		colors.percentageChange = props.colorPercentageChange;
+		colors.percentageDirection = props.colorPercentageDirection;
+	}
 
 	return colors as ColorsObject;
 });

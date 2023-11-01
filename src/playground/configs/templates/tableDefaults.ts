@@ -1,21 +1,7 @@
 export default {
-	// color: 'primary',																			// ? Doesn't seem to work - Vuetify prop
-	// colors: null,
-	colors: {
-		footer: {
-			background: '--v-theme-surface',
-			color: '--v-theme-on-surface',
-		},
-		header: {
-			background: 'primary',
-			color: 'on-primary',
-		},
-		percentageChange: 15,
-		percentageDirection: 'desc',
-		table: {
-			bottomBorder: 'primary',
-		},
-	},
+	colorPercentageChange: 15,
+	colorPercentageDirection: 'desc',
+	// color: 'primary', // ? Currently only works with multiSort (colored number in header, not added to VDT) - Vuetify prop
 	// customFilter: undefined, 															// ? Needs Testing - Vuetify prop
 	// customKeyFilter: undefined,														// ? Needs Testing - Vuetify prop
 	density: 'default',
@@ -28,7 +14,7 @@ export default {
 	firstIcon: '$first',
 	// firstPageLabel: '',																		// ? Doesn't seem to work - Vuetify prop
 	// fixedFooter: true, 																		// ? Doesn't seem to work - Vuetify prop
-	// fixedHeader: true, 																		// ? Doesn't seem to work - Vuetify prop
+	fixedHeader: false,
 	footers: [],
 	headers: [],
 	height: 'auto',
@@ -118,7 +104,7 @@ export default {
 		xs: 12,
 		xxl: 2,
 	},
-	searchDebounce: 750,
+	searchDebounce: 0,
 	searchEvents: {
 		// 'input': (e: InputEvent) => {
 		// 	console.log('input event triggered', e);
@@ -145,14 +131,14 @@ export default {
 		variant: 'underlined',
 	},
 	selectStrategy: 'page',
-	separator: 'default',
+	separator: 'horizontal',
 	server: false,
 	showCurrentPage: false,
 	showDrilldownWhenLoading: true,
 	showExpand: false,
 	showFooterRow: false,
-	showSearch: false,
-	showSelect: false,
+	showSearch: true,
+	showSelect: true,
 	sortAscIcon: '$sortAsc',
 	sortBy: [],
 	// sticky: false,																					// ? Doesn't seem to work - Vuetify prop

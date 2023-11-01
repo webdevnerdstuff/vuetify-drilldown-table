@@ -66,7 +66,7 @@ export type DefaultColors = {
 };
 
 export type ColorsObject = {
-	default?: DefaultColors;
+	default: DefaultColors;
 	footer?: {
 		background?: string;
 		color?: string;
@@ -151,7 +151,7 @@ export type TableType = VDataTable | VDataTableServer | unknown;
 export interface Props {
 	colorPercentageChange?: ColorsObject['percentageChange'];
 	colorPercentageDirection?: ColorsObject['percentageDirection'];
-	colors?: ColorsObject | null;
+	colors?: NonNullable<ColorsObject>;
 	columnWidths?: number[];
 	customFilter?: VDataTable['$props']['customFilter'];
 	customKeyFilter?: VDataTable['$props']['customKeyFilter'];
@@ -275,6 +275,7 @@ export interface TopSlotProps extends VDataTableSlotProps {
 export interface HeaderSlotProps extends AllSlotProps {
 	colorPercentageChange?: Props['colorPercentageChange'];
 	colorPercentageDirection?: Props['colorPercentageDirection'];
+	colors: Props['colors'];
 	columnWidths: Props['columnWidths'];
 	headerBackgroundColor?: Props['headerBackgroundColor'];
 	headerColor?: Props['headerColor'];
@@ -449,7 +450,7 @@ export interface UseGetHeaderColumnWidths {
 export interface UseGetLevelColors {
 	(
 		options: {
-			colors: ColorsObject | undefined | null,
+			colors: Props['colors'],
 			level: Props['level'],
 			prop: string,
 			themeColors: ThemeInstance,
@@ -461,7 +462,7 @@ export interface UseGetLevelColors {
 export interface ConvertLevelColors {
 	(
 		options: {
-			colors: ColorsObject,
+			colors: NonNullable<Props['colors']>,
 			level: Props['level'],
 			prop: string,
 			theme: ThemeInstance,
@@ -472,7 +473,7 @@ export interface ConvertLevelColors {
 
 export interface LevelPercentage {
 	(
-		colors: ColorsObject,
+		colors: Props['colors'],
 		level: number,
 		direction: string,
 	): number;
@@ -563,7 +564,6 @@ export interface UseCheckBoxClasses {
 export interface UseHeaderCellClasses {
 	(
 		options: {
-			colors: ColorsObject | undefined | null | false,
 			column: Column,
 			level: Props['level'],
 			slotName?: string,
@@ -635,7 +635,7 @@ export interface UseTFootRowClasses {
 export interface UseHeaderCellStyles {
 	(
 		options: {
-			colors: ColorsObject | undefined | null | false,
+			colors: Props['colors'],
 			column: { width?: string | number; },
 			dataTableExpand: boolean,
 			headerBackgroundColor?: Props['headerBackgroundColor'];
@@ -649,7 +649,7 @@ export interface UseHeaderCellStyles {
 export interface UseTableStyles {
 	(
 		options: {
-			colors: ColorsObject | undefined | null | false,
+			colors: Props['colors'],
 			level: Props['level'],
 			theme: ThemeInstance,
 		}
@@ -659,7 +659,7 @@ export interface UseTableStyles {
 export interface UseTFootCellStyles {
 	(
 		options: {
-			colors: ColorsObject | undefined | null | false,
+			colors: Props['colors'],
 			elm: string,
 			footerColor?: Props['footerColor'],
 			level: Props['level'],

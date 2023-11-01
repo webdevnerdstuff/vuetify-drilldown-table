@@ -1,25 +1,24 @@
 import { Column, DefaultColors } from '@/types';
 
 export const defaultColorValues: DefaultColors = {
-	background: 'primary',
-	base: 'primary',
+	background: '--v-theme-surface',
 	border: 'transparent',
-	color: 'on-primary',
+	color: '--v-theme-on-surface',
 };
 
 export const AllProps = {
-	// color: 'primary',															// ? Doesn't seem to work
+	// color: 'primary', // ? Currently only works with multiSort (colored number in header, not added to VDT) - Vuetify prop
 	colorPercentageChange: 15,
 	colorPercentageDirection: 'desc' as const,
-	colors: () => ({
+	colors: () => ({ 																	// ? Internal Prop
 		default: defaultColorValues,
 		footer: {
-			background: '--v-theme-surface',
-			color: '--v-theme-on-surface',
+			background: undefined,
+			color: undefined,
 		},
 		header: {
-			background: 'primary',
-			color: 'on-primary',
+			background: undefined,
+			color: undefined,
 		},
 		percentageChange: 15,
 		percentageDirection: 'desc',
@@ -39,12 +38,12 @@ export const AllProps = {
 	// firstIcon: '',																	// * Works - Keep Commented Out
 	// firstPageLabel: '',														// ? Doesn't seem to work
 	// fixedFooter: true, 														// ? Doesn't seem to work
-	// fixedHeader: true, 														// ? Doesn't seem to work
-	footerBackgroundColor: '--v-theme-surface',
-	footerColor: '--v-theme-on-surface',
+	// fixedHeader: true, 														// * Works - Keep Commented Out
+	footerBackgroundColor: undefined,
+	footerColor: undefined,
 	footers: () => [] as Column[],
-	headerBackgroundColor: 'primary',
-	headerColor: 'on-primary',
+	headerBackgroundColor: undefined,
+	headerColor: undefined,
 	// headers: () => [] as const,										// * Works - Keep Commented Out
 	height: 'auto',
 	// hideDrilldownWhenLoading: true,								// * Works - Keep Commented Out
@@ -106,7 +105,7 @@ export const AllProps = {
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
 	matchColumnWidths: false,
-	multiSort: false,																	// ! Not sure if this is working correctly - Is binding prop
+	// multiSort: false,															// * Works - Keep Commented Out
 	// nextIcon: '', 																	// * Works - Keep Commented Out
 	noDataText: '$vuetify.noDataText',
 	noFilter: false,

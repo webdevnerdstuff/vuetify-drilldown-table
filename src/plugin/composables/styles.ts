@@ -51,10 +51,6 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 		styles.minWidth = column.width ? useConvertToUnit({ str: column.width }) : '56px';
 	}
 
-	if (colors === false || colors === null) {
-		return styles as CSSProperties;
-	}
-
 	const headerColors = useGetLevelColors({
 		colors,
 		level,
@@ -72,10 +68,6 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 // -------------------------------------------------- TFootSlot //
 export const useTFootCellStyles: UseTFootCellStyles = (options) => {
 	const { colors, elm, level, theme } = options;
-
-	if (colors === false || colors === null) {
-		return {};
-	}
 
 	const baseColors = useGetLevelColors({
 		colors,

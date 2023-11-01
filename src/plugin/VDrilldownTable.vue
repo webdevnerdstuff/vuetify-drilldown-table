@@ -261,6 +261,7 @@
 						:multi-sort="item[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:server="item[itemChildrenKey]?.server"
+						:show-footer-row="item[itemChildrenKey]?.showFooterRow"
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
@@ -304,7 +305,7 @@
 				:key="level"
 				:colorPercentageChange="colorPercentageChange"
 				:colorPercentageDirection="colorPercentageDirection"
-				:colors="loadedDrilldown.colors || null"
+				:colors="loadedDrilldown.colors"
 				:density="density"
 				:footerBackgroundColor="footerBackgroundColor"
 				:footerColor="footerColor"
@@ -447,6 +448,7 @@ if (loadedDrilldown?.colors) {
 	loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
 }
 
+
 const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 
@@ -495,6 +497,12 @@ watch(() => props.loading, () => {
 	setLoadedDrilldown();
 });
 
+watchEffect(() => {
+	if (loadedDrilldown.colors && defaultColors.value) {
+		loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
+	}
+});
+
 
 // -------------------------------------------------- Table #
 const showLoadingDrilldownTable = (loading: boolean): boolean => {
@@ -533,7 +541,7 @@ const tableClasses = computed<object>(() => {
 
 const tableStyles = computed<StyleValue>(() => {
 	return useTableStyles({
-		colors: loadedDrilldown.colors,
+		colors: loadedDrilldown.colors!,
 		level: loadedDrilldown.level,
 		theme,
 	});
