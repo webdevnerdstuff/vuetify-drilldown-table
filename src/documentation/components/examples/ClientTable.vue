@@ -12,9 +12,12 @@
 		</h3>
 	</v-col>
 
+
+
+
 	<v-col cols="12">
 		<VDrilldownTable
-			:colors="tableSettings.colors"
+			:default-colors="tableSettings?.defaultColors ?? {}"
 			:density="tableSettings.density"
 			:drilldown-key="tableSettings.drilldownKey"
 			:elevation="tableSettings.elevation"
@@ -67,10 +70,6 @@ import tableDefaults from '@/playground/configs/templates/tableDefaults';
 
 
 const props = defineProps({
-	colors: {
-		default: () => { },
-		type: Object,
-	},
 	sectionId: {
 		default: 'example-data-table',
 		type: String,
@@ -87,8 +86,7 @@ const props = defineProps({
 
 
 const classes = inject('classes');
-const colorsProp = ref(props.colors);
-const tableSettings = ref({ ...props.settings, ...props.colors });
+const tableSettings = ref({ ...props.settings });
 
 const headers = {
 	comments: [
@@ -180,89 +178,6 @@ const headers = {
 		},
 	],
 };
-const footers = {
-	comments: [
-		{
-			align: 'start',
-			key: '',
-			title: '',
-			width: 100,
-		},
-		{
-			align: 'start',
-			key: 'postId',
-			title: 'Post ID',
-			width: 100,
-		},
-		{
-			align: 'start',
-			key: 'id',
-			title: 'Comment ID',
-			width: 150,
-		},
-		{
-			align: 'start',
-			key: 'name',
-			title: 'Comment',
-		},
-		{
-			key: 'data-table-expand',
-			title: '',
-		},
-	],
-	posts: [
-		{
-			align: 'start',
-			key: 'userId',
-			title: 'User ID',
-			width: 100,
-		},
-		{
-			align: 'start',
-			key: 'id',
-			title: 'Post ID',
-			width: 250,
-		},
-		{
-			align: 'start',
-			key: 'title',
-			title: 'Post',
-		},
-		{
-			key: 'data-table-expand',
-			title: '',
-		},
-	],
-	users: [
-		// {
-		// 	key: 'data-table-select',
-		// 	title: '',
-		// },
-		{
-			align: 'start',
-			key: 'id',
-			renderFooter() {
-				return '&nbsp;';
-			},
-			title: 'User ID',
-			width: 350,
-		},
-		{
-			align: 'start',
-			key: 'name',
-			title: 'Name',
-		},
-		{
-			align: 'start',
-			key: 'email',
-			title: 'Email',
-		},
-		{
-			key: 'data-table-expand',
-			title: '',
-		},
-	],
-};
 
 
 onMounted(() => {
@@ -300,9 +215,7 @@ function fetchClientData(drilldown = null) {
 		user.child = {};
 		user.child = {
 			...tableDefaults,
-			...colorsProp.value,
 			drilldownKey: 'id',
-			footers: footers.posts,
 			headers: headers.posts,
 			level: 2,
 			loading: true,
@@ -328,9 +241,7 @@ function fetchClientData(drilldown = null) {
 		post.child = {};
 		post.child = {
 			...tableDefaults,
-			...colorsProp.value,
 			drilldownKey: 'id',
-			footers: footers.comments,
 			headers: headers.comments,
 			itemsPerPage: tableSettings.value.itemsPerPage,
 			level: 3,

@@ -8,14 +8,18 @@
 	<v-col cols="12">
 		<VDrilldownTable
 			v-model="selected"
-			:colors="tableSettings.colors"
-			:density="tableSettings.density"
+			:color-percentage-change="tableSettings.colorPercentageChange"
+			:color-percentage-direction="tableSettings.colorPercentageDirection"
+			:default-colors="tableSettings.defaultColors"
+			:density="density"
 			:drilldown-key="tableSettings.drilldownKey"
 			:elevation="tableSettings.elevation"
 			:expand-on-click="tableSettings.expandOnClick"
 			:first-icon="tableSettings.firstIcon"
+			:fixed-header="tableSettings.fixedHeader"
 			:footers="footers.users"
 			:headers="headers.users"
+			:height="tableSettings.height"
 			:hover="tableSettings.hover"
 			:item-children-key="tableSettings.itemChildrenKey"
 			:item-props="tableSettings.itemProps"
@@ -214,9 +218,10 @@ const props = defineProps({
 });
 
 const selected = ref([]);
-
 const classes = inject('classes');
-const tableSettings = ref({ ...props.settings });
+const defaultColors = inject('defaultColors');
+const density = inject('density');
+const tableSettings = ref({ ...props.settings, ...{ defaultColors } });
 
 const headers = {
 	comments: [
@@ -329,10 +334,6 @@ const footers = {
 			align: 'start',
 			key: 'name',
 			title: 'Comment',
-		},
-		{
-			key: 'data-table-expand',
-			title: '',
 		},
 	],
 	posts: [
@@ -494,6 +495,10 @@ function fetchClientData(drilldown = null) {
 			}
 		});
 }
+
+watch(defaultColors, (newVal) => {
+	tableSettings.value.defaultColors = newVal;
+});
 </script>
 
 

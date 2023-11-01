@@ -6,7 +6,7 @@
 		v-model="loadedDrilldown.modelValue"
 		:class="tableClasses"
 		:data-vdt-id="tableId"
-		:density="loadedDrilldown.density"
+		:density="density"
 		:expand-on-click="loadedDrilldown.expandOnClick"
 		:expanded="loadedDrilldown.expanded"
 		:fixed-header="loadedDrilldown.fixedHeader"
@@ -70,9 +70,13 @@
 		<template #[`headers`]="props">
 			<HeadersSlot
 				:key="level"
+				:colorPercentageChange="colorPercentageChange"
+				:colorPercentageDirection="colorPercentageDirection"
 				:colors="loadedDrilldown.colors"
 				:column-widths="loadedDrilldown.columnWidths"
-				:density="loadedDrilldown.density"
+				:density="density"
+				:headerBackgroundColor="headerBackgroundColor"
+				:headerColor="headerColor"
 				:items="loadedDrilldown.items"
 				:level="level"
 				:loader-props="loadedDrilldown.loaderProps"
@@ -195,7 +199,7 @@
 		<template #[`item`]="props">
 			<ItemSlot
 				:key="level"
-				:density="loadedDrilldown.density"
+				:density="density"
 				:expand-on-click="loadedDrilldown.expandOnClick"
 				:group-by="loadedDrilldown.groupBy"
 				:item-selectable="loadedDrilldown.itemSelectable"
@@ -234,8 +238,13 @@
 					<VDrilldownTable
 						:key="internalItem.key"
 						:column-widths="loadedDrilldown.columnWidths"
-						:density="loadedDrilldown.density"
+						:defaultColors="defaultColors"
+						:density="density"
 						:drilldown="loadedDrilldown"
+						:footer-background-color="footerBackgroundColor"
+						:footer-color="footerColor"
+						:header-background-color="headerBackgroundColor"
+						:header-color="headerColor"
 						:headers="item[itemChildrenKey]?.headers"
 						:is-drilldown="true"
 						:item="item"
@@ -252,6 +261,7 @@
 						:multi-sort="item[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:server="item[itemChildrenKey]?.server"
+						:show-footer-row="item[itemChildrenKey]?.showFooterRow"
 						:sort-by="loadedDrilldown.sortBy"
 						:table-type="tableType"
 						@update:drilldown="emitUpdatedExpanded($event)"
@@ -293,8 +303,12 @@
 			<TfootSlot
 				v-else
 				:key="level"
-				:colors="loadedDrilldown.colors || null"
-				:density="loadedDrilldown.density"
+				:colorPercentageChange="colorPercentageChange"
+				:colorPercentageDirection="colorPercentageDirection"
+				:colors="loadedDrilldown.colors"
+				:density="density"
+				:footerBackgroundColor="footerBackgroundColor"
+				:footerColor="footerColor"
 				:footers="loadedDrilldown.footers || []"
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
@@ -353,7 +367,7 @@
 
 <script setup lang="ts">
 import { VDataTableServer, VDataTable } from 'vuetify/labs/components';
-import { AllProps } from './utils/props';
+import { AllProps, defaultColorValues } from './utils/props';
 import {
 	BottomSlot,
 	HeadersSlot,
@@ -401,6 +415,8 @@ const emit = defineEmits([
 // -------------------------------------------------- Props //
 const props = withDefaults(defineProps<Props>(), { ...AllProps });
 
+const { colorPercentageChange, colorPercentageDirection, defaultColors, density, footerBackgroundColor, footerColor, headerBackgroundColor, headerColor } = toRefs(props);
+
 const slots = useSlots();
 const attrs = useAttrs();
 
@@ -424,8 +440,15 @@ onBeforeMount(() => {
 });
 
 
+
 // -------------------------------------------------- Table Settings //
 let loadedDrilldown = reactive<Props>(Object.assign({}, props));
+
+if (loadedDrilldown?.colors) {
+	loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
+}
+
+
 const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 
@@ -474,6 +497,12 @@ watch(() => props.loading, () => {
 	setLoadedDrilldown();
 });
 
+watchEffect(() => {
+	if (loadedDrilldown.colors && defaultColors.value) {
+		loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
+	}
+});
+
 
 // -------------------------------------------------- Table #
 const showLoadingDrilldownTable = (loading: boolean): boolean => {
@@ -512,7 +541,7 @@ const tableClasses = computed<object>(() => {
 
 const tableStyles = computed<StyleValue>(() => {
 	return useTableStyles({
-		colors: loadedDrilldown.colors,
+		colors: loadedDrilldown.colors!,
 		level: loadedDrilldown.level,
 		theme,
 	});

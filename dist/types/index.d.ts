@@ -43,13 +43,14 @@ export interface KeyStringAny<T = any> {
 export interface TableColors<T = any> {
     [key: string]: T;
 }
+export type DefaultColors = {
+    background?: string;
+    base?: string;
+    border?: string | null;
+    color?: string;
+};
 export type ColorsObject = {
-    default?: {
-        base?: string;
-        background?: string;
-        border?: string | null;
-        color?: string;
-    };
+    default: DefaultColors;
     footer?: {
         background?: string;
         color?: string;
@@ -60,14 +61,11 @@ export type ColorsObject = {
     };
     percentageChange?: number;
     percentageDirection?: 'asc' | 'desc';
-    table?: {
-        bottomBorder?: string;
-    };
 };
 export type LevelColorResponse = {
     background?: string;
     base?: string;
-    bottomBorder?: string;
+    border?: string;
     circular?: string;
     color?: string;
     linear?: string;
@@ -110,10 +108,13 @@ export interface Column {
 }
 export type TableType = VDataTable | VDataTableServer | unknown;
 export interface Props {
-    colors?: ColorsObject | null;
+    colorPercentageChange?: ColorsObject['percentageChange'];
+    colorPercentageDirection?: ColorsObject['percentageDirection'];
+    colors?: NonNullable<ColorsObject>;
     columnWidths?: number[];
     customFilter?: VDataTable['$props']['customFilter'];
     customKeyFilter?: VDataTable['$props']['customKeyFilter'];
+    defaultColors?: ColorsObject['default'];
     density?: VDataTable['$options']['density'];
     drilldown?: object;
     drilldownKey?: string;
@@ -124,8 +125,12 @@ export interface Props {
     filterMode?: VDataTable['$props']['filterMode'];
     fixedFooter?: boolean;
     fixedHeader?: boolean;
+    footerBackgroundColor?: string | undefined;
+    footerColor?: string | undefined;
     footers?: Column[];
     groupBy?: VDataTable['$props']['groupBy'];
+    headerBackgroundColor?: string | undefined;
+    headerColor?: string | undefined;
     headers?: VDataTable['$props']['headers'];
     height?: string | number | undefined;
     hideNoData?: VDataTable['$props']['hideNoData'];
@@ -217,7 +222,12 @@ export interface TopSlotProps extends VDataTableSlotProps {
     showSearch: boolean;
 }
 export interface HeaderSlotProps extends AllSlotProps {
+    colorPercentageChange?: Props['colorPercentageChange'];
+    colorPercentageDirection?: Props['colorPercentageDirection'];
+    colors: Props['colors'];
     columnWidths: Props['columnWidths'];
+    headerBackgroundColor?: Props['headerBackgroundColor'];
+    headerColor?: Props['headerColor'];
     isTheadSlot?: boolean;
     items: Props['items'];
     loaderProps?: LoaderProps;
@@ -267,6 +277,10 @@ export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
     };
 }
 export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortBy'> {
+    colorPercentageChange?: Props['colorPercentageChange'];
+    colorPercentageDirection?: Props['colorPercentageDirection'];
+    footerBackgroundColor?: Props['footerBackgroundColor'];
+    footerColor?: Props['footerColor'];
     footers: Column[];
     items: Props['items'];
     selectStrategy: Props['selectStrategy'];
@@ -349,7 +363,7 @@ export interface UseGetHeaderColumnWidths {
 }
 export interface UseGetLevelColors {
     (options: {
-        colors: ColorsObject | undefined | null;
+        colors: Props['colors'];
         level: Props['level'];
         prop: string;
         themeColors: ThemeInstance;
@@ -358,7 +372,7 @@ export interface UseGetLevelColors {
 }
 export interface ConvertLevelColors {
     (options: {
-        colors: ColorsObject;
+        colors: NonNullable<Props['colors']>;
         level: Props['level'];
         prop: string;
         theme: ThemeInstance;
@@ -366,7 +380,7 @@ export interface ConvertLevelColors {
     }): LevelColorResponse;
 }
 export interface LevelPercentage {
-    (colors: ColorsObject, level: number, direction: string): number;
+    (colors: Props['colors'], level: number, direction: string): number;
 }
 export interface UseGetSortDirection {
     (options: {
@@ -422,7 +436,6 @@ export interface UseCheckBoxClasses {
 }
 export interface UseHeaderCellClasses {
     (options: {
-        colors: ColorsObject | undefined | null | false;
         column: Column;
         level: Props['level'];
         slotName?: string;
@@ -471,26 +484,29 @@ export interface UseTFootRowClasses {
 }
 export interface UseHeaderCellStyles {
     (options: {
-        colors: ColorsObject | undefined | null | false;
+        colors: Props['colors'];
         column: {
             width?: string | number;
         };
         dataTableExpand: boolean;
+        headerBackgroundColor?: Props['headerBackgroundColor'];
+        headerColor?: Props['headerColor'];
         level: Props['level'];
         theme: ThemeInstance;
     }): CSSProperties;
 }
 export interface UseTableStyles {
     (options: {
-        colors: ColorsObject | undefined | null | false;
+        colors: Props['colors'];
         level: Props['level'];
         theme: ThemeInstance;
     }): StyleValue;
 }
 export interface UseTFootCellStyles {
     (options: {
-        colors: ColorsObject | undefined | null | false;
+        colors: Props['colors'];
         elm: string;
+        footerColor?: Props['footerColor'];
         level: Props['level'];
         theme: ThemeInstance;
     }): CSSProperties;
@@ -499,7 +515,7 @@ export type DrilldownEvent = {
     $event?: MouseEvent | undefined;
     columns?: object;
     index?: number;
-    internalItem: DataTableItem | any;
+    internalItem: DataTableItem['internalItem'];
     isExpanded: IsExpanded;
     isRow?: boolean;
     item: DataTableItem | any;
@@ -512,6 +528,7 @@ export type ClickRowCheckboxEvent = {
     columns?: object;
     index?: number;
     item?: object;
+    internalItem?: DataTableItem['internalItem'];
     level?: Props['level'];
     toggleSelect(item?: object): void;
 };

@@ -184,7 +184,6 @@ const drilldownEventObject = `{
       "value": -1
     }
   ],
-  "colors": null,
   "density": "compact",
   "drilldownKey": "id",
   "elevation": 5,

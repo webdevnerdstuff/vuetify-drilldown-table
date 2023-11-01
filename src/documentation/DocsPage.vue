@@ -40,7 +40,7 @@
 			<v-row>
 				<v-col cols="12">
 					<CodeBlock
-						code="pnpm add vuetify-drilldown-table"
+						code="pnpm add @wdns/vuetify-drilldown-table"
 						:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 						lang="plain"
 						:prismjs="codeBlockSettings.plugin === 'prismjs'"
@@ -56,7 +56,7 @@
 				</v-col>
 				<v-col cols="12">
 					<CodeBlock
-						code="npm i vuetify-drilldown-table"
+						code="npm i @wdns/vuetify-drilldown-table"
 						:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 						lang="plain"
 						:prismjs="codeBlockSettings.plugin === 'prismjs'"
@@ -141,7 +141,9 @@ provide('classes', classes);
 </script>
 
 <style lang="scss" scoped>
+:deep(pre),
 :deep(code) {
+	&.ic,
 	&.inline-code {
 		background-color: rgba(255, 255, 255, 0.1) !important;
 		border-radius: 3px;
@@ -154,7 +156,9 @@ provide('classes', classes);
 
 <style lang="scss">
 .v-theme--light {
+	pre,
 	code {
+		&.ic,
 		&.inline-code {
 			background-color: rgba(0, 0, 0, 0.1) !important;
 		}

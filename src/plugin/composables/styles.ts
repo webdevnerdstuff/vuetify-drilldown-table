@@ -10,13 +10,13 @@ import {
 // -------------------------------------------------- VDrilldownTable //
 export const useTableStyles: UseTableStyles = (options) => {
 	const { colors, level, theme } = options;
-	let baseColors: { bottomBorder?: string; } = {};
+	let baseColors: { border?: string; } = {};
 
 	if (typeof colors === 'object' && colors !== null) {
 		baseColors = useGetLevelColors({
 			colors,
 			level,
-			prop: 'table',
+			prop: 'default',
 			themeColors: theme,
 		});
 	}
@@ -25,8 +25,8 @@ export const useTableStyles: UseTableStyles = (options) => {
 		borderBottom: 'none',
 	};
 
-	if (baseColors.bottomBorder) {
-		styles.borderBottom = `1px solid ${baseColors.bottomBorder}`;
+	if (baseColors.border) {
+		styles.borderBottom = `1px solid ${baseColors.border}`;
 	}
 
 	return styles;
@@ -51,10 +51,6 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 		styles.minWidth = column.width ? useConvertToUnit({ str: column.width }) : '56px';
 	}
 
-	if (colors === false || colors === null) {
-		return styles as CSSProperties;
-	}
-
 	const headerColors = useGetLevelColors({
 		colors,
 		level,
@@ -72,10 +68,6 @@ export const useHeaderCellStyles: UseHeaderCellStyles = (options) => {
 // -------------------------------------------------- TFootSlot //
 export const useTFootCellStyles: UseTFootCellStyles = (options) => {
 	const { colors, elm, level, theme } = options;
-
-	if (colors === false || colors === null) {
-		return {};
-	}
 
 	const baseColors = useGetLevelColors({
 		colors,

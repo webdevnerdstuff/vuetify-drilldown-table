@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.0-beta-14
+11-01-23
+[main] (@webdevnerdstuff)
+* Change how the header/footer/border colors work. (breaking change)
+* Add props for the new color functionality
+* Fix table colors and density reactivity
+* Update packages
+* Update Vuetify to v^3.3.23
+* Update docs
+
 ## v1.0.0-beta-13
 10-03-23
 [main] (@webdevnerdstuff)

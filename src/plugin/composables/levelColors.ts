@@ -16,7 +16,7 @@ import {
  */
 const levelPercentage: LevelPercentage = (colors, level, direction) => {
 	let percentage = 100;
-	let percentageChange = colors.percentageChange ?? 0;
+	let percentageChange = colors?.percentageChange ?? 0;
 
 	if (isNaN(percentageChange)) {
 		percentage = 100;
@@ -97,7 +97,7 @@ export const getSingleColor = (color: string, theme: ThemeInstance): string => {
 const convertLevelColors: ConvertLevelColors = (options) => {
 	const { colors, level, prop = 'default', theme, type } = options;
 	const propOptionResponse = { ...colors[prop] as LevelColorResponse };
-	const direction = colors.percentageDirection as keyof ColorsObject;
+	const direction = colors?.percentageDirection as keyof ColorsObject;
 
 	// Color prop does not exist //
 	if (typeof propOptionResponse === 'undefined') {
@@ -112,9 +112,10 @@ const convertLevelColors: ConvertLevelColors = (options) => {
 			const theTheme = theme.global.current.value.colors;
 			let color = theTheme[value as string] ?? value as string;
 
-			// If color is null set to transparent //
+			// If color is null or undefined use defaults or set to transparent //
 			if (!color) {
-				color = 'transparent';
+				color = colors.default[key] ?? 'transparent';
+				color = getSingleColor(color, theme);
 			}
 
 			// If color is a property that should not be converted, return the value //
@@ -424,9 +425,10 @@ function hexToRGB(hex: string): RGBColor {
 export const useGetLevelColors: UseGetLevelColors = (options) => {
 	const { colors, level, prop = 'default', themeColors, type = null } = options;
 
-	if (typeof colors !== 'object' || colors === null) {
-		console.trace();
-		throw new Error('The "colors" prop is set to false. This function should not be called.');
+	if (typeof colors !== 'object' || colors === null || typeof colors === 'undefined') {
+		// console.trace(); // For use when debugging //
+		// throw new Error('Invalid prop: type check failed for prop "colors". Expected Object'); // For use when debugging //
+		return {};
 	}
 
 	const levelColorOptions = convertLevelColors({

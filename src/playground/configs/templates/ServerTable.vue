@@ -8,8 +8,10 @@
 	<v-col cols="12">
 		<VDrilldownTable
 			v-model="selected"
-			:colors="tableSettings.colors"
-			:density="tableSettings.density"
+			:color-percentage-change="tableSettings.colorPercentageChange"
+			:color-percentage-direction="tableSettings.colorPercentageDirection"
+			:default-colors="tableSettings.defaultColors"
+			:density="density"
 			:drilldown-key="tableSettings.drilldownKey"
 			:elevation="tableSettings.elevation"
 			:expand-on-click="tableSettings.expandOnClick"
@@ -216,7 +218,9 @@ const props = defineProps({
 const selected = ref([]);
 
 const classes = inject('classes');
-const tableSettings = ref({ ...props.settings });
+const defaultColors = inject('defaultColors');
+const density = inject('density');
+const tableSettings = ref({ ...props.settings, ...{ defaultColors } });
 const defaultSortBy = [
 	{
 		key: 'id',
@@ -227,7 +231,7 @@ const headers = {
 	comments: [
 		// {
 		// 	align: 'start',
-		// 	key: '',
+		// 	key: null,
 		// 	title: '',
 		// 	width: 110,
 		// },
@@ -582,4 +586,8 @@ async function serverFetch(url, body) {
 function updateOptions(data) {
 	fetchServerData(data.drilldown, true);
 }
+
+watch(defaultColors, (newVal) => {
+	tableSettings.value.defaultColors = newVal;
+});
 </script>

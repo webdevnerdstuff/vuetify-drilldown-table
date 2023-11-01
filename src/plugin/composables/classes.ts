@@ -89,7 +89,7 @@ export const useHeaderRowClasses: UseHeaderRowClasses = (options) => {
 
 // ------------------------- Header Cells //
 export const useHeaderCellClasses: UseHeaderCellClasses = (options) => {
-	const { colors, column, level, slotName = '' } = options;
+	const { column, level, slotName = '' } = options;
 
 	const classes = {
 		[`${componentName}--header-row-th`]: true,
@@ -97,7 +97,7 @@ export const useHeaderCellClasses: UseHeaderCellClasses = (options) => {
 		[`${componentName}--header-row-th-${slotName}-${level}`]: slotName,
 		[`${componentName}--header-row-th-${level}`]: true,
 		[`${componentName}--header-row-th-sortable`]: column.sortable,
-		[`${componentName}--header-row-th-sortable-default-color`]: column.sortable && colors === false,
+		[`${componentName}--header-row-th-sortable-default-color`]: column.sortable,
 		[`${column.cellClass}`]: column.cellClass,
 	};
 

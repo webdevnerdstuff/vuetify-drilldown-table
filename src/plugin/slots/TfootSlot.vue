@@ -145,10 +145,27 @@ const cellClasses = (column: Column, slotName = ''): object => {
 	});
 };
 
+const computedColors = computed<ColorsObject>(() => {
+	const colors = props.colors as ColorsObject;
+
+	if (colors) {
+		colors.footer = {
+			background: props.footerBackgroundColor,
+			color: props.footerColor,
+		};
+
+		colors.percentageChange = props.colorPercentageChange;
+		colors.percentageDirection = props.colorPercentageDirection;
+	}
+
+	return colors as ColorsObject;
+});
+
 const cellStyles = computed<CSSProperties>(() => {
 	return useTFootCellStyles({
-		colors: props.colors as ColorsObject,
+		colors: computedColors.value,
 		elm: 'footer',
+		footerColor: props.footerColor,
 		level: props.level,
 		theme,
 	});
