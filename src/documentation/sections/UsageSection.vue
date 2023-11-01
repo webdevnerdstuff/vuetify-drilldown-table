@@ -39,7 +39,7 @@ const codeBlockSettings = computed(() => props.codeBlockOptions);
 const classes = inject('classes');
 
 const usageCode = `import App from './App.vue';
-import VDrilldownTable from 'vuetify-drilldown-table';
+import VDrilldownTable from '@wdns/vuetify-drilldown-table';
 import { createApp } from 'vue';
 
 const app = createApp(App);
