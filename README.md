@@ -7,8 +7,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/vuetify-drilldown-table">
-    <img src="https://img.shields.io/npm/v/vuetify-drilldown-table?color=1867c0&logo=npm" alt="NPM Package">
+  <a href="https://www.npmjs.com/package/@wdns/vuetify-drilldown-table">
+    <img src="https://img.shields.io/npm/v/%40wdns/vuetify-drilldown-table?color=1867c0&logo=npm" alt="NPM Package">
   </a>
   &nbsp;
   <a href="https://github.com/webdevnerdstuff/vuetify-drilldown-table">
@@ -25,12 +25,12 @@ The Vuetify Drilldown Table is a powerful component that enhances the functional
  
 Using [pnpm](https://pnpm.io/):
 ```
-pnpm add vuetify-drilldown-table
+pnpm add @wdns/vuetify-drilldown-table
 ```
 
 Using npm:
 ```
-npm i vuetify-drilldown-table
+npm i @wdns/vuetify-drilldown-table
 ```
  
 ## Documentation
