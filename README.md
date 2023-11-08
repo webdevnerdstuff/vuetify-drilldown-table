@@ -45,13 +45,13 @@ npm i @wdns/vuetify-drilldown-table
 
 ## Change Log
  
-[CHANGELOG](https://github.com/webdevnerdstuff/vuetify-drilldown-table/blob/master/CHANGELOG.md)
+[CHANGELOG](https://github.com/webdevnerdstuff/vuetify-drilldown-table/blob/main/CHANGELOG.md)
 
 
 ## License
 
 Copyright (c) 2023 WebDevNerdStuff  
-Licensed under the [MIT license](https://github.com/webdevnerdstuff/vuetify-drilldown-table/blob/master/LICENSE.md).
+Licensed under the [MIT license](https://github.com/webdevnerdstuff/vuetify-drilldown-table/blob/main/LICENSE.md).
 
 
 ## Legal
