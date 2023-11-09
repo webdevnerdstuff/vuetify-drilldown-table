@@ -122,12 +122,12 @@
 
 			<!-- <template #[`header.data-table-select`]>
 				<div class="d-flex justify-center">
-					<v-icon>mdi mdi-vuetify</v-icon>
+					<v-icon icon="$vuetify"></v-icon>
 				</div>
 			</template> -->
 
 			<!-- <template #[`header.sortIcon`]>
-				<fa-icon icon="fa-solid fa-arrow-up"></fa-icon>
+				<v-icon icon="$vuetify"></v-icon>
 			</template> -->
 
 			<!-- <template #[`header.id`]="{ column }">
@@ -166,7 +166,7 @@
 			</template> -->
 
 			<!-- <template #[`item.data-table-select`]>
-				<v-icon>mdi mdi-vuetify</v-icon>
+				<v-icon icon="$vuetify"></v-icon>
 			</template> -->
 
 			<!-- <template #[`item.data-table-expand`]>

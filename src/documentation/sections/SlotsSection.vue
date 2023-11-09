@@ -185,8 +185,8 @@ const topLeftRightSlotCode = `{
 
 const slotsSupported = [
 	{
-		desc: 'The <code class="inline-code">[`column.${string}`]</code> slot is available for each column',
-		name: '[`column.${string}`]',
+		desc: 'The <code class="inline-code">[`header.${string}`]</code> slot is available for each column',
+		name: '[`header.${string}`]',
 	},
 	{
 		desc: 'The <code class="inline-code">[`item.${string}`]</code> slot is available for each item',
@@ -197,12 +197,12 @@ const slotsSupported = [
 		name: 'body',
 	},
 	{
-		desc: 'The <code class="inline-code">column.data-table-expand</code> slot is available',
-		name: 'column.data-table-expand',
+		desc: 'The <code class="inline-code">header.data-table-expand</code> slot is available',
+		name: 'header.data-table-expand',
 	},
 	{
-		desc: 'The <code class="inline-code">column.data-table-select</code> slot is available',
-		name: 'column.data-table-select',
+		desc: 'The <code class="inline-code">header.data-table-select</code> slot is available',
+		name: 'header.data-table-select',
 	},
 	{
 		desc: 'The <code class="inline-code">footer.prepend</code> slot is available',

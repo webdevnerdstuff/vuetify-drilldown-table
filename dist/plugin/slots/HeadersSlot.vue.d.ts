@@ -12,7 +12,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
 }, {
     showSelect: boolean;
     isTheadSlot: boolean;
-}, {}>, Partial<Record<`column.${string}`, (_: {
+}, {}>, Partial<Record<`header.${string}`, (_: {
     column: Column;
 }) => any>> & {
     "header.sortIcon"?(_: {}): any;
