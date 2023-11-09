@@ -4,8 +4,8 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     "click:row": (...args: any[]) => void;
     "click:row:checkbox": (...args: any[]) => void;
 }, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ItemSlotProps>, {}>>> & {
-    "onClick:row"?: ((...args: any[]) => any) | undefined;
     "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
+    "onClick:row"?: ((...args: any[]) => any) | undefined;
     "onClick:row:checkbox"?: ((...args: any[]) => any) | undefined;
 }, {}, {}>, Readonly<Record<string, any>>>;
 export default _default;
