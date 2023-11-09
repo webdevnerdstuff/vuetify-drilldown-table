@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.0.1
+11-09-23
+[main] (@webdevnerdstuff)
+* Fix header slot name
+* Update docs
+
 ## v1.0.0
 11-09-23
 [main] (@webdevnerdstuff)
