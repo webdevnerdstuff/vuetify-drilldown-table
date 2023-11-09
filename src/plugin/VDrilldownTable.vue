@@ -366,7 +366,10 @@
 </template>
 
 <script setup lang="ts">
-import { VDataTableServer, VDataTable } from 'vuetify/labs/components';
+import {
+	VDataTable,
+	VDataTableServer,
+} from 'vuetify/components';
 import { AllProps, defaultColorValues } from './utils/props';
 import {
 	BottomSlot,
