@@ -3,8 +3,14 @@
 import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
-import type { VProgressCircular, VProgressLinear } from 'vuetify/components';
-import type { VDataTable, VDataTableServer, VDataTableRow, VSkeletonLoader } from 'vuetify/labs/components';
+import type {
+	VDataTable,
+	VDataTableRow,
+	VDataTableServer,
+	VProgressCircular,
+	VProgressLinear,
+	VSkeletonLoader,
+} from 'vuetify/components';
 
 
 // -------------------------------------------------- Vuetify Types //

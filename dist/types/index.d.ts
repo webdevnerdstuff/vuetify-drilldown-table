@@ -1,8 +1,7 @@
 import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
-import type { VProgressCircular, VProgressLinear } from 'vuetify/components';
-import type { VDataTable, VDataTableServer, VDataTableRow, VSkeletonLoader } from 'vuetify/labs/components';
+import type { VDataTable, VDataTableRow, VDataTableServer, VProgressCircular, VProgressLinear, VSkeletonLoader } from 'vuetify/components';
 export type Density = 'default' | 'comfortable' | 'compact';
 type IconValue = string | (string | [path: string, opacity: number])[] | JSXComponent;
 type SelectItemKey = boolean | string | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any);

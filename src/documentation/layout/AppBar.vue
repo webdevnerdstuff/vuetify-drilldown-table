@@ -18,7 +18,7 @@
 			v-else
 			class="nav-drawer-btn me-2 ms-3"
 			:height="iconSize.height"
-			:href="`/${store.storageName}/`"
+			:href="`/${store.packageName}/`"
 			:width="iconSize.width"
 		>
 			<v-icon icon="mdi:mdi-home"></v-icon>
@@ -35,8 +35,8 @@
 			:items="menuItems"
 			multiple
 			placeholder="Vuetify Links"
-			prepend-inner-icon="mdi:mdi-vuetify"
-			style="height: inherit; max-width: 300px; width: 300px;"
+			prepend-inner-icon="$vuetify"
+			style="max-width: 300px; width: 300px;"
 			title="name"
 			variant="underlined"
 		>

@@ -229,34 +229,30 @@ const defaultSortBy = [
 ];
 const headers = {
 	comments: [
-		// {
-		// 	align: 'start',
-		// 	key: null,
-		// 	title: '',
-		// 	width: 110,
-		// },
+		{
+			align: 'start',
+			key: null,
+			title: '',
+			width: 110,
+		},
 		{
 			align: 'start',
 			key: 'postId',
 			sortable: false,
 			title: 'Post ID',
-			// width: 110,
+			width: 110,
 		},
 		{
 			align: 'start',
 			key: 'id',
 			sortable: false,
 			title: 'Comment ID',
-			// width: 130,
+			width: 130,
 		},
 		{
 			align: 'start',
 			key: 'name',
 			title: 'Comment',
-		},
-		{
-			key: 'data-table-expand',
-			title: '',
 		},
 	],
 	posts: [
@@ -265,18 +261,19 @@ const headers = {
 			key: 'userId',
 			sortable: false,
 			title: 'User ID',
-			// width: 110,
+			width: 110,
 		},
 		{
 			align: 'start',
 			key: 'id',
 			title: 'Post ID',
-			// width: 240,
+			width: 240,
 		},
 		{
 			align: 'start',
 			key: 'title',
 			title: 'Post',
+			// width: 50,
 		},
 		{
 			key: 'data-table-expand',
@@ -341,10 +338,6 @@ const footers = {
 			align: 'start',
 			key: 'name',
 			title: 'Comment',
-		},
-		{
-			key: 'data-table-expand',
-			title: '',
 		},
 	],
 	posts: [

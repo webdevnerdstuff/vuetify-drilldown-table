@@ -190,15 +190,15 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     sortBy: () => never[];
     tableType: () => {};
 }>>> & {
-    "onClick:row"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
-    "onClick:row:checkbox"?: ((...args: any[]) => any) | undefined;
     "onUpdate:sortBy"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:page"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:itemsPerPage"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:options"?: ((...args: any[]) => any) | undefined;
+    "onClick:row"?: ((...args: any[]) => any) | undefined;
+    "onClick:row:checkbox"?: ((...args: any[]) => any) | undefined;
     "onUpdate:search"?: ((...args: any[]) => any) | undefined;
     "onUpdate:drilldown"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:options"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:itemsPerPage"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:page"?: ((...args: any[]) => any) | undefined;
 }, {
     filterKeys: string | string[];
     noFilter: boolean;
@@ -214,8 +214,8 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     showSelect: boolean;
     selectStrategy: "page" | "all" | "single";
     items: any[];
-    itemValue: string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null;
-    itemSelectable: string | boolean | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null;
+    itemValue: string | boolean | readonly (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null;
+    itemSelectable: string | boolean | readonly (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null;
     returnObject: boolean;
     expandOnClick: boolean;
     showExpand: boolean;
