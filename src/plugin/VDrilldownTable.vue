@@ -367,38 +367,38 @@
 
 <script setup lang="ts">
 import {
-	VDataTable,
-	VDataTableServer,
-} from 'vuetify/components';
-import { AllProps, defaultColorValues } from './utils/props';
-import {
-	BottomSlot,
-	HeadersSlot,
-	ItemSlot,
-	TfootSlot,
-	TopSlot,
-} from './slots';
-import { useEmitUpdatedExpanded } from './composables/emits';
-import { useMergeDeep } from './composables/helpers';
-import {
-	useGetHeaderColumnWidths,
-	useSetLoadedDrilldown,
-} from './composables/loadedDrilldown';
-import { useTableClasses } from './composables/classes';
-import { useTableStyles } from './composables/styles';
-import {
-	useEventBus,
-	watchDebounced,
-	watchOnce,
-} from '@vueuse/core';
-import {
 	DataTableItem,
 	DrilldownEvent,
 	OptionsEventBus,
 	OptionsEventObject,
 	Props,
 	TableType,
-} from '@/types';
+} from '@/plugin/types';
+import {
+	VDataTable,
+	VDataTableServer,
+} from 'vuetify/components';
+import { AllProps, defaultColorValues } from '@utils/props';
+import {
+	BottomSlot,
+	HeadersSlot,
+	ItemSlot,
+	TfootSlot,
+	TopSlot,
+} from '@slots/index';
+import { useEmitUpdatedExpanded } from '@composables/emits';
+import { useMergeDeep } from '@composables/helpers';
+import {
+	useGetHeaderColumnWidths,
+	useSetLoadedDrilldown,
+} from '@composables/loadedDrilldown';
+import { useTableClasses } from '@composables/classes';
+import { useTableStyles } from '@composables/styles';
+import {
+	useEventBus,
+	watchDebounced,
+	watchOnce,
+} from '@vueuse/core';
 
 
 // -------------------------------------------------- Emits & Slots & Injects //

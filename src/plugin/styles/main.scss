@@ -1,257 +1,255 @@
 :root {
-  --vdt-border: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+	--vdt-border: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 
 %hover-children {
-  .v-table__wrapper {
-    table {
-      tbody {
-        tr {
-          td {
-            background: rgb(var(--v-theme-surface));
-          }
+	.v-table__wrapper {
+		table {
+			tbody {
+				tr {
+					td {
+						background: rgb(var(--v-theme-surface));
+					}
 
-          &:hover {
-            td {
-              background: rgba(var(--v-border-color), var(--v-hover-opacity));
-            }
-          }
-        }
-      }
-    }
-  }
+					&:hover {
+						td {
+							background: rgba(var(--v-border-color), var(--v-hover-opacity));
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 .v-drilldown-table {
-  &--expand-icon {
-    transform: rotate(0deg);
-    transition: all 0.3s ease-in-out;
+	&--expand-icon {
+		transform: rotate(0deg);
+		transition: all 0.3s ease-in-out;
 
-    &.rotate-180 {
-      transform: rotate(180deg);
-    }
-  }
+		&.rotate-180 {
+			transform: rotate(180deg);
+		}
+	}
 
-  &--hover {
-    tr {
-      &:hover {
-        .v-drilldown-table {
-          .v-table__wrapper {
-            table {
-              tbody {
-                tr {
-                  td {
-                    background: rgb(var(--v-theme-surface));
-                  }
+	&--hover {
+		tr {
+			&:hover {
+				.v-drilldown-table {
+					.v-table__wrapper {
+						table {
+							tbody {
+								tr {
+									td {
+										background: rgb(var(--v-theme-surface));
+									}
 
-                  &:hover {
-                    td {
-                      background: rgba(var(--v-border-color), var(--v-hover-opacity));
-                    }
-                  }
+									&:hover {
+										td {
+											background: rgba(var(--v-border-color), var(--v-hover-opacity));
+										}
+									}
 
-                  @for $i from 0 through 20 {
-                    .v-drilldown-table--level-#{$i} {
-                      @extend %hover-children;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+									@for $i from 0 through 20 {
+										.v-drilldown-table--level-#{$i} {
+											@extend %hover-children;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
-  &--separator {
-    &-horizontal {
-      thead {
-        tr {
-          th {
-            border-top: var(--vdt-border) !important;
-          }
-        }
-      }
+	&--separator {
+		&-horizontal {
+			thead {
+				tr {
+					th {
+						border-top: var(--vdt-border) !important;
+					}
+				}
+			}
 
-      tbody {
-        > tr {
-          &:last-child {
-            > th,
-            > td {
-              border-bottom: var(--vdt-border) !important;
-            }
-          }
-        }
-      }
+			tbody {
+				> tr {
+					&:last-child {
+						> th,
+						> td {
+							border-bottom: var(--vdt-border) !important;
+						}
+					}
+				}
+			}
 
-      tfoot {
-        tr {
-          > th,
-          > td {
-            border-top: 0 !important;
-            border-bottom: var(--vdt-border);
-          }
-        }
-      }
-    }
+			tfoot {
+				tr {
+					> th,
+					> td {
+						border-bottom: var(--vdt-border);
+						border-top: 0 !important;
+					}
+				}
+			}
+		}
 
-    &-vertical {
-      thead {
-        tr {
-          th {
-            border-bottom: 0 !important;
-            border-top: var(--vdt-border) !important;
+		&-vertical {
+			thead {
+				tr {
+					th {
+						border-bottom: 0 !important;
+						border-top: var(--vdt-border) !important;
 
-            &:not(:last-child) {
-              border-right: var(--vdt-border) !important;
-            }
+						&:not(:last-child) {
+							border-right: var(--vdt-border) !important;
+						}
 
-            &:nth-last-child(2) {
-              border-right: 0 !important;
-            }
-          }
-        }
-      }
+						&:nth-last-child(2) {
+							border-right: 0 !important;
+						}
+					}
+				}
+			}
 
-      tbody {
-        > tr {
-          > td {
-            border-bottom: 0 !important;
+			tbody {
+				> tr {
+					> td {
+						border-bottom: 0 !important;
 
-            &:not(:last-child) {
-              border-right: var(--vdt-border) !important;
-            }
-          }
+						&:not(:last-child) {
+							border-right: var(--vdt-border) !important;
+						}
+					}
 
-          &:first-child {
-            > td {
-              border-top: var(--vdt-border) !important;
-            }
-          }
+					&:first-child {
+						> td {
+							border-top: var(--vdt-border) !important;
+						}
+					}
 
-          &:last-child {
-            > td {
-              border-bottom: var(--vdt-border) !important;
-            }
-          }
-        }
-      }
+					&:last-child {
+						> td {
+							border-bottom: var(--vdt-border) !important;
+						}
+					}
+				}
+			}
 
-      tfoot {
-        tr {
-          th {
-            border-top: 0 !important;
-            border-bottom: var(--vdt-border) !important;
+			tfoot {
+				tr {
+					th {
+						border-bottom: var(--vdt-border) !important;
+						border-top: 0 !important;
 
-            &:not(:last-child) {
-              border-right: var(--vdt-border) !important;
-            }
+						&:not(:last-child) {
+							border-right: var(--vdt-border) !important;
+						}
 
-            &:nth-last-child(2) {
-              border-right: 0 !important;
-            }
-          }
-        }
-      }
-    }
+						&:nth-last-child(2) {
+							border-right: 0 !important;
+						}
+					}
+				}
+			}
+		}
 
-    &-cell {
-      thead {
-        tr {
-          th {
-            border-bottom: 0 !important;
-            border-top: var(--vdt-border) !important;
+		&-cell {
+			thead {
+				tr {
+					th {
+						border-bottom: 0 !important;
+						border-top: var(--vdt-border) !important;
 
-            &:not(:last-child) {
-              border-right: var(--vdt-border) !important;
-            }
-          }
-        }
-      }
+						&:not(:last-child) {
+							border-right: var(--vdt-border) !important;
+						}
+					}
+				}
+			}
 
-      tbody {
-        > tr {
-          > td {
+			tbody {
+				> tr {
+					> td {
+						&:not(:last-child) {
+							border-right: var(--vdt-border) !important;
+						}
+					}
 
+					&:first-child {
+						> td {
+							border-top: var(--vdt-border) !important;
+						}
+					}
 
-            &:not(:last-child) {
-              border-right: var(--vdt-border) !important;
-            }
-          }
+					&:last-child {
+						> td {
+							border-bottom: var(--vdt-border) !important;
+						}
+					}
+				}
+			}
 
-          &:first-child {
-            > td {
-              border-top: var(--vdt-border) !important;
-            }
-          }
+			tfoot {
+				> tr {
+					th {
+						border-bottom: var(--vdt-border) !important;
+						border-top: 0 !important;
 
-          &:last-child {
-            > td {
-              border-bottom: var(--vdt-border) !important;
-            }
-          }
-        }
-      }
+						&:not(:last-child) {
+							border-right: var(--vdt-border) !important;
+						}
+					}
+				}
+			}
+		}
+	}
 
-      tfoot {
-        > tr {
-          th {
-            border-top: 0 !important;
-            border-bottom: var(--vdt-border) !important;
+	tbody {
+		height: 2px;
+		min-height: 2px;
+		position: relative;
+	}
 
-            &:not(:last-child) {
-              border-right: var(--vdt-border) !important;
-            }
-          }
-        }
-      }
-    }
-  }
+	.v-table {
+		&--fixed-header {
+			> .v-table__wrapper {
+				> table {
+					> thead {
+						> tr {
+							> th {
+								box-shadow: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
-  tbody {
-    height: 2px;
-    min-height: 2px;
-    position: relative;
-  }
+	&--fixed-header {
+		.v-table__wrapper {
+			> table {
+				> thead {
+					> tr {
+						> th {
+							box-shadow: none !important;
+						}
 
-  .v-table {
-    &--fixed-header {
-      > .v-table__wrapper {
-        > table {
-          > thead {
-            > tr {
-              > th {
-                box-shadow: none;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+						> td {
+							background: unset;
+						}
+					}
+				}
+			}
+		}
+	}
 
-  &--fixed-header {
-    .v-table__wrapper {
-      > table {
-        > thead {
-          > tr {
-            > th {
-              box-shadow: none !important;
-            }
-
-            > td {
-              background: unset;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .v-data-table-footer {
-    border-bottom: var(--vdt-border);
-    padding-bottom: 4px;
-    padding-top: 4px;
-  }
+	.v-data-table-footer {
+		border-bottom: var(--vdt-border);
+		padding-bottom: 4px;
+		padding-top: 4px;
+	}
 }

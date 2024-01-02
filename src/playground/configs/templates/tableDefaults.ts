@@ -51,7 +51,7 @@ export default {
 		{
 			title: '$vuetify.dataFooter.itemsPerPageAll',
 			value: -1,
-		}
+		},
 	],
 	itemsPerPageText: '$vuetify.dataFooter.itemsPerPageText',
 	lastIcon: '$last',

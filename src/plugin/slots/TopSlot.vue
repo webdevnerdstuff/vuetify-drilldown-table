@@ -41,9 +41,9 @@
 </template>
 
 <script setup lang="ts">
-import { KeyStringAny, TopSlotProps } from '@/types';
-import { componentName } from '@/plugin/utils/globals';
-import { AllProps } from '../utils/props';
+import { KeyStringAny, TopSlotProps } from '@/plugin/types';
+import { componentName } from '@utils/globals';
+import { AllProps } from '@utils/props';
 
 
 const slots = useSlots();

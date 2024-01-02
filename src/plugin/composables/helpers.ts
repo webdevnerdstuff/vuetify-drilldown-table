@@ -3,7 +3,7 @@ import {
 	Column,
 	UseGetSortDirection,
 	UseConvertToUnit,
-} from '@/types';
+} from '@/plugin/types';
 import { useGetPropertyFromItem } from './vuetifyHelpers';
 
 

@@ -1,4 +1,4 @@
-import { Column, DefaultColors } from '@/types';
+import { Column, DefaultColors } from '@/plugin/types';
 
 export const defaultColorValues: DefaultColors = {
 	background: '--v-theme-surface',

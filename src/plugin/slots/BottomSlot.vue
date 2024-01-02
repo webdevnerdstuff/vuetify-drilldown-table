@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import {
 	VDataTableSlotProps,
-} from '@/types';
+} from '@/plugin/types';
 
 
 withDefaults(defineProps<VDataTableSlotProps>(), {});

@@ -75,16 +75,16 @@ import {
 	Column,
 	TFootSlotProps,
 	Props,
-} from '@/types';
+} from '@/plugin/types';
 import {
 	useCellAlignClasses,
 	useTFootCellClasses,
 	useCheckBoxClasses,
 	useTFootClasses,
 	useTFootRowClasses,
-} from '@/plugin/composables/classes';
-import { useTFootCellStyles } from '@/plugin/composables/styles';
-import { useRenderCell } from '@/plugin/composables/helpers';
+} from '@composables/classes';
+import { useTFootCellStyles } from '@composables/styles';
+import { useRenderCell } from '@composables/helpers';
 
 
 const slots = useSlots();

@@ -90,13 +90,19 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
-			'@root': path.resolve(__dirname, './')
+			'@components': path.resolve(__dirname, './src/plugin/components'),
+			'@composables': path.resolve(__dirname, './src/plugin/composables'),
+			'@plugin': path.resolve(__dirname, './src/plugin'),
+			'@root': path.resolve(__dirname, './'),
+			'@types': path.resolve(__dirname, './src/plugin/types'),
+			'@utils': path.resolve(__dirname, './src/plugin/utils'),
 		},
 		extensions: [
 			'.js',
 			'.json',
 			'.jsx',
 			'.mjs',
+			'.mts',
 			'.ts',
 			'.tsx',
 			'.vue',

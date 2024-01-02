@@ -4,7 +4,7 @@ import {
 	UseHeaderCellStyles,
 	UseTableStyles,
 	UseTFootCellStyles,
-} from '@/types';
+} from '@/plugin/types';
 
 
 // -------------------------------------------------- VDrilldownTable //

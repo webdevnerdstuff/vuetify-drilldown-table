@@ -3,6 +3,7 @@
 import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
+import VDrilldownTable from '../VDrilldownTable.vue';
 import type {
 	VDataTable,
 	VDataTableRow,
@@ -710,3 +711,12 @@ export interface OptionsEventObject {
 }
 
 export const OptionsEventBus: EventBusKey<OptionsEventObject> = Symbol('data');
+
+
+declare module "vue" {
+	interface ComponentCustomProperties { }
+
+	interface GlobalComponents {
+		VDrilldownTable: typeof VDrilldownTable;
+	}
+}

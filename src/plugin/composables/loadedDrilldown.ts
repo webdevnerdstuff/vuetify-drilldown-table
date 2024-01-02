@@ -2,7 +2,7 @@ import {
 	Props,
 	UseGetHeaderColumnWidths,
 	UseSetLoadedDrilldown,
-} from '@/types';
+} from '@/plugin/types';
 import { useMergeDeep } from './helpers';
 
 

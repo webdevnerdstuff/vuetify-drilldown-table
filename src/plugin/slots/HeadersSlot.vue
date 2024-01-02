@@ -99,7 +99,7 @@ import {
 	Column,
 	HeaderSlotProps,
 	InternalDataTableHeader,
-} from '@/types';
+} from '@/plugin/types';
 import type { IconOptions } from 'vuetify';
 import {
 	useCellAlignClasses,
@@ -107,10 +107,10 @@ import {
 	useCheckBoxClasses,
 	useHeaderRowClasses,
 	useSortIconClasses,
-} from '@/plugin/composables/classes';
-import { useHeaderCellStyles } from '@/plugin/composables/styles';
-import { useRenderCell } from '@/plugin/composables/helpers';
-import { TableLoader } from '@/plugin/components';
+} from '@composables/classes';
+import { useHeaderCellStyles } from '@composables/styles';
+import { useRenderCell } from '@composables/helpers';
+import { TableLoader } from '@components/index';
 
 
 const slots = useSlots();
@@ -134,6 +134,9 @@ const tableModelValue = computed(() => props.tableModelValue);
 const theme = useTheme();
 
 const columns = computed<Column[]>(() => checkColumnWidthUsage());
+
+
+console.log(iconOptions);
 
 
 watch(() => props.items, (newItems) => {
@@ -212,6 +215,7 @@ const computedColors = computed<ColorsObject>(() => {
 });
 
 const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
+	console.log(computedColors.value);
 	return useHeaderCellStyles({
 		colors: computedColors.value,
 		column,

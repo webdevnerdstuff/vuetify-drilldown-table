@@ -1,0 +1,72 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Styles Composable > useHeaderCellStyles > should return header cell styles for level 1 using an undefined width to equal "auto" 1`] = `
+{
+  "backgroundColor": "hsl(207 90% 54% / 100%)",
+  "color": "hsl(0 0% 100% / 100%)",
+  "minWidth": "auto",
+  "width": "auto",
+}
+`;
+
+exports[`Styles Composable > useHeaderCellStyles > should return header cell styles for level 1 using an width as number 1`] = `
+{
+  "backgroundColor": "hsl(207 90% 54% / 100%)",
+  "color": "hsl(0 0% 100% / 100%)",
+  "minWidth": "100px",
+  "width": "100px",
+}
+`;
+
+exports[`Styles Composable > useHeaderCellStyles > should return header cell styles for level 1 using an width as string with unit 1`] = `
+{
+  "backgroundColor": "hsl(207 90% 54% / 100%)",
+  "color": "hsl(0 0% 100% / 100%)",
+  "minWidth": "100px",
+  "width": "100px",
+}
+`;
+
+exports[`Styles Composable > useHeaderCellStyles > should return header cell styles for level 1 using an width as string without unit 1`] = `
+{
+  "backgroundColor": "hsl(207 90% 54% / 100%)",
+  "color": "hsl(0 0% 100% / 100%)",
+  "minWidth": "100px",
+  "width": "100px",
+}
+`;
+
+exports[`Styles Composable > useHeaderCellStyles > should return header cell styles for level 2 1`] = `
+{
+  "backgroundColor": "hsl(207 90% 54% / 85%)",
+  "color": "hsl(0 0% 100% / 100%)",
+  "minWidth": "100px",
+  "width": "100px",
+}
+`;
+
+exports[`Styles Composable > useTFootCellStyles > should return footer cell styles level 1 1`] = `
+{
+  "backgroundColor": "hsl(207 90% 54% / 100%)",
+  "color": "hsl(0 0% 100% / 100%)",
+}
+`;
+
+exports[`Styles Composable > useTFootCellStyles > should return footer cell styles level 2 1`] = `
+{
+  "backgroundColor": "hsl(207 90% 54% / 85%)",
+  "color": "hsl(0 0% 100% / 100%)",
+}
+`;
+
+exports[`Styles Composable > useTableStyles > should return tables styles for level 1 1`] = `
+{
+  "borderBottom": "1px solid hsl(207 90% 54% / 100%)",
+}
+`;
+
+exports[`Styles Composable > useTableStyles > should return tables styles for level 2 1`] = `
+{
+  "borderBottom": "1px solid hsl(207 90% 54% / 85%)",
+}
+`;

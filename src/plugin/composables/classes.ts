@@ -1,4 +1,4 @@
-import { componentName } from '../utils/globals';
+import { componentName } from '@utils/globals';
 import { useGetSortDirection } from './helpers';
 import {
 	UseBodyCellClasses,
@@ -13,7 +13,7 @@ import {
 	UseTableClasses,
 	UseTFootClasses,
 	UseTFootRowClasses,
-} from '@/types';
+} from '@/plugin/types';
 
 
 // -------------------------------------------------- VDrilldownTable //
@@ -40,7 +40,7 @@ export const useCellAlignClasses: UseCellAlignClasses = (options) => {
 
 	const classes = {
 		'd-flex align-center': true,
-		[`justify-${align}`]: align,
+		[`justify-${align}`]: align || false,
 		[`justify-start`]: !align,
 	};
 
@@ -69,7 +69,7 @@ export const useCellClasses: UseCellClasses = (options) => {
 	return {
 		[`${componentName}--${elm}-row-td`]: true,
 		[`${componentName}--${elm}-row-td-${level}`]: true,
-		[`${column.cellClass}`]: column.cellClass,
+		[`${column.cellClass}`]: column.cellClass || false,
 	};
 };
 
@@ -94,11 +94,11 @@ export const useHeaderCellClasses: UseHeaderCellClasses = (options) => {
 	const classes = {
 		[`${componentName}--header-row-th`]: true,
 		[`${componentName}--header-row-th-${slotName}`]: slotName !== '',
-		[`${componentName}--header-row-th-${slotName}-${level}`]: slotName,
+		[`${componentName}--header-row-th-${slotName}-${level}`]: slotName !== '',
 		[`${componentName}--header-row-th-${level}`]: true,
-		[`${componentName}--header-row-th-sortable`]: column.sortable,
-		[`${componentName}--header-row-th-sortable-default-color`]: column.sortable,
-		[`${column.cellClass}`]: column.cellClass,
+		[`${componentName}--header-row-th-sortable`]: column.sortable || false,
+		[`${componentName}--header-row-th-sortable-default-color`]: column.sortable || false,
+		[`${column.cellClass}`]: column.cellClass || false,
 	};
 
 	return classes;
@@ -128,7 +128,7 @@ export const useBodyCellClasses: UseBodyCellClasses = (options) => {
 	const classes = {
 		[`${componentName}--body-row-td`]: true,
 		[`${componentName}--body-row-td-${level}`]: true,
-		[`${column.cellClass}`]: column.cellClass,
+		[`${column.cellClass}`]: column.cellClass || false,
 	};
 
 	return classes;
@@ -183,7 +183,7 @@ export const useTFootCellClasses: UseTFootCellClasses = (options) => {
 		[`${componentName}--tfoot-row-td-${slotName}`]: slotName !== '',
 		[`${componentName}--tfoot-row-td-${slotName}-${level}`]: slotName,
 		[`${componentName}--tfoot-row-td-${level}`]: true,
-		[`${column.cellClass}`]: column.cellClass,
+		[`${column.cellClass}`]: column.cellClass || false,
 	};
 
 	return classes;

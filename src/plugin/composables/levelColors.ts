@@ -8,7 +8,7 @@ import {
 	LevelPercentage,
 	RGBColor,
 	UseGetLevelColors,
-} from '@/types';
+} from '@/plugin/types';
 
 
 /**
