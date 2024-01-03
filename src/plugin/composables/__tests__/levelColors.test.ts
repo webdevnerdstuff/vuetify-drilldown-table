@@ -1,4 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import {
+	describe,
+	it,
+	expect,
+	vi,
+} from 'vitest';
 import {
 	getSingleColor,
 	useGetLevelColors,
@@ -37,12 +42,35 @@ describe('Level Colors Composable', () => {
 
 		it('should return a non theme color option as default HSL color value', () => {
 			const color = getSingleColor('foobar', theme);
+
 			expect(color).toMatchInlineSnapshot(`"hsl(0 0% 100% / 12%)"`);
 		});
 
 		it('should return a non theme variable as default HSL color value', () => {
 			const color = getSingleColor('--v-foobar', theme);
+
 			expect(color).toMatchInlineSnapshot(`"hsl(0 0% 100% / 12%)"`);
+		});
+
+		// console.warn tests //
+		const logSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+		it('should console warn when color prop "foobar" doesn\'t exist in colors', () => {
+			logSpy.mockReset();
+
+			getSingleColor('foobar', theme);
+
+			expect(logSpy).toHaveBeenCalled();
+			expect(logSpy).toHaveBeenCalledTimes(1);
+		});
+
+		it('should console warn when color prop "--v-foobar" doesn\'t exist in colors', () => {
+			logSpy.mockReset();
+
+			getSingleColor('--v-foobar', theme);
+
+			expect(logSpy).toHaveBeenCalled();
+			expect(logSpy).toHaveBeenCalledTimes(1);
 		});
 	});
 
