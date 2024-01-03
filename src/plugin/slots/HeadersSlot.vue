@@ -136,9 +136,6 @@ const theme = useTheme();
 const columns = computed<Column[]>(() => checkColumnWidthUsage());
 
 
-console.log(iconOptions);
-
-
 watch(() => props.items, (newItems) => {
 	items.value = newItems;
 
@@ -215,7 +212,6 @@ const computedColors = computed<ColorsObject>(() => {
 });
 
 const cellStyles = (column: { width?: string | number; }, dataTableExpand = false): CSSProperties => {
-	console.log(computedColors.value);
 	return useHeaderCellStyles({
 		colors: computedColors.value,
 		column,
