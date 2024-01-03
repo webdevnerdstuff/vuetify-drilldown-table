@@ -212,7 +212,6 @@ export interface Props {
 	search?: string | undefined;
 	searchContainerCols?: SearchContainerCols;
 	searchDebounce?: number | undefined | null;
-	searchEvents?: KeyStringAny;
 	searchMaxWait?: number | undefined | null;
 	searchProps?: KeyStringAny;
 	separator?: 'default' | 'horizontal' | 'vertical' | 'cell' | undefined;
@@ -274,7 +273,6 @@ export interface TopSlotProps extends VDataTableSlotProps {
 	level: Props['level'];
 	loading: Props['loading'];
 	searchContainerCols?: SearchContainerCols;
-	searchEvents?: KeyStringAny;
 	searchProps?: KeyStringAny;
 	showSearch: boolean;
 };

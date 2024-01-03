@@ -46,7 +46,6 @@
 				:level="loadedDrilldown.level"
 				:loading="loadedDrilldown.loading"
 				:search-container-cols="loadedDrilldown.searchContainerCols"
-				:search-events="loadedDrilldown.searchEvents"
 				:search-props="loadedDrilldown.searchProps"
 				:show-search="loadedDrilldown.showSearch ?? false"
 				:slot-props="props"

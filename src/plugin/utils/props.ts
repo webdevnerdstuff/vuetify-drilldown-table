@@ -122,7 +122,6 @@ export const AllProps = {
 		xxl: 2,
 	}),
 	searchDebounce: 0,
-	searchEvents: () => ({}),
 	searchMaxWait: 1000,
 	searchProps: () => ({}),
 	selectStrategy: 'page' as const,

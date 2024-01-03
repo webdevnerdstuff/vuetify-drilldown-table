@@ -27,7 +27,6 @@
 					v-bind="boundSearchProps"
 					v-model="levelSearch"
 					class="mt-0 pt-0"
-					v-on="searchEvents"
 				></v-text-field>
 			</v-col>
 
