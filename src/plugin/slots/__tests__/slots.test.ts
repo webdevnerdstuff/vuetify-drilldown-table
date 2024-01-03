@@ -48,7 +48,7 @@ const headerProps = {
 		matchColumnWidths: false,
 		selectStrategy: 'none',
 		slotProps: {
-			selectAll: () => {},
+			selectAll: () => { },
 		},
 		sortBy: [],
 	},
@@ -59,7 +59,7 @@ describe('Slot Components', () => {
 		const wrapper = mount(HeadersSlot, headerProps);
 
 		test('emitted click:selectAll', async () => {
-			wrapper.vm.selectAllBoxes()
+			wrapper.vm.selectAllBoxes();
 
 			// Wait until $emits have been handled
 			await wrapper.vm.$nextTick();
@@ -86,7 +86,7 @@ describe('Slot Components', () => {
 		});
 
 		const data = {
-			$event: () => {},
+			$event: () => { },
 			columns: [],
 			index: 0,
 			internalItem: {},
@@ -94,8 +94,8 @@ describe('Slot Components', () => {
 			isRow: true,
 			item: {},
 			level: 1,
-			toggleExpand: () => {},
-		}
+			toggleExpand: () => { },
+		};
 
 		wrapper.vm.drilldownEvent(data);
 		await wrapper.vm.$nextTick();
@@ -123,12 +123,12 @@ describe('Slot Components', () => {
 					level: 1,
 					selectStrategy: 'none',
 					slotProps: {
-						selectAll: () => {},
+						selectAll: () => { },
 					},
 				},
 			});
 
-			wrapper.vm.selectAllBoxes()
+			wrapper.vm.selectAllBoxes();
 
 			// Wait until $emits have been handled
 			await wrapper.vm.$nextTick();
@@ -141,7 +141,7 @@ describe('Slot Components', () => {
 		const wrapper = mount(TheadSlot, headerProps);
 
 		test('emitted click:selectAll', async () => {
-			wrapper.vm.clickSelectAll()
+			wrapper.vm.clickSelectAll();
 
 			// Wait until $emits have been handled
 			await wrapper.vm.$nextTick();
@@ -150,7 +150,7 @@ describe('Slot Components', () => {
 		});
 
 		test('emitted update:sortBy', async () => {
-			wrapper.vm.updateSortBy()
+			wrapper.vm.updateSortBy();
 
 			// Wait until $emits have been handled
 			await wrapper.vm.$nextTick();
@@ -165,7 +165,7 @@ describe('Slot Components', () => {
 		const wrapper = mount(TopSlot, topProps);
 
 		test('emitted selectAllCallback click:selectAll', async () => {
-			wrapper.vm.selectAllCallback()
+			wrapper.vm.selectAllCallback();
 
 			// Wait until $emits have been handled
 			await wrapper.vm.$nextTick();
@@ -174,7 +174,7 @@ describe('Slot Components', () => {
 		});
 
 		test('emitted toggleSelectAllCallback click:selectAll', async () => {
-			wrapper.vm.toggleSelectAllCallback()
+			wrapper.vm.toggleSelectAllCallback();
 
 			// Wait until $emits have been handled
 			await wrapper.vm.$nextTick();
@@ -182,7 +182,7 @@ describe('Slot Components', () => {
 			expect(wrapper.emitted()).toHaveProperty('click:selectAll');
 		});
 
-		it('should emit update:search with the value of foobar', async () => {
+		it('should emit update:search with the value of [\'foobar\']', async () => {
 			const searchValue = 'foobar';
 			const textInput = wrapper.find('input');
 			await textInput.setValue(searchValue);
@@ -191,7 +191,7 @@ describe('Slot Components', () => {
 			await wrapper.vm.$nextTick();
 
 			expect(wrapper.emitted()).toHaveProperty('update:search');
-			expect(wrapper.emitted()['update:search'][0][0]).toBe(searchValue);
+			expect(wrapper.emitted()['update:search'][0]).toStrictEqual([searchValue]);
 		});
 	});
 });
