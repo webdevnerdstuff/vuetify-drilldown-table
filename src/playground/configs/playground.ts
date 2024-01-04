@@ -11,9 +11,7 @@ import { createVDrilldownTable } from '../../plugin/index';
 makeServer({ environment: 'playground' });
 
 const app = createApp(PlaygroundApp);
-app.use(createVDrilldownTable({
-
-}));
+app.use(createVDrilldownTable());
 app.use(createPinia());
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.component('FaIcon', FontAwesomeIcon);

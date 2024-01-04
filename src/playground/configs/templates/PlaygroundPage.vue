@@ -77,6 +77,7 @@ const defaultColorsExample = ref({
 });
 
 provide('defaultColors', defaultColors);
+provide('selectedColor', selectedColor);
 provide('density', density);
 
 function updateColor(val) {

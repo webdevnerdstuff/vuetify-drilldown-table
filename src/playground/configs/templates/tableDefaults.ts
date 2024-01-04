@@ -105,23 +105,6 @@ export default {
 		xxl: 2,
 	},
 	searchDebounce: 0,
-	searchEvents: {
-		// 'input': (e: InputEvent) => {
-		// 	console.log('input event triggered', e);
-		// },
-		// 'click': (e: MouseEvent) => {
-		// 	console.log('click event triggered', e);
-		// },
-		// 'click:control': (e: MouseEvent) => {
-		// 	console.log('click:control event triggered', e);
-		// },
-		// 'mousedown:control': (e: MouseEvent) => {
-		// 	console.log('mousedown:control event triggered', e);
-		// },
-		// 'update:modelValue': (val: string) => {
-		// 	console.log('update:modelValue event triggered', val);
-		// },
-	},
 	searchMaxWait: 1000,
 	searchProps: {
 		clearable: true,
@@ -136,7 +119,7 @@ export default {
 	showCurrentPage: false,
 	showDrilldownWhenLoading: true,
 	showExpand: false,
-	showFooterRow: false,
+	showFooterRow: true,
 	showSearch: true,
 	showSelect: true,
 	sortAscIcon: '$sortAsc',

@@ -48,7 +48,6 @@
 			:search="tableSettings.search"
 			:search-container-cols="tableSettings.searchContainerCols"
 			:search-debounce="tableSettings.searchDebounce"
-			:search-events="tableSettings.searchEvents"
 			:search-max-wait="tableSettings.searchMaxWait"
 			:search-props="tableSettings.searchProps"
 			:select-strategy="tableSettings.selectStrategy"

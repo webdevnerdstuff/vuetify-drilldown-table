@@ -16,8 +16,10 @@
 			:elevation="tableSettings.elevation"
 			:expand-on-click="tableSettings.expandOnClick"
 			:first-icon="tableSettings.firstIcon"
+			:fixed-header="tableSettings.fixedHeader"
 			:footers="footers.users"
 			:headers="headers.users"
+			:height="tableSettings.height"
 			:hover="tableSettings.hover"
 			:item-children-key="tableSettings.itemChildrenKey"
 			:item-props="tableSettings.itemProps"
@@ -120,7 +122,7 @@
 
 			<!-- <template #[`header.data-table-select`]>
 				<div class="d-flex justify-center">
-					<v-icon>mdi mdi-vuetify</v-icon>
+					<v-icon icon="$vuetify"></v-icon>
 				</div>
 			</template> -->
 
@@ -164,7 +166,7 @@
 			</template> -->
 
 			<!-- <template #[`item.data-table-select`]>
-				<v-icon>mdi mdi-vuetify</v-icon>
+				<v-icon icon="$vuetify"></v-icon>
 			</template> -->
 
 			<!-- <template #[`item.data-table-expand`]>
@@ -216,7 +218,6 @@ const props = defineProps({
 });
 
 const selected = ref([]);
-
 const classes = inject('classes');
 const defaultColors = inject('defaultColors');
 const density = inject('density');
