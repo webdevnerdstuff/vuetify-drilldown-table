@@ -1,6 +1,7 @@
 import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
+import VDrilldownTable from '../VDrilldownTable.vue';
 import type { VDataTable, VDataTableRow, VDataTableServer, VProgressCircular, VProgressLinear, VSkeletonLoader } from 'vuetify/components';
 export type Density = 'default' | 'comfortable' | 'compact';
 type IconValue = string | (string | [path: string, opacity: number])[] | JSXComponent;
@@ -161,7 +162,6 @@ export interface Props {
     search?: string | undefined;
     searchContainerCols?: SearchContainerCols;
     searchDebounce?: number | undefined | null;
-    searchEvents?: KeyStringAny;
     searchMaxWait?: number | undefined | null;
     searchProps?: KeyStringAny;
     separator?: 'default' | 'horizontal' | 'vertical' | 'cell' | undefined;
@@ -216,7 +216,6 @@ export interface TopSlotProps extends VDataTableSlotProps {
     level: Props['level'];
     loading: Props['loading'];
     searchContainerCols?: SearchContainerCols;
-    searchEvents?: KeyStringAny;
     searchProps?: KeyStringAny;
     showSearch: boolean;
 }
@@ -539,4 +538,11 @@ export interface OptionsEventObject {
     itemsPerPage?: Props['itemsPerPage'];
 }
 export declare const OptionsEventBus: EventBusKey<OptionsEventObject>;
+declare module "vue" {
+    interface ComponentCustomProperties {
+    }
+    interface GlobalComponents {
+        VDrilldownTable: typeof VDrilldownTable;
+    }
+}
 export {};

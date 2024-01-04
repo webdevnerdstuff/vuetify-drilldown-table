@@ -1,7 +1,7 @@
-import { Column, TFootSlotProps } from '../../types';
+import { Column, TFootSlotProps } from '../types';
 declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TFootSlotProps>, {}>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     "click:selectAll": (...args: any[]) => void;
-}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TFootSlotProps>, {}>>> & {
+}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TFootSlotProps>, {}>>> & {
     "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
 }, {}, {}>, Partial<Record<`tfoot.${string}`, (_: {
     column: Column;

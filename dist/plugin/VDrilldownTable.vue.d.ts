@@ -1,9 +1,9 @@
-import { Props } from '../types';
+import { Props } from './types';
 declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<Props>, {
     colorPercentageChange: number;
     colorPercentageDirection: "desc";
     colors: () => {
-        readonly default: import('../types').DefaultColors;
+        readonly default: import('./types').DefaultColors;
         readonly footer: {
             readonly background: undefined;
             readonly color: undefined;
@@ -16,7 +16,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
         readonly percentageDirection: "desc";
     };
     columnWidths: () => never[];
-    defaultColors: () => import('../types').DefaultColors;
+    defaultColors: () => import('./types').DefaultColors;
     density: string;
     drilldownKey: string;
     elevation: number;
@@ -24,7 +24,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     filterKeys: undefined;
     footerBackgroundColor: undefined;
     footerColor: undefined;
-    footers: () => import('../types').Column[];
+    footers: () => import('./types').Column[];
     headerBackgroundColor: undefined;
     headerColor: undefined;
     height: string;
@@ -75,7 +75,6 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
         xxl: number;
     };
     searchDebounce: number;
-    searchEvents: () => {};
     searchMaxWait: number;
     searchProps: () => {};
     selectStrategy: "page";
@@ -90,20 +89,20 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     sortBy: () => never[];
     tableType: () => {};
 }>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
-    "update:drilldown": (...args: any[]) => void;
+    "update:page": (...args: any[]) => void;
+    "update:itemsPerPage": (...args: any[]) => void;
+    "update:sortBy": (...args: any[]) => void;
+    "update:options": (...args: any[]) => void;
     "update:expanded": (...args: any[]) => void;
+    "update:drilldown": (...args: any[]) => void;
     "click:row": (...args: any[]) => void;
     "click:row:checkbox": (...args: any[]) => void;
-    "update:sortBy": (...args: any[]) => void;
     "update:search": (...args: any[]) => void;
-    "update:options": (...args: any[]) => void;
-    "update:itemsPerPage": (...args: any[]) => void;
-    "update:page": (...args: any[]) => void;
-}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<Props>, {
+}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<Props>, {
     colorPercentageChange: number;
     colorPercentageDirection: "desc";
     colors: () => {
-        readonly default: import('../types').DefaultColors;
+        readonly default: import('./types').DefaultColors;
         readonly footer: {
             readonly background: undefined;
             readonly color: undefined;
@@ -116,7 +115,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
         readonly percentageDirection: "desc";
     };
     columnWidths: () => never[];
-    defaultColors: () => import('../types').DefaultColors;
+    defaultColors: () => import('./types').DefaultColors;
     density: string;
     drilldownKey: string;
     elevation: number;
@@ -124,7 +123,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     filterKeys: undefined;
     footerBackgroundColor: undefined;
     footerColor: undefined;
-    footers: () => import('../types').Column[];
+    footers: () => import('./types').Column[];
     headerBackgroundColor: undefined;
     headerColor: undefined;
     height: string;
@@ -175,7 +174,6 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
         xxl: number;
     };
     searchDebounce: number;
-    searchEvents: () => {};
     searchMaxWait: number;
     searchProps: () => {};
     selectStrategy: "page";
@@ -195,66 +193,65 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     "onUpdate:page"?: ((...args: any[]) => any) | undefined;
     "onUpdate:itemsPerPage"?: ((...args: any[]) => any) | undefined;
     "onUpdate:options"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:drilldown"?: ((...args: any[]) => any) | undefined;
     "onClick:row"?: ((...args: any[]) => any) | undefined;
     "onClick:row:checkbox"?: ((...args: any[]) => any) | undefined;
     "onUpdate:search"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:drilldown"?: ((...args: any[]) => any) | undefined;
 }, {
-    filterKeys: string | string[];
-    noFilter: boolean;
-    density: any;
-    height: string | number;
-    hover: boolean;
-    loading: string | boolean;
-    sortAscIcon: string | import("vue").JSXComponent | (string | [path: string, opacity: number])[];
-    sortBy: readonly {
-        key: string;
-        order?: boolean | "asc" | "desc" | undefined;
-    }[];
-    showSelect: boolean;
-    selectStrategy: "page" | "all" | "single";
-    items: any[];
-    itemValue: string | boolean | readonly (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null;
-    itemSelectable: string | boolean | readonly (string | number)[] | ((item: Record<string, any>, fallback?: any) => any) | null;
-    returnObject: boolean;
-    expandOnClick: boolean;
-    showExpand: boolean;
-    search: string;
-    loadingText: string;
-    hideNoData: boolean;
-    noDataText: string;
     page: string | number;
-    itemsPerPage: string | number;
-    itemsLength: number;
-    colors: import('../types').ColorsObject;
-    level: number;
     colorPercentageChange: number;
-    colorPercentageDirection: "asc" | "desc";
-    columnWidths: number[];
-    headerBackgroundColor: string;
-    headerColor: string;
-    loaderType: string | false | string[] | null;
-    matchColumnWidths: boolean;
-    loaderProps: import('../types').LoaderProps;
-    levels: number;
-    footerBackgroundColor: string;
-    footerColor: string;
-    elevation: string | number;
-    separator: "default" | "horizontal" | "vertical" | "cell";
-    isDrilldown: boolean;
-    footers: import('../types').Column[];
-    searchContainerCols: import('../types').SearchContainerCols;
-    searchEvents: import('../types').KeyStringAny<any>;
-    searchProps: import('../types').KeyStringAny<any>;
-    showSearch: boolean;
-    defaultColors: import('../types').DefaultColors;
+    colorPercentageDirection: "desc" | "asc";
+    density: any;
     drilldownKey: string;
+    elevation: string | number;
+    expandOnClick: boolean;
+    footers: import('./types').Column[];
+    height: string | number;
+    hideNoData: boolean;
+    hover: boolean;
     itemChildrenKey: string;
+    itemSelectable: string | boolean | readonly (string | number)[] | ((item: any, fallback?: any) => any) | null;
+    itemValue: string | boolean | readonly (string | number)[] | ((item: any, fallback?: any) => any) | null;
+    items: readonly any[];
+    itemsLength: number;
+    itemsPerPage: string | number;
+    level: number;
+    levels: number;
+    loaderProps: import('./types').LoaderProps;
+    loaderType: string | false | string[] | null;
+    loading: string | boolean;
+    loadingText: string;
+    matchColumnWidths: boolean;
+    noDataText: string;
+    search: string;
+    searchContainerCols: import('./types').SearchContainerCols;
     searchDebounce: number | null;
     searchMaxWait: number | null;
+    searchProps: import('./types').KeyStringAny<any>;
+    selectStrategy: "page" | "all" | "single";
+    separator: "horizontal" | "default" | "vertical" | "cell";
     server: boolean;
     showDrilldownWhenLoading: boolean;
+    showExpand: boolean;
     showFooterRow: boolean;
+    showSearch: boolean;
+    showSelect: boolean;
+    sortAscIcon: string | (string | [path: string, opacity: number])[] | import("vue").JSXComponent;
+    sortBy: readonly {
+        key: string;
+        order?: boolean | "desc" | "asc" | undefined;
+    }[];
+    defaultColors: import('./types').DefaultColors;
+    colors: import('./types').ColorsObject;
+    headerBackgroundColor: string;
+    filterKeys: string | string[];
+    noFilter: boolean;
+    returnObject: boolean;
+    columnWidths: number[];
+    headerColor: string;
+    footerBackgroundColor: string;
+    footerColor: string;
+    isDrilldown: boolean;
     tableType: {};
 }, {}>, Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<string, (_: {}) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & {
     loader?(_: {}): any;

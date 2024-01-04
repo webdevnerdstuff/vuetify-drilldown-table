@@ -1,18 +1,18 @@
-import { TopSlotProps } from '../../types';
+import { TopSlotProps } from '../types';
 declare function selectAllCallback(val: boolean): void;
 declare function toggleSelectAllCallback(): void;
 declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TopSlotProps>, {}>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
-    "click:selectAll": (...args: any[]) => void;
     "update:search": (...args: any[]) => void;
-}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TopSlotProps>, {}>>> & {
-    "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
+    "click:selectAll": (...args: any[]) => void;
+}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TopSlotProps>, {}>>> & {
     "onUpdate:search"?: ((...args: any[]) => any) | undefined;
+    "onClick:selectAll"?: ((...args: any[]) => any) | undefined;
 }, {}, {}>, {
     top?(_: {
         allSelected: boolean;
-        columns: import('../../types').InternalDataTableHeader[];
-        headers: import('../../types').InternalDataTableHeader[][];
-        items: globalThis.ComputedRef<any[] | undefined>;
+        columns: import('../types').InternalDataTableHeader[];
+        headers: import('../types').InternalDataTableHeader[][];
+        items: globalThis.ComputedRef<readonly any[] | undefined>;
         itemsPerPage: string | number | undefined;
         level: number;
         loading: string | boolean | undefined;
@@ -25,9 +25,9 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     }): any;
     "top.left"?(_: {
         allSelected: boolean;
-        columns: import('../../types').InternalDataTableHeader[];
-        headers: import('../../types').InternalDataTableHeader[][];
-        items: globalThis.ComputedRef<any[] | undefined>;
+        columns: import('../types').InternalDataTableHeader[];
+        headers: import('../types').InternalDataTableHeader[][];
+        items: globalThis.ComputedRef<readonly any[] | undefined>;
         itemsPerPage: string | number | undefined;
         level: number;
         loading: string | boolean | undefined;
@@ -40,9 +40,9 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     }): any;
     "top.right"?(_: {
         allSelected: boolean;
-        columns: import('../../types').InternalDataTableHeader[];
-        headers: import('../../types').InternalDataTableHeader[][];
-        items: globalThis.ComputedRef<any[] | undefined>;
+        columns: import('../types').InternalDataTableHeader[];
+        headers: import('../types').InternalDataTableHeader[][];
+        items: globalThis.ComputedRef<readonly any[] | undefined>;
         itemsPerPage: string | number | undefined;
         level: number;
         loading: string | boolean | undefined;
