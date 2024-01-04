@@ -7,21 +7,21 @@
 		:class="tableClasses"
 		:data-vdt-id="tableId"
 		:density="density"
-		:expand-on-click="loadedDrilldown.expandOnClick"
+		:expand-on-click="expandOnClick"
 		:expanded="loadedDrilldown.expanded"
 		:fixed-header="loadedDrilldown.fixedHeader"
 		:group-by="loadedDrilldown.groupBy"
 		:headers="loadedDrilldown.headers"
 		:height="loadedDrilldown.height"
 		:hide-no-data="hidingNoData"
-		:hover="loadedDrilldown.hover"
+		:hover="hover"
 		:item-selectable="loadedDrilldown.itemSelectable"
 		:item-value="loadedDrilldown.itemValue"
 		:items="loadedDrilldown.items"
 		:items-length="loadedDrilldown.itemsLength"
 		:items-per-page="loadedDrilldown.itemsPerPage"
-		:items-per-page-options="loadedDrilldown.itemsPerPageOptions"
-		:loading="(!loadedDrilldown.loaderType || slots.loading) && loadedDrilldown.loading"
+		:items-per-page-options="itemsPerPageOptions"
+		:loading="(!loaderType || slots.loading) && loadedDrilldown.loading"
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
 		:no-data-text="loadedDrilldown.noDataText"
@@ -74,14 +74,14 @@
 				:colors="loadedDrilldown.colors"
 				:column-widths="loadedDrilldown.columnWidths"
 				:density="density"
-				:headerBackgroundColor="headerBackgroundColor"
+				:headerBackgroundColor="settings.headerBackgroundColor"
 				:headerColor="headerColor"
 				:items="loadedDrilldown.items"
 				:level="level"
-				:loader-props="loadedDrilldown.loaderProps"
+				:loader-props="loaderProps"
 				:loader-settings="{
 					colspan: props.columns.length,
-					loaderType: loadedDrilldown.loaderType,
+					loaderType: loaderType,
 					loading: loadedDrilldown.loading,
 					loadingText: loadingText,
 				}"
@@ -89,7 +89,7 @@
 				:select-strategy="loadedDrilldown.selectStrategy"
 				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ ...props }"
-				:sort-asc-icon="loadedDrilldown.sortAscIcon"
+				:sort-asc-icon="sortAscIcon"
 				:sort-by="loadedDrilldown.sortBy"
 				:table-model-value="loadedDrilldown.modelValue"
 			>
@@ -137,7 +137,7 @@
 						items: loadedDrilldown.items,
 						loaderSettings: {
 							colspan: props.columns.length,
-							loaderType: loadedDrilldown.loaderType,
+							loaderType: loaderType,
 							loading: loadedDrilldown.loading,
 							loadingText: loadingText,
 						},
@@ -199,7 +199,7 @@
 			<ItemSlot
 				:key="level"
 				:density="density"
-				:expand-on-click="loadedDrilldown.expandOnClick"
+				:expand-on-click="expandOnClick"
 				:group-by="loadedDrilldown.groupBy"
 				:item-selectable="loadedDrilldown.itemSelectable"
 				:items="loadedDrilldown.items"
@@ -237,7 +237,7 @@
 					<VDrilldownTable
 						:key="internalItem.key"
 						:column-widths="loadedDrilldown.columnWidths"
-						:defaultColors="defaultColors"
+						:defaultColors="settings.defaultColors"
 						:density="density"
 						:drilldown="loadedDrilldown"
 						:footer-background-color="footerBackgroundColor"
@@ -398,6 +398,7 @@ import {
 	watchDebounced,
 	watchOnce,
 } from '@vueuse/core';
+import { globalOptions } from './';
 
 
 // -------------------------------------------------- Emits & Slots & Injects //
@@ -417,12 +418,19 @@ const emit = defineEmits([
 // -------------------------------------------------- Props //
 const props = withDefaults(defineProps<Props>(), { ...AllProps });
 
-const { colorPercentageChange, colorPercentageDirection, defaultColors, density, footerBackgroundColor, footerColor, headerBackgroundColor, headerColor } = toRefs(props);
+const injectedOptions = inject(globalOptions, {});
+const settings = ref({ ...props, ...injectedOptions });
+
+const { colorPercentageChange, colorPercentageDirection, elevation, expandOnClick, footerBackgroundColor, footerColor, headerBackgroundColor, headerColor, hover, itemsPerPageOptions, loaderProps, loaderType, separator, sortAscIcon } = toRefs(settings.value);
 
 const slots = useSlots();
 const attrs = useAttrs();
 
 const tableType = shallowRef<TableType>(null);
+
+const density = computed(() => {
+	return props.density;
+});
 
 
 // -------------------------------------------------- Mounted Hooks //
@@ -447,7 +455,7 @@ onBeforeMount(() => {
 let loadedDrilldown = reactive<Props>(Object.assign({}, props));
 
 if (loadedDrilldown?.colors) {
-	loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
+	loadedDrilldown.colors.default = { ...defaultColorValues, ...settings.value.defaultColors };
 }
 
 
@@ -500,15 +508,19 @@ watch(() => props.loading, () => {
 });
 
 watchEffect(() => {
-	if (loadedDrilldown.colors && defaultColors.value) {
-		loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
+	if (loadedDrilldown.colors && settings.value.defaultColors) {
+		loadedDrilldown.colors.default = { ...defaultColorValues, ...settings.value.defaultColors };
 	}
+});
+
+watchEffect(() => {
+	settings.value = { ...props, ...injectedOptions };
 });
 
 
 // -------------------------------------------------- Table #
 const showLoadingDrilldownTable = (loading: boolean): boolean => {
-	const loaderType = loadedDrilldown.loaderType;
+	const loaderType = unref(settings.value.loaderType);
 
 	if (loading) {
 		if (loaderType === 'skelton') {
@@ -531,13 +543,13 @@ const tableClasses = computed<object>(() => {
 	const isServerSide = false;
 
 	return useTableClasses({
-		elevation: loadedDrilldown.elevation,
+		elevation: unref(elevation),
 		fixedHeader: loadedDrilldown.fixedHeader,
 		isDrilldown: props.isDrilldown,
-		isHover: loadedDrilldown.hover,
+		isHover: unref(hover),
 		isServerSide,
 		level: loadedDrilldown.level,
-		separator: loadedDrilldown.separator,
+		separator: unref(separator),
 	});
 });
 
