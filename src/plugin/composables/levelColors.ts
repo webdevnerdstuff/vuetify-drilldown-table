@@ -45,6 +45,10 @@ const levelPercentage: LevelPercentage = (colors, level, direction) => {
 		percentage = 100;
 	}
 
+	if (level === 0) {
+		percentage = 100;
+	}
+
 	return percentage;
 };
 
