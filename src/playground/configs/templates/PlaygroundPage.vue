@@ -9,7 +9,7 @@
 				>
 					<v-btn
 						v-for="color in colors"
-						:key="color"
+						:key="(color as string)"
 						:active="headerBackgroundColor === color"
 						:color="headerBackgroundColor === color ? color : 'accent'"
 						size="small"
@@ -46,8 +46,8 @@
 </template>
 
 
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { provide, ref } from 'vue';
 // import GroupByClientTable from './GroupByClientTable.vue';
 import ClientTable from './ClientTable.vue';
 import ServerTable from './ServerTable.vue';
