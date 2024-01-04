@@ -58,7 +58,10 @@
 				:style="cellStyles(column)"
 				@click="sortColumn(column as InternalDataTableHeader)"
 			>
-				<div :class="cellAlignClasses(column.align as keyof Column)">
+				<div
+					:class="cellAlignClasses(column.align as keyof Column)"
+					:style="cellChildStyles(column)"
+				>
 					<span v-html="renderCell(column)"></span>
 
 					<template v-if="column.sortable && slots[`header.sortIcon`]">
@@ -219,6 +222,17 @@ const cellStyles = (column: { width?: string | number; }, dataTableExpand = fals
 		level: props.level,
 		theme,
 	});
+};
+
+const cellChildStyles = (column: Column): CSSProperties => {
+	const cellStyle = cellStyles(column);
+
+
+	if (typeof props.headerColor === 'undefined') {
+		return {};
+	}
+
+	return { color: cellStyle.color };
 };
 
 
