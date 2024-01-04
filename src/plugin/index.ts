@@ -7,9 +7,7 @@ import VDrilldownTable from './VDrilldownTable.vue';
 
 export const globalOptions = Symbol();
 
-export function createVDrilldownTable(options: Omit<Props,
-	'colors' | 'columnWidths' | 'drilldown' | 'isDrilldown' | 'item' | 'tableType'
-> = {}) {
+export function createVDrilldownTable(options: Partial<Props> = {}) {
 	const install = (app: App) => {
 		app.provide(globalOptions, options);
 
