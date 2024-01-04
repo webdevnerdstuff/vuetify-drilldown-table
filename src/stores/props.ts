@@ -9,12 +9,14 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: 15,
 			desc: 'Sets the percentage change for the header row background color within the drilldown tables.',
+			global: true,
 			name: 'color-percentage-change',
 			type: 'number',
 		},
 		{
 			default: 'desc',
 			desc: 'Sets the direction of the percentage change for the header row background color within the drilldown tables.',
+			global: true,
 			name: 'color-percentage-direction',
 			type: "'asc' | 'desc'",
 		},
@@ -37,24 +39,28 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: '--v-theme-surface',
 			desc: 'Sets the background color of the footer row.',
+			global: true,
 			name: 'footer-background-color',
 			type: 'string',
 		},
 		{
 			default: '--v-theme-on-surface',
 			desc: 'Sets the text color of the footer row.',
+			global: true,
 			name: 'footer-color',
 			type: 'string',
 		},
 		{
 			default: '--v-theme-surface',
 			desc: 'Sets the background color of the header row.',
+			global: true,
 			name: 'header-background-color',
 			type: 'string',
 		},
 		{
 			default: '--v-theme-on-surface',
 			desc: 'Sets the text color of the header row.',
+			global: true,
 			name: 'header-color',
 			type: 'string',
 		},
@@ -70,12 +76,14 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: '',
 			desc: 'Used to bind the props of the <code class="inline-code">VProgressLinear</code>, <code class="inline-code">VProgressCircular</code>, and <code class="inline-code">VSkeletonLoader</code> loaders. See the <a href="#props-table-loader">Table Loader Props</a> for more information.',
+			global: true,
 			name: 'loader-props',
 			type: 'object',
 		},
 		{
 			default: 'linear',
 			desc: 'Sets the type of loader. Available types are <code class="inline-code">linear</code>, <code class="inline-code">circular</code>, <code class="inline-code">text</code> and <code class="inline-code">skelton</code>. You can also use multiple loaders by passing an array of types. The order of the array determines the order of the loaders. To use the <a href="#slots-supported-loader"><code class="inline-code">loader</code></a> slot, set this prop to <code class="inline-code">null</code> or <code class="inline-code">false</code>.',
+			global: true,
 			name: 'loader-type',
 			type: 'string | string[] | false | null',
 		},
@@ -89,6 +97,13 @@ export const usePropsStore = defineStore('props', () => {
 			default: '[]',
 			desc: 'Internal use only. This holds the header cell widths when the <code class="inline-code">matchColumnWidths</code> prop is set.',
 			name: 'column-widths',
+			type: 'object',
+		},
+		{
+			default: 'default',
+			desc: 'Adjusts the vertical height of the table rows.',
+			global: true,
+			name: 'density',
 			type: 'object',
 		},
 		{
@@ -106,6 +121,7 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: 0,
 			desc: 'Elevation of the table',
+			global: true,
 			name: 'elevation',
 			type: 'string | number | undefined',
 		},
@@ -128,6 +144,13 @@ export const usePropsStore = defineStore('props', () => {
 			type: 'boolean',
 		},
 		{
+			default: false,
+			desc: 'Adds a hover effects to a table rows.',
+			global: true,
+			name: 'hover',
+			type: 'boolean',
+		},
+		{
 			default: undefined,
 			desc: 'Internal use only',
 			name: 'item',
@@ -143,6 +166,19 @@ export const usePropsStore = defineStore('props', () => {
 			default: 0,
 			desc: `<code class="inline-code">VDataTableServer</code> specific prop. See <a href="${links.vuetify}/en/api/v-data-table-server/#props-items-length" target="_blank">items-length</a> prop for more information.`,
 			name: 'items-length',
+			type: 'number',
+		},
+		{
+			default: `<pre class="inline-code"><code>[
+  {value: 10, title: '10'},
+  {value: 25, title: '25'},
+  {value: 50, title: '50'},
+  {value: 100, title: '100'},
+  {value: -1, title: '$vuetify.dataFooter.itemsPerPageAll'}
+]</code></pre>`,
+			desc: 'Array of options to show in the items-per-page dropdown.',
+			global: true,
+			name: 'items-per-page-options',
 			type: 'number',
 		},
 		{
@@ -215,6 +251,7 @@ export const usePropsStore = defineStore('props', () => {
 		{
 			default: 'default',
 			desc: 'Enhance the appearance of the table by modifying the borders of the cells',
+			global: true,
 			name: 'separator',
 			type: '\'default\' | \'horizontal\' | \'vertical\' | \'cell\' | undefined',
 		},
@@ -241,6 +278,13 @@ export const usePropsStore = defineStore('props', () => {
 			desc: 'Determines if the table should show the <code class="inline-code">VDrilldownTable</code> built in <code class="inline-code">VTextField</code> in the <code class="inline-code">top</code> slot. You can use the prop <code class="inline-code"><a href="#props-all-search-props">search-props</a></code> to customize the <code class="inline-code">VTextField</code>.',
 			name: 'show-search',
 			type: 'boolean',
+		},
+		{
+			default: '$sortAsc',
+			desc: 'Icon used for ascending sort button.',
+			global: true,
+			name: 'sort-asc-icon',
+			type: 'any',
 		},
 		{
 			default: 'VDataTable',
