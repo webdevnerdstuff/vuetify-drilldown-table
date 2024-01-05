@@ -1,5 +1,5 @@
 import { ThemeInstance } from 'vuetify';
-import { UseGetLevelColors } from '../../types';
+import { UseGetLevelColors } from '../types';
 /**
  * Converts single color
  */

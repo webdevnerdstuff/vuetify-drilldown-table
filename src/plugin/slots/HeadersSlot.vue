@@ -58,7 +58,10 @@
 				:style="cellStyles(column)"
 				@click="sortColumn(column as InternalDataTableHeader)"
 			>
-				<div :class="cellAlignClasses(column.align as keyof Column)">
+				<div
+					:class="cellAlignClasses(column.align as keyof Column)"
+					:style="cellChildStyles(column)"
+				>
 					<span v-html="renderCell(column)"></span>
 
 					<template v-if="column.sortable && slots[`header.sortIcon`]">
@@ -99,7 +102,7 @@ import {
 	Column,
 	HeaderSlotProps,
 	InternalDataTableHeader,
-} from '@/types';
+} from '@/plugin/types';
 import type { IconOptions } from 'vuetify';
 import {
 	useCellAlignClasses,
@@ -107,10 +110,10 @@ import {
 	useCheckBoxClasses,
 	useHeaderRowClasses,
 	useSortIconClasses,
-} from '@/plugin/composables/classes';
-import { useHeaderCellStyles } from '@/plugin/composables/styles';
-import { useRenderCell } from '@/plugin/composables/helpers';
-import { TableLoader } from '@/plugin/components';
+} from '@composables/classes';
+import { useHeaderCellStyles } from '@composables/styles';
+import { useRenderCell } from '@composables/helpers';
+import { TableLoader } from '@components/index';
 
 
 const slots = useSlots();
@@ -219,6 +222,17 @@ const cellStyles = (column: { width?: string | number; }, dataTableExpand = fals
 		level: props.level,
 		theme,
 	});
+};
+
+const cellChildStyles = (column: Column): CSSProperties => {
+	const cellStyle = cellStyles(column);
+
+
+	if (typeof props.headerColor === 'undefined') {
+		return {};
+	}
+
+	return { color: cellStyle.color };
 };
 
 

@@ -26,6 +26,7 @@
 			<FeaturesTable
 				:headers="store.tableHeaders"
 				:items="propsStore.allProps"
+				props-table
 				section-id="props-all"
 				section-title="All Props"
 				subtitle="These all of the available props"

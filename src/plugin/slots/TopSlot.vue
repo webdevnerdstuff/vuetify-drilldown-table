@@ -27,7 +27,6 @@
 					v-bind="boundSearchProps"
 					v-model="levelSearch"
 					class="mt-0 pt-0"
-					v-on="searchEvents"
 				></v-text-field>
 			</v-col>
 
@@ -41,9 +40,9 @@
 </template>
 
 <script setup lang="ts">
-import { KeyStringAny, TopSlotProps } from '@/types';
-import { componentName } from '@/plugin/utils/globals';
-import { AllProps } from '../utils/props';
+import { KeyStringAny, TopSlotProps } from '@/plugin/types';
+import { componentName } from '@utils/globals';
+import { AllProps } from '@utils/props';
 
 
 const slots = useSlots();

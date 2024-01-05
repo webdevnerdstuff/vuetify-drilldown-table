@@ -1,4 +1,4 @@
-import { UseEmitUpdatedExpanded } from '@/types';
+import { UseEmitUpdatedExpanded } from '@/plugin/types';
 
 
 // -------------------------------------------------- VDrilldownTable //

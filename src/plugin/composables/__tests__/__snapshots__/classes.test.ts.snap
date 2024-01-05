@@ -1,0 +1,171 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Classes Composable > useBodyCellClasses > should return class object 1`] = `
+{
+  "undefined": false,
+  "v-drilldown-table--body-row-td": true,
+  "v-drilldown-table--body-row-td-0": true,
+}
+`;
+
+exports[`Classes Composable > useBodyRowClasses > should return class object 1`] = `
+{
+  "v-data-table__tr": true,
+  "v-data-table__tr--clickable": true,
+  "v-drilldown-table--body-row": true,
+  "v-drilldown-table--body-row-0": true,
+}
+`;
+
+exports[`Classes Composable > useBodyRowClasses > should return class object 2`] = `
+{
+  "v-data-table__tr": true,
+  "v-data-table__tr--clickable": false,
+  "v-drilldown-table--body-row": true,
+  "v-drilldown-table--body-row-0": true,
+}
+`;
+
+exports[`Classes Composable > useBodyRowClasses > should return class object 3`] = `
+{
+  "v-data-table__tr": true,
+  "v-data-table__tr--clickable": false,
+  "v-drilldown-table--body-row": true,
+  "v-drilldown-table--body-row-2": true,
+}
+`;
+
+exports[`Classes Composable > useCellAlignClasses > should return class object 1`] = `
+{
+  "d-flex align-center": true,
+  "justify-start": true,
+  "justify-undefined": false,
+}
+`;
+
+exports[`Classes Composable > useCellAlignClasses > should return class object 2`] = `
+{
+  "d-flex align-center": true,
+  "justify-start": false,
+}
+`;
+
+exports[`Classes Composable > useCellClasses > should return class object 1`] = `
+{
+  "undefined": false,
+  "v-drilldown-table--header-row-td": true,
+  "v-drilldown-table--header-row-td-0": true,
+}
+`;
+
+exports[`Classes Composable > useCellClasses > should return class object 2`] = `
+{
+  "foo-cell": "foo-cell",
+  "v-drilldown-table--header-row-td": true,
+  "v-drilldown-table--header-row-td-0": true,
+}
+`;
+
+exports[`Classes Composable > useCheckBoxClasses > should return class object 1`] = `
+{
+  "d-flex": true,
+  "v-drilldown-table--header-select-all-checkbox": true,
+  "v-drilldown-table--header-select-all-checkbox-0": true,
+}
+`;
+
+exports[`Classes Composable > useCheckBoxClasses > should return class object 2`] = `
+{
+  "d-flex": true,
+  "v-drilldown-table--header-select-all-checkbox": true,
+  "v-drilldown-table--header-select-all-checkbox-1": true,
+}
+`;
+
+exports[`Classes Composable > useHeaderCellClasses > should return class object 1`] = `
+{
+  "undefined": false,
+  "v-drilldown-table--header-row-th": true,
+  "v-drilldown-table--header-row-th-0": true,
+  "v-drilldown-table--header-row-th-header-data-table-select": true,
+  "v-drilldown-table--header-row-th-header-data-table-select-0": true,
+  "v-drilldown-table--header-row-th-sortable": false,
+  "v-drilldown-table--header-row-th-sortable-default-color": false,
+}
+`;
+
+exports[`Classes Composable > useHeaderRowClasses > should return class object 1`] = `
+{
+  "v-drilldown-table--header-row": true,
+  "v-drilldown-table--header-row-0": true,
+}
+`;
+
+exports[`Classes Composable > useHeaderRowClasses > should return class object 2`] = `
+{
+  "v-drilldown-table--header-row": true,
+  "v-drilldown-table--header-row-1": true,
+}
+`;
+
+exports[`Classes Composable > useSortIconClasses > should return class object 1`] = `
+{
+  "fa-fw": false,
+  "mx-1": true,
+  "v-drilldown-table--header-row-th-sortable-sort-icon": true,
+  "v-drilldown-table--header-row-th-sortable-sort-icon-0": true,
+  "v-drilldown-table--header-row-th-sortable-sort-icon-asc": false,
+  "v-drilldown-table--header-row-th-sortable-sort-icon-desc": true,
+}
+`;
+
+exports[`Classes Composable > useTFootCellClasses > should return class object 1`] = `
+{
+  "undefined": false,
+  "v-drilldown-table--tfoot-row-td": true,
+  "v-drilldown-table--tfoot-row-td-0": true,
+  "v-drilldown-table--tfoot-row-td-tfoot-data-table-expand": true,
+  "v-drilldown-table--tfoot-row-td-tfoot-data-table-expand-0": "tfoot-data-table-expand",
+}
+`;
+
+exports[`Classes Composable > useTFootClasses > should return class object 1`] = `
+{
+  "v-drilldown-table--tfoot": true,
+  "v-drilldown-table--tfoot-0": true,
+}
+`;
+
+exports[`Classes Composable > useTFootClasses > should return class object 2`] = `
+{
+  "v-drilldown-table--tfoot": true,
+  "v-drilldown-table--tfoot-1": true,
+}
+`;
+
+exports[`Classes Composable > useTFootRowClasses > should return class object 1`] = `
+{
+  "v-drilldown-table--tfoot-row": true,
+  "v-drilldown-table--tfoot-row-0": true,
+}
+`;
+
+exports[`Classes Composable > useTFootRowClasses > should return class object 2`] = `
+{
+  "v-drilldown-table--tfoot-row": true,
+  "v-drilldown-table--tfoot-row-1": true,
+}
+`;
+
+exports[`Classes Composable > useTableClasses > should return class object 1`] = `
+{
+  "elevation-5": true,
+  "v-drilldown-table": true,
+  "v-drilldown-table--child": true,
+  "v-drilldown-table--fixed-header": true,
+  "v-drilldown-table--hover": true,
+  "v-drilldown-table--level-1": true,
+  "v-drilldown-table--separator-true": true,
+  "v-drilldown-table--server": true,
+}
+`;

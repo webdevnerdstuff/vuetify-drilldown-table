@@ -107,12 +107,12 @@ import {
 	DataTableItem,
 	DrilldownEvent,
 	ItemSlotProps,
-} from '@/types';
-import { useRenderCellItem } from '../composables/helpers';
+} from '@/plugin/types';
+import { useRenderCellItem } from '@composables/helpers';
 import {
 	useBodyRowClasses,
 	useCellClasses,
-} from '@/plugin/composables/classes';
+} from '@composables/classes';
 import type { IconOptions } from 'vuetify';
 
 

@@ -1,11 +1,11 @@
-import { TableLoader } from '../../types';
+import { TableLoader } from '../types';
 declare const _default: import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TableLoader>, {
     height: number;
     loaderType: string;
     loadingText: string;
     size: string;
     textLoader: boolean;
-}>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TableLoader>, {
+}>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<TableLoader>, {
     height: number;
     loaderType: string;
     loadingText: string;
@@ -13,9 +13,9 @@ declare const _default: import("vue").DefineComponent<__VLS_WithDefaults<__VLS_T
     textLoader: boolean;
 }>>>, {
     height: string | number;
+    loaderType: string | false | string[] | null | undefined;
     loadingText: string;
     size: string | number;
-    loaderType: string | false | string[] | null | undefined;
     textLoader: boolean;
 }, {}>;
 export default _default;

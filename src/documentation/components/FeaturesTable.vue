@@ -15,6 +15,13 @@
 			cols="12"
 		>
 			<div v-html="subtitle"></div>
+
+			<div v-if="propsTable">Props with the <v-icon
+					color="primary"
+					icon="mdi:mdi-earth"
+					size="x-small"
+				/> icon next to it can be used as a global property in <code class="inline-code">createVDrilldownTable</code>.
+			</div>
 		</v-col>
 	</v-row>
 
@@ -53,7 +60,13 @@
 								class="text-primary"
 								:class="classes.appLink"
 								:href="`#${slugifyString(sectionId, item.name)}`"
-							>{{ item.name }}</a>
+							>{{ item.name }} <v-icon
+									v-if="item.global"
+									class=""
+									color="primary"
+									icon="mdi:mdi-earth"
+									size="x-small"
+								/></a>
 						</div>
 					</template>
 
@@ -94,6 +107,11 @@ defineProps({
 	items: {
 		default: () => [],
 		type: Array,
+	},
+	propsTable: {
+		default: false,
+		required: false,
+		type: Boolean,
 	},
 	sectionId: {
 		default: '',

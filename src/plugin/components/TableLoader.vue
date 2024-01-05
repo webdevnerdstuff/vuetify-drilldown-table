@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { TableLoader } from '@/types';
+import { TableLoader } from '@/plugin/types';
 import {
 	useIsOnlyLinearLoader,
 	useLoaderContainerClasses,
@@ -63,8 +63,8 @@ import {
 	useLoaderTdStyles,
 	useLoaderTrStyles,
 	useLoaderVRowClasses,
-} from '@/plugin/composables/loader';
-import { getSingleColor } from '@/plugin/composables/levelColors';
+} from '@composables/loader';
+import { getSingleColor } from '@composables/levelColors';
 
 
 const theme = useTheme();

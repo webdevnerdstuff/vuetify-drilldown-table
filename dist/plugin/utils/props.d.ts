@@ -1,4 +1,4 @@
-import { Column, DefaultColors } from '../../types';
+import { Column, DefaultColors } from '../types';
 export declare const defaultColorValues: DefaultColors;
 export declare const AllProps: {
     colorPercentageChange: number;
@@ -76,7 +76,6 @@ export declare const AllProps: {
         xxl: number;
     };
     searchDebounce: number;
-    searchEvents: () => {};
     searchMaxWait: number;
     searchProps: () => {};
     selectStrategy: "page";

@@ -1,13 +1,13 @@
-import { ItemSlotProps } from '../../types';
+import { ItemSlotProps } from '../types';
 declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ItemSlotProps>, {}>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
-    "update:expanded": (...args: any[]) => void;
     "click:row": (...args: any[]) => void;
     "click:row:checkbox": (...args: any[]) => void;
-}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ItemSlotProps>, {}>>> & {
-    "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
+    "update:expanded": (...args: any[]) => void;
+}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<ItemSlotProps>, {}>>> & {
     "onClick:row"?: ((...args: any[]) => any) | undefined;
     "onClick:row:checkbox"?: ((...args: any[]) => any) | undefined;
-}, {}, {}>, Readonly<Record<string, any>>>;
+    "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
+}, {}, {}>, Readonly<Record<string, any>> & Record<string, any>>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;
 type __VLS_TypePropsToRuntimeProps<T> = {

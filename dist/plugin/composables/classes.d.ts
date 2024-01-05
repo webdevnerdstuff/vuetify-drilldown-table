@@ -1,4 +1,4 @@
-import { UseBodyCellClasses, UseBodyRowClasses, UseCellAlignClasses, UseCellClasses, UseCheckBoxClasses, UseHeaderCellClasses, UseHeaderRowClasses, UseSortIconClasses, UseTFootCellClasses, UseTableClasses, UseTFootClasses, UseTFootRowClasses } from '../../types';
+import { UseBodyCellClasses, UseBodyRowClasses, UseCellAlignClasses, UseCellClasses, UseCheckBoxClasses, UseHeaderCellClasses, UseHeaderRowClasses, UseSortIconClasses, UseTFootCellClasses, UseTableClasses, UseTFootClasses, UseTFootRowClasses } from '../types';
 export declare const useTableClasses: UseTableClasses;
 export declare const useCellAlignClasses: UseCellAlignClasses;
 export declare const useCheckBoxClasses: UseCheckBoxClasses;

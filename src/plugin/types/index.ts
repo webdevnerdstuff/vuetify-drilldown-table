@@ -3,6 +3,7 @@
 import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
+import VDrilldownTable from '../VDrilldownTable.vue';
 import type {
 	VDataTable,
 	VDataTableRow,
@@ -11,6 +12,8 @@ import type {
 	VProgressLinear,
 	VSkeletonLoader,
 } from 'vuetify/components';
+
+export * from '../index';
 
 
 // -------------------------------------------------- Vuetify Types //
@@ -180,8 +183,6 @@ export interface Props {
 	headerColor?: string | undefined;
 	headers?: VDataTable['$props']['headers'];
 	height?: string | number | undefined;
-	// hideDefaultFooter?: boolean;																			// ? Custom Property - Need to add/test
-	// hideDefaultHeader?: boolean;																			// ? Custom Property - Need to add/test
 	hideNoData?: VDataTable['$props']['hideNoData'];
 	hover?: VDataTable['$props']['hover'];
 	isDrilldown?: boolean;
@@ -211,7 +212,6 @@ export interface Props {
 	search?: string | undefined;
 	searchContainerCols?: SearchContainerCols;
 	searchDebounce?: number | undefined | null;
-	searchEvents?: KeyStringAny;
 	searchMaxWait?: number | undefined | null;
 	searchProps?: KeyStringAny;
 	separator?: 'default' | 'horizontal' | 'vertical' | 'cell' | undefined;
@@ -229,6 +229,23 @@ export interface Props {
 }
 
 export type Drilldown = Props;
+
+export interface GlobalOptions extends Pick<Props,
+	'colorPercentageChange' |
+	'colorPercentageDirection' |
+	'footerBackgroundColor' |
+	'footerColor' |
+	'headerBackgroundColor' |
+	'headerColor' |
+	'loaderProps' |
+	'loaderType' |
+	'density' |
+	'elevation' |
+	'hover' |
+	'itemsPerPageOptions' |
+	'separator' |
+	'sortAscIcon'
+> { };
 
 
 // -------------------------------------------------- Slots //
@@ -273,7 +290,6 @@ export interface TopSlotProps extends VDataTableSlotProps {
 	level: Props['level'];
 	loading: Props['loading'];
 	searchContainerCols?: SearchContainerCols;
-	searchEvents?: KeyStringAny;
 	searchProps?: KeyStringAny;
 	showSearch: boolean;
 };
@@ -710,3 +726,12 @@ export interface OptionsEventObject {
 }
 
 export const OptionsEventBus: EventBusKey<OptionsEventObject> = Symbol('data');
+
+
+declare module "vue" {
+	interface ComponentCustomProperties { }
+
+	interface GlobalComponents {
+		VDrilldownTable: typeof VDrilldownTable;
+	}
+}

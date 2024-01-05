@@ -1,0 +1,115 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Loader Composable > useLoaderContainerClasses > should return class object using value as false 1`] = `
+{
+  "ma-0": true,
+  "pa-0": true,
+  "text-center": true,
+  "v-drilldown-table--loader-tr": true,
+  "v-drilldown-table--loader-tr-not-linear": true,
+}
+`;
+
+exports[`Loader Composable > useLoaderContainerClasses > should return class object using value as ref false 1`] = `
+{
+  "ma-0": true,
+  "pa-0": true,
+  "text-center": true,
+  "v-drilldown-table--loader-tr": true,
+  "v-drilldown-table--loader-tr-not-linear": true,
+}
+`;
+
+exports[`Loader Composable > useLoaderContainerClasses > should return class object using value as ref true 1`] = `
+{
+  "ma-0": true,
+  "pa-0": true,
+  "text-center": true,
+  "v-drilldown-table--loader-tr": true,
+  "v-drilldown-table--loader-tr-not-linear": false,
+}
+`;
+
+exports[`Loader Composable > useLoaderContainerClasses > should return class object using value as true 1`] = `
+{
+  "ma-0": true,
+  "pa-0": true,
+  "text-center": true,
+  "v-drilldown-table--loader-tr": true,
+  "v-drilldown-table--loader-tr-not-linear": false,
+}
+`;
+
+exports[`Loader Composable > useLoaderTdStyles > should return styles if isLinearOnly is ref true and loaderHeight as number 1`] = `
+{
+  "height": "5px",
+  "position": "absolute",
+  "top": 0,
+  "width": "100%",
+}
+`;
+
+exports[`Loader Composable > useLoaderTdStyles > should return styles if isLinearOnly is true and loaderHeight as number 1`] = `
+{
+  "height": "5px",
+  "position": "absolute",
+  "top": 0,
+  "width": "100%",
+}
+`;
+
+exports[`Loader Composable > useLoaderTdStyles > should return styles if isLinearOnly is true and loaderHeight as string 1`] = `
+{
+  "height": "5px",
+  "position": "absolute",
+  "top": 0,
+  "width": "100%",
+}
+`;
+
+exports[`Loader Composable > useLoaderTrStyles > should return styles if isLinearOnly is ref true and loaderHeight as number 1`] = `
+{
+  "height": "5px",
+  "minHeight": "5px",
+}
+`;
+
+exports[`Loader Composable > useLoaderTrStyles > should return styles if isLinearOnly is true and loaderHeight as number 1`] = `
+{
+  "height": "5px",
+  "minHeight": "5px",
+}
+`;
+
+exports[`Loader Composable > useLoaderTrStyles > should return styles if isLinearOnly is true and loaderHeight as string 1`] = `
+{
+  "height": "5px",
+  "minHeight": "5px",
+}
+`;
+
+exports[`Loader Composable > useLoaderTrStyles > should return styles using 0 as the value if isLinearOnly is false 1`] = `
+{
+  "height": 0,
+  "minHeight": 0,
+}
+`;
+
+exports[`Loader Composable > useLoaderTrStyles > should return styles using 0 as the value if isLinearOnly is ref false 1`] = `
+{
+  "height": 0,
+  "minHeight": 0,
+}
+`;
+
+exports[`Loader Composable > useLoaderVRowClasses > should return classes as object using component name in the vrow class 1`] = `
+{
+  "align-center": false,
+  "d-grid": false,
+  "flex-column": true,
+  "ma-0": true,
+  "pa-0": true,
+  "text-center": true,
+  "v-drilldown-table--loader-tr-vrow": true,
+}
+`;

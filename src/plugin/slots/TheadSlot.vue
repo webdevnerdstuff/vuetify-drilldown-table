@@ -16,8 +16,8 @@
 import {
 	Column,
 	THeadSlotProps,
-} from '@/types';
-import { HeadersSlot } from '@/plugin/slots';
+} from '@/plugin/types';
+import { HeadersSlot } from '@slots/index';
 
 
 const emit = defineEmits([

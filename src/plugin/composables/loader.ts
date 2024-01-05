@@ -1,9 +1,9 @@
-import { componentName } from '../utils/globals';
+import { componentName } from '@utils/globals';
 import { useConvertToUnit } from './helpers';
 import {
 	UseLoaderContainerClasses,
 	UseLoaderStyles
-} from '@/types';
+} from '@/plugin/types';
 
 
 /**
@@ -46,8 +46,8 @@ export const useLoaderTrStyles: UseLoaderStyles = (options) => {
 
 	if (unref(isLinearOnly)) {
 		styles = {
-			height: unref(loaderHeight),
-			minHeight: unref(loaderHeight),
+			height: useConvertToUnit({ str: unref(loaderHeight) as string | number }) as string,
+			minHeight: useConvertToUnit({ str: unref(loaderHeight) as string | number }) as string,
 		};
 	}
 
@@ -59,7 +59,7 @@ export const useLoaderTdStyles: UseLoaderStyles = (options) => {
 
 	if (unref(isLinearOnly)) {
 		return {
-			height: unref(loaderHeight),
+			height: useConvertToUnit({ str: unref(loaderHeight) as string | number }) as string,
 			position: 'absolute',
 			top: 0,
 			width: '100%',

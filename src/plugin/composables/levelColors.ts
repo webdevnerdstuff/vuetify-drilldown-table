@@ -8,7 +8,7 @@ import {
 	LevelPercentage,
 	RGBColor,
 	UseGetLevelColors,
-} from '@/types';
+} from '@/plugin/types';
 
 
 /**
@@ -42,6 +42,10 @@ const levelPercentage: LevelPercentage = (colors, level, direction) => {
 
 	// check if percentage is NaN
 	if (isNaN(percentage)) {
+		percentage = 100;
+	}
+
+	if (level === 0) {
 		percentage = 100;
 	}
 

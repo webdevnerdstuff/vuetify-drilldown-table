@@ -1,4 +1,4 @@
-import { UseLoaderContainerClasses, UseLoaderStyles } from '../../types';
+import { UseLoaderContainerClasses, UseLoaderStyles } from '../types';
 /**
 * Checks if the loader is only linear
 */

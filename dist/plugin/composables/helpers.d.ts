@@ -1,4 +1,4 @@
-import { Column, UseGetSortDirection, UseConvertToUnit } from '../../types';
+import { Column, UseGetSortDirection, UseConvertToUnit } from '../types';
 /**
 * Get's the sort direction for a column
 */

@@ -1,4 +1,4 @@
-import { Column, DefaultColors } from '@/types';
+import { Column, DefaultColors } from '@/plugin/types';
 
 export const defaultColorValues: DefaultColors = {
 	background: '--v-theme-surface',
@@ -122,7 +122,6 @@ export const AllProps = {
 		xxl: 2,
 	}),
 	searchDebounce: 0,
-	searchEvents: () => ({}),
 	searchMaxWait: 1000,
 	searchProps: () => ({}),
 	selectStrategy: 'page' as const,
