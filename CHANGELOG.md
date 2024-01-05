@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.1.0
+01-5-24
+[main] (@webdevnerdstuff)
+* Fix typescript issues
+* Fix issue with header color not working on sortable columns
+* Add level check to fix opacity issue
+* Reorganizing
+* Add vitest
+* Update node version to v20.10.0
+
 ## v1.0.1
 11-09-23
 [main] (@webdevnerdstuff)
