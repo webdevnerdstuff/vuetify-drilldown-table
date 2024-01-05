@@ -20,7 +20,7 @@
 					color="primary"
 					icon="mdi:mdi-earth"
 					size="x-small"
-				/> icon next to it can be used with <code class="inline-code">createVDrilldownTable</code> as a global property.
+				/> icon next to it can be used as a global property in <code class="inline-code">createVDrilldownTable</code>.
 			</div>
 		</v-col>
 	</v-row>
