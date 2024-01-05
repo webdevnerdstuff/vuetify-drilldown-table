@@ -13,6 +13,8 @@ import type {
 	VSkeletonLoader,
 } from 'vuetify/components';
 
+export * from '../index';
+
 
 // -------------------------------------------------- Vuetify Types //
 export type Density = 'default' | 'comfortable' | 'compact';
@@ -181,8 +183,6 @@ export interface Props {
 	headerColor?: string | undefined;
 	headers?: VDataTable['$props']['headers'];
 	height?: string | number | undefined;
-	// hideDefaultFooter?: boolean;																			// ? Custom Property - Need to add/test
-	// hideDefaultHeader?: boolean;																			// ? Custom Property - Need to add/test
 	hideNoData?: VDataTable['$props']['hideNoData'];
 	hover?: VDataTable['$props']['hover'];
 	isDrilldown?: boolean;
@@ -229,6 +229,23 @@ export interface Props {
 }
 
 export type Drilldown = Props;
+
+export interface GlobalOptions extends Pick<Props,
+	'colorPercentageChange' |
+	'colorPercentageDirection' |
+	'footerBackgroundColor' |
+	'footerColor' |
+	'headerBackgroundColor' |
+	'headerColor' |
+	'loaderProps' |
+	'loaderType' |
+	'density' |
+	'elevation' |
+	'hover' |
+	'itemsPerPageOptions' |
+	'separator' |
+	'sortAscIcon'
+> { };
 
 
 // -------------------------------------------------- Slots //

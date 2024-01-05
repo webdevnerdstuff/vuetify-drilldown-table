@@ -1,13 +1,12 @@
-
-import { App } from 'vue';
+import type { App } from 'vue';
+import type { GlobalOptions } from './types';
 import './styles/main.scss';
-import type { Props } from './types';
 import VDrilldownTable from './VDrilldownTable.vue';
 
 
 export const globalOptions = Symbol();
 
-export function createVDrilldownTable(options: Partial<Props> = {}) {
+export function createVDrilldownTable(options: GlobalOptions = {}) {
 	const install = (app: App) => {
 		app.provide(globalOptions, options);
 
