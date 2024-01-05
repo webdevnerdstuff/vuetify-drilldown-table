@@ -3,6 +3,7 @@ import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
 import VDrilldownTable from '../VDrilldownTable.vue';
 import type { VDataTable, VDataTableRow, VDataTableServer, VProgressCircular, VProgressLinear, VSkeletonLoader } from 'vuetify/components';
+export * from '../index';
 export type Density = 'default' | 'comfortable' | 'compact';
 type IconValue = string | (string | [path: string, opacity: number])[] | JSXComponent;
 type SelectItemKey = boolean | string | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any);
@@ -178,6 +179,8 @@ export interface Props {
     width?: string | number | undefined;
 }
 export type Drilldown = Props;
+export interface GlobalOptions extends Pick<Props, 'colorPercentageChange' | 'colorPercentageDirection' | 'footerBackgroundColor' | 'footerColor' | 'headerBackgroundColor' | 'headerColor' | 'loaderProps' | 'loaderType' | 'density' | 'elevation' | 'hover' | 'itemsPerPageOptions' | 'separator' | 'sortAscIcon'> {
+}
 type GetSortIcon = (column: InternalDataTableHeader) => IconValue;
 type IsExpanded = (item: DataTableItem<any>) => boolean;
 type SelectAll = (value: boolean) => void;
@@ -545,4 +548,3 @@ declare module "vue" {
         VDrilldownTable: typeof VDrilldownTable;
     }
 }
-export {};

@@ -89,15 +89,15 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     sortBy: () => never[];
     tableType: () => {};
 }>, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
-    "update:page": (...args: any[]) => void;
-    "update:itemsPerPage": (...args: any[]) => void;
-    "update:sortBy": (...args: any[]) => void;
-    "update:options": (...args: any[]) => void;
-    "update:expanded": (...args: any[]) => void;
-    "update:drilldown": (...args: any[]) => void;
     "click:row": (...args: any[]) => void;
     "click:row:checkbox": (...args: any[]) => void;
+    "update:expanded": (...args: any[]) => void;
+    "update:drilldown": (...args: any[]) => void;
+    "update:options": (...args: any[]) => void;
+    "update:itemsPerPage": (...args: any[]) => void;
+    "update:page": (...args: any[]) => void;
     "update:search": (...args: any[]) => void;
+    "update:sortBy": (...args: any[]) => void;
 }, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<__VLS_WithDefaults<__VLS_TypePropsToRuntimeProps<Props>, {
     colorPercentageChange: number;
     colorPercentageDirection: "desc";
@@ -188,15 +188,15 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     sortBy: () => never[];
     tableType: () => {};
 }>>> & {
-    "onUpdate:sortBy"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:page"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:itemsPerPage"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:options"?: ((...args: any[]) => any) | undefined;
-    "onUpdate:drilldown"?: ((...args: any[]) => any) | undefined;
     "onClick:row"?: ((...args: any[]) => any) | undefined;
     "onClick:row:checkbox"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:expanded"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:drilldown"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:options"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:itemsPerPage"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:page"?: ((...args: any[]) => any) | undefined;
     "onUpdate:search"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:sortBy"?: ((...args: any[]) => any) | undefined;
 }, {
     page: string | number;
     colorPercentageChange: number;
@@ -244,14 +244,14 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     defaultColors: import('./types').DefaultColors;
     colors: import('./types').ColorsObject;
     headerBackgroundColor: string;
-    filterKeys: string | string[];
-    noFilter: boolean;
-    returnObject: boolean;
-    columnWidths: number[];
-    headerColor: string;
     footerBackgroundColor: string;
     footerColor: string;
+    headerColor: string;
+    columnWidths: number[];
+    filterKeys: string | string[];
     isDrilldown: boolean;
+    noFilter: boolean;
+    returnObject: boolean;
     tableType: {};
 }, {}>, Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<string, (_: {}) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & Partial<Record<NonNullable<string | number>, (_: any) => any>> & {
     loader?(_: {}): any;
