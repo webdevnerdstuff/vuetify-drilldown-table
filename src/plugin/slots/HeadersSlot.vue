@@ -304,8 +304,8 @@ function renderCell(column: Column): unknown {
 
 <style lang="scss" scoped>
 $transition: all .25s ease-in-out;
-$inactive: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
-$hover: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
+$inactive: rgb(var(--v-theme-on-surface) var(--v-medium-emphasis-opacity));
+$hover: rgb(var(--v-theme-on-surface) var(--v-high-emphasis-opacity));
 
 .v-drilldown-table {
 	&--header {

@@ -211,7 +211,7 @@ function renderCell(column: Column): unknown {
 
 
 <style lang="scss">
-$inactive: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+$inactive: rgb(var(--v-theme-on-surface) var(--v-medium-emphasis-opacity));
 
 .v-drilldown-table {
 	&--footer {
