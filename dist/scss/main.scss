@@ -1,5 +1,5 @@
 :root {
-	--vdt-border: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+	--vdt-border: thin solid rgb(var(--v-border-color) var(--v-border-opacity));
 }
 
 %hover-children {
@@ -13,7 +13,7 @@
 
 					&:hover {
 						td {
-							background: rgba(var(--v-border-color), var(--v-hover-opacity));
+							background: rgb(var(--v-border-color) var(--v-hover-opacity));
 						}
 					}
 				}
@@ -46,7 +46,7 @@
 
 									&:hover {
 										td {
-											background: rgba(var(--v-border-color), var(--v-hover-opacity));
+											background: rgb(var(--v-border-color) var(--v-hover-opacity));
 										}
 									}
 
