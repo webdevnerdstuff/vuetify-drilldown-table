@@ -1,13 +1,19 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.1.3
+2024-02-26
+[main] (@webdevnerdstuff)
+* Fix external rollup config
+* Update packages
+
 ## v1.1.2
-01-11-24
+2024-01-11
 [main] (@webdevnerdstuff)
 * Update packages
 
 ## v1.1.0
-01-05-24
+2024-01-05
 [main] (@webdevnerdstuff)
 * Fix typescript issues
 * Fix issue with header color not working on sortable columns
@@ -17,13 +23,13 @@ All notable changes to the "vuetify-drilldown-table" plugin will be documented i
 * Update node version to v20.10.0
 
 ## v1.0.1
-11-09-23
+2023-11-23
 [main] (@webdevnerdstuff)
 * Fix header slot name
 * Update docs
 
 ## v1.0.0
-11-09-23
+2023-11-09
 [main] (@webdevnerdstuff)
 * Update lab components to regular components due to Vuetify official releases
 * Update packages
@@ -31,7 +37,7 @@ All notable changes to the "vuetify-drilldown-table" plugin will be documented i
 * Update docs
 
 ## v1.0.0-beta-14
-11-01-23
+2023-11-01
 [main] (@webdevnerdstuff)
 * Change how the header/footer/border colors work. (breaking change)
 * Add props for the new color functionality
@@ -41,31 +47,30 @@ All notable changes to the "vuetify-drilldown-table" plugin will be documented i
 * Update docs
 
 ## v1.0.0-beta-13
-10-03-23
+2023-10-03
 [main] (@webdevnerdstuff)
 * Update packages
 * Fix bugs due to changes in vuetify data-tables updates
 * Fix loading issue on deeper levels
 * Add setting to not include Vuetify styles that are not needed
 
-
 ## v1.0.0-beta-10
-06-29-23
+2023-06-29
 [main] (@webdevnerdstuff)
 * Change default debounceDelay to zero
 
 ## v1.0.0-beta-9
-06-29-23
+2023-06-29
 [main] (@webdevnerdstuff)
 * Fix search not working when using top slot... again
 
 ## v1.0.0-beta-8
-06-28-23
+2023-06-28
 [main] (@webdevnerdstuff)
 * Fix search not working when using top slot
 
 ## v1.0.0-beta-7
-06-28-23
+2023-06-28
 [main] (@webdevnerdstuff)
 * Fix expand icon not expanding row when expandOnClick is true
 * Fix issue with colors prop mutating all table settings
@@ -75,12 +80,12 @@ All notable changes to the "vuetify-drilldown-table" plugin will be documented i
 * Updated docs
 
 ## v1.0.0-beta-6
-06-26-23
+2023-06-26
 [main] (@webdevnerdstuff)
 * Fixed rendering functions
 
 ## v1.0.0-beta-5
-06-23-23
+2023-06-23
 [main] (@webdevnerdstuff)
 * Added ability to pass VTextField props and events to bind to the search field
 * Added ability to pass props to bind to the VProgressLinear, VProgressCircular, and VSkeletonLoader
@@ -90,7 +95,7 @@ All notable changes to the "vuetify-drilldown-table" plugin will be documented i
 * Cleaning up
 
 ## v1.0.0-beta-4
-06-22-23
+2023-06-22
 [main] (@webdevnerdstuff)
 * Added match column widths functionality
 * Updating Playground examples
@@ -98,7 +103,7 @@ All notable changes to the "vuetify-drilldown-table" plugin will be documented i
 * Cleaning up
 
 ## v1.0.0-beta-3
-06-20-23
+2023-06-20
 [main] (@webdevnerdstuff)
 * Fixing checkbox functionality
 * Updating Playground examples
@@ -106,7 +111,7 @@ All notable changes to the "vuetify-drilldown-table" plugin will be documented i
 * Cleaning up
 
 ## v1.0.0-beta-2
-06-13-23
+2023-06-13
 [main] (@webdevnerdstuff)
 * Adjust entry point
 * Update to check for fontawesome to adjust icon size
