@@ -1,3 +1,4 @@
+import { defineAsyncComponent } from 'vue';
 import type { App } from 'vue';
 import type { GlobalOptions } from './types';
 import './styles/main.scss';
@@ -10,7 +11,7 @@ export function createVDrilldownTable(options: GlobalOptions = {}) {
 	const install = (app: App) => {
 		app.provide(globalOptions, options);
 
-		app.component('VDrilldownTable', VDrilldownTable);
+		app.component('VDrilldownTable', defineAsyncComponent(() => import('./VDrilldownTable.vue')));
 	};
 
 	return {
