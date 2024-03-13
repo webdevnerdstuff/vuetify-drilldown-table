@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to the "vuetify-drilldown-table" plugin will be documented in this file.
 
+## v1.1.5
+2024-03-13
+[main] (@webdevnerdstuff)
+* Fix unexpected side effect in computed function
+
 ## v1.1.4
 2024-03-13
 [main] (@webdevnerdstuff)

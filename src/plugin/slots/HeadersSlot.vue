@@ -132,7 +132,7 @@ const isAllSelected = ref<boolean>(false);
 const items = ref(props.items);
 const matchColumnWidths = ref<boolean>(props.matchColumnWidths);
 const columnWidths = ref<number[]>(props.columnWidths || []);
-const sortAscIcon = ref(props.sortAscIcon);
+const sortAscIcon = ref(props.sortAscIcon ?? '$sortAsc');
 const tableModelValue = computed(() => props.tableModelValue);
 const theme = useTheme();
 
@@ -148,7 +148,6 @@ watch(() => props.items, (newItems) => {
 		return item.selectable !== false;
 	});
 });
-
 
 // -------------------------------------------------- Header Row //
 const headerRowClasses = computed<object>(() => {
@@ -290,7 +289,6 @@ const iconSize = computed(() => {
 		return 'small';
 	}
 
-	sortAscIcon.value = props?.sortAscIcon ?? '$sortAsc';
 	return 'default';
 });
 
