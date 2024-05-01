@@ -18,13 +18,14 @@ import {
 
 // -------------------------------------------------- VDrilldownTable //
 export const useTableClasses: UseTableClasses = (options) => {
-	const { elevation, fixedHeader, isDrilldown, isHover, isServerSide, level, separator } = options;
+	const { elevation, fixedHeader, isDrilldown, isHover, isServerSide, level, mobile, separator } = options;
 
 	const classes = {
 		[`${componentName}--child`]: isDrilldown,
 		[`${componentName}--fixed-header`]: fixedHeader,
 		[`${componentName}--hover`]: isHover,
 		[`${componentName}--level-${level}`]: true,
+		[`${componentName}--mobile`]: mobile,
 		[`${componentName}--server`]: isServerSide,
 		[`${componentName}--separator-${separator}`]: separator,
 		[`${componentName}`]: true,
@@ -64,10 +65,11 @@ export const useCheckBoxClasses: UseCheckBoxClasses = (options) => {
 // -------------------------------------------------- Table Cells //
 // ------------------------- TD Cells //
 export const useCellClasses: UseCellClasses = (options) => {
-	const { column, elm, level } = options;
+	const { column, elm, level, mobile } = options;
 
 	return {
 		[`${componentName}--${elm}-row-td`]: true,
+		[`${componentName}--${elm}-row-td-mobile`]: mobile,
 		[`${componentName}--${elm}-row-td-${level}`]: true,
 		[`${column.cellClass}`]: column.cellClass || false,
 	};
@@ -136,11 +138,12 @@ export const useBodyCellClasses: UseBodyCellClasses = (options) => {
 
 // ------------------------- Body Row //
 export const useBodyRowClasses: UseBodyRowClasses = (options) => {
-	const { expandOnClick, level, levels } = options;
+	const { expandOnClick, level, levels, mobile } = options;
 
 	const classes = {
 		'v-data-table__tr': true,
 		'v-data-table__tr--clickable': expandOnClick && (level < levels),
+		'v-data-table__tr--mobile': mobile,
 		[`${componentName}--body-row`]: true,
 		[`${componentName}--body-row-${level}`]: true,
 	};

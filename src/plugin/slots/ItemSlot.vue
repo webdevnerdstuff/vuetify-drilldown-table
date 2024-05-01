@@ -33,14 +33,35 @@
 			<!-- Column Render `data-table-select` -->
 			<td
 				v-else-if="column.key === 'data-table-select' || (column.key === 'data-table-select' && props.showSelect)"
+				class="v-drilldown-table--data-table-select"
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 			>
+				<template v-if="mobile">
+					<div class="v-data-table__td-title">{{ column.title }}</div>
+					<div class="v-data-table__td-value">
+						<v-checkbox
+							class="d-flex v-simple-checkbox"
+							:density="density"
+							:disabled="item.selectable === false && itemSelectable === 'selectable'"
+							:model-value="slotProps.isSelected([internalItem])"
+							@click.stop="emitClickRowCheckbox({
+								columns,
+								index,
+								internalItem,
+								item,
+								level: currentLevel,
+								toggleSelect,
+							})"
+						></v-checkbox>
+					</div>
+				</template>
 				<slot
-					v-if="slots[`item.data-table-select`]"
+					v-else-if="slots[`item.data-table-select`]"
 					name="item.data-table-select"
 				/>
 				<v-checkbox
+					v-if="slots[`item.data-table-select`]"
 					class="d-flex v-simple-checkbox"
 					:density="density"
 					:disabled="item.selectable === false && itemSelectable === 'selectable'"
@@ -58,7 +79,8 @@
 			<!-- Column Render `data-table-expand` -->
 			<td
 				v-else-if="column.key === 'data-table-expand' || (column.key === 'data-table-expand' && showExpand)
-					"
+				"
+				class="v-drilldown-table--data-table-expand"
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 			>
@@ -93,7 +115,17 @@
 				:class="cellClasses(column)"
 				:colspan="column.colspan || 1"
 			>
-				<span v-html="renderCellItem(item, column)"></span>
+				<template v-if="mobile">
+					<div class="v-data-table__td-title">{{ column.title }}</div>
+					<div
+						class="v-data-table__td-value"
+						v-html="renderCellItem(item, column)"
+					></div>
+				</template>
+				<span
+					v-else
+					v-html="renderCellItem(item, column)"
+				></span>
 			</td>
 		</template>
 	</tr>
@@ -144,6 +176,7 @@ const rowClasses = computed<object>(() => {
 		expandOnClick: props.expandOnClick,
 		level: props.level,
 		levels: props.levels,
+		mobile: props.mobile,
 	});
 });
 
@@ -154,6 +187,7 @@ const cellClasses = (column: Column): object => {
 		column,
 		elm: 'body',
 		level: props.level,
+		mobile: props.mobile,
 	});
 };
 

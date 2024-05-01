@@ -35,6 +35,7 @@
 			:loading="tableSettings.loading"
 			:loading-text="tableSettings.loadingText"
 			:match-column-widths="true"
+			:mobile="tableSettings.mobile"
 			:multi-sort="tableSettings.multiSort"
 			:next-icon="tableSettings.nextIcon"
 			:no-data-text="tableSettings.noDataText"

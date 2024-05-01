@@ -26,6 +26,7 @@ describe('Classes Composable', () => {
 				isHover: true,
 				isServerSide: true,
 				level: 1,
+				mobile: false,
 				separator: true,
 			});
 
