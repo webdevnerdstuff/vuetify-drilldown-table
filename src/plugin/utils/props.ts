@@ -105,6 +105,7 @@ export const AllProps = {
 	loading: false,
 	loadingText: '$vuetify.dataIterator.loadingText',
 	matchColumnWidths: false,
+	mobile: false,
 	// multiSort: false,															// * Works - Keep Commented Out
 	// nextIcon: '', 																	// * Works - Keep Commented Out
 	noDataText: '$vuetify.noDataText',

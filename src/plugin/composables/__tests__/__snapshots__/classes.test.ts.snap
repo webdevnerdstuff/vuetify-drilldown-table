@@ -12,6 +12,7 @@ exports[`Classes Composable > useBodyRowClasses > should return class object 1`]
 {
   "v-data-table__tr": true,
   "v-data-table__tr--clickable": true,
+  "v-data-table__tr--mobile": undefined,
   "v-drilldown-table--body-row": true,
   "v-drilldown-table--body-row-0": true,
 }
@@ -21,6 +22,7 @@ exports[`Classes Composable > useBodyRowClasses > should return class object 2`]
 {
   "v-data-table__tr": true,
   "v-data-table__tr--clickable": false,
+  "v-data-table__tr--mobile": undefined,
   "v-drilldown-table--body-row": true,
   "v-drilldown-table--body-row-0": true,
 }
@@ -30,6 +32,7 @@ exports[`Classes Composable > useBodyRowClasses > should return class object 3`]
 {
   "v-data-table__tr": true,
   "v-data-table__tr--clickable": false,
+  "v-data-table__tr--mobile": undefined,
   "v-drilldown-table--body-row": true,
   "v-drilldown-table--body-row-2": true,
 }
@@ -55,6 +58,7 @@ exports[`Classes Composable > useCellClasses > should return class object 1`] = 
   "undefined": false,
   "v-drilldown-table--header-row-td": true,
   "v-drilldown-table--header-row-td-0": true,
+  "v-drilldown-table--header-row-td-mobile": undefined,
 }
 `;
 
@@ -63,6 +67,7 @@ exports[`Classes Composable > useCellClasses > should return class object 2`] = 
   "foo-cell": "foo-cell",
   "v-drilldown-table--header-row-td": true,
   "v-drilldown-table--header-row-td-0": true,
+  "v-drilldown-table--header-row-td-mobile": undefined,
 }
 `;
 
@@ -165,6 +170,7 @@ exports[`Classes Composable > useTableClasses > should return class object 1`] =
   "v-drilldown-table--fixed-header": true,
   "v-drilldown-table--hover": true,
   "v-drilldown-table--level-1": true,
+  "v-drilldown-table--mobile": false,
   "v-drilldown-table--separator-true": true,
   "v-drilldown-table--server": true,
 }

@@ -85,6 +85,7 @@ export default {
 	loading: false,
 	loadingText: 'Loading',
 	matchColumnWidths: false,
+	mobile: false,
 	multiSort: false,
 	mustSort: false,
 	nextIcon: '$next',

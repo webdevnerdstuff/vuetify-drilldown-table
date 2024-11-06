@@ -202,6 +202,7 @@ export interface Props {
 	loading?: VDataTable['$props']['loading'];
 	loadingText?: VDataTable['$props']['loadingText'];
 	matchColumnWidths?: boolean;
+	mobile?: VDataTable['$props']['mobile'];
 	modelValue?: unknown[];
 	multiSort?: VDataTable['$props']['multiSort'];
 	mustSort?: VDataTable['$props']['mustSort'];
@@ -281,6 +282,7 @@ export interface AllSlotProps {
 	colors: Props['colors'];
 	density: Props['density'];
 	level: Props['level'];
+	mobile: Props['mobile'];
 	showSelect?: Props['showSelect'];
 	sortBy: Props['sortBy'];
 }
@@ -553,6 +555,7 @@ export interface UseBodyRowClasses {
 			expandOnClick: Props['expandOnClick'],
 			level: Props['level'],
 			levels: Props['levels'],
+			mobile: Props['mobile'],
 		}
 	): object;
 }
@@ -571,6 +574,7 @@ export interface UseCellClasses {
 			column: Column,
 			elm: string,
 			level: Props['level'];
+			mobile: Props['mobile'];
 		},
 	): object;
 }
@@ -621,6 +625,7 @@ export interface UseTableClasses {
 			isHover: boolean | undefined,
 			isServerSide: boolean,
 			level: Props['level'],
+			mobile: Props['mobile'],
 			separator: Props['separator'],
 		}
 	): object;

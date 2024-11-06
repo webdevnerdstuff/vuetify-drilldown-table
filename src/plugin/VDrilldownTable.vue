@@ -22,6 +22,7 @@
 		:items-per-page="loadedDrilldown.itemsPerPage"
 		:items-per-page-options="itemsPerPageOptions"
 		:loading="(!loaderType || slots.loading) && loadedDrilldown.loading"
+		:mobile="loadedDrilldown.mobile"
 		:multi-sort="loadedDrilldown.multiSort"
 		:must-sort="loadedDrilldown.mustSort"
 		:no-data-text="loadedDrilldown.noDataText"
@@ -45,6 +46,7 @@
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
 				:loading="loadedDrilldown.loading"
+				:mobile="loadedDrilldown.mobile"
 				:search-container-cols="loadedDrilldown.searchContainerCols"
 				:search-props="loadedDrilldown.searchProps"
 				:show-search="loadedDrilldown.showSearch ?? false"
@@ -86,6 +88,7 @@
 					loadingText: loadingText,
 				}"
 				:match-column-widths="loadedDrilldown.matchColumnWidths"
+				:mobile="loadedDrilldown.mobile"
 				:select-strategy="loadedDrilldown.selectStrategy"
 				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ ...props }"
@@ -142,6 +145,7 @@
 							loadingText: loadingText,
 						},
 						matchColumnWidths: loadedDrilldown.matchColumnWidths,
+						mobile: loadedDrilldown.mobile,
 						selectStrategy: loadedDrilldown.selectStrategy,
 						sortBy: loadedDrilldown.sortBy,
 					}
@@ -174,7 +178,6 @@
 		</template>
 
 
-
 		<!-- ================================================== tbody Slot -->
 		<template
 			v-if="slots.tbody"
@@ -205,6 +208,7 @@
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
 				:levels="loadedDrilldown.levels"
+				:mobile="loadedDrilldown.mobile"
 				:show-expand="loadedDrilldown.showExpand"
 				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ level, ...props }"
@@ -257,6 +261,7 @@
 						:loading="item[itemChildrenKey]?.loading"
 						:loadingText="loadingText"
 						:match-column-widths="loadedDrilldown.matchColumnWidths"
+						:mobile="loadedDrilldown.mobile"
 						:multi-sort="item[itemChildrenKey]?.multiSort"
 						:no-data-text="loadedDrilldown.noDataText"
 						:server="item[itemChildrenKey]?.server"
@@ -311,6 +316,7 @@
 				:footers="loadedDrilldown.footers || []"
 				:items="loadedDrilldown.items"
 				:level="loadedDrilldown.level"
+				:mobile="loadedDrilldown.mobile"
 				:select-strategy="loadedDrilldown.selectStrategy"
 				:show-select="loadedDrilldown.showSelect"
 				:slot-props="{ ...props }"
@@ -549,6 +555,7 @@ const tableClasses = computed<object>(() => {
 		isHover: unref(hover),
 		isServerSide,
 		level: loadedDrilldown.level,
+		mobile: loadedDrilldown.mobile,
 		separator: unref(separator),
 	});
 });

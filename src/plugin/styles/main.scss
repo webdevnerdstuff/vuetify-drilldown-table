@@ -252,4 +252,35 @@
 		padding-bottom: 4px;
 		padding-top: 4px;
 	}
+
+	&--mobile {
+		// ! Temp fix for now ! //
+		.v-table__wrapper {
+			> table {
+				> thead {
+					> tr {
+						.v-data-table-headers--mobile {
+							height: 0;
+						}
+					}
+				}
+			}
+		}
+
+		// ! Temp fix for now ! //
+		.v-data-table-header__content {
+			display: none;
+		}
+
+		.v-drilldown-table--data-table-expand {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		.v-drilldown-table--data-table-select {
+			.v-input {
+				justify-content: flex-end;
+			}
+		}
+	}
 }

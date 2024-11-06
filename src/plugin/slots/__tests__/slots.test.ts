@@ -46,6 +46,7 @@ const headerProps = {
 		level: 1,
 		loaderSettings: {},
 		matchColumnWidths: false,
+		mobile: true,
 		selectStrategy: 'none',
 		slotProps: {
 			selectAll: () => { },
@@ -80,6 +81,7 @@ describe('Slot Components', () => {
 				items: [],
 				level: 1,
 				levels: 2,
+				mobile: true,
 				showExpand: true,
 				slotProps: {},
 			},
@@ -121,6 +123,7 @@ describe('Slot Components', () => {
 					footers: [],
 					items: [],
 					level: 1,
+					mobile: true,
 					selectStrategy: 'none',
 					slotProps: {
 						selectAll: () => { },
