@@ -714,7 +714,7 @@ function searchUpdated() {
 	const data = { drilldown, search: levelSearch.value };
 
 	optionsBus.emit(data);
-	emit('update:search', data);;
+	emit('update:search', data);
 }
 
 // ------------ Column Sorting //
