@@ -17,7 +17,8 @@
 			The VDrilldownTable <a href="#props-all-headers"><code class="inline-code">headers</code></a> props come with
 			some additional functionality. While the main functionality of the <code class="inline-code">headers</code> prop
 			remains the same, some additional rendering functions have been added. Additionally the <a
-				href="#props-all-footers"><code class="inline-code">footers</code></a> prop has rendering functionality as well.
+				href="#props-all-footers"
+			><code class="inline-code">footers</code></a> prop has rendering functionality as well.
 		</v-col>
 
 		<v-col cols="12">
@@ -222,8 +223,7 @@
 	</v-row>
 </template>
 
-<script setup>
-import { computed, inject } from 'vue';
+<script setup lang="ts">
 
 
 const props = defineProps({
@@ -359,6 +359,4 @@ const rendererItemExampleCode = `const headers = [
 
 </script>
 
-<style lang="scss" scoped>
-</style>
-
+<style lang="scss" scoped></style>

@@ -105,11 +105,11 @@
 	</v-app-bar>
 </template>
 
-<script setup>
-import { onMounted, ref, provide } from 'vue';
+<script setup lang="ts">
+import { onMounted, provide, ref } from 'vue';
+import { useTheme } from 'vuetify';
 import { useCoreStore } from '@/stores/index';
 import { useMenuStore } from '@/stores/menu';
-import { useTheme } from 'vuetify';
 
 const emit = defineEmits(['changedTheme', 'updatedDrawer']);
 
@@ -163,5 +163,4 @@ function toggleDrawer() {
 }
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

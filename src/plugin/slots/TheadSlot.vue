@@ -13,11 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import {
+import { HeadersSlot } from '@slots/index';
+import type {
 	Column,
 	THeadSlotProps,
 } from '@/plugin/types';
-import { HeadersSlot } from '@slots/index';
 
 
 const emit = defineEmits([

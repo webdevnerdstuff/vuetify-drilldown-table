@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
 	useConvertToUnit,
 	useGetSortDirection,
-	useMergeDeep,
+	useDeepMerge,
 	useRenderCell,
 	useRenderCellItem,
 } from '../helpers';
@@ -113,7 +113,7 @@ describe('Helpers Composable', () => {
 		});
 	});
 
-	describe('useMergeDeep', () => {
+	describe('useDeepMerge', () => {
 		it('should return an object with merged properties', () => {
 			const obj1 = {
 				foo: {
@@ -132,7 +132,7 @@ describe('Helpers Composable', () => {
 				}
 			};
 
-			const response = useMergeDeep(obj1, obj2);
+			const response = useDeepMerge(obj1, obj2);
 			expect(response).toMatchSnapshot();
 		});
 	});

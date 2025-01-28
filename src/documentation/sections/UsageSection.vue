@@ -14,7 +14,7 @@
 		</v-col>
 
 		<v-col cols="12">
-			<CodeBlock
+			<VCodeBlock
 				:code="usageGlobalPlugin"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 				lang="javascript"
@@ -26,11 +26,11 @@
 					<br>
 					<i>Global options have a higher precedence and will override local props</i>
 				</template>
-			</CodeBlock>
+			</VCodeBlock>
 		</v-col>
 
 		<v-col cols="12">
-			<CodeBlock
+			<VCodeBlock
 				:code="usageGlobalComponent"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 				label="Global Component Registration"
@@ -42,7 +42,7 @@
 
 
 		<v-col cols="12">
-			<CodeBlock
+			<VCodeBlock
 				:code="usageIndividual"
 				F
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
@@ -55,18 +55,9 @@
 	</v-row>
 </template>
 
-<script setup>
-import { computed, inject } from 'vue';
-
-const props = defineProps({
-	codeBlockOptions: {
-		required: true,
-		type: Object,
-	},
-});
-
-const codeBlockSettings = computed(() => props.codeBlockOptions);
-const classes = inject('classes');
+<script setup lang="ts">
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
 
 const usageGlobalPlugin = `import { createApp } from 'vue';
 import App from './App.vue';

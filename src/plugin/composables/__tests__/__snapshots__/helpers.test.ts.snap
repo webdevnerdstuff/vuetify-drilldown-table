@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Helpers Composable > useMergeDeep > should return an object with merged properties 1`] = `
+exports[`Helpers Composable > useDeepMerge > should return an object with merged properties 1`] = `
 {
   "foo": {
     "bar": "bar",

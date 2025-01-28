@@ -39,12 +39,13 @@
 </template>
 
 
-<script setup>
-import { inject, reactive } from 'vue';
-import { useCoreStore } from '@/stores/index';
+<script setup lang="ts">
+// const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
 import { FeaturesTable } from '@/documentation/components';
+import { useCoreStore } from '@/stores/index';
 
-const classes = inject('classes');
+
 const store = useCoreStore();
 
 const events = reactive([

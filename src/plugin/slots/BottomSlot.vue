@@ -4,7 +4,7 @@
 
 
 <script setup lang="ts">
-import {
+import type {
 	VDataTableSlotProps,
 } from '@/plugin/types';
 

@@ -2,8 +2,40 @@ import { defineStore } from 'pinia';
 import { useCoreStore } from './index';
 
 export const usePropsStore = defineStore('props', () => {
-	const coreStore = useCoreStore();
-	const links = coreStore.links;
+	const { links } = useCoreStore();
+
+	const propsHeaders = [
+		{
+			align: 'start',
+			filterable: true,
+			key: 'name',
+			sortable: true,
+			title: 'Name',
+			width: '20%',
+		},
+		{
+			align: 'start',
+			filterable: false,
+			key: 'type',
+			sortable: false,
+			title: 'Type',
+			width: '20%',
+		},
+		{
+			align: 'start',
+			filterable: false,
+			key: 'default',
+			sortable: false,
+			title: 'Default',
+		},
+		{
+			align: 'start',
+			filterable: false,
+			key: 'desc',
+			sortable: false,
+			title: 'Description',
+		},
+	];
 
 	const colorProps = [
 		{
@@ -174,7 +206,10 @@ export const usePropsStore = defineStore('props', () => {
   {value: 25, title: '25'},
   {value: 50, title: '50'},
   {value: 100, title: '100'},
-  {value: -1, title: '$vuetify.dataFooter.itemsPerPageAll'}
+  {
+    value: -1,
+    title: '$vuetify.dataFooter.itemsPerPageAll',
+  },
 ]</code></pre>`,
 			desc: 'Array of options to show in the items-per-page dropdown.',
 			global: true,
@@ -296,7 +331,7 @@ export const usePropsStore = defineStore('props', () => {
 
 	return {
 		allProps,
+		propsHeaders,
 		tableLoaderProps,
 	};
 });
-

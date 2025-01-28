@@ -42,7 +42,8 @@
 		</v-col>
 
 		<v-col cols="12">
-			In summary, the Vuetify Drilldown Table extends the functionality of the <code class="inline-code">VDataTable</code>
+			In summary, the Vuetify Drilldown Table extends the functionality of the <code
+				class="inline-code">VDataTable</code>
 			and
 			<code class="inline-code">VDataTableServer</code> components by providing a recursive table structure. It
 			requires an
@@ -66,12 +67,8 @@
 	</v-row>
 </template>
 
-<script setup>
-import { inject } from 'vue';
-
-const classes = inject('classes');
+<script setup lang="ts">
+const classes = inject<Docs.GlobalClasses>('classes')!;
 </script>
 
-<style lang="scss" scoped>
-</style>
-
+<style lang="scss" scoped></style>

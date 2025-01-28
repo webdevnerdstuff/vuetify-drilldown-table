@@ -21,14 +21,16 @@
 	<v-col cols="12">
 		With these settings you can adjust the percentage change of the header and footer row colors, as well as the bottom
 		border color as you drilldown to deeper levels. This helps each level to stand out from the previous level. You can
-		also set the percentage change to 0 to keep the same color for each level. Each level has the capability to have it's
+		also set the percentage change to 0 to keep the same color for each level. Each level has the capability to have
+		it's
 		own <code class="inline-code">colors</code> settings as well, you just have to adjust the settings being passed into
 		the specific level inside of the <code class="inline-code">child</code> object of the item being drilled down into.
 	</v-col>
 
 	<v-col cols="12">
 		Please be aware that the visual presentation and legibility of text and colors may vary based on your chosen color
-		scheme and the level of detail you explore within child tables. Consequently, it may be necessary to adjust the colors
+		scheme and the level of detail you explore within child tables. Consequently, it may be necessary to adjust the
+		colors
 		as you delve deeper into the child tables. This can be accomplished by either passing the colors property to the
 		specific child object being navigated or by leveraging CSS for customization.
 	</v-col>
@@ -93,10 +95,9 @@
 </template>
 
 
-<script setup>
-import { computed, inject } from 'vue';
-import tableDefaults from '@/playground/configs/templates/tableDefaults';
+<script setup lang="ts">
 import { ClientTable } from '@/documentation/components/examples';
+import tableDefaults from '@/playground/configs/templates/tableDefaults';
 
 const props = defineProps({
 	codeBlockOptions: {

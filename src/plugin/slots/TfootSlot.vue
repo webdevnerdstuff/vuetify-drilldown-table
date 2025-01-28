@@ -71,20 +71,20 @@
 
 <script setup lang="ts">
 import {
-	ColorsObject,
-	Column,
-	TFootSlotProps,
-	Props,
-} from '@/plugin/types';
-import {
 	useCellAlignClasses,
-	useTFootCellClasses,
 	useCheckBoxClasses,
+	useTFootCellClasses,
 	useTFootClasses,
 	useTFootRowClasses,
 } from '@composables/classes';
-import { useTFootCellStyles } from '@composables/styles';
 import { useRenderCell } from '@composables/helpers';
+import { useTFootCellStyles } from '@composables/styles';
+import type {
+	ColorsObject,
+	Column,
+	Props,
+	TFootSlotProps,
+} from '@/plugin/types';
 
 
 const slots = useSlots();

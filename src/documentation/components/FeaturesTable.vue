@@ -92,8 +92,7 @@
 	</v-row>
 </template>
 
-<script setup>
-import { inject } from 'vue';
+<script setup lang="ts">
 import { useSlugifyString } from '@/documentation/composables/slugifyStringHelper';
 
 

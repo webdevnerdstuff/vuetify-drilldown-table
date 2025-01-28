@@ -33,8 +33,7 @@
 </template>
 
 
-<script setup>
-import { inject } from 'vue';
+<script setup lang="ts">
 
 
 const props = defineProps({

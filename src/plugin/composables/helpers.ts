@@ -1,10 +1,10 @@
-/* eslint-disable no-param-reassign */
+
+import { useGetPropertyFromItem } from './vuetifyHelpers';
 import {
 	Column,
-	UseGetSortDirection,
 	UseConvertToUnit,
+	UseGetSortDirection,
 } from '@/plugin/types';
-import { useGetPropertyFromItem } from './vuetifyHelpers';
 
 
 /**
@@ -47,7 +47,7 @@ export const useConvertToUnit: UseConvertToUnit = (options) => {
  * Render the cell item
  */
 export function useRenderCellItem(
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 	item: any,
 	column: Column,
 ): unknown {
@@ -70,7 +70,7 @@ export function useRenderCellItem(
 */
 export function useRenderCell(column: Column): unknown {
 	const columnTitle = column['title'];
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 	const cellData = [columnTitle, column] as any[];
 
 	if (column.renderer) {
@@ -104,7 +104,7 @@ function isObject(item: object): boolean {
 /**
  * Deep merge objects.
  */
-export function useMergeDeep(target: object | object[], ...sources: object[]): object {
+export function useDeepMerge(target: object | object[], ...sources: object[]): object {
 	if (!sources.length) {
 		return target;
 	}
@@ -120,7 +120,7 @@ export function useMergeDeep(target: object | object[], ...sources: object[]): o
 				}
 
 				// @ts-ignore
-				useMergeDeep(target[key as keyof object], source[key]);
+				useDeepMerge(target[key as keyof object], source[key]);
 			}
 			else {
 				Object.assign(target, { [key]: source[key] });
@@ -128,5 +128,5 @@ export function useMergeDeep(target: object | object[], ...sources: object[]): o
 		}
 	}
 
-	return useMergeDeep(target, ...sources);
+	return useDeepMerge(target, ...sources);
 }

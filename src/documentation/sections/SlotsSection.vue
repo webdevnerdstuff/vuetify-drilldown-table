@@ -15,7 +15,7 @@
 
 		<v-col cols="12">
 			Most of the available table slots are available. Please refer to the <a
-				:href="store.links.vuetify"
+				:href="links.vuetify"
 				target="_blank"
 			>Vuetify</a> documentation for specific slots information not shown here.
 		</v-col>
@@ -120,25 +120,13 @@
 </template>
 
 
-<script setup>
-import { computed, inject, watch } from 'vue';
-import { useTheme } from 'vuetify';
-import { useCoreStore } from '@/stores/index';
-import { FeaturesTable } from '@/documentation/components';
-
-
-const props = defineProps({
-	codeBlockOptions: {
-		required: true,
-		type: Object,
-	},
-});
-
-const codeBlockSettings = computed(() => props.codeBlockOptions);
-const store = useCoreStore();
-const classes = inject('classes');
+<script setup lang="ts">
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
+const links = inject<Docs.GlobalClasses>('links')!;
 const theme = useTheme();
 const isDark = ref(true);
+import { FeaturesTable } from '@/documentation/components';
 
 
 watch(() => theme.global.current.value.dark, (val) => {
@@ -279,7 +267,6 @@ const slotsNotSupported = [
 		desc: 'The <code class="inline-code">item</code> slot is not available. There are [render functions](link this) available via the <code class="inline-code">headers</code> prop. You can also use the <a href="#slots-supported-columnstring"><code class="inline-code">[`item.${string}`]</code></a> slot for each item.',
 		name: 'item',
 	},
-]
+];
 
 </script>
-

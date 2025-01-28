@@ -1,9 +1,9 @@
+import { useDeepMerge } from './helpers';
 import {
 	Props,
 	UseGetHeaderColumnWidths,
 	UseSetLoadedDrilldown,
 } from '@/plugin/types';
-import { useMergeDeep } from './helpers';
 
 
 export const useGetHeaderColumnWidths: UseGetHeaderColumnWidths = (options) => {
@@ -31,7 +31,7 @@ export const useSetLoadedDrilldown: UseSetLoadedDrilldown = (options) => {
 	let settings = loadedDrilldown;
 	const rawItem = item;
 
-	settings = useMergeDeep(loadedDrilldown, drilldown) as Props;
+	settings = useDeepMerge(loadedDrilldown, drilldown) as Props;
 	const items = loadedDrilldown.items as Props['items'] || [{}];
 
 	const drilldownItem = items.find(<T, K extends keyof T>(dItem: T) => {
@@ -45,7 +45,7 @@ export const useSetLoadedDrilldown: UseSetLoadedDrilldown = (options) => {
 		return thisItem === propsItem;
 	}) as Props;
 
-	settings = useMergeDeep(
+	settings = useDeepMerge(
 		loadedDrilldown,
 		drilldownItem[loadedDrilldown.itemChildrenKey as keyof Props] as Props,
 	) as Props;

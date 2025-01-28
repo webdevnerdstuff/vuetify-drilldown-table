@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-unused-vars */
-import { CSSProperties, JSXComponent, StyleValue, MaybeRef } from 'vue';
 import { IconOptions, ThemeInstance } from 'vuetify';
 import type { EventBusKey } from '@vueuse/core';
-import VDrilldownTable from '../VDrilldownTable.vue';
+import type { App, CSSProperties, Component, MaybeRef, StyleValue } from 'vue';
 import type {
 	VDataTable,
 	VDataTableRow,
@@ -12,14 +9,22 @@ import type {
 	VProgressLinear,
 	VSkeletonLoader,
 } from 'vuetify/components';
+import VDrilldownTable from '../VDrilldownTable.vue';
 
 export * from '../index';
+
+// -------------------------------------------------- Globals //
+declare global {
+	interface KeyStringAny<T = any> {
+		[key: string]: T;
+	}
+}
 
 
 // -------------------------------------------------- Vuetify Types //
 export type Density = 'default' | 'comfortable' | 'compact';
 
-type IconValue = string | (string | [path: string, opacity: number])[] | JSXComponent;
+type IconValue = string | (string | [path: string, opacity: number])[] | Component;
 type SelectItemKey = boolean | string | (string | number)[] | ((item: Record<string, any>, fallback?: any) => any);
 type DataTableCompareFunction<T = any> = (a: T, b: T) => number;
 type DataTableHeader = {
@@ -54,12 +59,6 @@ export interface DataTableItem<T = any> {
 		[key: string]: any;
 	};
 }
-
-
-// -------------------------------------------------- Misc //
-export interface KeyStringAny<T = any> {
-	[key: string]: T;
-};
 
 
 // -------------------------------------------------- Colors //
@@ -164,7 +163,7 @@ export interface Props {
 	columnWidths?: number[];
 	customFilter?: VDataTable['$props']['customFilter'];
 	customKeyFilter?: VDataTable['$props']['customKeyFilter'];
-	defaultColors?: ColorsObject['default'];
+	defaultColors?: DefaultColors;
 	density?: VDataTable['$options']['density'];
 	drilldown?: object;
 	drilldownKey?: string;
@@ -230,6 +229,28 @@ export interface Props {
 }
 
 export type Drilldown = Props;
+
+export interface PluginOptions extends Pick<Props,
+	'colorPercentageChange' |
+	'colorPercentageDirection' |
+	'defaultColors' |
+	'footerBackgroundColor' |
+	'footerColor' |
+	'headerBackgroundColor' |
+	'headerColor' |
+	'loaderProps' |
+	'loaderType' |
+	'density' |
+	'elevation' |
+	'hover' |
+	'itemsPerPageOptions' |
+	'separator' |
+	'sortAscIcon'
+> { };
+
+declare global {
+	export interface Settings extends PluginOptions { }
+}
 
 export interface GlobalOptions extends Pick<Props,
 	'colorPercentageChange' |
@@ -505,6 +526,20 @@ export interface LevelPercentage {
 
 
 // ------------------------- Helpers //
+export interface UseBuildSettings {
+	(
+		props: Settings,
+	): Settings;
+}
+
+export interface UseDeepMerge {
+	(
+		A: Record<string, any>,
+		B: Record<string, any>,
+		C?: Record<string, any>
+	): Record<string, any>;
+}
+
 export interface UseGetSortDirection {
 	(
 		options: {
@@ -733,10 +768,17 @@ export interface OptionsEventObject {
 export const OptionsEventBus: EventBusKey<OptionsEventObject> = Symbol('data');
 
 
-declare module "vue" {
+// -------------------------------------------------- Plugin Component //
+declare module 'vue' {
 	interface ComponentCustomProperties { }
 
 	interface GlobalComponents {
 		VDrilldownTable: typeof VDrilldownTable;
 	}
 }
+
+declare function createVDrilldownTable(options?: PluginOptions): {
+	install: (app: App) => void;
+};
+
+export { createVDrilldownTable };

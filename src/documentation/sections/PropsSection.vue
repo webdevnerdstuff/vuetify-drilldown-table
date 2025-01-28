@@ -23,10 +23,9 @@
 		</v-col>
 
 		<v-col cols="12">
-			<FeaturesTable
+			<PropsTable
 				:headers="store.tableHeaders"
-				:items="propsStore.allProps"
-				props-table
+				:items="(propsStore.allProps as Item[])"
 				section-id="props-all"
 				section-title="All Props"
 				subtitle="These all of the available props"
@@ -34,38 +33,30 @@
 		</v-col>
 
 		<v-col cols="12">
-			<CellRenderingSection :codeBlockOptions="codeBlockOptions" />
+			<CellRenderingSection :codeBlockOptions="codeBlockSettings" />
 		</v-col>
 
-		<ColorsProp :codeBlockOptions="codeBlockOptions" />
-		<TableLoaderProps :codeBlockOptions="codeBlockOptions" />
+		<ColorsProp :codeBlockOptions="codeBlockSettings" />
+		<TableLoaderProps :codeBlockOptions="codeBlockSettings" />
 	</v-row>
 </template>
 
-<script setup>
-import { inject } from 'vue';
+<script setup lang="ts">
+import type { Item } from '@/documentation/components/PropsTable.vue';
+import { PropsTable } from '@/documentation/components';
 import { CellRenderingSection } from '@/documentation/sections';
-import { FeaturesTable } from '@/documentation/components';
-import { useCoreStore } from '@/stores/index';
-import { usePropsStore } from '@/stores/props';
-
 import {
 	ColorsProp,
 	TableLoaderProps,
 } from '@/documentation/sections/subSections';
+import { useCoreStore } from '@/stores/index';
+import { usePropsStore } from '@/stores/props';
 
 
-defineProps({
-	codeBlockOptions: {
-		required: true,
-		type: Object,
-	},
-});
-
-const classes = inject('classes');
-const propsStore = usePropsStore();
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
 const store = useCoreStore();
+const propsStore = usePropsStore();
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

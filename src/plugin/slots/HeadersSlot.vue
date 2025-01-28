@@ -97,23 +97,23 @@
 </template>
 
 <script setup lang="ts">
+import { TableLoader } from '@components/index';
 import {
+	useCellAlignClasses,
+	useCheckBoxClasses,
+	useHeaderCellClasses,
+	useHeaderRowClasses,
+	useSortIconClasses,
+} from '@composables/classes';
+import { useRenderCell } from '@composables/helpers';
+import { useHeaderCellStyles } from '@composables/styles';
+import type {
 	ColorsObject,
 	Column,
 	HeaderSlotProps,
 	InternalDataTableHeader,
 } from '@/plugin/types';
 import type { IconOptions } from 'vuetify';
-import {
-	useCellAlignClasses,
-	useHeaderCellClasses,
-	useCheckBoxClasses,
-	useHeaderRowClasses,
-	useSortIconClasses,
-} from '@composables/classes';
-import { useHeaderCellStyles } from '@composables/styles';
-import { useRenderCell } from '@composables/helpers';
-import { TableLoader } from '@components/index';
 
 
 const slots = useSlots();

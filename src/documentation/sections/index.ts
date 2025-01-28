@@ -25,6 +25,3 @@ export {
 	SlotsSection,
 	UsageSection,
 };
-
-
-

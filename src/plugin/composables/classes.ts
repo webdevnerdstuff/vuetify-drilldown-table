@@ -1,4 +1,4 @@
-import { componentName } from '@utils/globals';
+import { componentName } from '../data/globals';
 import { useGetSortDirection } from './helpers';
 import {
 	UseBodyCellClasses,
@@ -10,9 +10,9 @@ import {
 	UseHeaderRowClasses,
 	UseSortIconClasses,
 	UseTFootCellClasses,
-	UseTableClasses,
 	UseTFootClasses,
 	UseTFootRowClasses,
+	UseTableClasses,
 } from '@/plugin/types';
 
 
@@ -42,7 +42,7 @@ export const useCellAlignClasses: UseCellAlignClasses = (options) => {
 	const classes = {
 		'd-flex align-center': true,
 		[`justify-${align}`]: align || false,
-		[`justify-start`]: !align,
+		['justify-start']: !align,
 	};
 
 	return classes;

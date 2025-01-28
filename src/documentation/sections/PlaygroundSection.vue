@@ -23,7 +23,7 @@
 
 			<h3 class="mb-2 text-secondary">Setup the Playground</h3>
 
-			<CodeBlock
+			<VCodeBlock
 				class="mb-6"
 				code="git clone git@github.com:webdevnerdstuff/vuetify-drilldown-table.git"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
@@ -37,9 +37,9 @@
 						target="blank"
 					>repository:</a>
 				</template>
-			</CodeBlock>
+			</VCodeBlock>
 
-			<CodeBlock
+			<VCodeBlock
 				code="pnpm i && pnpm play"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 				lang="plain"
@@ -49,7 +49,7 @@
 				<template #label>
 					Next run the following command to setup the Playground:
 				</template>
-			</CodeBlock>
+			</VCodeBlock>
 		</v-col>
 
 		<v-col cols="12">
@@ -79,7 +79,8 @@
 			</p>
 			<p>
 				Note that the <code class="inline-code">server</code> setting is false in this file, which the
-				<code class="inline-code">ClientTable.vue</code> file uses. The <code class="inline-code">server</code> setting is
+				<code class="inline-code">ClientTable.vue</code> file uses. The <code class="inline-code">server</code> setting
+				is
 				changed in the PlaygroundPage.vue file to true for use in the <code class="inline-code">ServerTable.vue</code>
 				file.
 			</p>
@@ -89,7 +90,8 @@
 			<h3 class="mb-2 text-secondary">ClientTable.vue</h3>
 
 			<p>
-				This file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use it
+				This file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use
+				it
 				as a client side table.
 			</p>
 		</v-col>
@@ -98,26 +100,19 @@
 			<h3 class="mb-2 text-secondary">ServerTable.vue</h3>
 
 			<p>
-				This file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use it
+				This file contains the <code class="inline-code">VDrilldownTable</code> component and an example of how to use
+				it
 				as a server side table.
 			</p>
 		</v-col>
 	</v-row>
 </template>
 
-<script setup>
-import { computed, inject } from 'vue';
+<script setup lang="ts">
 import { useCoreStore } from '@/stores/index';
 
-const props = defineProps({
-	codeBlockOptions: {
-		required: true,
-		type: Object,
-	},
-});
 
-
-const codeBlockSettings = computed(() => props.codeBlockOptions);
-const classes = inject('classes');
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
 const store = useCoreStore();
 </script>

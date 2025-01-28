@@ -32,16 +32,17 @@
 	</v-row>
 </template>
 
-<script setup>
-import { inject } from 'vue';
-import tableDefaults from '@/playground/configs/templates/tableDefaults';
+<script setup lang="ts">
 import {
 	ClientTable,
 	ServerTable,
 } from '@/documentation/components/examples';
+import tableDefaults from '@/playground/configs/templates/tableDefaults';
 
 
-const classes = inject('classes');
+// const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
+
 const tableSettings = ref({ ...tableDefaults });
 const tableSettingsServer = ref({ ...tableDefaults, ...{ server: true } });
 

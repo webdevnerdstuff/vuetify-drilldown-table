@@ -2,8 +2,8 @@ import { useConvertToUnit } from './helpers';
 import { useGetLevelColors } from './levelColors';
 import {
 	UseHeaderCellStyles,
-	UseTableStyles,
 	UseTFootCellStyles,
+	UseTableStyles,
 } from '@/plugin/types';
 
 

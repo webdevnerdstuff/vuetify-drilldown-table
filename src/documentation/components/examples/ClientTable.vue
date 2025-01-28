@@ -13,8 +13,6 @@
 	</v-col>
 
 
-
-
 	<v-col cols="12">
 		<VDrilldownTable
 			:default-colors="tableSettings?.defaultColors ?? {}"
@@ -64,8 +62,7 @@
 	</v-col>
 </template>
 
-<script setup>
-import { inject } from 'vue';
+<script setup lang="ts">
 import tableDefaults from '@/playground/configs/templates/tableDefaults';
 
 

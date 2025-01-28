@@ -134,17 +134,17 @@
 
 <script lang="ts" setup>
 import {
+	useBodyRowClasses,
+	useCellClasses,
+} from '@composables/classes';
+import { useRenderCellItem } from '@composables/helpers';
+import type {
 	ClickRowCheckboxEvent,
 	Column,
 	DataTableItem,
 	DrilldownEvent,
 	ItemSlotProps,
 } from '@/plugin/types';
-import { useRenderCellItem } from '@composables/helpers';
-import {
-	useBodyRowClasses,
-	useCellClasses,
-} from '@composables/classes';
 import type { IconOptions } from 'vuetify';
 
 

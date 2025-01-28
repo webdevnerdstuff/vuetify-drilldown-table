@@ -6,15 +6,8 @@
 			@updated-drawer="toggleDrawer"
 		/>
 
-		<!-- ====================================================== Navigation Drawer -->
-		<v-navigation-drawer
-			v-model="drawer"
-			:absolute="drawerOptions.absolute"
-			:color="drawerOptions.color"
-			:elevation="drawerOptions.elevation"
-		>
-			<MenuComponent :drawerOptions="drawerOptions" />
-		</v-navigation-drawer>
+		<!-- ====================================================== Menu -->
+		<MenuComponent v-model="drawer" />
 
 		<!-- ====================================================== Main Container -->
 		<v-main class="pb-10">
@@ -25,40 +18,41 @@
 	</v-app>
 </template>
 
-<script setup>
-import { provide, ref } from 'vue';
+<script setup lang="ts">
+import Prism from 'prismjs';
 import { useDisplay } from 'vuetify';
-import AppBar from './documentation/layout/AppBar.vue';
 import MenuComponent from './documentation/components/MenuComponent.vue';
 import DocsPage from './documentation/DocsPage.vue';
+import AppBar from './documentation/layout/AppBar.vue';
 import { useCoreStore } from './stores/index';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import Prism from 'prismjs';
 import 'prismjs/components/prism-typescript.js';
 
 
-const { smAndUp } = useDisplay();
+onMounted(() => {
+	Prism.highlightAll();
+});
 
-const isSmAndUp = computed(() => smAndUp.value);
+
+const { smAndUp } = useDisplay();
+const isSmAndUp = computed<boolean>(() => smAndUp.value);
 const store = useCoreStore();
-const drawer = ref(isSmAndUp.value);
-const drawerOptions = ref({
+const drawer = ref<boolean>(isSmAndUp.value);
+const drawerOptions: Ref<Docs.DrawerOptions> = ref<Docs.DrawerOptions>({
 	absolute: false,
 	color: '',
 	elevation: 10,
 });
 
+const codeBlockPlugin: string = 'prismjs';
+const codeBlockLightTheme: string = 'tomorrow';
+const codeBlockDarkTheme: string = 'tomorrow';
 
-const codeBlockPlugin = 'prismjs';
-const codeBlockLightTheme = 'tomorrow';
-const codeBlockDarkTheme = 'tomorrow';
-
-const codeBlockSettings = ref({
+const codeBlockSettings: Ref<Docs.CodeBlockSettings> = ref<Docs.CodeBlockSettings>({
 	plugin: codeBlockPlugin,
 	theme: codeBlockDarkTheme,
 });
 
-function updateCodeBlockTheme(val) {
+function updateCodeBlockTheme(val: string): void {
 	codeBlockSettings.value.theme = codeBlockLightTheme;
 
 	if (val === 'dark') {
@@ -66,18 +60,46 @@ function updateCodeBlockTheme(val) {
 	}
 }
 
-provide('drawerOptions', drawerOptions);
-provide('links', store.links);
+provide<Docs.CodeBlockSettings>('codeBlockSettings', codeBlockSettings.value);
+provide<Docs.DrawerOptions>('drawerOptions', drawerOptions.value);
+provide<Docs.Links>('links', store.links);
 
-function toggleDrawer() {
+function toggleDrawer(): void {
 	drawer.value = !drawer.value;
 }
 </script>
 
 <style lang="scss">
+:root {
+	--list-item-padding-left: 50px;
+	--list-item-level-3-padding-left: 26px;
+}
+
 html {
 	scroll-behavior: smooth;
 	scroll-padding-top: 70px;
+}
+
+a {
+	&:not(.v-list-item, .v-btn, .v-icon, .app-link) {
+		color: #bb86fc;
+
+		&:hover {
+			color: #b39ddb;
+		}
+	}
+}
+
+.v-theme--light {
+	a {
+		&:not(.v-list-item, .v-btn, .v-icon, .app-link) {
+			color: #6200ee;
+
+			&:hover {
+				color: #3700b3;
+			}
+		}
+	}
 }
 
 .top-app-bar {
@@ -101,8 +123,18 @@ html {
 		margin: 0 -0.7em;
 		position: absolute;
 
+		&:hover {
+			color: rgb(var(--v-theme-primary));
+		}
+
 		&:not(:hover, :focus) {
 			opacity: 0;
+		}
+	}
+
+	&.text-secondary {
+		> a {
+			color: rgb(var(--v-theme-secondary));
 		}
 	}
 }
@@ -113,5 +145,29 @@ html {
 
 .v-divider {
 	margin: 0;
+}
+</style>
+
+<style lang="scss" scoped>
+:deep(pre),
+:deep(code) {
+	&.ic,
+	&.inline-code {
+		background-color: rgb(255 255 255 / 10%) !important;
+		border-radius: 3px;
+		font-size: 85%;
+		font-weight: normal;
+		padding: 0.2em 0.4em;
+	}
+}
+
+.v-theme--light {
+	:deep(pre),
+	:deep(code) {
+		&.ic,
+		&.inline-code {
+			background-color: rgb(0 0 0 / 10%) !important;
+		}
+	}
 }
 </style>

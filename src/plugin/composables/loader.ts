@@ -1,8 +1,8 @@
-import { componentName } from '@utils/globals';
+import { componentName } from '@data/globals';
 import { useConvertToUnit } from './helpers';
 import {
 	UseLoaderContainerClasses,
-	UseLoaderStyles
+	UseLoaderStyles,
 } from '@/plugin/types';
 
 
@@ -96,4 +96,3 @@ export const useLoaderVRowClasses = () => {
 		'text-center': true,
 	};
 };
-

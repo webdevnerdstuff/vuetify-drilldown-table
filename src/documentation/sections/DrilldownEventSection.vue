@@ -38,7 +38,8 @@
 			The data contained in the event object contains the table settings (props) of the current level table you are
 			drilling down <i>from</i>. In addition to these settings, it will also contain the
 			<code class="inline-code">item</code> object which has the data of the row that was clicked on.
-			This <code class="inline-code">item</code> is similar to the Vuetify <code class="inline-code">item</code> property.
+			This <code class="inline-code">item</code> is similar to the Vuetify <code class="inline-code">item</code>
+			property.
 		</v-col>
 
 		<v-col cols="12">
@@ -54,9 +55,11 @@
 
 		<v-col cols="12">
 			Inside of the <code class="inline-code">item</code> object <code class="inline-code">raw</code> and/or
-			<code class="inline-code">value</code> property, we will add the <code class="inline-code">child</code> object that
+			<code class="inline-code">value</code> property, we will add the <code class="inline-code">child</code> object
+			that
 			will hold the settings for the next drilldown table/level. <code class="inline-code">child</code> is the
-			default <a href="#props-all-itemchildrenkey"><code class="inline-code">itemChildrenKey</code></a> that is used, but
+			default <a href="#props-all-itemchildrenkey"><code class="inline-code">itemChildrenKey</code></a> that is used,
+			but
 			you can use whatever key you would like as long as you update/set the <a href="#props-all-itemchildrenkey"><code
 					class="inline-code"
 				>itemChildrenKey</code></a> prop.
@@ -92,9 +95,7 @@
 </template>
 
 
-<script setup>
-import { inject } from 'vue';
-// import { useCoreStore } from '@/stores/index';
+<script setup lang="ts">
 
 
 const props = defineProps({

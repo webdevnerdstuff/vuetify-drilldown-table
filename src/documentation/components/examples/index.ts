@@ -4,5 +4,5 @@ import ServerTable from './ServerTable.vue';
 
 export {
 	ClientTable,
-	ServerTable
+	ServerTable,
 };

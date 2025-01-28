@@ -16,13 +16,13 @@
 		<v-col cols="12">
 			Copyright &copy; {{ new Date().getFullYear() }}
 			<a
-				:href="store.links.githubProfile"
+				:href="links.githubProfile"
 				target="_blank"
 			>WebDevNerdStuff</a>
 			<br />
 			Licensed under the
 			<a
-				:href="`${store.links.github}/blob/master/LICENSE.md`"
+				:href="`${links.github}/blob/master/LICENSE.md`"
 				target="_blank"
 			>
 				MIT License
@@ -31,11 +31,7 @@
 	</v-row>
 </template>
 
-<script setup>
-import { inject } from 'vue';
-import { useCoreStore } from '@/stores/index';
-
-const classes = inject('classes');
-
-const store = useCoreStore();
+<script setup lang="ts">
+const classes = inject<Docs.GlobalClasses>('classes')!;
+const links = inject<Docs.Links>('links')!;
 </script>

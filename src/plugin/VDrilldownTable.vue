@@ -1,7 +1,7 @@
 <template>
 	<component
-		:is="tableType"
-		v-if="tableType"
+		:is="tableTypeInternal"
+		v-if="tableTypeInternal"
 		v-bind="$attrs"
 		v-model="loadedDrilldown.modelValue"
 		:class="tableClasses"
@@ -241,7 +241,7 @@
 					<VDrilldownTable
 						:key="internalItem.key"
 						:column-widths="loadedDrilldown.columnWidths"
-						:defaultColors="settings.defaultColors"
+						:defaultColors="defaultColors"
 						:density="density"
 						:drilldown="loadedDrilldown"
 						:footer-background-color="footerBackgroundColor"
@@ -267,7 +267,7 @@
 						:server="item[itemChildrenKey]?.server"
 						:show-footer-row="item[itemChildrenKey]?.showFooterRow"
 						:sort-by="loadedDrilldown.sortBy"
-						:table-type="tableType"
+						:table-type="tableTypeInternal"
 						@update:drilldown="emitUpdatedExpanded($event)"
 						@update:model-value="updateModelValue"
 					>
@@ -371,19 +371,14 @@
 </template>
 
 <script setup lang="ts">
+import { useTableClasses } from '@composables/classes';
+import { useEmitUpdatedExpanded } from '@composables/emits';
+import { useDeepMerge } from '@composables/helpers';
 import {
-	DataTableItem,
-	DrilldownEvent,
-	OptionsEventBus,
-	OptionsEventObject,
-	Props,
-	TableType,
-} from '@/plugin/types';
-import {
-	VDataTable,
-	VDataTableServer,
-} from 'vuetify/components';
-import { AllProps, defaultColorValues } from '@utils/props';
+	useGetHeaderColumnWidths,
+	useSetLoadedDrilldown,
+} from '@composables/loadedDrilldown';
+import { useTableStyles } from '@composables/styles';
 import {
 	BottomSlot,
 	HeadersSlot,
@@ -391,48 +386,45 @@ import {
 	TfootSlot,
 	TopSlot,
 } from '@slots/index';
-import { useEmitUpdatedExpanded } from '@composables/emits';
-import { useMergeDeep } from '@composables/helpers';
-import {
-	useGetHeaderColumnWidths,
-	useSetLoadedDrilldown,
-} from '@composables/loadedDrilldown';
-import { useTableClasses } from '@composables/classes';
-import { useTableStyles } from '@composables/styles';
 import {
 	useEventBus,
 	watchDebounced,
 	watchOnce,
 } from '@vueuse/core';
-import { globalOptions } from './';
+import {
+	VDataTable,
+	VDataTableServer,
+} from 'vuetify/components';
+import type {
+	DataTableItem,
+	DrilldownEvent,
+	// OptionsEventBus,
+	OptionsEventObject,
+	PluginOptions,
+	Props,
+	TableType,
+} from '@/plugin/types';
+import componentEmits from './data/emits';
+import { pluginOptionsInjectionKey } from './data/globals';
+import { AllProps, defaultColorValues } from './data/props';
+import {
+	OptionsEventBus,
+} from '@/plugin/types';
 
 
-// -------------------------------------------------- Emits & Slots & Injects //
-const emit = defineEmits([
-	'click:row',
-	'click:row:checkbox',
-	'update:expanded',
-	'update:drilldown',
-	'update:options',
-	'update:itemsPerPage',
-	'update:page',
-	'update:search',
-	'update:sortBy',
-]);
-
+const attrs = useAttrs();
+const componentId = useId();
+const slots = useSlots();
+const emit = defineEmits([...componentEmits]);
 
 // -------------------------------------------------- Props //
 const props = withDefaults(defineProps<Props>(), { ...AllProps });
 
-const injectedOptions = inject(globalOptions, {});
-const settings = ref({ ...props, ...injectedOptions });
+const injectedPluginOptions = inject<PluginOptions>(pluginOptionsInjectionKey)!;
+const settings: Settings = useDeepMerge(injectedPluginOptions, props);
+const { colorPercentageChange, colorPercentageDirection, defaultColors, elevation, expandOnClick, footerBackgroundColor, footerColor, headerBackgroundColor, headerColor, hover, itemsPerPageOptions, loaderProps, loaderType, separator, sortAscIcon } = toRefs(props);
 
-const { colorPercentageChange, colorPercentageDirection, elevation, expandOnClick, footerBackgroundColor, footerColor, headerBackgroundColor, headerColor, hover, itemsPerPageOptions, loaderProps, loaderType, separator, sortAscIcon } = toRefs(settings.value);
-
-const slots = useSlots();
-const attrs = useAttrs();
-
-const tableType = shallowRef<TableType>(null);
+const tableTypeInternal = shallowRef<TableType>(null);
 
 const density = computed(() => {
 	return props.density;
@@ -452,16 +444,15 @@ onMounted(() => {
 
 // ? Determines which table type to use //
 onBeforeMount(() => {
-	tableType.value = Object.assign({}, props.server ? VDataTableServer : VDataTable);
+	tableTypeInternal.value = Object.assign({}, props.server ? VDataTableServer : VDataTable);
 });
-
 
 
 // -------------------------------------------------- Table Settings //
 let loadedDrilldown = reactive<Props>(Object.assign({}, props));
 
 if (loadedDrilldown?.colors) {
-	loadedDrilldown.colors.default = { ...defaultColorValues, ...settings.value.defaultColors };
+	loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
 }
 
 
@@ -469,7 +460,7 @@ const defaultDrilldownSettings = { ...props, ...loadedDrilldown };
 
 
 // -------------------------------------------------- Data //
-const tableId = ref<string>(attrs['data-vdt-id'] as string ?? `v-drilldown-table-${Date.now()}`);
+const tableId = ref<string>(attrs['data-vdt-id'] as string ?? `v-drilldown-table-${componentId}`);
 const levelSearch = ref<string>('');
 const theme = useTheme();
 
@@ -487,7 +478,7 @@ const hidingNoData = computed(() => {
 
 
 // -------------------------------------------------- Watch //
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 watchOnce(props as any, () => {
 	if (props.level !== 1 || loadedDrilldown.level === 1) {
 		setLoadedDrilldown();
@@ -514,19 +505,19 @@ watch(() => props.loading, () => {
 });
 
 watchEffect(() => {
-	if (loadedDrilldown.colors && settings.value.defaultColors) {
-		loadedDrilldown.colors.default = { ...defaultColorValues, ...settings.value.defaultColors };
+	if (loadedDrilldown.colors && defaultColors.value) {
+		loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
 	}
 });
 
-watchEffect(() => {
-	settings.value = { ...props, ...injectedOptions };
-});
+// watchEffect(() => {
+// 	settings = { ...props, ...injectedOptions };
+// });
 
 
 // -------------------------------------------------- Table #
 const showLoadingDrilldownTable = (loading: boolean): boolean => {
-	const loaderType = unref(settings.value.loaderType);
+	const loaderType = settings.loaderType;
 
 	if (loading) {
 		if (loaderType === 'skelton') {
@@ -583,7 +574,7 @@ function setLoadedDrilldown(): void {
 		return;
 	}
 
-	loadedDrilldown = useMergeDeep(loadedDrilldown, props) as Props;
+	loadedDrilldown = useDeepMerge(loadedDrilldown, props) as Props;
 
 	if (props.matchColumnWidths && loadedDrilldown?.columnWidths?.length === 0) {
 		loadedDrilldown.columnWidths = useGetHeaderColumnWidths({ tableId });
@@ -635,6 +626,12 @@ function updatedOptions(drilldown: Props) {
 }
 
 // ------------ Bus Event //
+// const optionsBus = useEventBus({
+// 	drilldown,
+// 	itemsPerPage: drilldown.itemsPerPage,
+// 	page: drilldown.page,
+// 	sortBy: drilldown.sortBy,
+// });
 const optionsBus = useEventBus(OptionsEventBus);
 
 function optionsListener(data: OptionsEventObject) {
@@ -674,7 +671,7 @@ function updatePage(val: Props['page']) {
 }
 
 // ------------ Search //
-const searchDebounce = {
+const searchDebounceInternal = {
 	debounce: loadedDrilldown.searchDebounce as number,
 	maxWait: loadedDrilldown.searchMaxWait as number,
 };
@@ -685,7 +682,7 @@ watchDebounced(
 	() => {
 		searchUpdated();
 	},
-	searchDebounce,
+	searchDebounceInternal,
 );
 
 // ? Not using top or top.left slot //
@@ -696,7 +693,7 @@ watchDebounced(
 			searchUpdated();
 		}
 	},
-	searchDebounce,
+	searchDebounceInternal,
 );
 
 // Search - Updated //
@@ -737,5 +734,5 @@ function updateModelValue() {
 </script>
 
 <style lang="scss">
-@use './styles/main.scss';
+@use './styles/main';
 </style>
