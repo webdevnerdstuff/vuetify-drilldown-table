@@ -11,9 +11,9 @@ import vue from '@vitejs/plugin-vue';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+
 const scopedPackageName = pkg.name;
 const packageName = scopedPackageName.split('/')[1];
-
 
 const banner = `/**
  * @name ${scopedPackageName}
@@ -50,6 +50,14 @@ export default defineConfig({
 			},
 		},
 	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				api: 'modern-compiler', // or "modern", "legacy"
+				importers: [],
+			},
+		},
+	},
 	plugins: [
 		commonjs(),
 		AutoImport({
@@ -68,10 +76,12 @@ export default defineConfig({
 		}),
 		dts({
 			insertTypesEntry: true,
+			tsconfigPath: 'tsconfig.build.json',
 		}),
 		typescript({
 			check: true,
 			include: ['./src/plugin/**/*.vue'],
+			tsconfig: 'tsconfig.build.json',
 		}),
 		vuetify({
 			autoImport: true,
@@ -95,13 +105,14 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
-			'@components': path.resolve(__dirname, './src/plugin/components'),
-			'@composables': path.resolve(__dirname, './src/plugin/composables'),
-			'@plugin': path.resolve(__dirname, './src/plugin'),
+			'@components': path.resolve(__dirname, './src/plugin/components/'),
+			'@composables': path.resolve(__dirname, './src/plugin/composables/'),
+			'@cypress': path.resolve(__dirname, './cypress'),
+			'@data': path.resolve(__dirname, './src/plugin/data/'),
+			'@plugin': path.resolve(__dirname, './src/plugin/'),
 			'@root': path.resolve(__dirname, './'),
-			'@slots': path.resolve(__dirname, './src/plugin/slots'),
-			'@types': path.resolve(__dirname, './src/plugin/types'),
-			'@utils': path.resolve(__dirname, './src/plugin/utils'),
+			'@slots': path.resolve(__dirname, './src/plugin/slots/'),
+			'@types': path.resolve(__dirname, './src/plugin/types/'),
 		},
 		extensions: [
 			'.js',

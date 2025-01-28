@@ -1,10 +1,11 @@
 import vue from '@vitejs/plugin-vue';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
-import eslint from 'vite-plugin-eslint';
+import eslint from 'vite-plugin-eslint2';
 import stylelint from 'vite-plugin-stylelint';
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 import AutoImport from 'unplugin-auto-import/vite';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 const baseUrl = '/vuetify-drilldown-table/';
 const playgroundUrl = baseUrl + 'playground/';
@@ -15,9 +16,19 @@ export default defineConfig({
 	build: {
 		outDir: 'docs',
 	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				api: 'modern-compiler',
+				importers: [],
+			},
+		},
+	},
 	plugins: [
 		eslint({
 			fix: true,
+			exclude: ['node_modules/**', 'vendor/**'],
+			include: ['src/**/*.{ts,mts,tsx,vue}'],
 		}),
 		stylelint({
 			cache: false,
@@ -42,6 +53,7 @@ export default defineConfig({
 		vue({
 			template: { transformAssetUrls },
 		}),
+		vueDevTools(),
 		vuetify({
 			autoImport: true,
 		}),
@@ -49,13 +61,14 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': fileURLToPath(new URL('./src', import.meta.url)),
-			'@components': fileURLToPath(new URL('./src/plugin/components', import.meta.url)),
+			'@components': fileURLToPath(new URL('./src/plugin/components/', import.meta.url)),
 			'@composables': fileURLToPath(new URL('./src/plugin/composables', import.meta.url)),
+			'@cypress': fileURLToPath(new URL('./cypress', import.meta.url)),
+			'@data': fileURLToPath(new URL('./src/plugin/data', import.meta.url)),
 			'@plugin': fileURLToPath(new URL('./src/plugin', import.meta.url)),
 			'@root': fileURLToPath(new URL('.', import.meta.url)),
 			'@slots': fileURLToPath(new URL('./src/plugin/slots', import.meta.url)),
 			'@types': fileURLToPath(new URL('./src/plugin/types', import.meta.url)),
-			'@utils': fileURLToPath(new URL('./src/plugin/utils', import.meta.url)),
 		},
 		extensions: [
 			'.js',
@@ -69,6 +82,8 @@ export default defineConfig({
 		],
 	},
 	server: {
+		host: '127.0.0.1',
+		port: 3010,
 		hmr: {
 			protocol: 'ws',
 		},
