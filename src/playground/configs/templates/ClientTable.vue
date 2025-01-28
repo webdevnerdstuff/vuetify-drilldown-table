@@ -10,7 +10,7 @@
 			v-model="selected"
 			:color-percentage-change="tableSettings.colorPercentageChange"
 			:color-percentage-direction="tableSettings.colorPercentageDirection"
-			:default-colors="tableSettings.defaultColors"
+			:default-colors="defaultColors"
 			:density="density"
 			:drilldown-key="tableSettings.drilldownKey"
 			:elevation="tableSettings.elevation"
@@ -205,8 +205,8 @@
 	</v-col>
 </template>
 
-<script setup>
-import { inject } from 'vue';
+<script setup lang="ts">
+import type { VDrilldownTable } from '@/plugin/types/index';
 import tableDefaults from './tableDefaults';
 
 
@@ -218,16 +218,16 @@ const props = defineProps({
 });
 
 const selected = ref([]);
-const classes = inject('classes');
-const defaultColors = inject('defaultColors');
+const classes = inject<Docs.GlobalClasses>('classes')!;
+const defaultColors = inject('defaultColors')!;
 const density = inject('density');
-const tableSettings = ref({ ...props.settings, ...{ defaultColors } });
+const tableSettings = ref(Object.assign({}, props.settings));
 
 const headers = {
 	comments: [
 		{
 			align: 'start',
-			key: null,
+			key: '',
 			title: '',
 			width: 110,
 		},
@@ -250,6 +250,10 @@ const headers = {
 			key: 'name',
 			title: 'Comment',
 		},
+		{
+			key: 'data-table-expand',
+			title: '',
+		},
 	],
 	posts: [
 		{
@@ -269,7 +273,6 @@ const headers = {
 			align: 'start',
 			key: 'title',
 			title: 'Post',
-			// width: 50,
 		},
 		{
 			key: 'data-table-expand',
@@ -308,7 +311,7 @@ const headers = {
 			sortable: false,
 			title: '',
 		},
-	],
+	] as const,
 };
 const footers = {
 	comments: [
@@ -390,20 +393,23 @@ const footers = {
 	],
 };
 
-
 onMounted(() => {
 	fetchClientData();
 });
 
+interface Item {
+	id: string | number;
+	child?: any;
+}
 
-function fetchClientData(drilldown = null) {
+function fetchClientData(drilldown: typeof VDrilldownTable | null = null) {
 	const item = drilldown?.item ?? null;
 
 	let url = 'api/users';
-	let user = null;
-	let post = null;
-	let userId = null;
-	let postId = null;
+	let user: Item | null = null;
+	let post: Item | null = null;
+	let userId: string | number | null = null;
+	let postId: string | number | null = null;
 
 	// Users Level 1 //
 	if (typeof drilldown?.level === 'undefined') {
@@ -413,9 +419,9 @@ function fetchClientData(drilldown = null) {
 	// Posts Level 2 //
 	if (drilldown?.level === 1) {
 		userId = item.id;
-		user = tableSettings.value.items.find(
-			(a) => parseInt(a.id) == parseInt(userId),
-		);
+		user = (tableSettings.value.items as Item[]).find(
+			(a: Item) => parseInt(a.id as string) == parseInt(userId as string),
+		) as Item;
 		url = `api/users/${userId}/posts`;
 
 		tableSettings.value = {
@@ -427,7 +433,6 @@ function fetchClientData(drilldown = null) {
 		user.child = {
 			...tableDefaults,
 			drilldownKey: 'id',
-			footers: footers.posts,
 			headers: headers.posts,
 			level: 2,
 			loading: true,
@@ -435,27 +440,27 @@ function fetchClientData(drilldown = null) {
 		};
 	}
 
+
 	// Comments Level 3 //
 	if (drilldown?.level === 2) {
 		userId = item.userId;
-		user = tableSettings.value.items.find(
-			(a) => parseInt(a.id) == parseInt(userId),
-		);
+		user = (tableSettings.value.items as Item[]).find(
+			(a: Item) => parseInt(a.id as string) == parseInt(userId as string),
+		) as Item;
 
 		user.child = { ...drilldown };
 
 		postId = item.id;
-		post = user.child.items.find(
-			(item) => parseInt(item.id) == parseInt(postId),
-		);
+		post = (user.child.items as Item[]).find(
+			(item: Item) => parseInt(item.id as string) == parseInt(postId as string),
+		) as Item;
 
 		post.child = {};
 		post.child = {
 			...tableDefaults,
 			drilldownKey: 'id',
-			footers: footers.comments,
 			headers: headers.comments,
-			itemsPerPage: 2,
+			itemsPerPage: tableSettings.value.itemsPerPage,
 			level: 3,
 			loading: true,
 			sortBy: [],
@@ -476,28 +481,34 @@ function fetchClientData(drilldown = null) {
 			}
 
 			// Posts Level 2 //
-			if (drilldown?.level === 1) {
+			if (drilldown?.level === 1 && user) {
 				user.child = {
 					...user.child,
-					items: json.posts,
-					loading: false,
+					...{ defaultColors },
+					...{
+						items: json.posts,
+						loading: false,
+					},
 				};
 				return;
 			}
 
 			// Comments Level 3 //
-			if (drilldown?.level === 2) {
+			if (drilldown?.level === 2 && post) {
 				post.child = {
 					...post.child,
-					items: json.comments,
-					loading: false,
+					...{ defaultColors },
+					...{
+						items: json.comments,
+						loading: false,
+					},
 				};
 			}
 		});
 }
 
-watch(defaultColors, (newVal) => {
-	tableSettings.value.defaultColors = newVal;
+watch(defaultColors, () => {
+	tableSettings.value.defaultColors = defaultColors;
 });
 </script>
 

@@ -14,7 +14,6 @@
 						:color="headerBackgroundColor === color ? color : 'accent'"
 						size="small"
 						:value="color"
-						@click="updateColor(color)"
 					>
 						{{ color ? color : 'DefaultColors Prop' }}
 					</v-btn>
@@ -53,9 +52,11 @@ import ClientTable from './ClientTable.vue';
 import ServerTable from './ServerTable.vue';
 import tableDefaults from './tableDefaults';
 
+const clientDefaults = JSON.parse(JSON.stringify(tableDefaults));
+const serverDefaults = { ...JSON.parse(JSON.stringify(tableDefaults)), ...{ searchDebounce: 750, server: true } };
 
-const tableSettings = ref(Object.assign({}, tableDefaults));
-const tableSettingsServer = ref({ ...tableDefaults, ...{ searchDebounce: 750, server: true } });
+const tableSettings = ref(JSON.parse(JSON.stringify(clientDefaults)));
+const tableSettingsServer = reactive({ ...JSON.parse(JSON.stringify(serverDefaults)), ...{ searchDebounce: 750, server: true } });
 
 
 // -------------------------------------------------- Testing Helpers //
@@ -65,11 +66,14 @@ const density = ref('compact');
 const headerBackgroundColor = ref('primary');
 const selectedColor = ref('primary');
 
-const defaultColors = ref({
-	background: 'primary',
-	border: 'primary',
-	color: 'on-primary',
+const defaultColors = computed(() => {
+	return {
+		background: selectedColor.value ?? defaultColorsExample.value.background,
+		border: selectedColor.value ?? defaultColorsExample.value.border,
+		color: selectedColor.value ? `on-${selectedColor.value}` : defaultColorsExample.value.color,
+	};
 });
+
 const defaultColorsExample = ref({
 	background: 'accent',
 	border: 'accent',
@@ -80,17 +84,15 @@ provide('defaultColors', defaultColors);
 provide('selectedColor', selectedColor);
 provide('density', density);
 
+
+watch(() => selectedColor.value, (val) => {
+	updateColor(val);
+});
+
 function updateColor(val) {
 	headerBackgroundColor.value = val ?? defaultColorsExample.value.background;
-
-	defaultColors.value = {
-		background: val ?? defaultColorsExample.value.background,
-		border: val ?? defaultColorsExample.value.border,
-		color: val ? `on-${val}` : defaultColorsExample.value.color,
-	};
 }
 </script>
 
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

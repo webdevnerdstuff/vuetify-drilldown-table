@@ -3,6 +3,7 @@
 		:is="tableTypeInternal"
 		v-if="tableTypeInternal"
 		v-bind="$attrs"
+		:key="componentId"
 		v-model="loadedDrilldown.modelValue"
 		:class="tableClasses"
 		:data-vdt-id="tableId"
@@ -241,7 +242,7 @@
 					<VDrilldownTable
 						:key="internalItem.key"
 						:column-widths="loadedDrilldown.columnWidths"
-						:defaultColors="defaultColors"
+						:defaultColors="loadedDrilldown.defaultColors"
 						:density="density"
 						:drilldown="loadedDrilldown"
 						:footer-background-color="footerBackgroundColor"
@@ -422,7 +423,7 @@ const props = withDefaults(defineProps<Props>(), { ...AllProps });
 
 const injectedPluginOptions = inject<PluginOptions>(pluginOptionsInjectionKey)!;
 const settings: Settings = useDeepMerge(injectedPluginOptions, props);
-const { colorPercentageChange, colorPercentageDirection, defaultColors, elevation, expandOnClick, footerBackgroundColor, footerColor, headerBackgroundColor, headerColor, hover, itemsPerPageOptions, loaderProps, loaderType, separator, sortAscIcon } = toRefs(props);
+const { colorPercentageChange, colorPercentageDirection, elevation, expandOnClick, footerBackgroundColor, footerColor, headerBackgroundColor, headerColor, hover, itemsPerPageOptions, loaderProps, loaderType, separator, sortAscIcon } = toRefs(props);
 
 const tableTypeInternal = shallowRef<TableType>(null);
 
@@ -452,7 +453,8 @@ onBeforeMount(() => {
 let loadedDrilldown = reactive<Props>(Object.assign({}, props));
 
 if (loadedDrilldown?.colors) {
-	loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
+	loadedDrilldown.defaultColors = { ...defaultColorValues, ...props.defaultColors };
+	loadedDrilldown.colors.default = { ...defaultColorValues, ...props.defaultColors };
 }
 
 
@@ -505,8 +507,8 @@ watch(() => props.loading, () => {
 });
 
 watchEffect(() => {
-	if (loadedDrilldown.colors && defaultColors.value) {
-		loadedDrilldown.colors.default = { ...defaultColorValues, ...defaultColors.value };
+	if (loadedDrilldown.colors && props.defaultColors) {
+		loadedDrilldown.colors.default = { ...defaultColorValues, ...props.defaultColors };
 	}
 });
 

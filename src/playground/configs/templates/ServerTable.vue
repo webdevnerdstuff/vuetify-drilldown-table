@@ -4,7 +4,9 @@
 			Server Side Data Table
 		</h3>
 	</v-col>
-
+	{{ defaultColors }}
+	<br />
+	{{ tableSettings.defaultColors }}
 	<v-col cols="12">
 		<VDrilldownTable
 			v-model="selected"
@@ -206,8 +208,8 @@
 	</v-col>
 </template>
 
-<script setup>
-import { inject } from 'vue';
+<script setup lang="ts">
+import type { VDrilldownTable } from '@/plugin/types/index';
 import tableDefaults from './tableDefaults';
 
 
@@ -219,10 +221,29 @@ const props = defineProps({
 });
 
 const selected = ref([]);
-const classes = inject('classes');
-const defaultColors = inject('defaultColors');
+const classes = inject < Docs.GlobalClasses > ('classes')!;
+const defaultColors = inject('defaultColors')!;
 const density = inject('density');
-const tableSettings = ref({ ...props.settings, ...{ defaultColors } });
+
+type Drilldown = typeof VDrilldownTable;
+
+// const tableSettings = ref<Partial<Drilldown>>({
+// 	defaultColors,
+// 	drilldownKey: 'id',
+// 	headers: [],
+// 	itemChildrenKey: 'child',
+// 	items: [],
+// 	itemsLength: 0,
+// 	itemsPerPage: 5,
+// 	level: 1,
+// 	levels: 3,
+// 	loading: false,
+// 	page: 1,
+// 	sortBy: [],
+// });
+
+const tableSettings = ref < Partial < Drilldown >> ({ ...props.settings, ...{ defaultColors } });
+
 const defaultSortBy = [
 	{
 		key: 'id',
@@ -256,7 +277,7 @@ const headers = {
 			key: 'name',
 			title: 'Comment',
 		},
-	],
+	] as const,
 	posts: [
 		{
 			align: 'start',
@@ -281,7 +302,7 @@ const headers = {
 			key: 'data-table-expand',
 			title: '',
 		},
-	],
+	] as const,
 	users: [
 		// {
 		// 	key: 'data-table-select',
@@ -314,7 +335,7 @@ const headers = {
 			sortable: false,
 			title: '',
 		},
-	],
+	] as const,
 };
 const footers = {
 	comments: [
@@ -396,15 +417,18 @@ const footers = {
 	],
 };
 
-
 onMounted(() => {
 	fetchServerData();
 });
 
+interface Item {
+	id: string | number;
+	child?: any;
+}
 
-function fetchServerData(drilldown = null, updateCurrentLevel = false) {
+function fetchServerData(drilldown: Drilldown | null = null, updateCurrentLevel = false) {
 	if (drilldown === null || (updateCurrentLevel && drilldown.level === 1)) {
-		getUsers(drilldown ?? tableSettings.value);
+		getUsers(drilldown as Drilldown ?? tableSettings.value);
 		return;
 	}
 
@@ -419,7 +443,7 @@ function fetchServerData(drilldown = null, updateCurrentLevel = false) {
 	}
 }
 
-function getUsers(drilldown = null) {
+function getUsers(drilldown: Drilldown) {
 	tableSettings.value = {
 		...tableSettings.value,
 		...drilldown,
@@ -441,6 +465,7 @@ function getUsers(drilldown = null) {
 
 		tableSettings.value = Object.assign({}, {
 			...drilldown,
+			...{ defaultColors },
 			...{
 				items: users,
 				itemsLength: pagination.itemsLength,
@@ -454,21 +479,21 @@ function getUsers(drilldown = null) {
 	});
 }
 
-function getUserPosts(drilldown = null, updateCurrentLevel = false) {
+function getUserPosts(drilldown: Drilldown, updateCurrentLevel = false) {
 	const item = drilldown?.item ?? null;
 
 	const userId = item.id;
 	const user = tableSettings.value.items.find(
-		(a) => parseInt(a.id) === parseInt(userId),
+		(a: Item) => parseInt(a.id as string) === parseInt(userId),
 	);
 	const url = 'api/users/posts';
 
 	user.child = drilldown?.drilldown ?? tableDefaults;
 	user.child = Object.assign({}, {
 		...user.child,
+		...{ defaultColors },
 		...{
 			drilldownKey: 'id',
-			footers: footers.posts,
 			headers: headers.posts,
 			itemsLength: drilldown?.itemsLength ?? 0,
 			itemsPerPage: drilldown?.itemsPerPage ?? 0,
@@ -497,6 +522,7 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 
 		user.child = {
 			...user.child,
+			...{ defaultColors },
 			...{
 				items: posts,
 				itemsLength: pagination.itemsLength,
@@ -508,17 +534,17 @@ function getUserPosts(drilldown = null, updateCurrentLevel = false) {
 	});
 }
 
-function getPostComments(drilldown = null, updateCurrentLevel = false) {
+function getPostComments(drilldown: Drilldown, updateCurrentLevel = false) {
 	const item = drilldown?.item ?? null;
 
 	const userId = item.userId;
 	const user = tableSettings.value.items.find(
-		(a) => parseInt(a.id) === parseInt(userId),
+		(a: Item) => parseInt(a.id as string) === parseInt(userId),
 	);
 
 	const postId = item.id;
 	const post = user.child.items.find(
-		(item) => parseInt(item.id) === parseInt(postId),
+		(item: Item) => parseInt(item.id as string) === parseInt(postId),
 	);
 	const url = 'api/users/posts/comments';
 
@@ -527,10 +553,9 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 		...post.child,
 		...{
 			drilldownKey: 'id',
-			footers: footers.comments,
 			headers: headers.comments,
 			itemsLength: drilldown?.itemsLength ?? 0,
-			itemsPerPage: 2,
+			itemsPerPage: drilldown?.itemsPerPage ?? 0,
 			level: 3,
 			loading: true,
 			server: true,
@@ -544,7 +569,7 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 	}
 
 	const body = {
-		limit: 2,
+		limit: drilldown.itemsPerPage,
 		page: drilldown.page,
 		postId,
 		query: drilldown.search,
@@ -557,16 +582,18 @@ function getPostComments(drilldown = null, updateCurrentLevel = false) {
 
 		post.child = {
 			...post.child,
-			items: comments,
-			itemsLength: pagination.itemsLength,
-			limit: post.child.server ? drilldown.limit : tableDefaults.itemsPerPage,
-			loading: false,
-			page: pagination.page,
+			...{
+				items: comments,
+				itemsLength: pagination.itemsLength,
+				limit: post.child.server ? drilldown.limit : tableDefaults.itemsPerPage,
+				loading: false,
+				page: pagination.page,
+			},
 		};
 	});
 }
 
-async function serverFetch(url, body) {
+async function serverFetch(url: string, body: unknown) {
 	const response = await fetch(url, {
 		body: JSON.stringify(body),
 		headers: { 'Content-Type': 'application/json' },
@@ -578,11 +605,11 @@ async function serverFetch(url, body) {
 	return response;
 }
 
-function updateOptions(data) {
+function updateOptions(data: Drilldown) {
 	fetchServerData(data.drilldown, true);
 }
 
-watch(defaultColors, (newVal) => {
-	tableSettings.value.defaultColors = newVal;
+watch(defaultColors, () => {
+	tableSettings.value.defaultColors = defaultColors;
 });
 </script>
