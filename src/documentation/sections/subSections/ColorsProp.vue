@@ -99,16 +99,9 @@
 import { ClientTable } from '@/documentation/components/examples';
 import tableDefaults from '@/playground/configs/templates/tableDefaults';
 
-const props = defineProps({
-	codeBlockOptions: {
-		required: true,
-		type: Object,
-	},
-});
-
-const classes = inject('classes');
-const codeBlockSettings = computed(() => props.codeBlockOptions);
-const colors = ref(['primary', 'secondary', 'success', 'info', 'warning', 'error']);
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
+const colors = ref<string[]>(['primary', 'secondary', 'success', 'info', 'warning', 'error']);
 const headerBackgroundColor = ref('primary');
 const selectedColor = ref('primary');
 

@@ -56,18 +56,8 @@ export const useMenuStore = defineStore('menu', () => {
 		},
 		{
 			href: '#usage',
-			icon: 'mdi:mdi-power-plug',
+			icon: 'mdi:mdi-power-plug-outline',
 			title: 'Usage',
-		},
-		{
-			href: '#examples',
-			icon: 'mdi:mdi-code-json',
-			title: 'Examples',
-		},
-		{
-			href: '#playground',
-			icon: 'mdi:mdi-seesaw',
-			title: 'Playground',
 		},
 		{
 			href: '#props',
@@ -143,6 +133,16 @@ export const useMenuStore = defineStore('menu', () => {
 				},
 			],
 			title: 'Slots',
+		},
+		{
+			href: '#examples',
+			icon: 'mdi:mdi-code-json',
+			title: 'Examples',
+		},
+		{
+			href: '#playground',
+			icon: 'mdi:mdi-seesaw',
+			title: 'Playground',
 		},
 		{
 			href: '#dependencies',

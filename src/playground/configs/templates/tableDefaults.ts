@@ -1,6 +1,6 @@
 export default {
 	colorPercentageChange: 15,
-	colorPercentageDirection: 'desc',
+	colorPercentageDirection: 'desc' as const,
 	// color: 'primary', // ? Currently only works with multiSort (colored number in header, not added to VDT) - Vuetify prop
 	// customFilter: undefined, 															// ? Needs Testing - Vuetify prop
 	// customKeyFilter: undefined,														// ? Needs Testing - Vuetify prop
@@ -114,8 +114,8 @@ export default {
 		prependInnerIcon: 'mdi mdi-magnify',
 		variant: 'underlined',
 	},
-	selectStrategy: 'page',
-	separator: 'horizontal',
+	selectStrategy: 'page' as const,
+	separator: 'horizontal' as const,
 	server: false,
 	showCurrentPage: false,
 	showDrilldownWhenLoading: true,

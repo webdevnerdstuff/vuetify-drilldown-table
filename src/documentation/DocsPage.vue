@@ -75,12 +75,6 @@
 	<!-- Usage -->
 	<Section.UsageSection />
 
-	<!-- Examples -->
-	<Section.ExampleSection />
-
-	<!-- Playground -->
-	<Section.PlaygroundSection />
-
 	<!-- Props -->
 	<Section.PropsSection />
 
@@ -89,6 +83,12 @@
 
 	<!-- Slots -->
 	<Section.SlotsSection />
+
+	<!-- Examples -->
+	<Section.ExampleSection />
+
+	<!-- Playground -->
+	<Section.PlaygroundSection />
 
 	<!-- Dependencies -->
 	<Section.DependenciesSection />

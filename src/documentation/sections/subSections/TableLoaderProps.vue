@@ -34,18 +34,8 @@
 
 
 <script setup lang="ts">
-
-
-const props = defineProps({
-	codeBlockOptions: {
-		required: true,
-		type: Object,
-	},
-});
-
-
-const codeBlockSettings = computed(() => props.codeBlockOptions);
-const classes = inject('classes');
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
 
 const defaultCode = `{
   circular: {

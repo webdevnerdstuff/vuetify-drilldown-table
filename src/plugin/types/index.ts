@@ -318,8 +318,8 @@ export interface TopSlotProps extends VDataTableSlotProps {
 };
 
 export interface HeaderSlotProps extends AllSlotProps {
-	colorPercentageChange?: Props['colorPercentageChange'];
-	colorPercentageDirection?: Props['colorPercentageDirection'];
+	colorPercentageChange?: ColorsObject['percentageChange'];
+	colorPercentageDirection?: ColorsObject['percentageDirection'];
 	colors: Props['colors'];
 	columnWidths: Props['columnWidths'];
 	headerBackgroundColor?: Props['headerBackgroundColor'];
@@ -384,8 +384,8 @@ export interface ItemSlotProps extends Omit<AllSlotProps, 'colors' | 'sortBy'> {
 }
 
 export interface TFootSlotProps extends Omit<AllSlotProps, 'showSelect' | 'sortBy'> {
-	colorPercentageChange?: Props['colorPercentageChange'];
-	colorPercentageDirection?: Props['colorPercentageDirection'];
+	colorPercentageChange?: ColorsObject['percentageChange'];
+	colorPercentageDirection?: ColorsObject['percentageDirection'];
 	footerBackgroundColor?: Props['footerBackgroundColor'];
 	footerColor?: Props['footerColor'];
 	footers: Column[];

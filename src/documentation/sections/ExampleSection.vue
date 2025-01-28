@@ -22,28 +22,61 @@
 			>MirageJS</a> to mock the server.
 		</v-col>
 
+		<ExampleContainer
+			:code="getTemplateCode('ClientTableRef')"
+			:codeBlockSettings="codeBlockSettings"
+			@closePicker="closePicker('ClientTableRef');"
+		>
+			<Example.ClientTable
+				ref="ClientTableRef"
+				:open="refElementsOpen.ClientTableRef"
+			/>
+		</ExampleContainer>
 
-		<ClientTable
-			:settings="tableSettings"
-			title="Client Side Data Table"
-		/>
-		<ServerTable :settings="tableSettingsServer" />
-
+		<ExampleContainer
+			:code="getTemplateCode('ServerTableRef')"
+			:codeBlockSettings="codeBlockSettings"
+			@closePicker="closePicker('ServerTableRef');"
+		>
+			<Example.ServerTable
+				ref="ServerTableRef"
+				:open="refElementsOpen.ServerTableRef"
+			/>
+		</ExampleContainer>
 	</v-row>
 </template>
 
 <script setup lang="ts">
-import {
-	ClientTable,
-	ServerTable,
-} from '@/documentation/components/examples';
-import tableDefaults from '@/playground/configs/templates/tableDefaults';
+import type { ExampleCode } from '../components/ExampleContainer.vue';
+import ExampleContainer from '../components/ExampleContainer.vue';
+import * as Example from '../components/examples';
 
 
-// const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
 const classes = inject<Docs.GlobalClasses>('classes')!;
 
-const tableSettings = ref({ ...tableDefaults });
-const tableSettingsServer = ref({ ...tableDefaults, ...{ server: true } });
+const ClientTableRef = ref(null);
+const ServerTableRef = ref(null);
 
+
+const refElements = ref({
+	ClientTableRef,
+	ServerTableRef,
+});
+
+const refElementsOpen = ref({
+	ClientTableRef: null,
+	ServerTableRef: null,
+});
+
+function getTemplateCode(exampleName: string): ExampleCode {
+	const el = refElements.value[exampleName];
+	const example = el?.exampleCode ?? { code: '', desc: undefined, name: undefined, template: '' };
+
+	return example;
+}
+
+function closePicker(key: string) {
+	refElementsOpen.value[key] = new Date().getTime().toString();
+}
 </script>
