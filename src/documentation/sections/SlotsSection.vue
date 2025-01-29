@@ -55,7 +55,7 @@
 						</tr>
 						<tr>
 							<td>
-								<CodeBlock
+								<VCodeBlock
 									:code="topLeftRightSlotCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									lang="typescript"
@@ -83,7 +83,7 @@
 						</tr>
 						<tr>
 							<td>
-								<CodeBlock
+								<VCodeBlock
 									:code="topLeftRightSlotCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									lang="typescript"

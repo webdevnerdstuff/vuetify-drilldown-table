@@ -60,7 +60,7 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<CodeBlock
+								<VCodeBlock
 									:code="rendererCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									label="Types"
@@ -72,7 +72,7 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<CodeBlock
+								<VCodeBlock
 									:code="rendererExampleCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									label="Example"
@@ -105,7 +105,7 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<CodeBlock
+								<VCodeBlock
 									:code="renderFooterCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									label="Types"
@@ -117,7 +117,7 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<CodeBlock
+								<VCodeBlock
 									:code="renderFooterExampleCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									label="Example"
@@ -151,7 +151,7 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<CodeBlock
+								<VCodeBlock
 									:code="rendererHeaderCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									label="Types"
@@ -163,7 +163,7 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<CodeBlock
+								<VCodeBlock
 									:code="rendererHeaderExampleCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									label="Example"
@@ -194,7 +194,7 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<CodeBlock
+								<VCodeBlock
 									:code="renderItemCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									label="Types"
@@ -206,7 +206,7 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<CodeBlock
+								<VCodeBlock
 									:code="rendererItemExampleCode"
 									:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 									label="Example"
@@ -224,17 +224,8 @@
 </template>
 
 <script setup lang="ts">
-
-
-const props = defineProps({
-	codeBlockOptions: {
-		required: true,
-		type: Object,
-	},
-});
-
-const codeBlockSettings = computed(() => props.codeBlockOptions);
-const classes = inject('classes');
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
 
 const rendererCode = `{
   renderer: (

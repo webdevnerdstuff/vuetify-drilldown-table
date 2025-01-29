@@ -19,7 +19,7 @@
 			</v-col>
 
 			<v-col cols="12">
-				<CodeBlock
+				<VCodeBlock
 					:code="defaultCode"
 					:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 					label="Default table props:"

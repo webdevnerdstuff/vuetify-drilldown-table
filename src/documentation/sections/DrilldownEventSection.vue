@@ -24,7 +24,7 @@
 		</v-col>
 
 		<v-col cols="12">
-			<CodeBlock
+			<VCodeBlock
 				:code="drilldownEventObject"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 				lang="javascript"
@@ -43,7 +43,7 @@
 		</v-col>
 
 		<v-col cols="12">
-			<CodeBlock
+			<VCodeBlock
 				:code="itemExample"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 				label="Item Object Example"
@@ -66,7 +66,7 @@
 		</v-col>
 
 		<v-col cols="12">
-			<CodeBlock
+			<VCodeBlock
 				:code="itemChildExample"
 				:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 				lang="typescript"
@@ -96,18 +96,8 @@
 
 
 <script setup lang="ts">
-
-
-const props = defineProps({
-	codeBlockOptions: {
-		required: true,
-		type: Object,
-	},
-});
-
-const codeBlockSettings = computed(() => props.codeBlockOptions);
-// const store = useCoreStore();
-const classes = inject('classes');
+const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
+const classes = inject<Docs.GlobalClasses>('classes')!;
 
 
 const itemExample = `item: {

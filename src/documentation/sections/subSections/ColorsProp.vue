@@ -50,7 +50,7 @@
 	</v-col>
 
 	<v-col cols="12">
-		<CodeBlock
+		<VCodeBlock
 			:code="colorsPropCode"
 			:highlightjs="codeBlockSettings.plugin === 'highlightjs'"
 			lang="javascript"
@@ -72,46 +72,27 @@
 		</h3>
 	</v-col>
 
-	<v-col cols="12">
-		<v-btn-toggle
-			v-model="selectedColor"
-			density="compact"
-		>
-			<v-btn
-				v-for="color in colors"
-				:key="color"
-				:active="headerBackgroundColor === color"
-				:color="headerBackgroundColor === color ? color : ''"
-				size="small"
-				:value="color"
-				@click="updateColor(color)"
-			>
-				{{ color }}
-			</v-btn>
-		</v-btn-toggle>
-	</v-col>
-
-	<ClientTable :settings="tableSettings" />
+	<ExampleContainer
+		:code="getTemplateCode('ClientTableWithColorRef')"
+		:codeBlockSettings="codeBlockSettings"
+		@closePicker="closePicker('ClientTableWithColorRef');"
+	>
+		<Example.ClientTableWithColor
+			ref="ClientTableWithColorRef"
+			:open="refElementsOpen.ClientTableWithColorRef"
+		/>
+	</ExampleContainer>
 </template>
 
 
 <script setup lang="ts">
-import { ClientTable } from '@/documentation/components/examples';
-import tableDefaults from '@/playground/configs/templates/tableDefaults';
+import type { ExampleCode } from '../../components/ExampleContainer.vue';
+import ExampleContainer from '../../components/ExampleContainer.vue';
+import * as Example from '../../components/examples';
+
 
 const codeBlockSettings = inject<Docs.CodeBlockSettings>('codeBlockSettings')!;
 const classes = inject<Docs.GlobalClasses>('classes')!;
-const colors = ref<string[]>(['primary', 'secondary', 'success', 'info', 'warning', 'error']);
-const headerBackgroundColor = ref('primary');
-const selectedColor = ref('primary');
-
-const defaultColors = {
-	background: 'primary',
-	border: 'primary',
-	color: 'on-primary',
-};
-
-const tableSettings = ref({ ...tableDefaults, ...{ defaultColors } });
 
 const colorsPropCode = `{
   background: 'primary',
@@ -119,15 +100,26 @@ const colorsPropCode = `{
   color: 'on-primary',
 }"`;
 
-function updateColor(val) {
-	tableSettings.value.defaultColors.color = val;
 
-	if (val) {
-		tableSettings.value.defaultColors.color = `on-${val}`;
-	}
+const ClientTableWithColorRef = ref(null);
 
-	headerBackgroundColor.value = val;
-	tableSettings.value.defaultColors.background = val;
-	tableSettings.value.defaultColors.border = val ?? 'accent';
+
+const refElements = ref({
+	ClientTableWithColorRef,
+});
+
+const refElementsOpen = ref({
+	ClientTableWithColorRef: null,
+});
+
+function getTemplateCode(exampleName: string): ExampleCode {
+	const el = refElements.value[exampleName];
+	const example = el?.exampleCode ?? { code: '', desc: undefined, name: undefined, template: '' };
+
+	return example;
+}
+
+function closePicker(key: string) {
+	refElementsOpen.value[key] = new Date().getTime().toString();
 }
 </script>
